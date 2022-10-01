@@ -1,0 +1,46 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+
+import '../models/user.dart';
+import '../Constants.dart';
+
+class AuthApi {
+  AuthApi({Dio? dio}) : _dio = dio ?? Dio();
+
+  final basePath = '$serverUrl/auth';
+
+  Dio _dio;
+
+  Future<User> verify(String bearerToken) async {
+    try {
+      final url = '$basePath/verify';
+      final response = await _dio.get(url,
+          options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+      final userJson = response.data["user"] as Map<String, dynamic>;
+      final user = User.fromJson(userJson);
+      return user;
+    } catch (e) {
+      throw const HttpException("Can't not verify user");
+    }
+  }
+
+  Future<void> forgotPassword(String email) async {
+    try {
+      final url = '$basePath/forgot-password';
+      await _dio.post(url, data: {'email': email});
+    } catch (e) {
+      throw const HttpException("Send request failed");
+    }
+  }
+
+  Future<void> resetPassword(String token, String password) async {
+    try {
+      final url = '$basePath/reset-password';
+      await _dio.patch(url,
+          data: {'password': password}, queryParameters: {'token': token});
+    } catch (e) {
+      throw const HttpException("Send request failed");
+    }
+  }
+}
