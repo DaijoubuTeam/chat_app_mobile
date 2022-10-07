@@ -1,3 +1,4 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/src/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: BlocProvider(
-          create: (_) => LoginBloc(),
+          create: (_) => LoginBloc(context.read<AuthRepository>()),
           child: const LoginView(),
         ),
       ),
@@ -118,11 +119,15 @@ class _PasswordInput extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   const _LoginButton({super.key});
 
+  void loginWithEmailAndPassword(BuildContext context) {
+    context.read<LoginBloc>().add(const LoginSubmitted());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const ElevatedButton(
-      onPressed: null,
-      child: Padding(
+    return ElevatedButton(
+      onPressed: () => loginWithEmailAndPassword(context),
+      child: const Padding(
         padding: EdgeInsets.all(8.0),
         child: Text(
           'Login',

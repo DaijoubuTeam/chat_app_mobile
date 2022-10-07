@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,11 +10,13 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(const LoginState()) {
+  LoginBloc(this._authRepository) : super(const LoginState()) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
   }
+
+  final AuthRepository _authRepository;
 
   void _onEmailChanged(EmailChanged event, Emitter<LoginState> emit) {
     emit(event.email.isNotEmpty
@@ -28,6 +32,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _onLoginSubmitted(
       LoginSubmitted event, Emitter<LoginState> emit) async {
-    sleep(const Duration(seconds: 60));
+    try {
+      await _authRepository.logInWithEmailAndPassword(
+          email: state.email, password: state.password);
+      print(_authRepository.currentUser);
+    } catch (err) {
+      print(err);
+    }
   }
 }

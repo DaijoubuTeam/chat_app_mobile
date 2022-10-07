@@ -1,16 +1,23 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import './models/models.dart';
 
 class AuthRepository {
   AuthRepository(
-      firebase_auth.FirebaseAuth auth, chat_app_api.ChatAppApi chatAppApi)
+      firebase_auth.FirebaseAuth auth, chat_app_api.ChatAppApi chatAppApi,
+      {GoogleSignIn? googleSignIn})
       : _auth = auth,
         _chatAppApi = chatAppApi,
-        _currentUser = User.empty;
+        _currentUser = User.empty,
+        _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
 
   final firebase_auth.FirebaseAuth _auth;
   final chat_app_api.ChatAppApi _chatAppApi;
+  final GoogleSignIn _googleSignIn;
 
   User _currentUser;
 
@@ -30,8 +37,39 @@ class AuthRepository {
   User get currentUser => _currentUser;
 
   Future<User> _getSelfProfile(String bearerToken) async {
-    final apiUser = await _chatAppApi.getSelfProfile(bearerToken);
+    // final apiUser = await _chatAppApi.getSelfProfile(bearerToken);
+    final apiUser = await _chatAppApi.verifyUser(bearerToken);
     return apiUser.toRepositoryUser();
+  }
+
+  Future<void> logInWithGoogle() async {
+    try {
+      late final firebase_auth.AuthCredential credential;
+      final googleUser = await _googleSignIn.signIn();
+      final googleAuth = await googleUser!.authentication;
+      credential = firebase_auth.GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await _auth.signInWithCredential(credential);
+    } catch (error) {
+      log(error.toString());
+    }
+  }
+
+  Future<void> logInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      log(_auth.currentUser.toString(), name: 'login with email and password');
+    } catch (error) {
+      log(error.toString());
+    }
   }
 }
 
