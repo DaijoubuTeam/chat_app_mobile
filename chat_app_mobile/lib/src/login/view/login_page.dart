@@ -31,6 +31,19 @@ class LoginView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          CircleAvatar(
+            radius: 50,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.asset(
+                'assets/images/Logo.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 32,
+          ),
           const Text('Sign-in to your account'),
           const SizedBox(
             height: 32,
