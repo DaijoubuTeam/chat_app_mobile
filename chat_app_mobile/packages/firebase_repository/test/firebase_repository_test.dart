@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:chat_app_api/chat_app_api.dart';
+import 'package:firebase_repository/firebase_repository.dart';
 
 void main() {
   test('adds one to input values', () {

@@ -1,0 +1,85 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "chat_app_mobile",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "chat_app_mobile (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "chat_app_mobile (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "auth_repository",
+            "cwd": "packages/auth_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "auth_repository (profile mode)",
+            "cwd": "packages/auth_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "auth_repository (release mode)",
+            "cwd": "packages/auth_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "chat_app_api",
+            "cwd": "packages/chat_app_api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "chat_app_api (profile mode)",
+            "cwd": "packages/chat_app_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "chat_app_api (release mode)",
+            "cwd": "packages/chat_app_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "firebase_repository",
+            "cwd": "packages/firebase_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "firebase_repository (profile mode)",
+            "cwd": "packages/firebase_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "firebase_repository (release mode)",
+            "cwd": "packages/firebase_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

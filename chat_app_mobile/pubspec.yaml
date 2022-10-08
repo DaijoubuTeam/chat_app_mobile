@@ -41,6 +41,10 @@ dependencies:
   equatable: ^2.0.5
   firebase_core: ^1.24.0
   firebase_auth: ^3.11.2
+  auth_repository: 
+    path: packages/auth_repository
+  chat_app_api:
+    path: packages/chat_app_api
 
 dev_dependencies:
   flutter_test:
