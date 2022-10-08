@@ -1,12 +1,14 @@
 import 'package:chat_app_api/src/api/user_api.dart';
+import 'package:dio/dio.dart';
 
 import 'api/auth_api.dart';
 import 'models/user.dart';
 
 class ChatAppApi {
-  ChatAppApi({AuthApi? authApi, UserApi? userApi})
-      : _authApi = authApi ?? AuthApi(),
-        _userApi = userApi ?? UserApi();
+  ChatAppApi(
+      {AuthApi? authApi, UserApi? userApi, Dio? dio, required String serverUrl})
+      : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _userApi = userApi ?? UserApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
@@ -58,7 +60,7 @@ const token = '63379d57b2ff860d5eeb8985';
 const password = '11111111';
 
 Future<void> main() async {
-  final chapAppApi = ChatAppApi();
+  final chapAppApi = ChatAppApi(serverUrl: 'localhost');
   //final user = User(uid: '7gCQSmURZSMlgpQmHfuoj2zf4NH2', fullname: '1111');
   await chapAppApi.verifyEmail(bearerToken);
 }

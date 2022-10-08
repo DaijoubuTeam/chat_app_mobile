@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 import '../models/user.dart';
-import '../Constants.dart';
 
 class UserApi {
-  UserApi({Dio? dio}) : _dio = dio ?? Dio();
+  UserApi({Dio? dio, required String serverUrl})
+      : _dio = dio ?? Dio(),
+        _serverUrl = serverUrl;
 
-  final basePath = '$serverUrl/user';
+  final String _serverUrl;
+
+  String get basePath => '$_serverUrl/auth';
 
   Dio _dio;
 
