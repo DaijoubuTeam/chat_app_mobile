@@ -1,7 +1,7 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/src/home/view/home_page.dart';
-import 'package:chat_app_mobile/src/login/view/view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatelessWidget {
@@ -27,10 +27,14 @@ class MyAppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.white),
+    );
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
