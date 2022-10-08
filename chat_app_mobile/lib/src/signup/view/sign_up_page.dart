@@ -1,4 +1,5 @@
 import 'package:chat_app_mobile/src/signup/bloc/sign_up_bloc.dart';
+import 'package:chat_app_mobile/src/widgets/staless/divider_with_text_center.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -70,29 +71,11 @@ class SignUpView extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            Row(children: <Widget>[
-              Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: const Divider(
-                      color: Colors.black,
-                      height: 36,
-                    )),
-              ),
-              const Text("OR"),
-              Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: const Divider(
-                      color: Colors.black,
-                      height: 36,
-                    )),
-              ),
-            ]),
+            const DividerWithTextCenter(title: 'Or'),
             const SizedBox(
               height: 16,
             ),
-            _LoginButton()
+            const _LoginButton()
           ],
         ),
       ),
@@ -235,6 +218,5 @@ class _LoginButton extends StatelessWidget {
             ),
           )),
     );
-    ;
   }
 }

@@ -33,7 +33,7 @@ class MyAppView extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SignUpPage(),
+      home: const LoginPage(),
     );
   }
 }
