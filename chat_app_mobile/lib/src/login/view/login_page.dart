@@ -77,13 +77,33 @@ class LoginView extends StatelessWidget {
             ),
             const LoginButton(),
             const SizedBox(
+              height: 16,
+            ),
+            const LoginSignUpButton(),
+            const SizedBox(
               height: 8,
             ),
             const DividerWithTextCenter(title: 'Or'),
             const SizedBox(
               height: 8,
             ),
-            const LoginSignUpButton()
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, elevation: 5.0),
+                icon: const Icon(
+                  Icons.g_mobiledata,
+                  size: 48,
+                  color: Colors.black,
+                ),
+                label: const Text(
+                  'Sign in with Google',
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+              ),
+            ),
           ],
         ),
       ),

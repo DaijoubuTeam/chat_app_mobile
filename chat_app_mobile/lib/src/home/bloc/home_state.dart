@@ -1,6 +1,14 @@
 part of 'home_bloc.dart';
 
-@immutable
-abstract class HomeState {}
+class HomeState extends Equatable {
+  const HomeState({this.tabIndex = 0});
 
-class HomeInitial extends HomeState {}
+  final int tabIndex;
+
+  HomeState copyWith({int? tabIndex}) {
+    return HomeState(tabIndex: tabIndex ?? this.tabIndex);
+  }
+
+  @override
+  List<Object?> get props => [tabIndex];
+}

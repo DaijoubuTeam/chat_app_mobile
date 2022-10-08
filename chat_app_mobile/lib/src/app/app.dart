@@ -1,6 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/src/home/view/home_page.dart';
 import 'package:chat_app_mobile/src/login/view/view.dart';
-import 'package:chat_app_mobile/src/signup/view/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +33,7 @@ class MyAppView extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: const HomePage(),
     );
   }
 }
