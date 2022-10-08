@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:chat_app_mobile/main.dart';
+import 'package:chat_app_mobile/src/app/app.dart';
 import 'package:chat_app_mobile/src/app/app_bloc_observer.dart';
 import 'package:flutter/material.dart';
 

@@ -45,7 +45,13 @@ class LoginView extends StatelessWidget {
           const SizedBox(
             height: 32,
           ),
-          const Text('Sign-in to your account'),
+          const Text(
+            'Sign-in to your account',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
           const SizedBox(
             height: 32,
           ),
@@ -83,9 +89,11 @@ class _EmailInput extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             onChanged: (email) =>
                 context.read<LoginBloc>().add(EmailChanged(email)),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Email',
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               helperText: '',
             ),
           );
@@ -106,8 +114,10 @@ class _PasswordInput extends StatelessWidget {
           keyboardType: TextInputType.visiblePassword,
           onChanged: (password) =>
               context.read<LoginBloc>().add(PasswordChanged(password)),
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             labelText: 'Password',
           ),
         );
@@ -125,15 +135,25 @@ class _LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => loginWithEmailAndPassword(context),
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+          onPressed: () => loginWithEmailAndPassword(context),
+          // border radius
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+            ),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Text(
+              'Login',
+              style: TextStyle(fontSize: 20),
+            ),
+          )),
     );
   }
 }

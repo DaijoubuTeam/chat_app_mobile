@@ -21,6 +21,7 @@ class AuthApi {
       final user = User.fromJson(userJson);
       return user;
     } catch (e) {
+      print(e);
       throw const HttpException("Can't not verify user");
     }
   }
