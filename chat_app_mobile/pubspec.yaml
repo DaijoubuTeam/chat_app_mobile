@@ -45,6 +45,7 @@ dependencies:
     path: packages/auth_repository
   chat_app_api:
     path: packages/chat_app_api
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:
