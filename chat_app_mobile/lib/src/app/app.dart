@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/src/home/view/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: _authRepository,
-      child: const MyAppView(),
+      child: BlocProvider(
+        create: (_) => AppBloc(),
+        child: const MyAppView(),
+      ),
     );
   }
 }
