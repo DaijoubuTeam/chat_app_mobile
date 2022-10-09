@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
+
+  void handleLogOutButton(BuildContext ctx) {
+    GoRouter.of(ctx).go('/');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +87,7 @@ class SettingPage extends StatelessWidget {
                         'Log out',
                         style: TextStyle(fontSize: 18),
                       ),
-                      onTap: () => {},
+                      onTap: () => handleLogOutButton(context),
                     ),
                   ],
                 ),

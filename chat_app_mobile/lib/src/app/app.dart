@@ -1,9 +1,12 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/src/home/view/home_page.dart';
+import 'package:chat_app_mobile/src/login/view/view.dart';
+import 'package:chat_app_mobile/src/signup/view/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key, required AuthRepository authRepository})
@@ -18,14 +21,14 @@ class MyApp extends StatelessWidget {
       value: _authRepository,
       child: BlocProvider(
         create: (_) => AppBloc(),
-        child: const MyAppView(),
+        child: MyAppView(),
       ),
     );
   }
 }
 
 class MyAppView extends StatelessWidget {
-  const MyAppView({
+  MyAppView({
     Key? key,
   }) : super(key: key);
 
@@ -34,14 +37,53 @@ class MyAppView extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.white),
     );
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      routerConfig: _router,
     );
   }
+
+  final GoRouter _router = GoRouter(
+    routes: <GoRoute>[
+      GoRoute(
+        name: 'login',
+        path: '/',
+        pageBuilder: (context, state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const LoginPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: 'signUp',
+        path: '/sign-up',
+        builder: (BuildContext context, GoRouterState state) {
+          return const SignUpPage();
+        },
+      ),
+      GoRoute(
+        name: 'home',
+        path: '/home',
+        builder: (BuildContext context, GoRouterState state) {
+          return const HomePage();
+        },
+      ),
+    ],
+    errorPageBuilder: (context, state) {
+      return MaterialPage(
+        key: state.pageKey,
+        child: const Scaffold(
+          body: Center(
+            child: Text('Somethings wrong!'),
+          ),
+        ),
+      );
+    },
+  );
 }
