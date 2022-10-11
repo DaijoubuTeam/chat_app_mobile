@@ -1,8 +1,11 @@
 import 'package:chat_app_mobile/src/signup/bloc/sign_up_bloc.dart';
+import 'package:chat_app_mobile/src/signup/widget/sign_up_button.dart';
+import 'package:chat_app_mobile/src/signup/widget/sign_up_confirm_password_input.dart';
+import 'package:chat_app_mobile/src/signup/widget/sign_up_email_input.dart';
+import 'package:chat_app_mobile/src/signup/widget/sign_up_login_button.dart';
+import 'package:chat_app_mobile/src/signup/widget/sign_up_password_input.dart';
 import 'package:chat_app_mobile/src/widgets/staless/divider_with_text_center.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -11,6 +14,20 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: const Icon(
+      //       Icons.chevron_left,
+      //       color: Colors.black,
+      //       size: 36,
+      //     ),
+      //     onPressed: () {
+      //       context.pop();
+      //     },
+      //   ),
+      // ),
       body: Center(
         child: BlocProvider(
           create: (_) => SignUpBloc(),
@@ -55,19 +72,19 @@ class SignUpView extends StatelessWidget {
             const SizedBox(
               height: 32,
             ),
-            const _EmailInput(),
+            const SignUpEmailInput(),
             const SizedBox(
               height: 8,
             ),
-            const _PasswordInput(),
+            const SignUpPasswordInput(),
             const SizedBox(
               height: 8,
             ),
-            const _ConfirmPasswordInput(),
+            const SignUpConfirmPasswordInput(),
             const SizedBox(
               height: 8,
             ),
-            const _SignUpButton(),
+            const SignUpButton(),
             const SizedBox(
               height: 16,
             ),
@@ -75,148 +92,10 @@ class SignUpView extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const _LoginButton()
+            const SignUpLoginButton()
           ],
         ),
       ),
-    );
-  }
-}
-
-class _EmailInput extends StatelessWidget {
-  const _EmailInput({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignUpBloc, SignUpState>(
-        buildWhen: ((previos, current) => previos.email != current.email),
-        builder: (context, state) {
-          return TextField(
-            key: const Key('loginForm_emailInput_textField'),
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (email) =>
-                context.read<SignUpBloc>().add(EmailChanged(email)),
-            decoration: InputDecoration(
-              labelText: 'Email',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              helperText: '',
-            ),
-          );
-        });
-  }
-}
-
-class _PasswordInput extends StatelessWidget {
-  const _PasswordInput({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen: (previous, current) => previous.password != current.password,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_passwordInput_TextField'),
-          keyboardType: TextInputType.visiblePassword,
-          onChanged: (password) =>
-              context.read<SignUpBloc>().add(PasswordChanged(password)),
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            labelText: 'Password',
-            helperText: '',
-          ),
-        );
-      },
-    );
-  }
-}
-
-class _ConfirmPasswordInput extends StatelessWidget {
-  const _ConfirmPasswordInput({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen: (previous, current) => previous.password != current.password,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_passwordInput_TextField'),
-          keyboardType: TextInputType.visiblePassword,
-          onChanged: (password) =>
-              context.read<SignUpBloc>().add(PasswordChanged(password)),
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            labelText: 'Confirm Password',
-            helperText: '',
-          ),
-        );
-      },
-    );
-  }
-}
-
-class _SignUpButton extends StatelessWidget {
-  const _SignUpButton({super.key});
-
-  void loginWithEmailAndPassword(BuildContext context) {
-    context.read<SignUpBloc>().add(const SignUpSubmitted());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-          onPressed: () => loginWithEmailAndPassword(context),
-          // border radius
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-            ),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Text(
-              'Sign Up',
-              style: TextStyle(fontSize: 20),
-            ),
-          )),
-    );
-  }
-}
-
-class _LoginButton extends StatelessWidget {
-  const _LoginButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton(
-          onPressed: () => {},
-          // border radius
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
-              ),
-              side: MaterialStateProperty.all(BorderSide(
-                  color: Theme.of(context).primaryColor, width: 1.0))),
-          child: const Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Text(
-              'Login',
-              style: TextStyle(fontSize: 20),
-            ),
-          )),
     );
   }
 }

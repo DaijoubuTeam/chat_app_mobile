@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import './models/models.dart';
 
@@ -69,6 +68,14 @@ class AuthRepository {
       log(_auth.currentUser.toString(), name: 'login with email and password');
     } catch (error) {
       log(error.toString());
+    }
+  }
+
+  Future<void> logOut() async {
+    try {
+      await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);
+    } catch (err) {
+      log(err.toString(), name: 'Log out error');
     }
   }
 }

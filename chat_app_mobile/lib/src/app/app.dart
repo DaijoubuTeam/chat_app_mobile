@@ -1,7 +1,8 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/src/login/view/view.dart';
-import 'package:chat_app_mobile/src/signup/view/sign_up_page.dart';
+import 'package:chat_app_mobile/config/router/app_router.dart';
+import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatelessWidget {
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: _authRepository,
-      child: const MyAppView(),
+      child: BlocProvider(
+        create: (_) => AppBloc(authRepository: _authRepository),
+        child: const MyAppView(),
+      ),
     );
   }
 }
@@ -27,13 +31,17 @@ class MyAppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.white),
+    );
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      routerConfig: AppRouter(appBloc: context.read<AppBloc>()).router,
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -14,6 +13,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
+    on<LoginWithGoogleSubmitted>(_onLoginWithGoogleSubmitted);
   }
 
   final AuthRepository _authRepository;
@@ -35,9 +35,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _authRepository.logInWithEmailAndPassword(
           email: state.email, password: state.password);
-      print(_authRepository.currentUser);
     } catch (err) {
-      print(err);
+      log(err.toString(), name: 'on login submitted error');
+    }
+  }
+
+  Future<void> _onLoginWithGoogleSubmitted(
+      LoginWithGoogleSubmitted event, Emitter<LoginState> emit) async {
+    try {
+      await _authRepository.logInWithGoogle();
+    } catch (err) {
+      log(err.toString(), name: 'on login with google submitted error');
     }
   }
 }

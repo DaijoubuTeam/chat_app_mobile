@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginSignUpButton extends StatelessWidget {
   const LoginSignUpButton({super.key});
+
+  void handleSignUpButton(BuildContext ctx) {
+    ctx.pushNamed('signUp');
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
-          onPressed: () => {},
+          onPressed: () => handleSignUpButton(context),
           // border radius
           style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(

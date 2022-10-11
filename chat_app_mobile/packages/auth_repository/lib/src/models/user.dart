@@ -58,5 +58,9 @@ class User {
         bans: bans ?? this.bans,
       );
 
+  // bool get isEmpty => this == User.empty;
+
+  // bool get isNotEmpty => this != User.empty;
+
   static final empty = User(uid: '');
 }
