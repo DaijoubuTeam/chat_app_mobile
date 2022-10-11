@@ -4,6 +4,7 @@ import 'package:chat_app_mobile/src/login/widget/login_button.dart';
 import 'package:chat_app_mobile/src/login/widget/login_email_input.dart';
 import 'package:chat_app_mobile/src/login/widget/login_password_input.dart';
 import 'package:chat_app_mobile/src/login/widget/login_signup_button.dart';
+import 'package:chat_app_mobile/src/login/widget/login_with_google_button.dart';
 import 'package:chat_app_mobile/src/widgets/staless/divider_with_text_center.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,23 +88,7 @@ class LoginView extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, elevation: 5.0),
-                icon: const Icon(
-                  Icons.g_mobiledata,
-                  size: 48,
-                  color: Colors.black,
-                ),
-                label: const Text(
-                  'Sign in with Google',
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-              ),
-            ),
+            const LoginWithGoogleButton(),
           ],
         ),
       ),

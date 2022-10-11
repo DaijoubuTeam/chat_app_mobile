@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '183995815463',
     projectId: 'coffee-chat-84cd5',
     storageBucket: 'coffee-chat-84cd5.appspot.com',
+    androidClientId: '183995815463-igsujgq2lriudgb1mjcs4tf8vttqlsa8.apps.googleusercontent.com',
     iosClientId: '183995815463-pq1068gcdcce7pbf50foo97bkep6f83e.apps.googleusercontent.com',
     iosBundleId: 'com.example.chatAppMobile',
   );

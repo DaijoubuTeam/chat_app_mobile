@@ -1,11 +1,13 @@
+import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
 
   void handleLogOutButton(BuildContext ctx) {
-    GoRouter.of(ctx).go('/');
+    ctx.read<AppBloc>().add(AppLogOutRequested());
   }
 
   @override
@@ -73,12 +75,14 @@ class SettingPage extends StatelessWidget {
                       ),
                       trailing: Icon(Icons.chevron_right),
                     ),
-                    const ListTile(
-                      title: Text(
+                    ListTile(
+                      title: const Text(
                         'About us',
                         style: TextStyle(fontSize: 18),
                       ),
-                      trailing: Icon(Icons.chevron_right),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () =>
+                          context.read<AppBloc>().add(AppLogOutRequested()),
                     ),
                     ListTile(
                       iconColor: Colors.red[400],
