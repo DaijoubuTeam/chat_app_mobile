@@ -1,4 +1,6 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
+import 'package:chat_app_mobile/src/edit_profile/view/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +14,7 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User user = context.read<AuthRepository>().currentUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Setting Page'),
@@ -31,11 +34,12 @@ class SettingPage extends StatelessWidget {
                 height: 32,
               ),
               CircleAvatar(
-                radius: 60,
+                radius: 64,
+                backgroundColor: Colors.white,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(60),
-                  child: Image.asset(
-                    'assets/images/Logo.png',
+                  borderRadius: BorderRadius.circular(64),
+                  child: Image.network(
+                    user.avatar!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -43,9 +47,9 @@ class SettingPage extends StatelessWidget {
               const SizedBox(
                 height: 18,
               ),
-              const Text(
-                'Nguyễn Đình Nhật Quang',
-                style: TextStyle(fontSize: 18),
+              Text(
+                user.email ?? '',
+                style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(
                 height: 18,
@@ -68,12 +72,15 @@ class SettingPage extends StatelessWidget {
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
-                    const ListTile(
-                      title: Text(
+                    ListTile(
+                      title: const Text(
                         'Edit Profile',
                         style: TextStyle(fontSize: 18),
                       ),
-                      trailing: Icon(Icons.chevron_right),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: (() {
+                        context.pushNamed(EditProfilePage.namePage);
+                      }),
                     ),
                     ListTile(
                       title: const Text(
