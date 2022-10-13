@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:auth_repository/auth_repository.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/src/edit_profile/view/edit_profile_page.dart';
 import 'package:flutter/material.dart';
@@ -33,16 +36,26 @@ class SettingPage extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              CircleAvatar(
-                radius: 64,
-                backgroundColor: Colors.white,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(64),
-                  child: Image.network(
-                    user.avatar!,
-                    fit: BoxFit.cover,
+              CachedNetworkImage(
+                width: 120,
+                height: 120,
+                fit: BoxFit.cover,
+                imageUrl: user.avatar!,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                    shape: BoxShape.circle,
                   ),
                 ),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) {
+                  log(error.toString(), name: 'url error');
+                  return const Icon(Icons.error);
+                },
               ),
               const SizedBox(
                 height: 18,
@@ -82,14 +95,12 @@ class SettingPage extends StatelessWidget {
                         context.pushNamed(EditProfilePage.namePage);
                       }),
                     ),
-                    ListTile(
-                      title: const Text(
+                    const ListTile(
+                      title: Text(
                         'About us',
                         style: TextStyle(fontSize: 18),
                       ),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () =>
-                          context.read<AppBloc>().add(AppLogOutRequested()),
+                      trailing: Icon(Icons.chevron_right),
                     ),
                     ListTile(
                       iconColor: Colors.red[400],

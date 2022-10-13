@@ -16,9 +16,9 @@ class _EditPhoneInputState extends State<EditPhoneInput> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<EditProfileBloc, EditProfileState>(
-      listenWhen: (previous, current) => previous.phone != previous.phone,
+      listenWhen: (previous, current) => previous.phone != current.phone,
       listener: (context, state) {
-        phoneInputController.text = state.fullname;
+        phoneInputController.text = state.phone;
         phoneInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: phoneInputController.text.length));
       },

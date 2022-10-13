@@ -16,7 +16,7 @@ class _EditFullNameInputState extends State<EditFullNameInput> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<EditProfileBloc, EditProfileState>(
-      listenWhen: (previous, current) => previous.fullname != previous.fullname,
+      listenWhen: (previous, current) => previous.fullname != current.fullname,
       listener: (context, state) {
         fullnameInputController.text = state.fullname;
         fullnameInputController.selection = TextSelection.fromPosition(

@@ -1,7 +1,5 @@
 import 'package:chat_app_mobile/src/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditAboutInput extends StatefulWidget {
@@ -18,17 +16,17 @@ class _EditAboutInputState extends State<EditAboutInput> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<EditProfileBloc, EditProfileState>(
-      listenWhen: (previous, current) => previous.phone != previous.phone,
+      listenWhen: (previous, current) => previous.about != current.about,
       listener: (context, state) {
-        aboutInputController.text = state.fullname;
+        aboutInputController.text = state.about;
         aboutInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: aboutInputController.text.length));
       },
       child: TextField(
         key: _aboutFormKey,
         controller: aboutInputController,
-        onChanged: ((phone) {
-          context.read<EditProfileBloc>().add(EditProfileAboutChanged(phone));
+        onChanged: ((about) {
+          context.read<EditProfileBloc>().add(EditProfileAboutChanged(about));
         }),
         keyboardType: TextInputType.multiline,
         maxLines: 4,
@@ -48,6 +46,5 @@ class _EditAboutInputState extends State<EditAboutInput> {
         ),
       ),
     );
-    ;
   }
 }
