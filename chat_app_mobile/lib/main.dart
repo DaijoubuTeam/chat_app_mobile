@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:dio/adapter.dart';
+import 'package:user_repository/user_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +37,8 @@ Future<void> main() async {
     firebaseAuth,
     chatAppApi,
   );
+  final userRepository = UserRepository(chatAppApi);
 
   await authenticationRepository.user.first;
-  bootstrap(authenticationRepository);
+  bootstrap(authenticationRepository, userRepository);
 }

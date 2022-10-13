@@ -1,5 +1,6 @@
 import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/src/edit_profile/view/edit_profile_page.dart';
+import 'package:chat_app_mobile/src/friends_request/view/view.dart';
 import 'package:chat_app_mobile/src/home/view/view.dart';
 import 'package:chat_app_mobile/src/login/view/view.dart';
 import 'package:chat_app_mobile/src/signup/view/view.dart';
@@ -52,6 +53,13 @@ class AppRouter {
           path: '/edit-profile',
           builder: (BuildContext context, GoRouterState state) {
             return const EditProfilePage();
+          },
+        ),
+        GoRoute(
+          name: FriendsRequestPage.namePage,
+          path: '/friends-request',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FriendsRequestPage();
           },
         ),
       ],

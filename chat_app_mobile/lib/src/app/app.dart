@@ -4,18 +4,27 @@ import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required AuthRepository authRepository})
-      : _authRepository = authRepository;
+  const MyApp(
+      {super.key,
+      required AuthRepository authRepository,
+      required UserRepository userRepository})
+      : _authRepository = authRepository,
+        _userRepository = userRepository;
 
   final AuthRepository _authRepository;
+  final UserRepository _userRepository;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _authRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _authRepository),
+        RepositoryProvider.value(value: _userRepository),
+      ],
       child: BlocProvider(
         create: (_) => AppBloc(authRepository: _authRepository),
         child: const MyAppView(),
