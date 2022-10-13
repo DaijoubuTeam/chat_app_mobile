@@ -18,6 +18,15 @@ class AuthRepository {
   final chat_app_api.ChatAppApi _chatAppApi;
   final GoogleSignIn _googleSignIn;
 
+  Future<String>? get bearToken async {
+    final idToken = await _auth.currentUser?.getIdToken();
+    if (idToken == null) {
+      return '';
+    } else {
+      return idToken;
+    }
+  }
+
   User _currentUser;
 
   Stream<User> get user {

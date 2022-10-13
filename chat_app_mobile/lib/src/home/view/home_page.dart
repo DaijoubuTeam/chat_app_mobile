@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/src/call/view/view.dart';
+import 'package:chat_app_mobile/src/contact/view/view.dart';
 import 'package:chat_app_mobile/src/chat/view/chat_page.dart';
 import 'package:chat_app_mobile/src/home/bloc/home_bloc.dart';
 import 'package:chat_app_mobile/src/setting/view/view.dart';

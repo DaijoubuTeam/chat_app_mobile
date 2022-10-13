@@ -1,3 +1,5 @@
+export './user.dart';
+
 class User {
   final String uid;
   final String? username;

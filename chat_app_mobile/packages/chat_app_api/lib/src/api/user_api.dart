@@ -11,7 +11,7 @@ class UserApi {
 
   final String _serverUrl;
 
-  String get basePath => '$_serverUrl/auth';
+  String get basePath => '$_serverUrl/user';
 
   Dio _dio;
 

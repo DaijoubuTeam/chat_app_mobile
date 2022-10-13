@@ -6,8 +6,9 @@ import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/src/app/app.dart';
 import 'package:chat_app_mobile/src/app/app_bloc_observer.dart';
 import 'package:flutter/material.dart';
+import 'package:user_repository/user_repository.dart';
 
-void bootstrap(AuthRepository authRepository) {
+void bootstrap(AuthRepository authRepository, UserRepository userRepository) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -15,9 +16,8 @@ void bootstrap(AuthRepository authRepository) {
   Bloc.observer = AppBlocObserver();
 
   runZonedGuarded(
-    () => runApp(MyApp(
-      authRepository: authRepository,
-    )),
+    () => runApp(
+        MyApp(authRepository: authRepository, userRepository: userRepository)),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }
