@@ -4,7 +4,7 @@ import 'package:chat_app_mobile/src/signup/widget/sign_up_confirm_password_input
 import 'package:chat_app_mobile/src/signup/widget/sign_up_email_input.dart';
 import 'package:chat_app_mobile/src/signup/widget/sign_up_login_button.dart';
 import 'package:chat_app_mobile/src/signup/widget/sign_up_password_input.dart';
-import 'package:chat_app_mobile/src/common/widgets/staless/divider_with_text_center.dart';
+import 'package:chat_app_mobile/common/widgets/staless/divider_with_text_center.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

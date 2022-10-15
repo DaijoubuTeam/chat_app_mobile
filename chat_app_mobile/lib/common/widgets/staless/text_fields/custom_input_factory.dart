@@ -1,6 +1,6 @@
-import 'package:chat_app_mobile/src/common/widgets/staless/text_fields/custom_input.dart';
-import 'package:chat_app_mobile/src/common/widgets/staless/text_fields/email_input.dart';
-import 'package:chat_app_mobile/src/common/widgets/staless/text_fields/name_input.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/custom_input.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/email_input.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/name_input.dart';
 import 'package:flutter/material.dart';
 
 enum InputType { email, name }

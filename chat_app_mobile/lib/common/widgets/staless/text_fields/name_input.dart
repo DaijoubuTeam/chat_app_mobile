@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/src/common/widgets/staless/text_fields/custom_input.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/custom_input.dart';
 import 'package:flutter/material.dart';
 
 class NameInput extends ICustomInput {
