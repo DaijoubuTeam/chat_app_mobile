@@ -1,5 +1,5 @@
-import 'package:chat_app_mobile/src/common/widgets/staless/text_fields/custom_input_factory.dart';
-import 'package:chat_app_mobile/src/common/widgets/staless/text_fields/email_input.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/custom_input_factory.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/email_input.dart';
 import 'package:chat_app_mobile/src/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

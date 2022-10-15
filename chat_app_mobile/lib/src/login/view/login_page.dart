@@ -5,7 +5,7 @@ import 'package:chat_app_mobile/src/login/widget/login_email_input.dart';
 import 'package:chat_app_mobile/src/login/widget/login_password_input.dart';
 import 'package:chat_app_mobile/src/login/widget/login_signup_button.dart';
 import 'package:chat_app_mobile/src/login/widget/login_with_google_button.dart';
-import 'package:chat_app_mobile/src/common/widgets/staless/divider_with_text_center.dart';
+import 'package:chat_app_mobile/common/widgets/staless/divider_with_text_center.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
