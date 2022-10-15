@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app_mobile/common/widgets/staless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,26 +15,7 @@ class EditAvatar extends StatelessWidget {
       builder: (context, state) {
         return Stack(
           children: [
-            CachedNetworkImage(
-              width: 120,
-              height: 120,
-              fit: BoxFit.cover,
-              imageUrl: state.avatar,
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                  shape: BoxShape.circle,
-                ),
-              ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) {
-                log(error.toString(), name: 'url error');
-                return const Icon(Icons.error);
-              },
-            ),
+            CircleAvatarCustom(urlImage: state.avatar),
             Positioned(
               bottom: 1,
               right: 1,

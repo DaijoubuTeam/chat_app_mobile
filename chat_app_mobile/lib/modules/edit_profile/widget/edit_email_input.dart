@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/common/widgets/staless/text_fields/custom_input_factory.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/outline_input_border_custom.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -27,8 +27,12 @@ class _EditEmailInputState extends State<EditEmailInput> {
         emailController.selection = TextSelection.fromPosition(
             TextPosition(offset: emailController.text.length));
       }),
-      child:
-          CustomInputFactory.getCustomInput(InputType.email, emailController),
+      child: OutlineInputBorderCustom(
+        inputController: emailController,
+        inputType: TextInputType.emailAddress,
+        labelText: 'Email',
+        icon: const Icon(Icons.email),
+      ),
     );
   }
 

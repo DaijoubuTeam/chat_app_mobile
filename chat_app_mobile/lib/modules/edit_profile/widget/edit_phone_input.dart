@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/outline_input_border_custom.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,11 +11,14 @@ class EditPhoneInput extends StatefulWidget {
 }
 
 class _EditPhoneInputState extends State<EditPhoneInput> {
-  final _phoneFormKey = GlobalKey<FormState>();
   TextEditingController phoneInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    phoneInputController.addListener(() => context
+        .read<EditProfileBloc>()
+        .add(EditProfilePhoneChanged(phoneInputController.text)));
+
     return BlocListener<EditProfileBloc, EditProfileState>(
       listenWhen: (previous, current) => previous.phone != current.phone,
       listener: (context, state) {
@@ -22,22 +26,18 @@ class _EditPhoneInputState extends State<EditPhoneInput> {
         phoneInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: phoneInputController.text.length));
       },
-      child: TextField(
-        key: _phoneFormKey,
-        controller: phoneInputController,
-        keyboardType: TextInputType.phone,
-        onChanged: ((phone) {
-          context.read<EditProfileBloc>().add(EditProfilePhoneChanged(phone));
-        }),
-        decoration: InputDecoration(
-          labelText: 'Phone',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          prefixIcon: const Icon(Icons.phone),
-          helperText: '',
-        ),
+      child: OutlineInputBorderCustom(
+        inputController: phoneInputController,
+        inputType: TextInputType.phone,
+        labelText: 'Phone',
+        icon: const Icon(Icons.phone),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    phoneInputController.dispose();
+    super.dispose();
   }
 }

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
-import 'package:chat_app_mobile/modules/edit_profile/view/edit_profile_page.dart';
+import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

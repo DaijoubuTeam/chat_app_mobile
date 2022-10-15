@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/common/widgets/staless/text_fields/name_input.dart';
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/outline_input_border_custom.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -29,7 +29,18 @@ class _EditFullNameInputState extends State<EditFullNameInput> {
         fullnameInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: fullnameInputController.text.length));
       },
-      child: NameInput(nameInputController: fullnameInputController),
+      child: OutlineInputBorderCustom(
+        inputController: fullnameInputController,
+        inputType: TextInputType.name,
+        labelText: 'Full name',
+        icon: const Icon(Icons.person),
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    fullnameInputController.dispose();
+    super.dispose();
   }
 }

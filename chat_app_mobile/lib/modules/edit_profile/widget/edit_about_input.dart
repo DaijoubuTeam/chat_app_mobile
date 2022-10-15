@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/staless/text_fields/multiline_input_border.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,11 +11,14 @@ class EditAboutInput extends StatefulWidget {
 }
 
 class _EditAboutInputState extends State<EditAboutInput> {
-  final _aboutFormKey = GlobalKey<FormState>();
   TextEditingController aboutInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    aboutInputController.addListener(() => context
+        .read<EditProfileBloc>()
+        .add(EditProfileAboutChanged(aboutInputController.text)));
+
     return BlocListener<EditProfileBloc, EditProfileState>(
       listenWhen: (previous, current) => previous.about != current.about,
       listener: (context, state) {
@@ -22,28 +26,10 @@ class _EditAboutInputState extends State<EditAboutInput> {
         aboutInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: aboutInputController.text.length));
       },
-      child: TextField(
-        key: _aboutFormKey,
-        controller: aboutInputController,
-        onChanged: ((about) {
-          context.read<EditProfileBloc>().add(EditProfileAboutChanged(about));
-        }),
-        keyboardType: TextInputType.multiline,
-        maxLines: 4,
-        decoration: InputDecoration(
-          labelText: 'About',
-          alignLabelWithHint: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          prefixIcon: const Align(
-            alignment: Alignment.topCenter,
-            widthFactor: 1.0,
-            heightFactor: 3.3,
-            child: Icon(Icons.info_outline_rounded),
-          ),
-          helperText: '',
-        ),
+      child: MultilineInputBorderCustom(
+        inputController: aboutInputController,
+        labelText: 'About',
+        icon: const Icon(Icons.info_outline_rounded),
       ),
     );
   }
