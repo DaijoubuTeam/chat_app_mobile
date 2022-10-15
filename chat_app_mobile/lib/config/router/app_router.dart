@@ -1,10 +1,10 @@
-import 'package:chat_app_mobile/src/app/bloc/app_bloc.dart';
-import 'package:chat_app_mobile/src/edit_profile/view/edit_profile_page.dart';
-import 'package:chat_app_mobile/src/friends_request/view/view.dart';
-import 'package:chat_app_mobile/src/home/view/view.dart';
-import 'package:chat_app_mobile/src/login/view/view.dart';
-import 'package:chat_app_mobile/src/signup/view/view.dart';
 import 'package:chat_app_mobile/config/router/go_router_refesh_stream.dart';
+import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
+import 'package:chat_app_mobile/modules/edit_profile/view/edit_profile_page.dart';
+import 'package:chat_app_mobile/modules/friends_request/view/friends_request.dart';
+import 'package:chat_app_mobile/modules/home/view/home_page.dart';
+import 'package:chat_app_mobile/modules/login/view/login_page.dart';
+import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
