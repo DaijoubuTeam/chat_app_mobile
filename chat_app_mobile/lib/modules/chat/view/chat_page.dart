@@ -1,4 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/modules/chat/view/components/chat_items.dart';
+import 'package:chat_app_mobile/modules/chat/view/components/chat_place_holder.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -58,51 +60,11 @@ class ChatPage extends StatelessWidget {
         child: FutureBuilder<List<User>>(
           future: null,
           builder: (context, snapshot) {
-            if (true) {
+            if (false) {
               //return const CircularProgressIndicator();
-              return Padding(
-                padding: const EdgeInsets.all(64.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      "assets/images/ChatPlaceholder.jpeg",
-                      // width: 320,
-                      // height: 320,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(
-                      height: 64,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: () {},
-                          // border radius
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                              ),
-                            ),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Text(
-                              'Find more friend',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-              );
+              return const ChatPlaceHolder();
             } else {
-              return const Text('Chat app');
+              return const ChatItems();
             }
           },
         ),

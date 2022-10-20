@@ -8,8 +8,11 @@ class FindFriendForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+          top: 32,
+          left: 32,
+          right: 32,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 32),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: const <Widget>[

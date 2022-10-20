@@ -14,7 +14,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   EditProfileBloc(UserRepository userRepository, AuthRepository authRepository)
       : _userRepository = userRepository,
         _authRepository = authRepository,
-        super(EditProfileInitial()) {
+        super(const EditProfileState()) {
     on<EditProfilePageInited>(_onEditProfilePageInited);
     on<EditProfileEmailChanged>(_onEditProfileEmailChanged);
     on<EditProfileFullNameChanged>(_onEditProfileFullNameChanged);

@@ -37,5 +37,3 @@ class EditProfileState extends Equatable {
   @override
   List<Object> get props => [uid, email, fullname, phone, about, avatar];
 }
-
-class EditProfileInitial extends EditProfileState {}
