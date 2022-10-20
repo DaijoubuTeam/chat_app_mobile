@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/modules/chat/view/chat_page.dart';
 import 'package:chat_app_mobile/modules/contact/view/contact_page.dart';
 import 'package:chat_app_mobile/modules/home/bloc/home_bloc.dart';
+import 'package:chat_app_mobile/modules/home/components/home_bottom_navigation.dart';
 import 'package:chat_app_mobile/modules/setting/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,27 +34,8 @@ class HomeView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           body: _widgetOptions.elementAt(state.tabIndex),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: state.tabIndex,
-            onTap: (value) =>
-                context.read<HomeBloc>().add(SelectTabIndexChanged(value)),
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Chat',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.phone),
-                label: 'Call',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Setting',
-              ),
-            ],
-            backgroundColor: Theme.of(context).primaryColor,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.grey[250],
+          bottomNavigationBar: HomeBottomNavigationBar(
+            tabIndex: state.tabIndex,
           ),
         );
       },

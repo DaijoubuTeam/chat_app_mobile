@@ -1,6 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/modules/chat/view/components/chat_items.dart';
-import 'package:chat_app_mobile/modules/chat/view/components/chat_place_holder.dart';
+import 'package:chat_app_mobile/modules/chat/components/chat_items.dart';
+import 'package:chat_app_mobile/modules/chat/components/chat_place_holder.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
