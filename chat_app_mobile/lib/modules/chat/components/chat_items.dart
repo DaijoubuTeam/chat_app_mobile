@@ -1,4 +1,6 @@
+import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatUsers {
   String name;
@@ -62,7 +64,9 @@ class ChatItems extends StatelessWidget {
     return ListView.builder(
       itemBuilder: ((context, index) {
         return ListTile(
-          onTap: () {},
+          onTap: () {
+            context.pushNamed(ChatDetailPage.namePage);
+          },
           minVerticalPadding: 20,
           leading: Stack(
             children: [

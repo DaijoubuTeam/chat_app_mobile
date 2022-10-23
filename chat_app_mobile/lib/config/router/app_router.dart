@@ -1,9 +1,10 @@
 import 'package:chat_app_mobile/config/router/go_router_refesh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
-import 'package:chat_app_mobile/modules/edit_profile/view/edit_profile_page.dart';
-import 'package:chat_app_mobile/modules/friends_request/view/friends_request.dart';
-import 'package:chat_app_mobile/modules/home/view/home_page.dart';
-import 'package:chat_app_mobile/modules/login/view/login_page.dart';
+import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
+import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
+import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
+import 'package:chat_app_mobile/modules/home/view/view.dart';
+import 'package:chat_app_mobile/modules/login/view/view.dart';
 import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,6 +47,13 @@ class AppRouter {
           path: '/home',
           builder: (BuildContext context, GoRouterState state) {
             return const HomePage();
+          },
+        ),
+        GoRoute(
+          name: ChatDetailPage.namePage,
+          path: '/chat-details',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ChatDetailPage();
           },
         ),
         GoRoute(
