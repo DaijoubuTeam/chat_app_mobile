@@ -2,6 +2,7 @@ import 'package:chat_app_mobile/config/router/go_router_refesh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
+import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
 import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/modules/login/view/view.dart';
@@ -68,6 +69,13 @@ class AppRouter {
           path: '/friends-request',
           builder: (BuildContext context, GoRouterState state) {
             return const FriendsRequestPage();
+          },
+        ),
+        GoRoute(
+          name: FriendProfilePage.namePage,
+          path: '/friend-profile',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FriendProfilePage();
           },
         ),
       ],
