@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -59,6 +60,22 @@ class UserApi {
           options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
     } catch (e) {
       throw HttpException("Sent email failed");
+    }
+  }
+
+  Future<User> searchUserByEmailOrPhone(String bearerToken) async {
+    try {
+      final url = '$basePath/verify-email';
+      final response = await _dio.get(url,
+          options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+      final userJson = response.data as Map<String, dynamic>;
+      final user = User.fromJson(userJson);
+      return user;
+    } on DioError catch (e) {
+      log(e.response.toString(), name: 'search user by email or phone error');
+      throw const HttpException("Search user by email or phone dio failed");
+    } catch (e) {
+      throw const HttpException("Search user by email or phone failed");
     }
   }
 }
