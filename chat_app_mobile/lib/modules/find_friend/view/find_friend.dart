@@ -1,8 +1,10 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/find_friend/bloc/find_friend_bloc.dart';
 import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_button.dart';
 import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 class FindFriendPage extends StatelessWidget {
   const FindFriendPage({super.key});
@@ -10,7 +12,10 @@ class FindFriendPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => FindFriendBloc(),
+      create: (_) => FindFriendBloc(
+        context.read<UserRepository>(),
+        context.read<AuthRepository>(),
+      ),
       child: const FindFriendView(),
     );
   }

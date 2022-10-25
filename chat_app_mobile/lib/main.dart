@@ -8,14 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:dio/adapter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:user_repository/user_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  //init hive and register adapter
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+
+  //set up url
+
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {
-    serverUrl = "https://10.0.2.2/api/v1";
+    serverUrl = "https://192.168.1.5/api/v1";
   }
 
   // Create dio

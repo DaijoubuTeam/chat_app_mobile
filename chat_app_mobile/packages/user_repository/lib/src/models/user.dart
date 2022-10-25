@@ -1,12 +1,24 @@
+import 'package:hive/hive.dart';
+
 export './user.dart';
 
-class User {
+part 'user.g.dart';
+
+@HiveType(typeId: 0)
+class User extends HiveObject {
+  @HiveField(0)
   final String uid;
+  @HiveField(1)
   final String? username;
+  @HiveField(2)
   final String? fullname;
+  @HiveField(3)
   final String? avatar;
+  @HiveField(4)
   final String? phone;
+  @HiveField(5)
   final String? about;
+  @HiveField(6)
   final String? email;
   final bool? isEmailVerified;
   final bool? isProfileFilled;

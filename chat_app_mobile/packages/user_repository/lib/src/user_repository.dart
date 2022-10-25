@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:hive/hive.dart';
 import 'package:user_repository/src/models/user.dart' as user_model;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
 
@@ -16,6 +19,34 @@ class UserRepository {
     final apiUser =
         await _chatAppApi.updateSelfProfile(user.toApiUser(), bearerToken);
     return apiUser.toRepositoryUser();
+  }
+
+  Future<user_model.User> searchUserByEmailOrPhone({
+    required String inputSearch,
+    required String bearerToken,
+  }) async {
+    try {
+      final apiUser =
+          await _chatAppApi.searchUserByEmailOrPhone(inputSearch, bearerToken);
+      log(apiUser.uid.toString(), name: "api user");
+      // save data in cache
+      final resUser = apiUser.toRepositoryUser();
+
+      //create box collection
+      final userBox = await Hive.openBox<user_model.User>('dataSearch');
+
+      await userBox.put("user", resUser);
+
+      final loki = userBox.get("user");
+      log('$loki', name: 'user box');
+
+      // await userCollection.put('searchData', resUser);
+
+      return resUser;
+    } catch (err) {
+      log(err.toString(), name: "error search user by email or phone");
+      throw "error search user by email or phone";
+    }
   }
 }
 
