@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:hive/hive.dart';
 import 'package:user_repository/src/models/user.dart' as user_model;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
+import 'package:hive_repository/src/models/user.dart' as user_adapter;
 
 class UserRepository {
   UserRepository(chat_app_api.ChatAppApi chatAppApi) : _chatAppApi = chatAppApi;
@@ -12,10 +16,48 @@ class UserRepository {
   }
 
   Future<user_model.User> updateSelfProfile(
-      user_model.User user, String bearerToken) async {
+    user_model.User user,
+    String bearerToken,
+  ) async {
     final apiUser =
         await _chatAppApi.updateSelfProfile(user.toApiUser(), bearerToken);
     return apiUser.toRepositoryUser();
+  }
+
+  Future<user_model.User> searchUserByEmailOrPhone({
+    required String inputSearch,
+    required String bearerToken,
+  }) async {
+    try {
+      final apiUser =
+          await _chatAppApi.searchUserByEmailOrPhone(inputSearch, bearerToken);
+
+      await saveUserDataToCache(apiUser);
+
+      return apiUser.toRepositoryUser();
+    } catch (err) {
+      log(err.toString(), name: "error search user by email or phone");
+      throw "error search user by email or phone";
+    }
+  }
+
+  // create box collection and save "user" to user-box
+  Future<void> saveUserDataToCache(chat_app_api.User apiUser) async {
+    //create box collection and save "user" to user box
+    final userBox = await Hive.openBox<user_adapter.User>('user-search-hive');
+    final boxUser = user_adapter.User(
+      uid: apiUser.uid,
+      username: apiUser.username,
+      fullname: apiUser.fullname,
+      avatar: apiUser.fullname,
+      phone: apiUser.phone,
+      about: apiUser.phone,
+      email: apiUser.email,
+    );
+    await userBox.put("user", boxUser);
+
+    final loki = userBox.get("user");
+    log('$loki', name: 'user box');
   }
 }
 

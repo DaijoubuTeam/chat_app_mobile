@@ -14,3 +14,7 @@ class FindFriendInputSearchChanged extends FindFriendEvent {
   @override
   List<Object?> get props => [textInput];
 }
+
+class FindFriendButtonSubmitted extends FindFriendEvent {
+  const FindFriendButtonSubmitted();
+}

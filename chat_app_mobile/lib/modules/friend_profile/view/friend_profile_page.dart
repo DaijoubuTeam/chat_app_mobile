@@ -1,4 +1,6 @@
+import 'package:chat_app_mobile/modules/friend_profile/bloc/friend_profile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FriendProfilePage extends StatelessWidget {
   const FriendProfilePage({super.key});
@@ -11,7 +13,10 @@ class FriendProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Friend Profile Page'),
       ),
-      body: const FriendProfileView(),
+      body: BlocProvider(
+        create: (_) => FriendProfileBloc(),
+        child: const FriendProfileView(),
+      ),
     );
   }
 }
@@ -23,8 +28,12 @@ class FriendProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Profile'),
+    return Center(
+      child: BlocBuilder<FriendProfileBloc, FriendProfileState>(
+        builder: (context, state) {
+          return Text(state.email);
+        },
+      ),
     );
   }
 }

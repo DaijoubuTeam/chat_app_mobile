@@ -63,9 +63,10 @@ class UserApi {
     }
   }
 
-  Future<User> searchUserByEmailOrPhone(String bearerToken) async {
+  Future<User> searchUserByEmailOrPhone(
+      String inputSearch, String bearerToken) async {
     try {
-      final url = '$basePath/verify-email';
+      final url = '$basePath/search?search=$inputSearch';
       final response = await _dio.get(url,
           options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
       final userJson = response.data as Map<String, dynamic>;
