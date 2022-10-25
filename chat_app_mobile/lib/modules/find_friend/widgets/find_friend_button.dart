@@ -9,7 +9,7 @@ class FindFriendButton extends StatelessWidget {
 
   void handleFindFriendButton(BuildContext ctx) {
     ctx.read<FindFriendBloc>().add(const FindFriendButtonSubmitted());
-    // ctx.pushNamed(FriendProfilePage.namePage);
+    ctx.pushNamed(FriendProfilePage.namePage);
   }
 
   @override

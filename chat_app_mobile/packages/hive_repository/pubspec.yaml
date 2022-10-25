@@ -1,25 +1,24 @@
-name: user_repository
+name: hive_repository
 description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: '>=2.18.1 <3.0.0'
+  sdk: '>=2.18.2 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
   hive: ^2.2.3
-  chat_app_api:
-    path: ../chat_app_api
-  hive_repository: 
-    path: ../hive_repository
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  build_runner: ^2.3.2
+  hive_generator: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

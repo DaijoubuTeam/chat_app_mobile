@@ -52,7 +52,8 @@ dependencies:
     path: packages/user_repository
   chat_app_api:
     path: packages/chat_app_api
-
+  hive_repository: 
+    path: packages/hive_repository
 dev_dependencies:
   flutter_test:
     sdk: flutter

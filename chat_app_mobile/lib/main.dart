@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:dio/adapter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:hive_repository/src/models/user.dart' as user_adapter;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ Future<void> main() async {
   //init hive and register adapter
 
   await Hive.initFlutter();
-  Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter<user_adapter.User>(user_adapter.UserAdapter());
 
   //set up url
 
