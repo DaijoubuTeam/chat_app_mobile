@@ -44,16 +44,12 @@ dependencies:
   dio: ^4.0.6
   go_router: ^5.0.5
   cached_network_image: ^3.2.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
   auth_repository: 
     path: packages/auth_repository
   user_repository:
     path: packages/user_repository
   chat_app_api:
     path: packages/chat_app_api
-  hive_repository: 
-    path: packages/hive_repository
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -17,13 +17,19 @@ class _FindFriendInputState extends State<FindFriendInput> {
     inputController.addListener(() => context
         .read<FindFriendBloc>()
         .add(FindFriendInputSearchChanged(inputController.text)));
+
     return BlocListener<FindFriendBloc, FindFriendState>(
-      listenWhen: (previous, current) =>
-          previous.inputSearch != current.inputSearch,
+      listenWhen: (previous, current) {
+        // check runtimeType for guaranteed type is true
+        // so you can get inputSearch in listener
+        return previous != current &&
+            current.runtimeType == FindFriendInputChanging;
+      },
       listener: (context, state) {
-        inputController.text = state.inputSearch;
+        inputController.text = (state as FindFriendInputChanging).inputSearch;
         inputController.selection = TextSelection.fromPosition(
-            TextPosition(offset: inputController.text.length));
+          TextPosition(offset: inputController.text.length),
+        );
       },
       child: TextFormField(
         controller: inputController,

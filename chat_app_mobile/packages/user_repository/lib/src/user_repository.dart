@@ -1,13 +1,10 @@
 import 'dart:developer';
 
-import 'package:hive/hive.dart';
 import 'package:user_repository/src/models/user.dart' as user_model;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
-import 'package:hive_repository/src/models/user.dart' as user_adapter;
 
 class UserRepository {
   UserRepository(chat_app_api.ChatAppApi chatAppApi) : _chatAppApi = chatAppApi;
-
   final chat_app_api.ChatAppApi _chatAppApi;
 
   Future<user_model.User> getSelfProfile(String bearerToken) async {
@@ -29,11 +26,10 @@ class UserRepository {
     required String bearerToken,
   }) async {
     try {
-      final apiUser =
-          await _chatAppApi.searchUserByEmailOrPhone(inputSearch, bearerToken);
-
-      await saveUserDataToCache(apiUser);
-
+      final apiUser = await _chatAppApi.searchUserByEmailOrPhone(
+        inputSearch,
+        bearerToken,
+      );
       return apiUser.toRepositoryUser();
     } catch (err) {
       log(err.toString(), name: "error search user by email or phone");
@@ -41,24 +37,23 @@ class UserRepository {
     }
   }
 
-  // create box collection and save "user" to user-box
-  Future<void> saveUserDataToCache(chat_app_api.User apiUser) async {
-    //create box collection and save "user" to user box
-    final userBox = await Hive.openBox<user_adapter.User>('user-search-hive');
-    final boxUser = user_adapter.User(
-      uid: apiUser.uid,
-      username: apiUser.username,
-      fullname: apiUser.fullname,
-      avatar: apiUser.fullname,
-      phone: apiUser.phone,
-      about: apiUser.phone,
-      email: apiUser.email,
-    );
-    await userBox.put("user", boxUser);
+  // // create box collection and save "user" to user-box
+  // Future<void> saveUserDataToCache(chat_app_api.User apiUser) async {
+  //   final userBox = await Hive.openBox<user_adapter.User>('user-search-hive');
+  //   final boxUser = user_adapter.User(
+  //     uid: apiUser.uid,
+  //     username: apiUser.username,
+  //     fullname: apiUser.fullname,
+  //     avatar: apiUser.avatar,
+  //     phone: apiUser.phone,
+  //     about: apiUser.about,
+  //     email: apiUser.email,
+  //   );
+  //   await userBox.put("user", boxUser);
 
-    final loki = userBox.get("user");
-    log('$loki', name: 'user box');
-  }
+  //   final loki = userBox.get("user");
+  //   log('$loki', name: 'user box');
+  // }
 }
 
 extension on chat_app_api.User {

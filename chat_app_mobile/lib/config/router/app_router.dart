@@ -9,6 +9,7 @@ import 'package:chat_app_mobile/modules/login/view/view.dart';
 import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:user_repository/user_repository.dart' as user_repository;
 
 class AppRouter {
   AppRouter({required this.appBloc});
@@ -75,7 +76,9 @@ class AppRouter {
           name: FriendProfilePage.namePage,
           path: '/friend-profile',
           builder: (BuildContext context, GoRouterState state) {
-            return const FriendProfilePage();
+            return FriendProfilePage(
+              friendInfor: state.extra as user_repository.User,
+            );
           },
         ),
       ],
