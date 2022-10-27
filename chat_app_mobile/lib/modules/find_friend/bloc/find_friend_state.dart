@@ -1,22 +1,5 @@
 part of 'find_friend_bloc.dart';
 
-// abstract class FindFriendState extends Equatable {
-//   const FindFriendState({this.inputSearch = '', this.isFindSuccess = null});
-
-//   final String inputSearch;
-
-//   final bool? isFindSuccess;
-
-//   FindFriendState copyWith({String? inputSearch, bool? isFindSuccess}) {
-//     return FindFriendState(
-//         inputSearch: inputSearch ?? this.inputSearch,
-//         isFindSuccess: isFindSuccess ?? this.isFindSuccess);
-//   }
-
-//   @override
-//   List<Object?> get props => [inputSearch, isFindSuccess];
-// }
-
 abstract class FindFriendState extends Equatable {
   const FindFriendState();
   @override

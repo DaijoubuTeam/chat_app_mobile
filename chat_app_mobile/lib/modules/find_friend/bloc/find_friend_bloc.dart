@@ -19,6 +19,11 @@ class FindFriendBloc extends Bloc<FindFriendEvent, FindFriendState> {
   final user_repository.UserRepository _userRepository;
   final auth_repository.AuthRepository _authRepository;
 
+  void _findFriendInputInitialized(
+      FindFriendInputInitialized event, Emitter<FindFriendState> emit) {
+    emit(const FindFriendInputChanging(inputSearch: ''));
+  }
+
   void _findFriendInputSearchChanged(
       FindFriendInputSearchChanged event, Emitter<FindFriendState> emit) {
     emit(
@@ -54,10 +59,5 @@ class FindFriendBloc extends Bloc<FindFriendEvent, FindFriendState> {
     } catch (err) {
       throw Exception('Exception handle event FindFriendButtonSubmitted');
     }
-  }
-
-  void _findFriendInputInitialized(
-      FindFriendInputInitialized event, Emitter<FindFriendState> emit) {
-    emit(const FindFriendInputChanging(inputSearch: ''));
   }
 }

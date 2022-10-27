@@ -9,4 +9,4 @@ abstract class FriendProfileEvent extends Equatable {
 
 class FriendProfilePageInited extends FriendProfileEvent {}
 
-class FriendProfilePageClose extends FriendProfileEvent {}
+class FriendProfileButtonSubmitted extends FriendProfileEvent {}

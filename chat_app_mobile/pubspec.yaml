@@ -48,6 +48,8 @@ dependencies:
     path: packages/auth_repository
   user_repository:
     path: packages/user_repository
+  friend_repository:
+    path: packages/friend_repository
   chat_app_api:
     path: packages/chat_app_api
 dev_dependencies:

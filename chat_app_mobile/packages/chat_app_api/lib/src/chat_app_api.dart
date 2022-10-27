@@ -1,3 +1,4 @@
+import 'package:chat_app_api/src/api/friend_api.dart';
 import 'package:chat_app_api/src/api/user_api.dart';
 import 'package:dio/dio.dart';
 
@@ -6,12 +7,21 @@ import 'models/user.dart';
 
 class ChatAppApi {
   ChatAppApi(
-      {AuthApi? authApi, UserApi? userApi, Dio? dio, required String serverUrl})
+      {AuthApi? authApi,
+      UserApi? userApi,
+      FriendApi? friendApi,
+      Dio? dio,
+      required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
-        _userApi = userApi ?? UserApi(serverUrl: serverUrl, dio: dio ?? Dio());
+        _userApi = userApi ?? UserApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _friendApi =
+            friendApi ?? FriendApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
+  FriendApi _friendApi;
+
+  //auth api
 
   Future<User> verifyUser(String bearerToken) async {
     try {
@@ -29,6 +39,8 @@ class ChatAppApi {
   Future<void> resetPassword(String token, String password) {
     return _authApi.resetPassword(token, password);
   }
+
+  // user api
 
   Future<User> getSelfProfile(String bearerToken) async {
     try {
@@ -61,6 +73,11 @@ class ChatAppApi {
     } catch (e) {
       return User.empty;
     }
+  }
+
+  //friend api
+  Future<bool> sendFriendRequest(String bearerToken, String id) async {
+    return await _friendApi.sendFriendRequest(bearerToken, id);
   }
 }
 

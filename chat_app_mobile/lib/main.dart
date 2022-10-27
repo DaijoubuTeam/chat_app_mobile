@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:dio/adapter.dart';
+import 'package:friend_repository/friend_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 Future<void> main() async {
@@ -23,7 +24,7 @@ Future<void> main() async {
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {
     // serverUrl = "https://10.0.2.2/api/v1";
-    serverUrl = "https://192.168.1.12/api/v1";
+    serverUrl = "https://10.0.21.242/api/v1";
   }
 
   // Create dio
@@ -43,13 +44,19 @@ Future<void> main() async {
 
   final firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
+  // initial repository
   final authenticationRepository = AuthRepository(
     firebaseAuth,
     chatAppApi,
   );
   final userRepository = UserRepository(chatAppApi);
+  final friendRepostitory = FriendRepository(chatAppApi);
 
   await authenticationRepository.user.first;
 
-  bootstrap(authenticationRepository, userRepository);
+  bootstrap(
+    authenticationRepository,
+    userRepository,
+    friendRepostitory,
+  );
 }
