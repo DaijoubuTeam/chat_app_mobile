@@ -14,6 +14,7 @@ class FriendsRequestBloc
       : super(FriendsRequestInitial()) {
     on<FriendRequestPageInited>(_friendRequestPageInited);
     on<FriendRequestCardAction>(_friendRequestCardAction);
+
     add(const FriendRequestPageInited());
   }
 
