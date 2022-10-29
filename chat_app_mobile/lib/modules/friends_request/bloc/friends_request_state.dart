@@ -20,3 +20,7 @@ class FriendsRequestGetListSuccess extends FriendsRequestState {
 }
 
 class FriendsRequestGetListFailure extends FriendsRequestState {}
+
+class FriendsRequestCardActionSuccess extends FriendsRequestState {}
+
+class FriendsRequestCardActionFailure extends FriendsRequestState {}

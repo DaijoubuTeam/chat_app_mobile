@@ -1,4 +1,6 @@
+import 'package:chat_app_mobile/modules/friends_request/bloc/friends_request_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ItemUserRequest extends StatelessWidget {
   const ItemUserRequest(
@@ -18,6 +20,12 @@ class ItemUserRequest extends StatelessWidget {
   final String? phone;
   final String? about;
   final String? email;
+
+  void _handleActionCard(BuildContext ctx, String id, String action) {
+    ctx
+        .read<FriendsRequestBloc>()
+        .add(FriendRequestCardAction(id: id, action: action));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +56,12 @@ class ItemUserRequest extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 color: Theme.of(context).primaryColor,
-                onPressed: () {},
+                onPressed: () => _handleActionCard(context, uid, "accept"),
                 icon: const Icon(Icons.check),
               ),
               IconButton(
                 color: Theme.of(context).errorColor,
-                onPressed: () {},
+                onPressed: () => _handleActionCard(context, uid, "denied"),
                 icon: const Icon(Icons.close),
               )
             ],

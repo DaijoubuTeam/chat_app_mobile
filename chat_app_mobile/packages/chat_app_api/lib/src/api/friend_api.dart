@@ -49,7 +49,7 @@ class FriendApi {
 
   Future<bool> actionWithFriend(
       String bearerToken, String id, String action) async {
-    final url = '$bearerToken/$id?action=$action';
+    final url = '$basePath/$id?action=$action';
     final res = await _dio.get(
       url,
       options: Options(

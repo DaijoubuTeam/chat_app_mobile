@@ -13,7 +13,7 @@ class FriendsRequestBloc
   FriendsRequestBloc(this._authRepository, this._friendRepository)
       : super(FriendsRequestInitial()) {
     on<FriendRequestPageInited>(_friendRequestPageInited);
-    on<FriendRequestPageLoading>(_friendsRequestPageLoading);
+    on<FriendRequestCardAction>(_friendRequestCardAction);
     add(const FriendRequestPageInited());
   }
 
@@ -34,6 +34,18 @@ class FriendsRequestBloc
     }
   }
 
-  Future<void> _friendsRequestPageLoading(FriendRequestPageLoading event,
-      Emitter<FriendsRequestState> emit) async {}
+  Future<void> _friendRequestCardAction(
+      FriendRequestCardAction event, Emitter<FriendsRequestState> emit) async {
+    final bearerToken = await _authRepository.bearToken;
+    if (bearerToken != null) {
+      final res = await _friendRepository.actionWithFriend(
+          bearerToken, event.id, event.action);
+      if (res) {
+        emit(FriendsRequestCardActionSuccess());
+      } else {
+        emit(FriendsRequestCardActionFailure());
+      }
+      add(const FriendRequestPageInited());
+    }
+  }
 }

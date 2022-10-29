@@ -10,6 +10,11 @@ class FriendRequestPageInited extends FriendsRequestEvent {
   const FriendRequestPageInited();
 }
 
-class FriendRequestPageLoading extends FriendsRequestEvent {
-  const FriendRequestPageLoading();
+class FriendRequestCardAction extends FriendsRequestEvent {
+  const FriendRequestCardAction({required this.id, required this.action});
+
+  final String id;
+  final String action;
+  @override
+  List<Object?> get props => [action];
 }

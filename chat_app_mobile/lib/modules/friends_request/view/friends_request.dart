@@ -40,15 +40,28 @@ class FriendsRequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Friends Request Page'),
-      ),
-      body: const ListUserRequest(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _buildModalBottomSheet(context),
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add),
+    return BlocListener<FriendsRequestBloc, FriendsRequestState>(
+      listenWhen: (previous, current) => previous != current,
+      listener: (context, state) {
+        if (state.runtimeType == FriendsRequestCardActionSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Action with your friend success')));
+        }
+        if (state.runtimeType == FriendsRequestCardActionFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Action with your friend failed')));
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Friends Request Page'),
+        ),
+        body: const ListUserRequest(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _buildModalBottomSheet(context),
+          backgroundColor: Theme.of(context).primaryColor,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
