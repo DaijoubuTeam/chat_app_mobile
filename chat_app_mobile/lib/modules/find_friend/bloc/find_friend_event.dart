@@ -7,6 +7,8 @@ abstract class FindFriendEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class FindFriendInputInitialized extends FindFriendEvent {}
+
 class FindFriendInputSearchChanged extends FindFriendEvent {
   const FindFriendInputSearchChanged(this.textInput);
   final String textInput;

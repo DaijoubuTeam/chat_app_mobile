@@ -6,9 +6,15 @@ abstract class FriendsRequestEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FriendRequestInputSearchChanged extends FriendsRequestEvent {
-  const FriendRequestInputSearchChanged(this.textInput);
-  final String textInput;
+class FriendRequestPageInited extends FriendsRequestEvent {
+  const FriendRequestPageInited();
+}
+
+class FriendRequestCardAction extends FriendsRequestEvent {
+  const FriendRequestCardAction({required this.id, required this.action});
+
+  final String id;
+  final String action;
   @override
-  List<Object?> get props => [textInput];
+  List<Object?> get props => [action];
 }
