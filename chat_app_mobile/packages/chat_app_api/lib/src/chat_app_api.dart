@@ -81,8 +81,8 @@ class ChatAppApi {
     return await _friendApi.sendFriendRequest(bearerToken, id);
   }
 
-  Future<List<Friend>> getUserListFriend(String bearerToken) async {
-    return await _friendApi.getUserListFriend(bearerToken);
+  Future<List<Friend>> getListRequestFriend(String bearerToken) async {
+    return await _friendApi.getListRequestFriend(bearerToken);
   }
 }
 

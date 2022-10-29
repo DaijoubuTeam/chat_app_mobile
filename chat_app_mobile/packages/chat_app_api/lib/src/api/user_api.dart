@@ -46,7 +46,6 @@ class UserApi {
       final resUser = User.fromJson(userJson);
       return resUser;
     } on DioError catch (e) {
-      print(e.response);
       throw const HttpException("Update failed");
     } catch (e) {
       throw const HttpException("Update failed");

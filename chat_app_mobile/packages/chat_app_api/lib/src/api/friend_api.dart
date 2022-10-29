@@ -32,7 +32,7 @@ class FriendApi {
     }
   }
 
-  Future<List<Friend>> getUserListFriend(String bearerToken) async {
+  Future<List<Friend>> getListRequestFriend(String bearerToken) async {
     final url = '$basePath/friend-requests';
     final res = await _dio.get(
       url,

@@ -13,7 +13,7 @@ class FriendRepository {
   Future<List<friend_model_repo.Friend>> getListRequestFriend(
       String bearerToken) async {
     final List<chat_app_api.Friend> friendsApi =
-        await _chatAppApi.getUserListFriend(bearerToken);
+        await _chatAppApi.getListRequestFriend(bearerToken);
     final friendRepo =
         friendsApi.map((friendApi) => friendApi.toRepositoryFriend()).toList();
     return friendRepo;
