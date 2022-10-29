@@ -12,6 +12,21 @@ class FriendApi {
 
   final Dio _dio;
 
+  Future<List<Friend>> getListUserFriends(String bearerToken) async {
+    final url = basePath;
+    final res = await _dio.get(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+      ),
+    );
+    final listFriendRequest = res.data as List<dynamic>;
+    final List<Friend> resListFriendRequest = listFriendRequest
+        .map((friendApi) => Friend.fromJson(friendApi))
+        .toList();
+    return resListFriendRequest;
+  }
+
   Future<bool> sendFriendRequest(String bearerToken, String id) async {
     try {
       final url = basePath;
@@ -51,6 +66,21 @@ class FriendApi {
       String bearerToken, String id, String action) async {
     final url = '$basePath/$id?action=$action';
     final res = await _dio.get(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+      ),
+    );
+    if (res.statusCode == 204) {
+      return true;
+    }
+    return false;
+  }
+
+  //delete friend
+  Future<bool> deleteFriend(String bearerToken, String id) async {
+    final url = '$basePath/$id';
+    final res = await _dio.delete(
       url,
       options: Options(
         headers: {"authorization": 'Bearer $bearerToken'},

@@ -6,6 +6,15 @@ class FriendRepository {
       : _chatAppApi = chatAppApi;
   final chat_app_api.ChatAppApi _chatAppApi;
 
+  Future<List<friend_model_repo.Friend>> getListUserFriends(
+      String bearerToken) async {
+    final List<chat_app_api.Friend> friendsApi =
+        await _chatAppApi.getListUserFriends(bearerToken);
+    final friendRepo =
+        friendsApi.map((friendApi) => friendApi.toRepositoryFriend()).toList();
+    return friendRepo;
+  }
+
   Future<bool> sendFriendRequest(String bearerToken, String id) async {
     return await _chatAppApi.sendFriendRequest(bearerToken, id);
   }
@@ -22,6 +31,10 @@ class FriendRepository {
   Future<bool> actionWithFriend(
       String bearerToken, String id, String action) async {
     return await _chatAppApi.actionWithFriend(bearerToken, id, action);
+  }
+
+  Future<bool> deleteFriend(String bearerToken, String id) async {
+    return await _chatAppApi.deleteFriend(bearerToken, id);
   }
 }
 
