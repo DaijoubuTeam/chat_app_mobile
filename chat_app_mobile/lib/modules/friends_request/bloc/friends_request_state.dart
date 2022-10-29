@@ -1,16 +1,22 @@
 part of 'friends_request_bloc.dart';
 
-class FriendsRequestState extends Equatable {
-  const FriendsRequestState({this.inputSearch = ''});
-
-  final String inputSearch;
-
-  FriendsRequestState copyWith({String? inputSearch}) {
-    return FriendsRequestState(
-      inputSearch: inputSearch ?? this.inputSearch,
-    );
-  }
+abstract class FriendsRequestState extends Equatable {
+  const FriendsRequestState();
 
   @override
-  List<Object?> get props => [inputSearch];
+  List<Object?> get props => [];
 }
+
+class FriendsRequestInitial extends FriendsRequestState {}
+
+class FriendsRequestGetListInProgress extends FriendsRequestState {}
+
+class FriendsRequestGetListSuccess extends FriendsRequestState {
+  const FriendsRequestGetListSuccess({required this.listFriendRequest});
+  final List<friend_repository.Friend> listFriendRequest;
+
+  @override
+  List<Object?> get props => [listFriendRequest];
+}
+
+class FriendsRequestGetListFailure extends FriendsRequestState {}

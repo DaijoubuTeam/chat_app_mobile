@@ -1,6 +1,4 @@
-import 'dart:developer';
-import 'dart:io';
-
+import 'package:chat_app_api/chat_app_api.dart';
 import 'package:dio/dio.dart';
 
 class FriendApi {
@@ -29,10 +27,26 @@ class FriendApi {
       } else {
         return false;
       }
-    } catch (e) {
-      // log(e.toString(), name: "post send friend failed");
-      // throw const HttpException("Sent friend request failed");
+    } catch (_) {
       return false;
     }
+  }
+
+  Future<List<Friend>> getUserListFriend(String bearerToken) async {
+    final url = '$basePath/friend-requests';
+    final res = await _dio.get(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      ),
+    );
+    final listFriendRequest = res.data as List<dynamic>;
+    final List<Friend> resListFriendRequest = listFriendRequest
+        .map((friendApi) => Friend.fromJson(friendApi))
+        .toList();
+    return resListFriendRequest;
   }
 }

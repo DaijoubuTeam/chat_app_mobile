@@ -1,5 +1,6 @@
 import 'package:chat_app_api/src/api/friend_api.dart';
 import 'package:chat_app_api/src/api/user_api.dart';
+import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
 
 import 'api/auth_api.dart';
@@ -78,6 +79,10 @@ class ChatAppApi {
   //friend api
   Future<bool> sendFriendRequest(String bearerToken, String id) async {
     return await _friendApi.sendFriendRequest(bearerToken, id);
+  }
+
+  Future<List<Friend>> getUserListFriend(String bearerToken) async {
+    return await _friendApi.getUserListFriend(bearerToken);
   }
 }
 

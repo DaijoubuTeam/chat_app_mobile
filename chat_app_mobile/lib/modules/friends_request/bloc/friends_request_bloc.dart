@@ -2,20 +2,38 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:friend_repository/friend_repository.dart' as friend_repository;
+import 'package:auth_repository/auth_repository.dart' as auth_repository;
 
 part 'friends_request_event.dart';
 part 'friends_request_state.dart';
 
 class FriendsRequestBloc
     extends Bloc<FriendsRequestEvent, FriendsRequestState> {
-  FriendsRequestBloc() : super(const FriendsRequestState()) {
-    on<FriendRequestInputSearchChanged>(_friendRequestInputSearchChanged);
+  FriendsRequestBloc(this._authRepository, this._friendRepository)
+      : super(FriendsRequestInitial()) {
+    on<FriendRequestPageInited>(_friendRequestPageInited);
+    on<FriendRequestPageLoading>(_friendsRequestPageLoading);
+    add(const FriendRequestPageInited());
   }
 
-  void _friendRequestInputSearchChanged(FriendRequestInputSearchChanged event,
-      Emitter<FriendsRequestState> emit) {
-    emit(event.textInput.isNotEmpty
-        ? state.copyWith(inputSearch: event.textInput)
-        : state.copyWith());
+  final auth_repository.AuthRepository _authRepository;
+  final friend_repository.FriendRepository _friendRepository;
+
+  Future<void> _friendRequestPageInited(
+      FriendRequestPageInited event, Emitter<FriendsRequestState> emit) async {
+    emit(FriendsRequestGetListInProgress());
+    final bearerToken = await _authRepository.bearToken;
+    if (bearerToken != null) {
+      final res = await _friendRepository.getListRequestFriend(bearerToken);
+      if (res.isNotEmpty) {
+        emit(FriendsRequestGetListSuccess(listFriendRequest: res));
+      } else {
+        emit(FriendsRequestGetListFailure());
+      }
+    }
   }
+
+  Future<void> _friendsRequestPageLoading(FriendRequestPageLoading event,
+      Emitter<FriendsRequestState> emit) async {}
 }
