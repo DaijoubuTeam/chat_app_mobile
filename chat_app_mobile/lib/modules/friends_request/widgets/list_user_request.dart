@@ -36,7 +36,7 @@ class ListUserRequest extends StatelessWidget {
         } else if (state.runtimeType == FriendsRequestGetListInProgress) {
           return const Center(child: CircularProgressIndicator());
         }
-        return const Text('Something error!');
+        return const Center(child: Text('No request friends now!'));
       }),
     );
   }

@@ -76,6 +76,10 @@ class ChatAppApi {
   }
 
   //friend api
+  Future<List<Friend>> getListUserFriends(String bearerToken) async {
+    return await _friendApi.getListUserFriends(bearerToken);
+  }
+
   Future<bool> sendFriendRequest(String bearerToken, String id) async {
     return await _friendApi.sendFriendRequest(bearerToken, id);
   }
@@ -87,5 +91,9 @@ class ChatAppApi {
   Future<bool> actionWithFriend(
       String bearerToken, String id, String action) async {
     return await _friendApi.actionWithFriend(bearerToken, id, action);
+  }
+
+  Future<bool> deleteFriend(String bearerToken, String id) async {
+    return await _friendApi.deleteFriend(bearerToken, id);
   }
 }
