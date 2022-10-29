@@ -18,6 +18,11 @@ class FriendRepository {
         friendsApi.map((friendApi) => friendApi.toRepositoryFriend()).toList();
     return friendRepo;
   }
+
+  Future<bool> actionWithFriend(
+      String bearerToken, String id, String action) async {
+    return await _chatAppApi.actionWithFriend(bearerToken, id, action);
+  }
 }
 
 extension on chat_app_api.Friend {

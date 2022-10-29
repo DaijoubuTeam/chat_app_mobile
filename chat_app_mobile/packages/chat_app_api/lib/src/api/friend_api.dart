@@ -38,9 +38,6 @@ class FriendApi {
       url,
       options: Options(
         headers: {"authorization": 'Bearer $bearerToken'},
-        validateStatus: (status) {
-          return status! < 500;
-        },
       ),
     );
     final listFriendRequest = res.data as List<dynamic>;
@@ -48,5 +45,20 @@ class FriendApi {
         .map((friendApi) => Friend.fromJson(friendApi))
         .toList();
     return resListFriendRequest;
+  }
+
+  Future<bool> actionWithFriend(
+      String bearerToken, String id, String action) async {
+    final url = '$bearerToken/$id?action=$action';
+    final res = await _dio.get(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+      ),
+    );
+    if (res.statusCode == 204) {
+      return true;
+    }
+    return false;
   }
 }
