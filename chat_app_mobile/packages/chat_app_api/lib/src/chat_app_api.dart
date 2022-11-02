@@ -122,6 +122,11 @@ class ChatAppApi {
         bearerToken, chatRoomId, chatRoomName, chatRoomAvatar);
   }
 
+  Future<bool> deleteGroupChatRoom(
+      String bearerToken, String chatRoomId) async {
+    return await _chatRoomApi.deleteGroupChatRoom(bearerToken, chatRoomId);
+  }
+
   Future<bool> addMemberChatRoom(
     String bearerToken,
     String chatRoomId,

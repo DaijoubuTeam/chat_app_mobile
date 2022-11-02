@@ -66,6 +66,26 @@ class ChatRoomApi {
     }
   }
 
+  Future<bool> deleteGroupChatRoom(
+      String bearerToken, String chatRoomId) async {
+    try {
+      final url = '$basePath/$chatRoomId';
+      final response = await _dio.delete(
+        url,
+        options: Options(
+          headers: {"authorization": 'Bearer $bearerToken'},
+        ),
+      );
+      if (response.statusCode == 204) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      log(e.toString(), name: 'delete group chat room');
+      return false;
+    }
+  }
+
   Future<bool> addMemberChatRoom(
     String bearerToken,
     String chatRoomId,
