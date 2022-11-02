@@ -8,6 +8,17 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const ChatView();
+  }
+}
+
+class ChatView extends StatelessWidget {
+  const ChatView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
