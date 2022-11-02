@@ -32,10 +32,8 @@ class FriendApi {
       final url = basePath;
       final res = await _dio.post(url,
           options: Options(
-              headers: {"authorization": 'Bearer $bearerToken'},
-              validateStatus: (status) {
-                return status! < 500;
-              }),
+            headers: {"authorization": 'Bearer $bearerToken'},
+          ),
           data: {"id": id});
       if (res.statusCode == 200) {
         return true;
@@ -55,8 +53,8 @@ class FriendApi {
         headers: {"authorization": 'Bearer $bearerToken'},
       ),
     );
-    final listFriendRequest = res.data as List<dynamic>;
-    final List<Friend> resListFriendRequest = listFriendRequest
+    final listFriendRequestJson = res.data as List<dynamic>;
+    final List<Friend> resListFriendRequest = listFriendRequestJson
         .map((friendApi) => Friend.fromJson(friendApi))
         .toList();
     return resListFriendRequest;
