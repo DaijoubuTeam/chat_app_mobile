@@ -6,3 +6,5 @@ abstract class ChatEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class ChatPageInited extends ChatEvent {}

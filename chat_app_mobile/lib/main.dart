@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io' show HttpClient, Platform, X509Certificate;
 import 'package:chat_app_api/chat_app_api.dart';
 import 'package:chat_app_mobile/bootstrap.dart';
@@ -10,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:dio/adapter.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:web_socket_repository/web_socket_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +55,10 @@ Future<void> main() async {
   final friendRepostitory = FriendRepository(chatAppApi);
 
   await authenticationRepository.user.first;
+
+  // // set up web socket
+  // final webSocket = WebSocketChannelRepository(url: 'ws://localhost');
+  // log(webSocket.toString(), name: "TEST WEB SOCKET");
 
   bootstrap(
     authenticationRepository,
