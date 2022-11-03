@@ -13,6 +13,7 @@ class ChatGetListRequest extends ChatState {}
 
 class ChatGetListSuccess extends ChatState {
   const ChatGetListSuccess({required this.listChatRoom});
+
   final List<chat_room_repository.ChatRoom> listChatRoom;
 
   @override

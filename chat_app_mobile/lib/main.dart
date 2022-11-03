@@ -1,8 +1,8 @@
-import 'dart:developer';
 import 'dart:io' show HttpClient, Platform, X509Certificate;
 import 'package:chat_app_api/chat_app_api.dart';
 import 'package:chat_app_mobile/bootstrap.dart';
 import 'package:chat_app_mobile/firebase_options.dart';
+import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +53,7 @@ Future<void> main() async {
   );
   final userRepository = UserRepository(chatAppApi);
   final friendRepostitory = FriendRepository(chatAppApi);
+  final chatRoomRepository = ChatRoomRepository(chatAppApi);
 
   await authenticationRepository.user.first;
 
@@ -64,5 +65,6 @@ Future<void> main() async {
     authenticationRepository,
     userRepository,
     friendRepostitory,
+    chatRoomRepository,
   );
 }

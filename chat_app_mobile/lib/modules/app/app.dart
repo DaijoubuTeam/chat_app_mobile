@@ -1,6 +1,7 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/config/router/app_router.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
+import 'package:chat_room_repository/chat_room_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,13 +15,16 @@ class MyApp extends StatelessWidget {
     required AuthRepository authRepository,
     required UserRepository userRepository,
     required FriendRepository friendRepository,
+    required ChatRoomRepository chatRoomRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
-        _friendRepository = friendRepository;
+        _friendRepository = friendRepository,
+        _chatRoomRepository = chatRoomRepository;
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
   final FriendRepository _friendRepository;
+  final ChatRoomRepository _chatRoomRepository;
 
   // This widget is the root of your application.
   @override
@@ -30,6 +34,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(value: _authRepository),
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _friendRepository),
+        RepositoryProvider.value(value: _chatRoomRepository),
       ],
       child: BlocProvider(
         create: (_) => AppBloc(authRepository: _authRepository),

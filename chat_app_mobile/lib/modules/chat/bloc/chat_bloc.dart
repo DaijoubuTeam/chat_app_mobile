@@ -16,6 +16,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _chatRoomRepository = chatRoomRepository,
         super(ChatInitial()) {
     on<ChatPageInited>(_onChatPageInited);
+
+    add(ChatPageInited());
   }
 
   final auth_repository.AuthRepository _authRepository;
