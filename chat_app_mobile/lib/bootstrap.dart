@@ -9,9 +9,14 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:web_socket_repository/web_socket_repository.dart';
 
-void bootstrap(AuthRepository authRepository, UserRepository userRepository,
-    FriendRepository friendRepository, ChatRoomRepository chatRoomRepository) {
+void bootstrap(
+    AuthRepository authRepository,
+    UserRepository userRepository,
+    FriendRepository friendRepository,
+    ChatRoomRepository chatRoomRepository,
+    WebSocketChannelRepository webSocketChannelRepository) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -24,6 +29,7 @@ void bootstrap(AuthRepository authRepository, UserRepository userRepository,
       userRepository: userRepository,
       friendRepository: friendRepository,
       chatRoomRepository: chatRoomRepository,
+      webSocketChannelRepository: webSocketChannelRepository,
     )),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );

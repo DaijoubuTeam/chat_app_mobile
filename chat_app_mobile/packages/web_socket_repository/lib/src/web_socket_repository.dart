@@ -1,20 +1,16 @@
-import 'package:web_socket_channel/io.dart';
-
-import 'package:web_socket_repository/src/events/register_event.dart';
-
-import 'events/custom_event.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class WebSocketChannelRepository {
-  WebSocketChannelRepository({required this.url})
-      : _channel = IOWebSocketChannel.connect(Uri.parse(url));
+  WebSocketChannelRepository({required this.socket});
 
-  final String url;
-  IOWebSocketChannel _channel;
+  IO.Socket socket;
 
-  Stream<CustomEvent> get customEvent => _channel.stream.map((event) {
-        if (event["register"] == "register") {
-          return RegisterEvent();
-        }
-        return RegisterEvent();
-      });
+  // Stream<CustomEvent> get customEvent => channel.stream.map(
+  //       (event) {
+  //         if (event["register"] == "register") {
+  //           return RegisterEvent();
+  //         }
+  //         return RegisterEvent();
+  //       },
+  //     );
 }
