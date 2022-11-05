@@ -1,14 +1,7 @@
 part of 'chat_detail_bloc.dart';
 
-abstract class ChatDetailState extends Equatable {
-  const ChatDetailState();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class ChatDetailInitial extends ChatDetailState {
-  const ChatDetailInitial({
+class ChatDetailState extends Equatable {
+  const ChatDetailState({
     required this.chatRoomId,
     this.chatRoomName,
     this.chatRoomAvatar,
@@ -19,5 +12,5 @@ class ChatDetailInitial extends ChatDetailState {
   final String? chatRoomAvatar;
 
   @override
-  List<Object?> get props => [chatRoomId];
+  List<Object?> get props => [chatRoomId, chatRoomName, chatRoomAvatar];
 }

@@ -11,6 +11,7 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:dio/adapter.dart';
 import 'package:friend_repository/friend_repository.dart';
+import 'package:socket_repository/socket_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:web_socket_repository/web_socket_repository.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -50,29 +51,31 @@ Future<void> main() async {
 
   //initial web socket:
   final IO.Socket socket = IO.io(
-    'http://localhost:80',
+    'http://localhost:60',
     IO.OptionBuilder()
         .setTransports(['websocket'])
         .disableAutoConnect() // for Flutter or Dart VM
         .build(),
   );
 
+  SocketApi.init();
+
   // check connect socket
   // need to create class to manage connect socket
-  socket.connect();
-  socket.onConnect((_) {
-    socket.emit('msg', 'test');
-    log("connect socket success", name: "connect socket io");
-  });
+  // socket.connect();
+  // socket.onConnect((_) {
+  //   socket.emit('msg', 'test');
+  //   log("connect socket success", name: "connect socket io");
+  // });
 
-  socket.onConnectError((data) {
-    log(data);
-    log("connect socket failure", name: "connect socket io");
-  });
+  // socket.onConnectError((data) {
+  //   log(data);
+  //   log("connect socket failure", name: "connect socket io");
+  // });
 
-  socket.onConnectTimeout((_) {
-    log("connect socket timeout", name: "connect socket io");
-  });
+  // socket.onConnectTimeout((_) {
+  //   log("connect socket timeout", name: "connect socket io");
+  // });
 
   final webSocketChannelReposity = WebSocketChannelRepository(socket: socket);
 

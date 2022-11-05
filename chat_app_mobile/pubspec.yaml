@@ -57,6 +57,8 @@ dependencies:
     path: packages/web_socket_repository
   chat_app_api:
     path: packages/chat_app_api
+  socket_repository:
+    path: packages/socket_repository
 
 dev_dependencies:
   flutter_test:

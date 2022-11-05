@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:socket_repository/socket_repository.dart';
 import 'package:web_socket_repository/web_socket_repository.dart';
 
 part 'observer_socket_event.dart';
@@ -25,10 +25,14 @@ class ObserverSocketBloc
   void _onObserverSocketInited(
       ObserverSocketInited event, Emitter<ObserverSocketState> emit) async {
     try {
-      _socketRepository.socket
-          .emit('register', {'uid': _authRepository.currentUser.uid});
-      _socketRepository.socket.on('register', (data) {
-        log(data.toString(), name: "register data");
+      // log(_socketRepository.socket.id.toString(), name: "socket infor");
+      // _socketRepository.socket
+      //     .emit('register', {'uid': _authRepository.currentUser.uid});
+      // _socketRepository.socket.on('register', (data) {
+      //   log(data.toString(), name: "register data");
+      // });
+      SocketApi.getRegister(_authRepository.currentUser.uid).listen((data) {
+        print(data);
       });
     } catch (e) {
       log(e.toString(), name: "ObserverSocketInited");
@@ -38,11 +42,11 @@ class ObserverSocketBloc
   void _onObserverSocketMessageSent(
       ObserverSocketMessageSent event, Emitter<ObserverSocketState> emit) {
     try {
-      _socketRepository.socket.emit('new-message', {
-        'chatRoomId': event.chatRoomId,
-        'from': event.from,
-        'content': event.content
-      });
+      // _socketRepository.socket.emit('new-message', {
+      //   'chatRoomId': event.chatRoomId,
+      //   'from': event.from,
+      //   'content': event.content
+      // });
       _socketRepository.socket.on('new-message', (data) {
         log(data.toString(), name: "new message data");
       });

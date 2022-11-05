@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
-class ChatBox extends StatelessWidget {
+class ChatBox extends StatefulWidget {
   const ChatBox({super.key});
+
+  @override
+  State<ChatBox> createState() => _ChatBoxState();
+}
+
+class _ChatBoxState extends State<ChatBox> {
+  final TextEditingController _inputController = TextEditingController();
+
+  @override
+  void initState() {
+    _inputController.addListener(() => setState(() {}));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +40,20 @@ class ChatBox extends StatelessWidget {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: Row(
-                  children: const <Widget>[
-                    Icon(Icons.sentiment_satisfied_alt_outlined),
-                    SizedBox(width: 12),
+                  children: <Widget>[
+                    const Icon(Icons.sentiment_satisfied_alt_outlined),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: _inputController,
+                        decoration: const InputDecoration(
                           hintText: "Type Message",
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    Icon(Icons.attach_file),
-                    Icon(Icons.camera_alt_outlined),
+                    // Icon(Icons.attach_file),
+                    // Icon(Icons.camera_alt_outlined),
                   ],
                 ),
               ),
@@ -48,7 +62,7 @@ class ChatBox extends StatelessWidget {
               width: 16,
             ),
             Icon(
-              Icons.mic,
+              Icons.send,
               color: Theme.of(context).primaryColor,
             ),
           ],

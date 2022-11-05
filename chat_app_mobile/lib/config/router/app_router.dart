@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/config/router/go_router_refesh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
+import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
@@ -52,17 +53,25 @@ class AppRouter {
           },
         ),
         GoRoute(
-          name: ChatDetailPage.namePage,
-          path: '/:chatRoomId',
-          builder: (BuildContext context, GoRouterState state) {
-            final mapStateExtra = state.extra as Map<String, String?>;
-            return ChatDetailPage(
-              chatRoomId: state.params['chatRoomId']!,
-              chatRoomName: mapStateExtra['chatRoomName'],
-              chatRoomAvatar: mapStateExtra['chatRoomAvatar'],
-            );
-          },
-        ),
+            name: ChatDetailPage.namePage,
+            path: '/:chatRoomId',
+            builder: (BuildContext context, GoRouterState state) {
+              final mapStateExtra = state.extra as Map<String, String?>;
+              return ChatDetailPage(
+                chatRoomId: state.params['chatRoomId']!,
+                chatRoomName: mapStateExtra['chatRoomName'],
+                chatRoomAvatar: mapStateExtra['chatRoomAvatar'],
+              );
+            },
+            routes: [
+              GoRoute(
+                name: ChatRoomDetailPage.namePage,
+                path: 'chat-rooms-details',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const ChatRoomDetailPage();
+                },
+              ),
+            ]),
         GoRoute(
           name: EditProfilePage.namePage,
           path: '/edit-profile',
