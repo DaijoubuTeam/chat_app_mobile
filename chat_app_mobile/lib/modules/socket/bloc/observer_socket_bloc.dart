@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:socket_repository/socket_repository.dart';
 import 'package:web_socket_repository/web_socket_repository.dart';
 
@@ -25,14 +26,8 @@ class ObserverSocketBloc
   void _onObserverSocketInited(
       ObserverSocketInited event, Emitter<ObserverSocketState> emit) async {
     try {
-      // log(_socketRepository.socket.id.toString(), name: "socket infor");
-      // _socketRepository.socket
-      //     .emit('register', {'uid': _authRepository.currentUser.uid});
-      // _socketRepository.socket.on('register', (data) {
-      //   log(data.toString(), name: "register data");
-      // });
       SocketApi.getRegister(_authRepository.currentUser.uid).listen((data) {
-        print(data);
+        debugPrint(data);
       });
     } catch (e) {
       log(e.toString(), name: "ObserverSocketInited");

@@ -19,6 +19,7 @@ class SocketApi {
     IO.OptionBuilder()
         .setTransports(['websocket'])
         .disableAutoConnect() // for Flutter or Dart VM
+        // .enableForceNew()
         .build(),
   );
 
@@ -61,6 +62,24 @@ class SocketApi {
       yield* streamSocket.getResponse;
     } catch (e) {
       log(e.toString(), name: "getRegister");
+    }
+  }
+
+  static Stream<String> getDisconnect() async* {
+    final streamSocket = StreamSocketController<String>();
+    try {
+      socket.disconnect();
+      socket.close();
+      // socket.on('server:disconnect', (_) {
+      //   log('disconnect successfull', name: "getDisconnect");
+      //   streamSocket.addResponse('disconnect successfull');
+      // });
+      socket.onDisconnect((_) {
+        streamSocket.addResponse('disconnect successfull');
+      });
+      yield* streamSocket.getResponse;
+    } catch (e) {
+      log(e.toString(), name: "getDisconnect");
     }
   }
 }

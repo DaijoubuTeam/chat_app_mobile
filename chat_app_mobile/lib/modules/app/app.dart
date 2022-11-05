@@ -18,18 +18,15 @@ class MyApp extends StatelessWidget {
     required UserRepository userRepository,
     required FriendRepository friendRepository,
     required ChatRoomRepository chatRoomRepository,
-    required WebSocketChannelRepository webSocketChannelRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
         _friendRepository = friendRepository,
-        _chatRoomRepository = chatRoomRepository,
-        _webSocketChannelRepository = webSocketChannelRepository;
+        _chatRoomRepository = chatRoomRepository;
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
   final FriendRepository _friendRepository;
   final ChatRoomRepository _chatRoomRepository;
-  final WebSocketChannelRepository _webSocketChannelRepository;
 
   // This widget is the root of your application.
   @override
@@ -40,20 +37,19 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _friendRepository),
         RepositoryProvider.value(value: _chatRoomRepository),
-        RepositoryProvider.value(value: _webSocketChannelRepository)
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (_) => AppBloc(authRepository: _authRepository),
           ),
-          BlocProvider(
-            lazy: false,
-            create: (_) => ObserverSocketBloc(
-              _authRepository,
-              _webSocketChannelRepository,
-            ),
-          ),
+          // BlocProvider(
+          //   lazy: false,
+          //   create: (_) => ObserverSocketBloc(
+          //     _authRepository,
+          //     _webSocketChannelRepository,
+          //   ),
+          // ),
         ],
         child: const MyAppView(),
       ),

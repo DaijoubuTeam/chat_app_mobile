@@ -49,43 +49,10 @@ Future<void> main() async {
   final friendRepostitory = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
 
-  //initial web socket:
-  final IO.Socket socket = IO.io(
-    'http://localhost:60',
-    IO.OptionBuilder()
-        .setTransports(['websocket'])
-        .disableAutoConnect() // for Flutter or Dart VM
-        .build(),
-  );
-
   SocketApi.init();
-
-  // check connect socket
-  // need to create class to manage connect socket
-  // socket.connect();
-  // socket.onConnect((_) {
-  //   socket.emit('msg', 'test');
-  //   log("connect socket success", name: "connect socket io");
-  // });
-
-  // socket.onConnectError((data) {
-  //   log(data);
-  //   log("connect socket failure", name: "connect socket io");
-  // });
-
-  // socket.onConnectTimeout((_) {
-  //   log("connect socket timeout", name: "connect socket io");
-  // });
-
-  final webSocketChannelReposity = WebSocketChannelRepository(socket: socket);
 
   await authenticationRepository.user.first;
 
-  bootstrap(
-    authenticationRepository,
-    userRepository,
-    friendRepostitory,
-    chatRoomRepository,
-    webSocketChannelReposity,
-  );
+  bootstrap(authenticationRepository, userRepository, friendRepostitory,
+      chatRoomRepository);
 }
