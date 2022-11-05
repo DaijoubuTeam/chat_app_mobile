@@ -1,16 +1,32 @@
+import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_box.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_app_bar_title.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_contents.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatDetailPage extends StatelessWidget {
-  const ChatDetailPage({super.key});
+  const ChatDetailPage(
+      {super.key,
+      required this.chatRoomId,
+      this.chatRoomName,
+      this.chatRoomAvatar});
 
   static const String namePage = 'chat-details';
+  final String chatRoomId;
+  final String? chatRoomName;
+  final String? chatRoomAvatar;
 
   @override
   Widget build(BuildContext context) {
-    return const ChatDetailView();
+    return BlocProvider(
+      create: (_) => ChatDetailBloc(
+        chatRoomId: chatRoomId,
+        chatRoomName: chatRoomName,
+        chatRoomAvatar: chatRoomAvatar,
+      ),
+      child: const ChatDetailView(),
+    );
   }
 }
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -24,14 +25,15 @@ class FriendsRequestBloc
   Future<void> _friendRequestPageInited(
       FriendRequestPageInited event, Emitter<FriendsRequestState> emit) async {
     emit(FriendsRequestGetListInProgress());
-    final bearerToken = await _authRepository.bearToken;
-    if (bearerToken != null) {
-      final res = await _friendRepository.getListRequestFriend(bearerToken);
-      if (res.isNotEmpty) {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+      if (bearerToken != null) {
+        final res = await _friendRepository.getListRequestFriend(bearerToken);
         emit(FriendsRequestGetListSuccess(listFriendRequest: res));
-      } else {
-        emit(FriendsRequestGetListFailure());
       }
+    } catch (e) {
+      log(e.toString(), name: "friend request");
+      emit(FriendsRequestGetListFailure());
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:chat_app_api/src/api/chat_room_api.dart';
 import 'package:chat_app_api/src/api/friend_api.dart';
 import 'package:chat_app_api/src/api/user_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
@@ -10,16 +11,20 @@ class ChatAppApi {
       {AuthApi? authApi,
       UserApi? userApi,
       FriendApi? friendApi,
+      ChatRoomApi? chatRoomApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _userApi = userApi ?? UserApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _friendApi =
-            friendApi ?? FriendApi(serverUrl: serverUrl, dio: dio ?? Dio());
+            friendApi ?? FriendApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _chatRoomApi =
+            chatRoomApi ?? ChatRoomApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
   FriendApi _friendApi;
+  ChatRoomApi _chatRoomApi;
 
   //auth api
 
@@ -95,5 +100,47 @@ class ChatAppApi {
 
   Future<bool> deleteFriend(String bearerToken, String id) async {
     return await _friendApi.deleteFriend(bearerToken, id);
+  }
+
+  //chat room api
+  Future<List<ChatRoom>> getChatRoom(String bearerToken) async {
+    return await _chatRoomApi.getChatRoom(bearerToken);
+  }
+
+  Future<bool> createNewChatRoom(
+      String bearerToken, String chatRoomName) async {
+    return await _chatRoomApi.createNewChatRoom(bearerToken, chatRoomName);
+  }
+
+  Future<bool> updateChatRoom(
+    String bearerToken,
+    String chatRoomId,
+    String chatRoomName,
+    String chatRoomAvatar,
+  ) async {
+    return await _chatRoomApi.updateChatRoom(
+        bearerToken, chatRoomId, chatRoomName, chatRoomAvatar);
+  }
+
+  Future<bool> deleteGroupChatRoom(
+      String bearerToken, String chatRoomId) async {
+    return await _chatRoomApi.deleteGroupChatRoom(bearerToken, chatRoomId);
+  }
+
+  Future<bool> addMemberChatRoom(
+    String bearerToken,
+    String chatRoomId,
+    String memberId,
+  ) async {
+    return _chatRoomApi.addMemberChatRoom(bearerToken, chatRoomId, memberId);
+  }
+
+  Future<bool> deleteMemberChatRoom(
+    String bearerToken,
+    String chatRoomId,
+    String memberId,
+  ) async {
+    return await _chatRoomApi.deleteMemberChatRoom(
+        bearerToken, chatRoomId, memberId);
   }
 }

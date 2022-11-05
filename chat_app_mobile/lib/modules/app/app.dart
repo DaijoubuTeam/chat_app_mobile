@@ -1,12 +1,15 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/config/router/app_router.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
+import 'package:chat_app_mobile/modules/socket/bloc/observer_socket_bloc.dart';
+import 'package:chat_room_repository/chat_room_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:web_socket_repository/web_socket_repository.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({
@@ -14,13 +17,19 @@ class MyApp extends StatelessWidget {
     required AuthRepository authRepository,
     required UserRepository userRepository,
     required FriendRepository friendRepository,
+    required ChatRoomRepository chatRoomRepository,
+    required WebSocketChannelRepository webSocketChannelRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
-        _friendRepository = friendRepository;
+        _friendRepository = friendRepository,
+        _chatRoomRepository = chatRoomRepository,
+        _webSocketChannelRepository = webSocketChannelRepository;
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
   final FriendRepository _friendRepository;
+  final ChatRoomRepository _chatRoomRepository;
+  final WebSocketChannelRepository _webSocketChannelRepository;
 
   // This widget is the root of your application.
   @override
@@ -30,9 +39,22 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(value: _authRepository),
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _friendRepository),
+        RepositoryProvider.value(value: _chatRoomRepository),
+        RepositoryProvider.value(value: _webSocketChannelRepository)
       ],
-      child: BlocProvider(
-        create: (_) => AppBloc(authRepository: _authRepository),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AppBloc(authRepository: _authRepository),
+          ),
+          BlocProvider(
+            lazy: false,
+            create: (_) => ObserverSocketBloc(
+              _authRepository,
+              _webSocketChannelRepository,
+            ),
+          ),
+        ],
         child: const MyAppView(),
       ),
     );
