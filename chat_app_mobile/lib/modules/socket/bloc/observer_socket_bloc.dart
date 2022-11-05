@@ -14,6 +14,7 @@ class ObserverSocketBloc
   ObserverSocketBloc(this._authRepository, this._socketRepository)
       : super(ObserverSocketInitial()) {
     on<ObserverSocketInited>(_onObserverSocketInited);
+    on<ObserverSocketMessageSent>(_onObserverSocketMessageSent);
 
     add(ObserverSocketInited());
   }
@@ -21,7 +22,7 @@ class ObserverSocketBloc
   final WebSocketChannelRepository _socketRepository;
   final AuthRepository _authRepository;
 
-  Future<void> _onObserverSocketInited(
+  void _onObserverSocketInited(
       ObserverSocketInited event, Emitter<ObserverSocketState> emit) async {
     try {
       _socketRepository.socket
@@ -30,8 +31,23 @@ class ObserverSocketBloc
         log(data.toString(), name: "register data");
       });
     } catch (e) {
-      log(e.toString(), name: "inited socket");
+      log(e.toString(), name: "ObserverSocketInited");
     }
-    return;
+  }
+
+  void _onObserverSocketMessageSent(
+      ObserverSocketMessageSent event, Emitter<ObserverSocketState> emit) {
+    try {
+      _socketRepository.socket.emit('new-message', {
+        'chatRoomId': event.chatRoomId,
+        'from': event.from,
+        'content': event.content
+      });
+      _socketRepository.socket.on('new-message', (data) {
+        log(data.toString(), name: "new message data");
+      });
+    } catch (e) {
+      log(e.toString(), name: "ObserverSocketMessageSent");
+    }
   }
 }

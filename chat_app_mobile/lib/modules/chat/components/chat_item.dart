@@ -14,12 +14,18 @@ class ChatItem extends StatelessWidget {
   final String? chatRoomName;
   final String? chatRoomAvatar;
 
+  void _handleTabChatRoomItem(BuildContext ctx) {
+    ctx.pushNamed(
+      ChatDetailPage.namePage,
+      params: {'chatRoomId': chatRoomId},
+      extra: {'chatRoomName': chatRoomName, 'chatRoomAvatar': chatRoomAvatar},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        context.pushNamed(ChatDetailPage.namePage);
-      },
+      onTap: () => _handleTabChatRoomItem(context),
       minVerticalPadding: 20,
       leading: Stack(
         children: [
