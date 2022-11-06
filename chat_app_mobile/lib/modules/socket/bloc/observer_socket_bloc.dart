@@ -26,9 +26,9 @@ class ObserverSocketBloc
   void _onObserverSocketInited(
       ObserverSocketInited event, Emitter<ObserverSocketState> emit) async {
     try {
-      SocketApi.getRegister(_authRepository.currentUser.uid).listen((data) {
-        debugPrint(data);
-      });
+      // SocketApi.getRegister(_authRepository.currentUser.uid).listen((data) {
+      //   debugPrint(data);
+      // });
     } catch (e) {
       log(e.toString(), name: "ObserverSocketInited");
     }

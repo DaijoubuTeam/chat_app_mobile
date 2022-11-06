@@ -46,7 +46,7 @@ Future<void> main() async {
   final friendRepostitory = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
 
-  SocketApi.init();
+  SocketAPI.SocketApi.socketConnect();
 
   await authenticationRepository.user.first;
 
