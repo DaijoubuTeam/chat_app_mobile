@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
+
 import './models/models.dart';
 
 class AuthRepository {
@@ -35,6 +36,7 @@ class AuthRepository {
 
   Future<User> _updateCurrentUser(firebase_auth.User? user) async {
     if (user == null || user.isAnonymous) {
+      _currentUser = User.empty;
       return User.empty;
     }
     final bearerToken = await user.getIdToken();

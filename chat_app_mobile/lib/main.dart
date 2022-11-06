@@ -43,13 +43,13 @@ Future<void> main() async {
     chatAppApi,
   );
   final userRepository = UserRepository(chatAppApi);
-  final friendRepostitory = FriendRepository(chatAppApi);
+  final friendRepository = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
 
   SocketAPI.SocketApi.socketConnect();
 
   await authenticationRepository.user.first;
 
-  bootstrap(authenticationRepository, userRepository, friendRepostitory,
+  bootstrap(authenticationRepository, userRepository, friendRepository,
       chatRoomRepository);
 }

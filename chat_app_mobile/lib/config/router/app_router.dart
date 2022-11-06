@@ -1,3 +1,4 @@
+import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:chat_app_mobile/config/router/go_router_refesh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
@@ -101,7 +102,8 @@ class AppRouter {
         final bool logginIn = state.subloc == '/';
         final bool signUpIn =
             state.subloc == '/sign-up' || state.subloc == '/verify-email';
-        final bool isAuthorized = appBloc.state.status == AppStatus.authorized;
+        final bool isAuthorized =
+            appBloc.authCurrentUser != auth_repository.User.empty;
         if (!isAuthorized) {
           if (signUpIn) return null;
           return logginIn ? null : '/';
