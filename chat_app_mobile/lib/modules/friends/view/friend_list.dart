@@ -1,5 +1,9 @@
+import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
 import 'package:chat_app_mobile/modules/friends/widgets/list_friend.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:friend_repository/friend_repository.dart';
 
 import '../widgets/button_request_friend.dart';
 
@@ -8,7 +12,13 @@ class FriendsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  FriendsView();
+    final authRepository = context.read<AuthRepository>();
+    final friendRepository = context.read<FriendRepository>();
+
+    return BlocProvider(
+      create: (_) => FriendsBloc(authRepository, friendRepository),
+      child: const FriendsView(),
+    );
   }
 }
 

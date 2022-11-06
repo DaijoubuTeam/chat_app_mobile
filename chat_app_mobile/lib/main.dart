@@ -22,7 +22,7 @@ Future<void> main() async {
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {
     // serverUrl = "https://10.0.2.2/api/v1";
-    serverUrl = "https://10.0.21.242/api/v1";
+    serverUrl = "https://192.168.1.4/api/v1";
   }
 
   // Create dio

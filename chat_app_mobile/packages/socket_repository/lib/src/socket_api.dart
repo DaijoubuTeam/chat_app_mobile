@@ -7,7 +7,7 @@ class SocketAPI {
   final IO.Socket _socket;
   SocketAPI._()
       : _socket = IO.io(
-          'http://localhost:80',
+          'http://192.168.1.4:80',
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .disableAutoConnect() // for Flutter or Dart VM

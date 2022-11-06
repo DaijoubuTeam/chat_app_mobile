@@ -36,6 +36,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   Future<void> _onSignUpSubmitted(
       SignUpSubmitted event, Emitter<SignUpState> emit) async {
-    sleep(Duration(seconds: 1000));
+    if (state.email.isEmpty ||
+        state.password.isEmpty ||
+        state.confirmPassword.isEmpty) {
+      sleep(Duration(milliseconds: 100));
+      print("rong");
+    } else {
+      sleep(Duration(milliseconds: 100));
+      print("khong rong");
+    }
   }
 }
