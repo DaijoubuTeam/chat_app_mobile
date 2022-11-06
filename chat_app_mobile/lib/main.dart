@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io' show HttpClient, Platform, X509Certificate;
 import 'package:chat_app_api/chat_app_api.dart';
 import 'package:chat_app_mobile/bootstrap.dart';
@@ -13,8 +12,6 @@ import 'package:dio/adapter.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:socket_repository/socket_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:web_socket_repository/web_socket_repository.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

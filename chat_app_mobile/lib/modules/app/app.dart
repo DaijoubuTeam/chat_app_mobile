@@ -43,13 +43,6 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (_) => AppBloc(authRepository: _authRepository),
           ),
-          // BlocProvider(
-          //   lazy: false,
-          //   create: (_) => ObserverSocketBloc(
-          //     _authRepository,
-          //     _webSocketChannelRepository,
-          //   ),
-          // ),
         ],
         child: const MyAppView(),
       ),

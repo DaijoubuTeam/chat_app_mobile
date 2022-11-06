@@ -23,19 +23,14 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   Future<void> _onAppLogOutRequested(
       AppLogOutRequested event, Emitter<AppState> emit) async {
-    // SocketApi.getDisconnect().listen((data) {
-    //   print(data);
-    // });
     await (_authRepository.logOut());
+    SocketApi.init();
   }
 
   void _onAppUserChanged(AppUserChanged event, Emitter<AppState> emit) {
-    // SocketApi.getDisconnect().listen((data) {
-    //   print(data);
-    // });
+    // SocketApi.init();
+    SocketApi.getRegister(event.user.uid);
     if (event.user != User.empty) {
-      SocketApi.init();
-      SocketApi.getRegister(event.user.uid);
       emit(const AppState.authorized());
     } else {
       emit(const AppState.unAuthorized());
