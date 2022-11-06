@@ -1,9 +1,9 @@
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:chat_app_mobile/modules/chat_detail/components/chat_app_bar_title.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_box.dart';
+import 'package:chat_app_mobile/modules/chat_detail/components/chat_contents.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app_mobile/modules/chat_detail/components/chat_app_bar_title.dart';
-import 'package:chat_app_mobile/modules/chat_detail/components/chat_contents.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,6 +15,7 @@ class ChatDetailPage extends StatelessWidget {
       this.chatRoomAvatar});
 
   static const String namePage = 'chat-details';
+
   final String chatRoomId;
   final String? chatRoomName;
   final String? chatRoomAvatar;

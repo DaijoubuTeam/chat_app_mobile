@@ -1,4 +1,6 @@
 // import 'socket_stream_controller.dart';
+import 'dart:developer';
+
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketAPI {
@@ -40,7 +42,7 @@ class SocketAPI {
 
   void socketRegister(String uid) {
     if (_socket.connected && uid.isNotEmpty) {
-      print("registering");
+      log("registering", name: "socketRegister");
       _socket.emit('register', {'uid': uid});
     }
   }

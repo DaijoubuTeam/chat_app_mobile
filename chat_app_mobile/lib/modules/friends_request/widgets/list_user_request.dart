@@ -21,6 +21,7 @@ class ListUserRequest extends StatelessWidget {
               itemBuilder: ((context, index) {
                 final itemUser = listFriendRequest[index];
                 return ItemUserRequest(
+                  key: UniqueKey(),
                   uid: itemUser.uid,
                   gender: itemUser.gender,
                   fullname: itemUser.fullname,

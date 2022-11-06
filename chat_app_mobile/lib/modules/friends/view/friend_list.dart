@@ -8,7 +8,7 @@ class FriendsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FriendsView();
+    return  FriendsView();
   }
 }
 
@@ -22,19 +22,13 @@ class FriendsView extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Expanded(
-            child: ListView(
-              children: [
-                const ButtonRequestFriend(),
-                Divider(
-                  height: 25,
-                  color: Colors.grey[100],
-                  thickness: 16,
-                ),
-                const ListFriend(),
-              ],
-            ),
+          const ButtonRequestFriend(),
+          Divider(
+            height: 25,
+            color: Colors.grey[100],
+            thickness: 16,
           ),
+          const Expanded(child: ListFriend()),
         ],
       ),
     );

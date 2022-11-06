@@ -1,14 +1,15 @@
 import 'dart:io' show HttpClient, Platform, X509Certificate;
+
+import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_api/chat_app_api.dart';
 import 'package:chat_app_mobile/bootstrap.dart';
 import 'package:chat_app_mobile/firebase_options.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:auth_repository/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:dio/adapter.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:socket_repository/socket_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -16,7 +17,7 @@ import 'package:user_repository/user_repository.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  //firebase_auth.FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
   //set up url
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {
