@@ -38,7 +38,14 @@ class FriendsView extends StatelessWidget {
             color: Colors.grey[100],
             thickness: 16,
           ),
-          const Expanded(child: ListFriend()),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {},
+              child: const Scrollbar(
+                child: ListFriend(),
+              ),
+            ),
+          ),
         ],
       ),
     );

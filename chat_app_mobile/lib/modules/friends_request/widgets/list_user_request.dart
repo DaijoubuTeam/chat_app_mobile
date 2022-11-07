@@ -14,7 +14,11 @@ class ListUserRequest extends StatelessWidget {
         if (state.runtimeType == FriendsRequestGetListSuccess) {
           final listFriendRequest =
               (state as FriendsRequestGetListSuccess).listFriendRequest;
-
+          if (listFriendRequest.isEmpty) {
+            return const Center(
+              child: Text('No friends request now'),
+            );
+          }
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
@@ -37,7 +41,7 @@ class ListUserRequest extends StatelessWidget {
         } else if (state.runtimeType == FriendsRequestGetListInProgress) {
           return const Center(child: CircularProgressIndicator());
         }
-        return const Center(child: Text('No request friends now!'));
+        return const Center(child: Text('Something wrongs!'));
       }),
     );
   }

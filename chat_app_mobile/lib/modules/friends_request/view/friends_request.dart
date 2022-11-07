@@ -56,6 +56,7 @@ class FriendsRequestView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Friends Request Page'),
         ),
+        backgroundColor: Colors.grey[100],
         body: const ListUserRequest(),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _buildModalBottomSheet(context),
