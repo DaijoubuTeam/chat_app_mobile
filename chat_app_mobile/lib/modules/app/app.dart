@@ -63,6 +63,7 @@ class MyAppView extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
+        backgroundColor: Colors.grey[100],
       ),
       debugShowCheckedModeBanner: false,
       routerConfig: AppRouter(appBloc: context.read<AppBloc>()).router,

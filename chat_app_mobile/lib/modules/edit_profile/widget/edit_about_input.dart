@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/common/widgets/staless/text_fields/multiline_input_border.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/text_fields/multiline_input_border.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

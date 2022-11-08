@@ -62,8 +62,10 @@ class AuthRepository {
         idToken: googleAuth.idToken,
       );
       await _auth.signInWithCredential(credential);
-    } catch (error) {
-      log(error.toString());
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw Exception(e);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -76,9 +78,10 @@ class AuthRepository {
         email: email,
         password: password,
       );
-      log(_auth.currentUser.toString(), name: 'login with email and password');
-    } catch (error) {
-      log(error.toString());
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw Exception(e);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

@@ -35,7 +35,7 @@ class FriendsView extends StatelessWidget {
           const ButtonRequestFriend(),
           Divider(
             height: 25,
-            color: Colors.grey[100],
+            color: Theme.of(context).backgroundColor,
             thickness: 16,
           ),
           Expanded(

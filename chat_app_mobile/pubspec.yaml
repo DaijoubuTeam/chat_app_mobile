@@ -45,6 +45,7 @@ dependencies:
   go_router: ^5.0.5
   cached_network_image: ^3.2.2
   socket_io_client: ^2.0.0
+  formz: ^0.4.1
   auth_repository: 
     path: packages/auth_repository
   user_repository:
@@ -57,6 +58,8 @@ dependencies:
     path: packages/chat_app_api
   socket_repository:
     path: packages/socket_repository
+  form_inputs:
+    path: packages/form_inputs
 
 dev_dependencies:
   flutter_test:

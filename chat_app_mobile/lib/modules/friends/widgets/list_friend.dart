@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/common/widgets/staless/list_title/person_list_item.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/list_title/person_list_item.dart';
 import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

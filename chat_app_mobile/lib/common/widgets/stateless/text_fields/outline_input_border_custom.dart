@@ -6,11 +6,13 @@ class OutlineInputBorderCustom extends StatelessWidget {
     required this.inputController,
     this.inputType,
     this.labelText,
+    this.hintText,
     this.icon,
   });
   final TextEditingController inputController;
   final TextInputType? inputType;
   final String? labelText;
+  final String? hintText;
   final Widget? icon;
 
   @override
@@ -19,6 +21,7 @@ class OutlineInputBorderCustom extends StatelessWidget {
       controller: inputController,
       keyboardType: inputType,
       decoration: InputDecoration(
+        hintText: hintText ?? '',
         labelText: labelText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

@@ -65,6 +65,5 @@ class PersonListItem extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

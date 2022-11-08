@@ -72,6 +72,9 @@
       <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/build" />
       <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/form_inputs/build" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/form_inputs/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/form_inputs/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

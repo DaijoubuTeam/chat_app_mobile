@@ -1,12 +1,12 @@
-import 'package:chat_app_mobile/common/widgets/staless/buttons/elevated_button.dart';
+import 'package:auth_repository/auth_repository.dart' as auth_repository;
+import 'package:chat_app_mobile/common/widgets/stateless/buttons/elevated_button.dart';
 import 'package:chat_app_mobile/modules/friend_profile/bloc/friend_profile_bloc.dart';
 import 'package:chat_app_mobile/modules/friend_profile/widget/friend_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:friend_repository/friend_repository.dart' as friend_repository;
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
-import 'package:auth_repository/auth_repository.dart' as auth_repository;
-import 'package:friend_repository/friend_repository.dart' as friend_repository;
 
 class FriendProfilePage extends StatelessWidget {
   const FriendProfilePage({super.key, required this.friendInfor});
