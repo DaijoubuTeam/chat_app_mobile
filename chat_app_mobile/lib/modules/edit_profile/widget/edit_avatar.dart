@@ -1,7 +1,4 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app_mobile/common/widgets/staless/avatars/circle_avatar_network.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

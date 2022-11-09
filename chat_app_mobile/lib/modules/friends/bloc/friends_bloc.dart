@@ -23,15 +23,15 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
   Future<void> _friendsInited(
       FriendsInited event, Emitter<FriendsState> emit) async {
     emit(FriendsGetListInProgress());
-    final bearerToken = await _authRepository.bearToken;
-    if (bearerToken != null) {
-      final listFriend =
-          await _friendRepository.getListUserFriends(bearerToken);
-      if (listFriend.isNotEmpty) {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+      if (bearerToken != null) {
+        final listFriend =
+            await _friendRepository.getListUserFriends(bearerToken);
         emit(FriendsGetListSuccess(listFriend: listFriend));
-      } else {
-        emit(FriendsGetListFailure());
       }
+    } catch (_) {
+      emit(FriendsGetListFailure());
     }
   }
 }

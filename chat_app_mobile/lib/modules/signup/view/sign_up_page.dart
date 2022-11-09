@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/common/widgets/staless/divider_with_text_center.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/divider_with_text_center.dart';
 import 'package:chat_app_mobile/modules/signup/bloc/sign_up_bloc.dart';
 import 'package:chat_app_mobile/modules/signup/widget/sign_up_button.dart';
 import 'package:chat_app_mobile/modules/signup/widget/sign_up_confirm_password_input.dart';

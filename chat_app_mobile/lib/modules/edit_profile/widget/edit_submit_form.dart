@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/common/widgets/staless/buttons/elevated_button.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/buttons/elevated_button.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

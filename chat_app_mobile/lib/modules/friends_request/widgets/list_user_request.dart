@@ -14,29 +14,36 @@ class ListUserRequest extends StatelessWidget {
         if (state.runtimeType == FriendsRequestGetListSuccess) {
           final listFriendRequest =
               (state as FriendsRequestGetListSuccess).listFriendRequest;
-
+          if (listFriendRequest.isEmpty) {
+            return const Center(
+              child: Text('No friends request now'),
+            );
+          }
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              itemBuilder: ((context, index) {
-                final itemUser = listFriendRequest[index];
-                return ItemUserRequest(
-                  uid: itemUser.uid,
-                  gender: itemUser.gender,
-                  fullname: itemUser.fullname,
-                  avatar: itemUser.avatar,
-                  phone: itemUser.phone,
-                  about: itemUser.about,
-                  email: itemUser.email,
-                );
-              }),
-              itemCount: listFriendRequest.length,
+            child: Scrollbar(
+              child: ListView.builder(
+                itemBuilder: ((context, index) {
+                  final itemUser = listFriendRequest[index];
+                  return ItemUserRequest(
+                    key: UniqueKey(),
+                    uid: itemUser.uid,
+                    gender: itemUser.gender,
+                    fullname: itemUser.fullname,
+                    avatar: itemUser.avatar,
+                    phone: itemUser.phone,
+                    about: itemUser.about,
+                    email: itemUser.email,
+                  );
+                }),
+                itemCount: listFriendRequest.length,
+              ),
             ),
           );
         } else if (state.runtimeType == FriendsRequestGetListInProgress) {
           return const Center(child: CircularProgressIndicator());
         }
-        return const Center(child: Text('No request friends now!'));
+        return const Center(child: Text('Something wrongs!'));
       }),
     );
   }

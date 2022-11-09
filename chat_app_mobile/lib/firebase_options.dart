@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,16 +49,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBYpLEb1J_ds5SiO4YVH2j9qrsOXXHggqs',
-    appId: '1:183995815463:web:d1841f9dd0a10578fee002',
-    messagingSenderId: '183995815463',
-    projectId: 'coffee-chat-84cd5',
-    authDomain: 'coffee-chat-84cd5.firebaseapp.com',
-    storageBucket: 'coffee-chat-84cd5.appspot.com',
-    measurementId: 'G-EGN3X42ZDP',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDxsAfLIaFBq-YQcgk_uMo2FIzXmhtMblg',
     appId: '1:183995815463:android:cf1cd6be94b88edefee002',
@@ -67,18 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '183995815463',
     projectId: 'coffee-chat-84cd5',
     storageBucket: 'coffee-chat-84cd5.appspot.com',
-    androidClientId: '183995815463-il62mf2j1cle6j0b53s9sjjsgjj6nsrt.apps.googleusercontent.com',
-    iosClientId: '183995815463-pq1068gcdcce7pbf50foo97bkep6f83e.apps.googleusercontent.com',
-    iosBundleId: 'com.example.chatAppMobile',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBolAWnGhoNOX-w8EBWIZvW_BQJc4zJuVc',
-    appId: '1:183995815463:ios:ff210bb07b268588fee002',
-    messagingSenderId: '183995815463',
-    projectId: 'coffee-chat-84cd5',
-    storageBucket: 'coffee-chat-84cd5.appspot.com',
-    androidClientId: '183995815463-il62mf2j1cle6j0b53s9sjjsgjj6nsrt.apps.googleusercontent.com',
+    androidClientId: '183995815463-asgpbbbang5q9huqlfdv9t6209ht02p9.apps.googleusercontent.com',
     iosClientId: '183995815463-pq1068gcdcce7pbf50foo97bkep6f83e.apps.googleusercontent.com',
     iosBundleId: 'com.example.chatAppMobile',
   );

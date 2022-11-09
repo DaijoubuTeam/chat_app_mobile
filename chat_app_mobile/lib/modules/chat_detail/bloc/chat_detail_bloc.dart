@@ -9,12 +9,9 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     required String chatRoomId,
     String? chatRoomName,
     String? chatRoomAvatar,
-  }) : super(ChatDetailInitial(
+  }) : super(ChatDetailState(
           chatRoomId: chatRoomId,
           chatRoomName: chatRoomName,
           chatRoomAvatar: chatRoomAvatar,
-        )) {
-    // on<ChatDetailPageInited>(_onChatDetailPageInited);
-    // add(ChatDetailInitial(chatRoomId))
-  }
+        )) {}
 }

@@ -296,6 +296,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  form_inputs:
+    dependency: "direct main"
+    description:
+      path: "packages/form_inputs"
+      relative: true
+    source: path
+    version: "0.0.1"
+  formz:
+    dependency: "direct main"
+    description:
+      name: formz
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1"
   friend_repository:
     dependency: "direct main"
     description:
@@ -588,6 +602,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  socket_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/socket_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   source_gen:
     dependency: transitive
     description:
@@ -700,13 +721,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  web_socket_repository:
-    dependency: "direct main"
-    description:
-      path: "packages/web_socket_repository"
-      relative: true
-    source: path
-    version: "0.0.1"
   win32:
     dependency: transitive
     description:
@@ -729,5 +743,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.2 <3.0.0"
+  dart: ">=2.18.4 <3.0.0"
   flutter: ">=3.3.0"

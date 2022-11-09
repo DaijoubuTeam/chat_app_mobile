@@ -9,14 +9,9 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:web_socket_repository/web_socket_repository.dart';
 
-void bootstrap(
-    AuthRepository authRepository,
-    UserRepository userRepository,
-    FriendRepository friendRepository,
-    ChatRoomRepository chatRoomRepository,
-    WebSocketChannelRepository webSocketChannelRepository) {
+void bootstrap(AuthRepository authRepository, UserRepository userRepository,
+    FriendRepository friendRepository, ChatRoomRepository chatRoomRepository) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -25,12 +20,10 @@ void bootstrap(
 
   runZonedGuarded(
     () => runApp(MyApp(
-      authRepository: authRepository,
-      userRepository: userRepository,
-      friendRepository: friendRepository,
-      chatRoomRepository: chatRoomRepository,
-      webSocketChannelRepository: webSocketChannelRepository,
-    )),
+        authRepository: authRepository,
+        userRepository: userRepository,
+        friendRepository: friendRepository,
+        chatRoomRepository: chatRoomRepository)),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }

@@ -1,4 +1,5 @@
 import 'package:chat_app_mobile/modules/friends/view/friend_list.dart';
+import 'package:chat_app_mobile/modules/group_list/view/view.dart';
 import 'package:flutter/material.dart';
 
 class CallPage extends StatelessWidget {
@@ -6,21 +7,19 @@ class CallPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> categories = ['Friends', 'Groups', 'Call'];
+    List<String> categories = ['Friends', 'Groups'];
     final List<Tab> tabs = <Tab>[
       const Tab(
         child: FriendsListPage(),
       ),
-      Tab(
-        child: Container(
-          child: Center(),
-        ),
+      const Tab(
+        child: GroupListPage(),
       ),
-      Tab(
-        child: Container(
-          child: Center(),
-        ),
-      ),
+      // Tab(
+      //   child: Container(
+      //     child: Center(),
+      //   ),
+      // ),
     ];
     return Scaffold(
       body: Center(

@@ -21,6 +21,7 @@ class FriendsRequestGetListSuccess extends FriendsRequestState {
 
 class FriendsRequestGetListFailure extends FriendsRequestState {}
 
+// action state with request friend card
 class FriendsRequestCardActionSuccess extends FriendsRequestState {}
 
 class FriendsRequestCardActionFailure extends FriendsRequestState {}

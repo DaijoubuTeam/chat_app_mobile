@@ -8,7 +8,7 @@ class LoginWithGoogleButton extends StatelessWidget {
   }) : super(key: key);
 
   void handleLoginWithGoogleButton(BuildContext ctx) {
-    ctx.read<LoginBloc>().add(const LoginWithGoogleSubmitted());
+    ctx.read<LoginBloc>().add(LoginWithGoogleSubmitted());
   }
 
   @override

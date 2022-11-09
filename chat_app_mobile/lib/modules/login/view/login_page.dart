@@ -1,10 +1,9 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/common/widgets/staless/divider_with_text_center.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/divider_with_text_center.dart';
 import 'package:chat_app_mobile/modules/login/bloc/login_bloc.dart';
-import 'package:chat_app_mobile/modules/login/widget/login_button.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_email_input.dart';
+import 'package:chat_app_mobile/modules/login/widget/login_list_button.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_password_input.dart';
-import 'package:chat_app_mobile/modules/login/widget/login_signup_button.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_with_google_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,64 +31,76 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              radius: 60,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(60),
-                child: Image.asset(
-                  'assets/images/Logo.png',
-                  fit: BoxFit.cover,
+    return BlocListener<LoginBloc, LoginState>(
+      listenWhen: (prev, current) =>
+          prev != current && current.runtimeType == LoginStateSubmitFailure,
+      listener: (context, state) => {
+        if (state.runtimeType == LoginStateSubmitFailure)
+          {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(const SnackBar(content: Text("Login fail"))),
+            context.read<LoginBloc>().add(LoginSubmitFailure())
+          }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: SingleChildScrollView(
+          child: FormField(
+            autovalidateMode: AutovalidateMode.disabled,
+            builder: (_) => Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 60,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: Image.asset(
+                      'assets/images/Logo.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            const Text(
-              'Sign-in to your account',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            const LoginEmailInput(),
-            const SizedBox(
-              height: 8,
-            ),
-            const LoginPasswordInput(),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const <Widget>[
-                TextButton(onPressed: null, child: Text('Forgot Password'))
+                const SizedBox(
+                  height: 32,
+                ),
+                const Text(
+                  'Sign-in to your account',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+                const LoginEmailInput(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const LoginPasswordInput(),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const <Widget>[
+                    TextButton(onPressed: null, child: Text('Forgot Password'))
+                  ],
+                ),
+                const LoginListButton(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const DividerWithTextCenter(title: 'Or'),
+                const SizedBox(
+                  height: 8,
+                ),
+                const LoginWithGoogleButton(),
               ],
             ),
-            const LoginButton(),
-            const SizedBox(
-              height: 16,
-            ),
-            const LoginSignUpButton(),
-            const SizedBox(
-              height: 8,
-            ),
-            const DividerWithTextCenter(title: 'Or'),
-            const SizedBox(
-              height: 8,
-            ),
-            const LoginWithGoogleButton(),
-          ],
+          ),
         ),
       ),
     );
