@@ -4,6 +4,7 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_api/chat_app_api.dart';
 import 'package:chat_app_mobile/bootstrap.dart';
 import 'package:chat_app_mobile/firebase_options.dart';
+import 'package:chat_message_repository/chat_message_repository.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
@@ -46,11 +47,17 @@ Future<void> main() async {
   final userRepository = UserRepository(chatAppApi);
   final friendRepository = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
+  final chatMessageRepository = ChatMessageRepository(chatAppApi);
 
   SocketAPI.SocketApi.socketConnect();
 
   await authenticationRepository.user.first;
 
-  bootstrap(authenticationRepository, userRepository, friendRepository,
-      chatRoomRepository);
+  bootstrap(
+    authenticationRepository,
+    userRepository,
+    friendRepository,
+    chatRoomRepository,
+    chatMessageRepository,
+  );
 }

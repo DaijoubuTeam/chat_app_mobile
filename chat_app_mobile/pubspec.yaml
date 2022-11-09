@@ -54,6 +54,8 @@ dependencies:
     path: packages/friend_repository
   chat_room_repository:
     path: packages/chat_room_repository
+  chat_message_repository:
+    path: packages/chat_message_repository
   chat_app_api:
     path: packages/chat_app_api
   socket_repository:

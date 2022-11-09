@@ -1,8 +1,10 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_app_bar_title.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_box.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_contents.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
+import 'package:chat_message_repository/chat_message_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -27,6 +29,8 @@ class ChatDetailPage extends StatelessWidget {
         chatRoomId: chatRoomId,
         chatRoomName: chatRoomName,
         chatRoomAvatar: chatRoomAvatar,
+        authRepository: context.read<AuthRepository>(),
+        chatMessageRepository: context.read<ChatMessageRepository>(),
       ),
       child: ChatDetailView(
         chatRoomId: chatRoomId,
@@ -61,8 +65,8 @@ class ChatDetailView extends StatelessWidget {
         ],
       ),
       body: Column(
-        children: <Widget>[
-          const Expanded(
+        children: const <Widget>[
+          Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: ChatContents(),

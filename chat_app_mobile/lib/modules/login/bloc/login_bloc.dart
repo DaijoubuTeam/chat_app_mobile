@@ -29,10 +29,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
     emit(
       LoginStateInitial(
-        email: Email.dirty(email!),
+        email: Email.dirty(email),
         password: (state as LoginStateInitial).password,
         formzStatus: Formz.validate(
-          [Email.dirty(email!), (state as LoginStateInitial).password],
+          [Email.dirty(email), (state as LoginStateInitial).password],
         ),
       ),
     );
@@ -46,9 +46,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(
       LoginStateInitial(
         email: (state as LoginStateInitial).email,
-        password: Password.dirty(password!),
+        password: Password.dirty(password),
         formzStatus: Formz.validate(
-          [(state as LoginStateInitial).email, Password.dirty(password!)],
+          [(state as LoginStateInitial).email, Password.dirty(password)],
         ),
       ),
     );
@@ -63,7 +63,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         return;
       }
       await _authRepository.logInWithEmailAndPassword(
-          email: event.email.value!, password: event.password.value!);
+          email: event.email.value, password: event.password.value);
       emit(LoginStateSubmitSuccess());
     } catch (err) {
       log(err.toString(), name: 'on login submitted error');

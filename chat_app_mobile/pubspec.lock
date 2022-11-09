@@ -106,6 +106,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  chat_message_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/chat_message_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   chat_room_repository:
     dependency: "direct main"
     description:

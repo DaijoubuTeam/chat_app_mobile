@@ -5,19 +5,23 @@ import 'package:chat_message_repository/src/models/models.dart'
 class ChatMessageRepository {
   ChatMessageRepository(chat_app_api.ChatAppApi chatAppApi)
       : _chatAppApi = chatAppApi;
+
   final chat_app_api.ChatAppApi _chatAppApi;
 
   Future<List<chat_message_repo.ChatMessage>> getMessages(
     String bearerToken,
+    String uid,
     String chatRoomId,
     int from,
     int to,
   ) async {
     final List<chat_app_api.ChatApp> chatMessagesApi =
         await _chatAppApi.getMessages(bearerToken, chatRoomId, from, to);
+
     final List<chat_message_repo.ChatMessage> chatMessagesRepo = chatMessagesApi
-        .map((chatMessageApi) => chatMessageApi.toRepositoryChatMessage())
+        .map((chatMessageApi) => chatMessageApi.toRepositoryChatMessage(uid))
         .toList();
+
     return chatMessagesRepo;
   }
 
@@ -28,7 +32,7 @@ class ChatMessageRepository {
 }
 
 extension on chat_app_api.ChatApp {
-  chat_message_repo.ChatMessage toRepositoryChatMessage() {
+  chat_message_repo.ChatMessage toRepositoryChatMessage(String uid) {
     final friend = chat_message_repo.ChatMessage(
       id: id,
       chatRoomId: chatRoomId,
@@ -36,6 +40,7 @@ extension on chat_app_api.ChatApp {
       content: content,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      isMe: from == uid,
     );
     return friend;
   }

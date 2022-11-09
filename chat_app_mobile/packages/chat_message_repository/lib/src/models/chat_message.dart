@@ -5,6 +5,7 @@ class ChatMessage {
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final bool isMe;
 
   ChatMessage({
     required this.id,
@@ -13,6 +14,7 @@ class ChatMessage {
     required this.content,
     required this.createdAt,
     required this.updatedAt,
+    required this.isMe,
   });
 
   ChatMessage copyWith({
@@ -22,13 +24,14 @@ class ChatMessage {
     String? content,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isMe,
   }) =>
       ChatMessage(
-        id: id ?? this.id,
-        chatRoomId: chatRoomId ?? this.chatRoomId,
-        from: from ?? this.from,
-        content: content ?? this.content,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+          id: id ?? this.id,
+          chatRoomId: chatRoomId ?? this.chatRoomId,
+          from: from ?? this.from,
+          content: content ?? this.content,
+          createdAt: createdAt ?? this.createdAt,
+          updatedAt: updatedAt ?? this.updatedAt,
+          isMe: isMe ?? this.isMe);
 }
