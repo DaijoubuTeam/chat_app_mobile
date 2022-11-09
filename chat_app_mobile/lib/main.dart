@@ -17,7 +17,7 @@ import 'package:user_repository/user_repository.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //firebase_auth.FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
+  firebase_auth.FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
   //set up url
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {

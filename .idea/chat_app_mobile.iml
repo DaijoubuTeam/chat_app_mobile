@@ -75,6 +75,9 @@
       <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/form_inputs/build" />
       <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/form_inputs/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/form_inputs/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/chat_message_repository/build" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/chat_message_repository/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_app_mobile/packages/chat_message_repository/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

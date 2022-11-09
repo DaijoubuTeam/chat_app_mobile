@@ -37,8 +37,8 @@ class ChatApp {
         updatedAt: updatedAt ?? this.updatedAt,
       );
 
-  // factory ChatApp.fromJson(Map<String, dynamic> json) =>
-  //     _$ChatAppFromJson(json);
-  //
-  // Map<String, dynamic> toJson() => _$ChatAppToJson(this);
+  factory ChatApp.fromJson(Map<String, dynamic> json) =>
+      _$ChatAppFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ChatAppToJson(this);
 }

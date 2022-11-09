@@ -1,6 +1,8 @@
+import 'package:chat_app_api/src/api/chat_message_api.dart';
 import 'package:chat_app_api/src/api/chat_room_api.dart';
 import 'package:chat_app_api/src/api/friend_api.dart';
 import 'package:chat_app_api/src/api/user_api.dart';
+import 'package:chat_app_api/src/models/chat_app.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
 
@@ -12,6 +14,7 @@ class ChatAppApi {
       UserApi? userApi,
       FriendApi? friendApi,
       ChatRoomApi? chatRoomApi,
+      ChatMessageApi? chatMessageApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
@@ -19,15 +22,17 @@ class ChatAppApi {
         _friendApi =
             friendApi ?? FriendApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _chatRoomApi =
-            chatRoomApi ?? ChatRoomApi(serverUrl: serverUrl, dio: dio ?? Dio());
+            chatRoomApi ?? ChatRoomApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _chatMessageApi = chatMessageApi ??
+            ChatMessageApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
   FriendApi _friendApi;
   ChatRoomApi _chatRoomApi;
+  ChatMessageApi _chatMessageApi;
 
   //auth api
-
   Future<User> verifyUser(String bearerToken) async {
     try {
       final user = await _authApi.verify(bearerToken);
@@ -46,7 +51,6 @@ class ChatAppApi {
   }
 
   // user api
-
   Future<User> getSelfProfile(String bearerToken) async {
     try {
       final user = await _userApi.getSelfProfile(bearerToken);
@@ -142,5 +146,20 @@ class ChatAppApi {
   ) async {
     return await _chatRoomApi.deleteMemberChatRoom(
         bearerToken, chatRoomId, memberId);
+  }
+
+  //Chat app api
+  Future<List<ChatApp>> getMessages(
+    String bearerToken,
+    String chatRoomId,
+    int from,
+    int to,
+  ) async {
+    return await _chatMessageApi.getMessages(bearerToken, chatRoomId, from, to);
+  }
+
+  Future<bool> sendMessage(
+      String bearerToken, String chatRoomId, String content) async {
+    return await _chatMessageApi.sendMessage(bearerToken, chatRoomId, content);
   }
 }

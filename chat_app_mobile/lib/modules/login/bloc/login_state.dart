@@ -8,9 +8,17 @@ abstract class LoginState extends Equatable {
 }
 
 class LoginStateInitial extends LoginState {
-  const LoginStateInitial({this.email, this.password});
-  final String? email;
-  final String? password;
+  const LoginStateInitial({
+    this.email = const Email.pure(),
+    this.password = const Password.pure(),
+    this.formzStatus = FormzStatus.pure,
+    this.errorMessage,
+  });
+
+  final Email email;
+  final Password password;
+  final FormzStatus formzStatus;
+  final String? errorMessage;
 
   @override
   List<Object?> get props => [email, password];

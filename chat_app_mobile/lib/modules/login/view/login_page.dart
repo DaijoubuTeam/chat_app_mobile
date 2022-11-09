@@ -38,64 +38,68 @@ class LoginView extends StatelessWidget {
         if (state.runtimeType == LoginStateSubmitFailure)
           {
             ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text("Login fail"))),
+              ..hideCurrentSnackBar()
+              ..showSnackBar(const SnackBar(content: Text("Login fail"))),
             context.read<LoginBloc>().add(LoginSubmitFailure())
           }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CircleAvatar(
-                radius: 60,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(60),
-                  child: Image.asset(
-                    'assets/images/Logo.png',
-                    fit: BoxFit.cover,
+          child: FormField(
+            autovalidateMode: AutovalidateMode.disabled,
+            builder: (_) => Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 60,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: Image.asset(
+                      'assets/images/Logo.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              const Text(
-                'Sign-in to your account',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                const SizedBox(
+                  height: 32,
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              const LoginEmailInput(),
-              const SizedBox(
-                height: 8,
-              ),
-              const LoginPasswordInput(),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const <Widget>[
-                  TextButton(onPressed: null, child: Text('Forgot Password'))
-                ],
-              ),
-              const LoginListButton(),
-              const SizedBox(
-                height: 8,
-              ),
-              const DividerWithTextCenter(title: 'Or'),
-              const SizedBox(
-                height: 8,
-              ),
-              const LoginWithGoogleButton(),
-            ],
+                const Text(
+                  'Sign-in to your account',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+                const LoginEmailInput(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const LoginPasswordInput(),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const <Widget>[
+                    TextButton(onPressed: null, child: Text('Forgot Password'))
+                  ],
+                ),
+                const LoginListButton(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const DividerWithTextCenter(title: 'Or'),
+                const SizedBox(
+                  height: 8,
+                ),
+                const LoginWithGoogleButton(),
+              ],
+            ),
           ),
         ),
       ),

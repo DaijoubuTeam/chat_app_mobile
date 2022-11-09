@@ -23,46 +23,31 @@ class _LoginPasswordInputState extends State<LoginPasswordInput> {
 
   @override
   Widget build(BuildContext context) {
-    _passwordInputController.addListener(() => context
-        .read<LoginBloc>()
-        .add(LoginPasswordChanging(_passwordInputController.text)));
+    _passwordInputController.addListener(
+      () => context
+          .read<LoginBloc>()
+          .add(LoginPasswordChanging(_passwordInputController.text)),
+    );
 
-    return BlocListener<LoginBloc, LoginState>(
-      listenWhen: (prev, current) => prev != current,
-      listener: (context, state) => {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (prev, current) =>
+          prev != current && current.runtimeType == LoginStateInitial,
+      builder: (context, state) {
         if (state.runtimeType == LoginSubmitFailure ||
-            state.runtimeType == LoginStateInitial)
-          {
-            // to keep remain current value of email text fields when failure
-            context
-                .read<LoginBloc>()
-                .add(LoginPasswordChanging(_passwordInputController.text)),
-          }
+            state.runtimeType == LoginStateInitial) {
+          // to keep remain current value of email text fields when failure
+          context
+              .read<LoginBloc>()
+              .add(LoginPasswordChanging(_passwordInputController.text));
+        }
+        return PasswordOutline(
+          inputController: _passwordInputController,
+          isPasswordVisible: _isPasswordVisible,
+          handleOnPressVisibleButton: _handleOnPressVisibleButton,
+          errorText:
+              (state as LoginStateInitial).password.invalid ? 'validate' : null,
+        );
       },
-      // child: TextFormField(
-      //   controller: _passwordInputController,
-      //   decoration: InputDecoration(
-      //     hintText: 'Your Password ...',
-      //     labelText: 'Password',
-      //     prefixIcon: const Icon(Icons.lock),
-      //     suffixIcon: IconButton(
-      //       icon: isPasswordVisible
-      //           ? const Icon(Icons.visibility_off)
-      //           : const Icon(Icons.visibility_off),
-      //       onPressed: () =>
-      //           setState(() => {isPasswordVisible = !isPasswordVisible}),
-      //     ),
-      //     border: OutlineInputBorder(
-      //       borderRadius: BorderRadius.circular(12),
-      //     ),
-      //   ),
-      //   obscureText: isPasswordVisible,
-      // ),
-      child: PasswordOutline(
-        inputController: _passwordInputController,
-        isPasswordVisible: _isPasswordVisible,
-        handleOnPressVisibleButton: _handleOnPressVisibleButton,
-      ),
     );
   }
 

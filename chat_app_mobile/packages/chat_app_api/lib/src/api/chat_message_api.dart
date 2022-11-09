@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 
 import '../models/chat_app.dart';
 
-class ChatAppApi {
-  ChatAppApi({Dio? dio, required String serverUrl})
+class ChatMessageApi {
+  ChatMessageApi({Dio? dio, required String serverUrl})
       : _dio = dio ?? Dio(),
         _serverUrl = serverUrl;
 

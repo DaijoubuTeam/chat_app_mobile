@@ -7,12 +7,14 @@ class OutlineInputBorderCustom extends StatelessWidget {
     this.inputType,
     this.labelText,
     this.hintText,
+    this.errorText,
     this.icon,
   });
   final TextEditingController inputController;
   final TextInputType? inputType;
   final String? labelText;
   final String? hintText;
+  final String? errorText;
   final Widget? icon;
 
   @override
@@ -28,6 +30,7 @@ class OutlineInputBorderCustom extends StatelessWidget {
         ),
         prefixIcon: icon,
         helperText: '',
+        errorText: errorText,
       ),
     );
   }
