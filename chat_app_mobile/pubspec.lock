@@ -106,13 +106,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  chat_message_repository:
-    dependency: "direct main"
-    description:
-      path: "packages/chat_message_repository"
-      relative: true
-    source: path
-    version: "0.0.1"
   chat_room_repository:
     dependency: "direct main"
     description:
@@ -443,6 +436,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  message_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/message_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   meta:
     dependency: transitive
     description:
@@ -450,6 +450,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  model_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/model_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:

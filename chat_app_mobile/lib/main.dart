@@ -4,7 +4,6 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_api/chat_app_api.dart';
 import 'package:chat_app_mobile/bootstrap.dart';
 import 'package:chat_app_mobile/firebase_options.dart';
-import 'package:chat_message_repository/chat_message_repository.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
@@ -14,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:socket_repository/socket_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:message_repository/message_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +47,7 @@ Future<void> main() async {
   final userRepository = UserRepository(chatAppApi);
   final friendRepository = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
-  final chatMessageRepository = ChatMessageRepository(chatAppApi);
+  final messageRepository = MessageRepository(chatAppApi);
 
   SocketAPI.SocketApi.socketConnect();
 
@@ -58,6 +58,6 @@ Future<void> main() async {
     userRepository,
     friendRepository,
     chatRoomRepository,
-    chatMessageRepository,
+    messageRepository,
   );
 }

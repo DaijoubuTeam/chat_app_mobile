@@ -1,5 +1,4 @@
-import 'package:chat_room_repository/src/models/models.dart'
-    as chat_room_model_repo;
+import './models/models.dart';
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
 
 class ChatRoomRepository {
@@ -8,19 +7,28 @@ class ChatRoomRepository {
 
   final chat_app_api.ChatAppApi _chatAppApi;
 
-  Future<List<chat_room_model_repo.ChatRoom>> getChatRoom(
-      String bearerToken) async {
+  Future<List<ChatRoom>> getChatRoom(String bearerToken) async {
     final List<chat_app_api.ChatRoom> chatRoomsApi =
         await _chatAppApi.getChatRoom(bearerToken);
+
     final chatRoomsRepo = chatRoomsApi
         .map((chatRoomApi) => chatRoomApi.toRepositoryChatRoom())
         .toList();
+
     return chatRoomsRepo;
   }
 
   Future<bool> createNewChatRoom(
       String bearerToken, String chatRoomName) async {
     return await _chatAppApi.createNewChatRoom(bearerToken, chatRoomName);
+  }
+
+  Future<bool> acceptJoinChat(String bearerToken, String chatRoomId) async {
+    return await _chatAppApi.acceptJoinChat(bearerToken, chatRoomId);
+  }
+
+  Future<bool> rejectJoinChat(String bearerToken, String chatRoomId) async {
+    return await _chatAppApi.rejectJoinChat(bearerToken, chatRoomId);
   }
 
   Future<bool> updateChatRoom(
@@ -44,31 +52,42 @@ class ChatRoomRepository {
     return await _chatAppApi.deleteGroupChatRoom(bearerToken, chatRoomId);
   }
 
-  Future<bool> addMemberChatRoom(
+  Future<bool> inviteMemberChatRoom(
     String bearerToken,
     String chatRoomId,
     String memberId,
   ) async {
-    return await _chatAppApi.addMemberChatRoom(
+    return await _chatAppApi.inviteMemberChatRoom(
         bearerToken, chatRoomId, memberId);
   }
 
-  Future<bool> deleteMemberChatRoom(
+  Future<bool> removeMemberChatRoom(
     String bearerToken,
     String chatRoomId,
     String memberId,
   ) async {
-    return await _chatAppApi.deleteMemberChatRoom(
+    return await _chatAppApi.removeMemberChatRoom(
         bearerToken, chatRoomId, memberId);
+  }
+
+  Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {
+    final List<chat_app_api.ChatRoom> chatRoomsApi =
+        await _chatAppApi.getAllChatRoomRequest(bearerToken);
+
+    final chatRoomsRepo = chatRoomsApi
+        .map((chatRoomApi) => chatRoomApi.toRepositoryChatRoom())
+        .toList();
+
+    return chatRoomsRepo;
   }
 }
 
 extension on chat_app_api.ChatRoom {
-  chat_room_model_repo.ChatRoom toRepositoryChatRoom() {
+  ChatRoom toRepositoryChatRoom() {
     if (this == chat_app_api.ChatRoom.empty) {
-      return chat_room_model_repo.ChatRoom.empty;
+      return ChatRoom.empty;
     }
-    final chatRoom = chat_room_model_repo.ChatRoom(
+    final chatRoom = ChatRoom(
       chatRoomId: chatRoomId,
       chatRoomName: chatRoomName,
       chatRoomAvatar: chatRoomAvatar,

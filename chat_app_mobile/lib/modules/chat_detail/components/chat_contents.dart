@@ -15,7 +15,7 @@ class ChatContents extends StatelessWidget {
         final listMessage = state.listMessage ?? [];
         return ListView.builder(
           itemBuilder: ((context, index) {
-            return MessageItem(isMe: listMessage[index].isMe);
+            return MessageItem(isMe: listMessage[index].isMe ?? false);
           }),
           itemCount: listMessage.length,
         );

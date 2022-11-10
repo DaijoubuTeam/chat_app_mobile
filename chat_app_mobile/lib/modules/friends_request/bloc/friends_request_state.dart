@@ -13,7 +13,7 @@ class FriendsRequestGetListInProgress extends FriendsRequestState {}
 
 class FriendsRequestGetListSuccess extends FriendsRequestState {
   const FriendsRequestGetListSuccess({required this.listFriendRequest});
-  final List<friend_repository.Friend> listFriendRequest;
+  final List<friend_repository.User> listFriendRequest;
 
   @override
   List<Object?> get props => [listFriendRequest];

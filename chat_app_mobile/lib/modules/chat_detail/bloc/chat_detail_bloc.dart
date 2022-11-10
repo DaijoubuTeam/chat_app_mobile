@@ -3,8 +3,8 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:chat_message_repository/chat_message_repository.dart'
-    as chat_message_repo;
+import 'package:message_repository/message_repository.dart'
+    as message_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:formz/formz.dart';
 
@@ -17,8 +17,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     String? chatRoomName,
     String? chatRoomAvatar,
     required auth_repository.AuthRepository authRepository,
-    required chat_message_repo.ChatMessageRepository chatMessageRepository,
-  })  : _chatMessageRepository = chatMessageRepository,
+    required message_repository.MessageRepository messageRepository,
+  })  : _chatMessageRepository = messageRepository,
         _authRepository = authRepository,
         super(ChatDetailState(
           chatRoomId: chatRoomId,
@@ -33,7 +33,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     add(ChatDetailPageInited());
   }
 
-  final chat_message_repo.ChatMessageRepository _chatMessageRepository;
+  final message_repository.MessageRepository _chatMessageRepository;
   final auth_repository.AuthRepository _authRepository;
 
   Future<void> _onChatDetailPageInited(

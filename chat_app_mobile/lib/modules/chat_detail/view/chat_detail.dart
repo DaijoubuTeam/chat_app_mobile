@@ -4,10 +4,10 @@ import 'package:chat_app_mobile/modules/chat_detail/components/chat_app_bar_titl
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_box.dart';
 import 'package:chat_app_mobile/modules/chat_detail/components/chat_contents.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
-import 'package:chat_message_repository/chat_message_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:message_repository/message_repository.dart';
 
 class ChatDetailPage extends StatelessWidget {
   const ChatDetailPage(
@@ -30,7 +30,7 @@ class ChatDetailPage extends StatelessWidget {
         chatRoomName: chatRoomName,
         chatRoomAvatar: chatRoomAvatar,
         authRepository: context.read<AuthRepository>(),
-        chatMessageRepository: context.read<ChatMessageRepository>(),
+        messageRepository: context.read<MessageRepository>(),
       ),
       child: ChatDetailView(
         chatRoomId: chatRoomId,

@@ -13,13 +13,13 @@ class ChatDetailState extends Equatable {
   final String chatRoomId;
   final String? chatRoomName;
   final String? chatRoomAvatar;
-  final List<chat_message_repo.ChatMessage>? listMessage;
+  final List<message_repository.Message>? listMessage;
   final String? content;
   final FormzStatus status;
 
   ChatDetailState copyWith({
     String? content,
-    List<chat_message_repo.ChatMessage>? listMessage,
+    List<message_repository.Message>? listMessage,
     FormzStatus? status,
   }) {
     return ChatDetailState(

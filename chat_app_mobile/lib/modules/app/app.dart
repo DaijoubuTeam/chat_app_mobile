@@ -1,13 +1,13 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/config/router/app_router.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
-import 'package:chat_message_repository/chat_message_repository.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
+import 'package:message_repository/message_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,18 +17,18 @@ class MyApp extends StatelessWidget {
     required UserRepository userRepository,
     required FriendRepository friendRepository,
     required ChatRoomRepository chatRoomRepository,
-    required ChatMessageRepository chatMessageRepository,
+    required MessageRepository messageRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
         _friendRepository = friendRepository,
         _chatRoomRepository = chatRoomRepository,
-        _chatMessageRepository = chatMessageRepository;
+        _messageRepository = messageRepository;
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
   final FriendRepository _friendRepository;
   final ChatRoomRepository _chatRoomRepository;
-  final ChatMessageRepository _chatMessageRepository;
+  final MessageRepository _messageRepository;
 
   // This widget is the root of your application.
   @override
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _friendRepository),
         RepositoryProvider.value(value: _chatRoomRepository),
-        RepositoryProvider.value(value: _chatMessageRepository),
+        RepositoryProvider.value(value: _messageRepository),
       ],
       child: MultiBlocProvider(
         providers: [

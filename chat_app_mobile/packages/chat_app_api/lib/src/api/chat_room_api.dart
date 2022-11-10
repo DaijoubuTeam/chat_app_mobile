@@ -1,7 +1,7 @@
 import 'dart:developer';
 
+import 'package:chat_app_api/chat_app_api.dart';
 import 'package:dio/dio.dart';
-import '../models/chat_room.dart';
 
 class ChatRoomApi {
   ChatRoomApi({Dio? dio, required String serverUrl})
@@ -16,12 +16,16 @@ class ChatRoomApi {
 
   Future<List<ChatRoom>> getChatRoom(String bearerToken) async {
     final url = basePath;
+
     final response = await _dio.get(url,
         options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+
     final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
+
     final chatRooms = chatRoomsJson
         .map((chatRoomJson) => ChatRoom.fromJson(chatRoomJson))
         .toList();
+
     return chatRooms;
   }
 
@@ -29,10 +33,46 @@ class ChatRoomApi {
       String bearerToken, String chatRoomName) async {
     try {
       final url = basePath;
+
       final response = await _dio.post(url,
           options: Options(headers: {"authorization": 'Bearer $bearerToken'}),
           data: {"chatRoomName": chatRoomName});
+
       if (response.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      log(e.toString(), name: 'create new chat room');
+      return false;
+    }
+  }
+
+  Future<bool> acceptJoinChat(String bearerToken, String chatRoomId) async {
+    try {
+      final url = '$basePath/$chatRoomId/accept';
+
+      final response = await _dio.get(url,
+          options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      log(e.toString(), name: 'create new chat room');
+      return false;
+    }
+  }
+
+  Future<bool> rejectJoinChat(String bearerToken, String chatRoomId) async {
+    try {
+      final url = '$basePath/$chatRoomId/reject';
+
+      final response = await _dio.get(url,
+          options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+
+      if (response.statusCode == 200) {
         return true;
       }
       return false;
@@ -86,7 +126,7 @@ class ChatRoomApi {
     }
   }
 
-  Future<bool> addMemberChatRoom(
+  Future<bool> inviteMemberChatRoom(
     String bearerToken,
     String chatRoomId,
     String memberId,
@@ -109,7 +149,7 @@ class ChatRoomApi {
     }
   }
 
-  Future<bool> deleteMemberChatRoom(
+  Future<bool> removeMemberChatRoom(
     String bearerToken,
     String chatRoomId,
     String memberId,
@@ -130,5 +170,20 @@ class ChatRoomApi {
       log(e.toString(), name: 'add member to chat room');
       return false;
     }
+  }
+
+  Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {
+    final url = '$basePath/chat-room-requests';
+
+    final response = await _dio.get(url,
+        options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+
+    final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
+
+    final chatRooms = chatRoomsJson
+        .map((chatRoomJson) => ChatRoom.fromJson(chatRoomJson))
+        .toList();
+
+    return chatRooms;
   }
 }
