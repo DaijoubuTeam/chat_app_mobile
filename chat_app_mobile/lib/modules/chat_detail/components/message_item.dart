@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MessageItem extends StatelessWidget {
-  const MessageItem({Key? key, required this.isMe}) : super(key: key);
+  const MessageItem(
+      {Key? key, required this.isMe, required this.content, this.friendAvatar})
+      : super(key: key);
 
   final bool isMe;
+  final String content;
+  final String? friendAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +18,12 @@ class MessageItem extends StatelessWidget {
             isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           if (!isMe) ...[
-            const CircleAvatar(
+            CircleAvatar(
               radius: 12,
-              backgroundImage: NetworkImage("https://picsum.photos/200/300"),
+              backgroundImage: (friendAvatar != null)
+                  ? NetworkImage(friendAvatar!)
+                  : const AssetImage("assets/images/empty_avatar.png")
+                      as ImageProvider,
             ),
             const SizedBox(
               width: 8,
@@ -34,7 +41,7 @@ class MessageItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Text(
-              'Chat Text',
+              content,
               style: TextStyle(color: isMe ? Colors.white : Colors.black),
             ),
           ),

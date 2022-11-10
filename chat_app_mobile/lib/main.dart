@@ -18,12 +18,15 @@ import 'package:message_repository/message_repository.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  firebase_auth.FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
+
   //set up url
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {
     // serverUrl = "https://10.0.2.2/api/v1";
-    serverUrl = "https://192.168.1.4/api/v1";
+    serverUrl = "https://192.168.2.154/api/v1";
+    firebase_auth.FirebaseAuth.instance.useAuthEmulator("192.168.2.154", 9099);
+  } else {
+    firebase_auth.FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
   }
 
   // Create dio
@@ -44,6 +47,7 @@ Future<void> main() async {
     firebaseAuth,
     chatAppApi,
   );
+
   final userRepository = UserRepository(chatAppApi);
   final friendRepository = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);

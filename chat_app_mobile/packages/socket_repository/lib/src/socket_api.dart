@@ -1,13 +1,16 @@
 // import 'socket_stream_controller.dart';
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_repository/src/models/new_message.dart';
 
 class SocketAPI {
   final IO.Socket _socket;
+
   SocketAPI._()
       : _socket = IO.io(
-          'http://192.168.1.4:80',
+          'http://192.168.2.154:80',
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .disableAutoConnect() // for Flutter or Dart VM
@@ -18,9 +21,14 @@ class SocketAPI {
     _socket.onConnect((data) => print("connected"));
     _socket.onDisconnect((data) => print("disconnect"));
     _socket.on('register', (data) => print(data));
+    _socket.on('new-message', ((data) => socketNewMessage(data)));
   }
 
+  StreamController<NewMessage> newMessageController =
+      StreamController<NewMessage>.broadcast();
+
   static SocketAPI? _socketApi;
+
   static SocketAPI get SocketApi {
     _socketApi ??= SocketAPI._();
     return _socketApi!;
@@ -36,6 +44,8 @@ class SocketAPI {
   void socketDisconnected() {
     if (!_socket.disconnected) {
       _socket.dispose();
+      // dispose controller
+      dispose();
       SocketAPI._socketApi = null;
     }
   }
@@ -45,5 +55,15 @@ class SocketAPI {
       log("registering", name: "socketRegister");
       _socket.emit('register', {'uid': uid});
     }
+  }
+
+  Stream<NewMessage> socketNewMessage(dynamic data) {
+    final newMessage = NewMessage.fromJson(data);
+    newMessageController.sink.add(newMessage);
+    return newMessageController.stream;
+  }
+
+  void dispose() {
+    newMessageController.close();
   }
 }

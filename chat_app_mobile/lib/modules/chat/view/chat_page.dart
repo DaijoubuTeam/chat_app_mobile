@@ -77,7 +77,6 @@ class ChatView extends StatelessWidget {
         ],
       ),
       body: BlocBuilder<ChatBloc, ChatState>(
-        buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           if (state.runtimeType == ChatGetListSuccess) {
             final listChatRoom = (state as ChatGetListSuccess).listChatRoom;
