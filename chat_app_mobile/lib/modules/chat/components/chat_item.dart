@@ -18,7 +18,10 @@ class ChatItem extends StatelessWidget {
     ctx.pushNamed(
       ChatDetailPage.namePage,
       params: {'chatRoomId': chatRoomId},
-      extra: {'chatRoomName': chatRoomName, 'chatRoomAvatar': chatRoomAvatar},
+      extra: {
+        'chatRoomName': chatRoomName,
+        'chatRoomAvatar': chatRoomAvatar,
+      },
     );
   }
 

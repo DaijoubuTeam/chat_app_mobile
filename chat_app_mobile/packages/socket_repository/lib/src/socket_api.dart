@@ -10,7 +10,7 @@ class SocketAPI {
 
   SocketAPI._()
       : _socket = IO.io(
-          'http://192.168.2.154:80',
+          'http://localhost:80',
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .disableAutoConnect() // for Flutter or Dart VM
@@ -59,6 +59,7 @@ class SocketAPI {
 
   Stream<NewMessage> socketNewMessage(dynamic data) {
     final newMessage = NewMessage.fromJson(data);
+    print(newMessage);
     newMessageController.sink.add(newMessage);
     return newMessageController.stream;
   }

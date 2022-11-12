@@ -31,5 +31,5 @@ class ChatDetailState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [chatRoomId, chatRoomName, chatRoomAvatar, listMessage, content];
+      [chatRoomId, chatRoomName, chatRoomAvatar, status, listMessage, content];
 }

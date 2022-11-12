@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:message_repository/message_repository.dart'
     as message_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
+import 'package:socket_repository/socket_repository.dart' as socket_repository;
 import 'package:formz/formz.dart';
 
 part 'chat_detail_event.dart';
@@ -21,20 +22,28 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
   })  : _chatMessageRepository = messageRepository,
         _authRepository = authRepository,
         super(ChatDetailState(
-          chatRoomId: chatRoomId,
-          chatRoomName: chatRoomName ?? '',
-          chatRoomAvatar: chatRoomAvatar ??
-              'https://img.freepik.com/free-photo/collaborative-process-multicultural-businesspeople-using-laptop-presentation-communication-meeting-brainstorming-ideas-about-project-colleagues-working-plan-success-strategy-modern-office_7861-2510.jpg?w=1800&t=st=1667989860~exp=1667990460~hmac=6b1a65b10f6cfb2489116ee7668aa24e86bcbf4698332bff26f2dc39fde60ba3',
-        )) {
+            chatRoomId: chatRoomId,
+            chatRoomName: chatRoomName,
+            chatRoomAvatar: chatRoomAvatar)) {
     on<ChatDetailPageInited>(_onChatDetailPageInited);
     on<ChatDetailContentChanging>(_onChatDetailContentChanging);
     on<ChatDetailContentSubmited>(_onChatDetailContentSubmited);
 
     add(ChatDetailPageInited());
+
+    _newMessageStreamSubscription = socket_repository
+        .SocketAPI.SocketApi.newMessageController.stream
+        .listen((data) {
+      print(data);
+      add(ChatDetailPageInited());
+    });
   }
 
   final message_repository.MessageRepository _chatMessageRepository;
   final auth_repository.AuthRepository _authRepository;
+
+  late final StreamSubscription<socket_repository.NewMessage>
+      _newMessageStreamSubscription;
 
   Future<void> _onChatDetailPageInited(
       ChatDetailPageInited event, Emitter<ChatDetailState> emit) async {
@@ -50,7 +59,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
           20,
         );
 
-        emit(state.copyWith(listMessage: listMessage));
+        emit(
+            state.copyWith(listMessage: listMessage, status: FormzStatus.pure));
       }
     } catch (e) {
       log(e.toString(), name: 'chat detail page inited');
@@ -92,5 +102,11 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       log(e.toString(), name: 'chatDetailContentSubmited');
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _newMessageStreamSubscription.cancel();
+    return super.close();
   }
 }

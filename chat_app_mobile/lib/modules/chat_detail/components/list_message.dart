@@ -9,11 +9,12 @@ class ChatContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
-      buildWhen: (previous, current) =>
-          previous.listMessage != current.listMessage,
+      // buildWhen: (previous, current) =>
+      //     previous.listMessage.length != current.listMessage.length,
       builder: (context, state) {
         final listMessage = state.listMessage ?? [];
         return ListView.builder(
+          reverse: true,
           itemBuilder: ((context, index) {
             return MessageItem(
               isMe: listMessage[index].isMe ?? false,

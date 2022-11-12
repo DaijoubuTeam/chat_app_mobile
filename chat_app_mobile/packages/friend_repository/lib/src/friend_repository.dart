@@ -8,6 +8,7 @@ class FriendRepository {
 
   Future<List<friend_repository.User>> getListUserFriends(
       String bearerToken) async {
+    print(bearerToken);
     final List<chat_app_api.User> friendsApi =
         await _chatAppApi.getListUserFriends(bearerToken);
     final friendRepo =

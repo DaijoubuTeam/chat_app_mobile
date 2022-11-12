@@ -16,9 +16,10 @@ class _ChatBoxState extends State<ChatBox> {
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(
-            offset: const Offset(0, 4),
-            blurRadius: 32,
-            color: Theme.of(context).primaryColor.withOpacity(0.08)),
+          offset: const Offset(0, 4),
+          blurRadius: 32,
+          color: Theme.of(context).primaryColor.withOpacity(0.08),
+        ),
       ]),
       child: SafeArea(
         child: Row(
