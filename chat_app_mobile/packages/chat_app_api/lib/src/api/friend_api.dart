@@ -12,7 +12,7 @@ class FriendApi {
 
   final Dio _dio;
 
-  Future<List<Friend>> getListUserFriends(String bearerToken) async {
+  Future<List<User>> getListUserFriends(String bearerToken) async {
     final url = basePath;
     final res = await _dio.get(
       url,
@@ -21,9 +21,8 @@ class FriendApi {
       ),
     );
     final listFriendRequest = res.data as List<dynamic>;
-    final List<Friend> resListFriendRequest = listFriendRequest
-        .map((friendApi) => Friend.fromJson(friendApi))
-        .toList();
+    final List<User> resListFriendRequest =
+        listFriendRequest.map((friendApi) => User.fromJson(friendApi)).toList();
     return resListFriendRequest;
   }
 
@@ -45,7 +44,7 @@ class FriendApi {
     }
   }
 
-  Future<List<Friend>> getListRequestFriend(String bearerToken) async {
+  Future<List<User>> getListRequestFriend(String bearerToken) async {
     final url = '$basePath/friend-requests';
     final res = await _dio.get(
       url,
@@ -54,8 +53,8 @@ class FriendApi {
       ),
     );
     final listFriendRequestJson = res.data as List<dynamic>;
-    final List<Friend> resListFriendRequest = listFriendRequestJson
-        .map((friendApi) => Friend.fromJson(friendApi))
+    final List<User> resListFriendRequest = listFriendRequestJson
+        .map((friendApi) => User.fromJson(friendApi))
         .toList();
     return resListFriendRequest;
   }
@@ -75,9 +74,36 @@ class FriendApi {
     return false;
   }
 
-  //delete friend
   Future<bool> deleteFriend(String bearerToken, String id) async {
     final url = '$basePath/$id';
+    final res = await _dio.delete(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+      ),
+    );
+    if (res.statusCode == 204) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<List<User>> getListRequestsSentFriends(String bearerToken) async {
+    final url = '$basePath/friend-requests-sent';
+    final res = await _dio.get(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+      ),
+    );
+    final listFriendRequest = res.data as List<dynamic>;
+    final List<User> resListFriendRequest =
+        listFriendRequest.map((friendApi) => User.fromJson(friendApi)).toList();
+    return resListFriendRequest;
+  }
+
+  Future<bool> unsentFriendsRequest(String bearerToken, String id) async {
+    final url = '$basePath/friend-requests-sent/$id';
     final res = await _dio.delete(
       url,
       options: Options(

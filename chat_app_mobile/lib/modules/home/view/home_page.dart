@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  static const String namePage = 'home-pages';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

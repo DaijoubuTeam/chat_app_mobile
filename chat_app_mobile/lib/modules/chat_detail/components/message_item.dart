@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
 class MessageItem extends StatelessWidget {
-  const MessageItem({Key? key, required this.indexMessage}) : super(key: key);
+  const MessageItem(
+      {Key? key, required this.isMe, required this.content, this.friendAvatar})
+      : super(key: key);
 
-  final int indexMessage;
+  final bool isMe;
+  final String content;
+  final String? friendAvatar;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Row(
-        mainAxisAlignment: indexMessage % 2 == 0
-            ? MainAxisAlignment.start
-            : MainAxisAlignment.end,
+        mainAxisAlignment:
+            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
-          if (indexMessage % 2 == 0) ...[
-            const CircleAvatar(
+          if (!isMe) ...[
+            CircleAvatar(
               radius: 12,
-              backgroundImage: NetworkImage("https://picsum.photos/200/300"),
+              backgroundImage: (friendAvatar != null)
+                  ? NetworkImage(friendAvatar!)
+                  : const AssetImage("assets/images/empty_avatar.png")
+                      as ImageProvider,
             ),
             const SizedBox(
               width: 8,
@@ -29,15 +35,14 @@ class MessageItem extends StatelessWidget {
               vertical: 16 / 2,
             ),
             decoration: BoxDecoration(
-              color: indexMessage % 2 == 0
-                  ? Colors.grey[800]?.withOpacity(0.1)
-                  : Theme.of(context).primaryColor,
+              color: isMe
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey[800]?.withOpacity(0.1),
               borderRadius: BorderRadius.circular(30),
             ),
             child: Text(
-              'Chat Text',
-              style: TextStyle(
-                  color: indexMessage % 2 == 0 ? Colors.black : Colors.white),
+              content,
+              style: TextStyle(color: isMe ? Colors.white : Colors.black),
             ),
           ),
         ],

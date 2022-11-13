@@ -11,6 +11,9 @@ ChatRoom _$ChatRoomFromJson(Map<String, dynamic> json) => ChatRoom(
       chatRoomName: json['chatRoomName'] as String?,
       chatRoomAvatar: json['chatRoomAvatar'] as String?,
       type: json['type'] as String?,
+      lastestMessage: json['lastestMessage'] == null
+          ? null
+          : Message.fromJson(json['lastestMessage'] as Map<String, dynamic>),
       members: (json['members'] as List<dynamic>?)?.map((e) => e as String),
       admin: (json['admin'] as List<dynamic>?)?.map((e) => e as String),
     );
@@ -19,7 +22,8 @@ Map<String, dynamic> _$ChatRoomToJson(ChatRoom instance) => <String, dynamic>{
       'chatRoomId': instance.chatRoomId,
       'chatRoomName': instance.chatRoomName,
       'chatRoomAvatar': instance.chatRoomAvatar,
+      'members': instance.members.toList(),
+      'admin': instance.admin.toList(),
+      'lastestMessage': instance.lastestMessage,
       'type': instance.type,
-      'members': instance.members?.toList(),
-      'admin': instance.admin?.toList(),
     };

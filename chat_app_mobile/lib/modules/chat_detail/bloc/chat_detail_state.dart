@@ -5,12 +5,31 @@ class ChatDetailState extends Equatable {
     required this.chatRoomId,
     this.chatRoomName,
     this.chatRoomAvatar,
+    this.listMessage,
+    this.content,
+    this.status = FormzStatus.pure,
   });
 
   final String chatRoomId;
   final String? chatRoomName;
   final String? chatRoomAvatar;
+  final List<message_repository.Message>? listMessage;
+  final String? content;
+  final FormzStatus status;
+
+  ChatDetailState copyWith({
+    String? content,
+    List<message_repository.Message>? listMessage,
+    FormzStatus? status,
+  }) {
+    return ChatDetailState(
+        chatRoomId: chatRoomId,
+        content: content ?? this.content,
+        listMessage: listMessage ?? this.listMessage,
+        status: status ?? this.status);
+  }
 
   @override
-  List<Object?> get props => [chatRoomId, chatRoomName, chatRoomAvatar];
+  List<Object?> get props =>
+      [chatRoomId, chatRoomName, chatRoomAvatar, status, listMessage, content];
 }

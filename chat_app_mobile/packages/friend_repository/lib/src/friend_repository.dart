@@ -1,17 +1,18 @@
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
-import 'package:friend_repository/src/models/models.dart' as friend_model_repo;
+import './models/models.dart' as friend_repository;
 
 class FriendRepository {
   FriendRepository(chat_app_api.ChatAppApi chatAppApi)
       : _chatAppApi = chatAppApi;
   final chat_app_api.ChatAppApi _chatAppApi;
 
-  Future<List<friend_model_repo.Friend>> getListUserFriends(
+  Future<List<friend_repository.User>> getListUserFriends(
       String bearerToken) async {
-    final List<chat_app_api.Friend> friendsApi =
+    print(bearerToken);
+    final List<chat_app_api.User> friendsApi =
         await _chatAppApi.getListUserFriends(bearerToken);
     final friendRepo =
-        friendsApi.map((friendApi) => friendApi.toRepositoryFriend()).toList();
+        friendsApi.map((friendApi) => friendApi.toRepositoryUser()).toList();
     return friendRepo;
   }
 
@@ -19,12 +20,12 @@ class FriendRepository {
     return await _chatAppApi.sendFriendRequest(bearerToken, id);
   }
 
-  Future<List<friend_model_repo.Friend>> getListRequestFriend(
+  Future<List<friend_repository.User>> getListRequestFriend(
       String bearerToken) async {
-    final List<chat_app_api.Friend> friendsApi =
+    final List<chat_app_api.User> friendsApi =
         await _chatAppApi.getListRequestFriend(bearerToken);
     final friendRepo =
-        friendsApi.map((friendApi) => friendApi.toRepositoryFriend()).toList();
+        friendsApi.map((friendApi) => friendApi.toRepositoryUser()).toList();
     return friendRepo;
   }
 
@@ -38,19 +39,22 @@ class FriendRepository {
   }
 }
 
-extension on chat_app_api.Friend {
-  friend_model_repo.Friend toRepositoryFriend() {
-    if (this == chat_app_api.Friend.empty) {
-      return friend_model_repo.Friend.empty;
+extension on chat_app_api.User {
+  friend_repository.User toRepositoryUser() {
+    if (this == chat_app_api.User.empty) {
+      return friend_repository.User.empty;
     }
-    final friend = friend_model_repo.Friend(
-        uid: uid,
-        gender: gender,
-        fullname: fullname,
-        avatar: avatar,
-        phone: phone,
-        about: about,
-        email: email);
-    return friend;
+    final user = friend_repository.User(
+      uid: uid,
+      username: username,
+      fullname: fullname,
+      avatar: avatar,
+      phone: phone,
+      about: about,
+      email: email,
+      isEmailVerified: isEmailVerified,
+      isProfileFilled: isProfileFilled,
+    );
+    return user;
   }
 }

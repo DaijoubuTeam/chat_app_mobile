@@ -1,8 +1,7 @@
-import 'package:chat_app_api/src/api/chat_message_api.dart';
+import 'package:chat_app_api/src/api/message_api.dart';
 import 'package:chat_app_api/src/api/chat_room_api.dart';
 import 'package:chat_app_api/src/api/friend_api.dart';
 import 'package:chat_app_api/src/api/user_api.dart';
-import 'package:chat_app_api/src/models/chat_app.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
 
@@ -14,7 +13,7 @@ class ChatAppApi {
       UserApi? userApi,
       FriendApi? friendApi,
       ChatRoomApi? chatRoomApi,
-      ChatMessageApi? chatMessageApi,
+      MessageApi? chatMessageApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
@@ -23,14 +22,14 @@ class ChatAppApi {
             friendApi ?? FriendApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _chatRoomApi =
             chatRoomApi ?? ChatRoomApi(serverUrl: serverUrl, dio: dio ?? Dio()),
-        _chatMessageApi = chatMessageApi ??
-            ChatMessageApi(serverUrl: serverUrl, dio: dio ?? Dio());
+        _messageApi = chatMessageApi ??
+            MessageApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
   FriendApi _friendApi;
   ChatRoomApi _chatRoomApi;
-  ChatMessageApi _chatMessageApi;
+  MessageApi _messageApi;
 
   //auth api
   Future<User> verifyUser(String bearerToken) async {
@@ -85,7 +84,7 @@ class ChatAppApi {
   }
 
   //friend api
-  Future<List<Friend>> getListUserFriends(String bearerToken) async {
+  Future<List<User>> getListUserFriends(String bearerToken) async {
     return await _friendApi.getListUserFriends(bearerToken);
   }
 
@@ -93,7 +92,7 @@ class ChatAppApi {
     return await _friendApi.sendFriendRequest(bearerToken, id);
   }
 
-  Future<List<Friend>> getListRequestFriend(String bearerToken) async {
+  Future<List<User>> getListRequestFriend(String bearerToken) async {
     return await _friendApi.getListRequestFriend(bearerToken);
   }
 
@@ -106,14 +105,34 @@ class ChatAppApi {
     return await _friendApi.deleteFriend(bearerToken, id);
   }
 
+  Future<List<User>> getListRequestsSentFriends(String bearerToken) async {
+    return await _friendApi.getListRequestsSentFriends(bearerToken);
+  }
+
+  Future<bool> unsentFriendsRequest(String bearerToken, String id) async {
+    return await _friendApi.unsentFriendsRequest(bearerToken, id);
+  }
+
   //chat room api
   Future<List<ChatRoom>> getChatRoom(String bearerToken) async {
     return await _chatRoomApi.getChatRoom(bearerToken);
   }
 
+  Future<ChatRoom> getChatRoomById(String bearerToken, String id) async {
+    return await _chatRoomApi.getChatRoomById(bearerToken, id);
+  }
+
   Future<bool> createNewChatRoom(
       String bearerToken, String chatRoomName) async {
     return await _chatRoomApi.createNewChatRoom(bearerToken, chatRoomName);
+  }
+
+  Future<bool> acceptJoinChat(String bearerToken, String chatRoomId) async {
+    return await _chatRoomApi.acceptJoinChat(bearerToken, chatRoomId);
+  }
+
+  Future<bool> rejectJoinChat(String bearerToken, String chatRoomId) async {
+    return await _chatRoomApi.rejectJoinChat(bearerToken, chatRoomId);
   }
 
   Future<bool> updateChatRoom(
@@ -131,35 +150,40 @@ class ChatAppApi {
     return await _chatRoomApi.deleteGroupChatRoom(bearerToken, chatRoomId);
   }
 
-  Future<bool> addMemberChatRoom(
+  Future<bool> inviteMemberChatRoom(
     String bearerToken,
     String chatRoomId,
     String memberId,
   ) async {
-    return _chatRoomApi.addMemberChatRoom(bearerToken, chatRoomId, memberId);
-  }
-
-  Future<bool> deleteMemberChatRoom(
-    String bearerToken,
-    String chatRoomId,
-    String memberId,
-  ) async {
-    return await _chatRoomApi.deleteMemberChatRoom(
+    return await _chatRoomApi.inviteMemberChatRoom(
         bearerToken, chatRoomId, memberId);
   }
 
+  Future<bool> removeMemberChatRoom(
+    String bearerToken,
+    String chatRoomId,
+    String memberId,
+  ) async {
+    return await _chatRoomApi.removeMemberChatRoom(
+        bearerToken, chatRoomId, memberId);
+  }
+
+  Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {
+    return await _chatRoomApi.getAllChatRoomRequest(bearerToken);
+  }
+
   //Chat app api
-  Future<List<ChatApp>> getMessages(
+  Future<List<Message>> getMessages(
     String bearerToken,
     String chatRoomId,
     int from,
     int to,
   ) async {
-    return await _chatMessageApi.getMessages(bearerToken, chatRoomId, from, to);
+    return await _messageApi.getMessages(bearerToken, chatRoomId, from, to);
   }
 
   Future<bool> sendMessage(
       String bearerToken, String chatRoomId, String content) async {
-    return await _chatMessageApi.sendMessage(bearerToken, chatRoomId, content);
+    return await _messageApi.sendMessage(bearerToken, chatRoomId, content);
   }
 }

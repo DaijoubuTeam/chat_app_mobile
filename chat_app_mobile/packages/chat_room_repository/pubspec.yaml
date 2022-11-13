@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   chat_app_api:
     path: ../chat_app_api
+  message_repository:
+    path: ../message_repository
 
 dev_dependencies:
   flutter_test:

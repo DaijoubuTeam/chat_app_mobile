@@ -46,6 +46,7 @@ dependencies:
   cached_network_image: ^3.2.2
   socket_io_client: ^2.0.0
   formz: ^0.4.1
+  emoji_picker_flutter: ^1.5.0
   auth_repository: 
     path: packages/auth_repository
   user_repository:
@@ -54,6 +55,10 @@ dependencies:
     path: packages/friend_repository
   chat_room_repository:
     path: packages/chat_room_repository
+  message_repository:
+    path: packages/message_repository
+  model_repository: 
+    path: packages/model_repository
   chat_app_api:
     path: packages/chat_app_api
   socket_repository:

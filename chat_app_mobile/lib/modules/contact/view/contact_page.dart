@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/app_bar/home_app_bar.dart';
 import 'package:chat_app_mobile/modules/friends/view/friend_list.dart';
 import 'package:chat_app_mobile/modules/group_list/view/view.dart';
 import 'package:flutter/material.dart';
@@ -38,51 +39,8 @@ class CallPage extends StatelessWidget {
                 },
               );
               return Scaffold(
-                appBar: AppBar(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 16,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(60),
-                          child: Image.asset(
-                            'assets/images/Logo.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      const Expanded(
-                        child: Text(
-                          'CS Chat App',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ],
-                  ),
-                  actions: <Widget>[
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.search,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.notifications,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ],
-                  bottom: TabBar(
+                appBar: HomeAppBarCustom(
+                  bottomWidget: TabBar(
                     tabs: List<Widget>.generate(categories.length, (index) {
                       return Tab(
                         text: categories[index],
@@ -93,8 +51,6 @@ class CallPage extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  backgroundColor: Colors.white,
-                  elevation: 0,
                 ),
                 body: TabBarView(
                   children: tabs.map((Tab tab) {

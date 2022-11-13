@@ -1,7 +1,9 @@
 import 'dart:developer';
 
-import 'package:user_repository/src/models/user.dart' as user_model;
+// import 'package:user_repository/src/models/user.dart' as user_model;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
+// import 'package:model_repository/model_repository.dart' as model_repo;
+import './models/models.dart' as user_model;
 
 class UserRepository {
   UserRepository(chat_app_api.ChatAppApi chatAppApi) : _chatAppApi = chatAppApi;
@@ -36,24 +38,6 @@ class UserRepository {
       throw "error search user by email or phone";
     }
   }
-
-  // // create box collection and save "user" to user-box
-  // Future<void> saveUserDataToCache(chat_app_api.User apiUser) async {
-  //   final userBox = await Hive.openBox<user_adapter.User>('user-search-hive');
-  //   final boxUser = user_adapter.User(
-  //     uid: apiUser.uid,
-  //     username: apiUser.username,
-  //     fullname: apiUser.fullname,
-  //     avatar: apiUser.avatar,
-  //     phone: apiUser.phone,
-  //     about: apiUser.about,
-  //     email: apiUser.email,
-  //   );
-  //   await userBox.put("user", boxUser);
-
-  //   final loki = userBox.get("user");
-  //   log('$loki', name: 'user box');
-  // }
 }
 
 extension on chat_app_api.User {

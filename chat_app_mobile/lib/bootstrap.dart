@@ -8,10 +8,16 @@ import 'package:chat_app_mobile/modules/app/app_bloc_observer.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_repository/friend_repository.dart';
+import 'package:message_repository/message_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
-void bootstrap(AuthRepository authRepository, UserRepository userRepository,
-    FriendRepository friendRepository, ChatRoomRepository chatRoomRepository) {
+void bootstrap(
+  AuthRepository authRepository,
+  UserRepository userRepository,
+  FriendRepository friendRepository,
+  ChatRoomRepository chatRoomRepository,
+  MessageRepository messageRepository,
+) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -19,11 +25,15 @@ void bootstrap(AuthRepository authRepository, UserRepository userRepository,
   Bloc.observer = AppBlocObserver();
 
   runZonedGuarded(
-    () => runApp(MyApp(
+    () => runApp(
+      MyApp(
         authRepository: authRepository,
         userRepository: userRepository,
         friendRepository: friendRepository,
-        chatRoomRepository: chatRoomRepository)),
+        chatRoomRepository: chatRoomRepository,
+        messageRepository: messageRepository,
+      ),
+    ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }
