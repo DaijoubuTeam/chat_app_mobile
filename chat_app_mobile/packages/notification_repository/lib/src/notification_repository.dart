@@ -36,7 +36,7 @@ extension on chat_app_api.Notification {
   notification_model.Notification toRepositoryNotification() {
     final notification = notification_model.Notification(
         id: id,
-        notifiType: notifiType,
+        notifyType: notifyType,
         readed: readed,
         notificationSender: notificationSender?.toRepositoryUser(),
         notificationReceiver: notificationReceiver?.toRepositoryUser(),

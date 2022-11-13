@@ -9,11 +9,15 @@ class ChatItem extends StatelessWidget {
     required this.chatRoomId,
     this.chatRoomName,
     this.chatRoomAvatar,
+    this.latestMessage,
+    this.time,
   });
 
   final String chatRoomId;
   final String? chatRoomName;
   final String? chatRoomAvatar;
+  final String? latestMessage;
+  final DateTime? time;
 
   void _handleTabChatRoomItem(BuildContext ctx) {
     ctx.pushNamed(
@@ -32,6 +36,10 @@ class ChatItem extends StatelessWidget {
       handleOnTab: () => _handleTabChatRoomItem(context),
       isShowPoint: true,
       isOnline: true,
+      avatar: chatRoomAvatar,
+      title: chatRoomName,
+      subTitle: latestMessage,
+      time: time,
     );
   }
 }

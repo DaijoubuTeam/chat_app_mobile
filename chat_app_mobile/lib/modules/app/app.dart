@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:message_repository/message_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
@@ -18,17 +19,20 @@ class MyApp extends StatelessWidget {
     required FriendRepository friendRepository,
     required ChatRoomRepository chatRoomRepository,
     required MessageRepository messageRepository,
+    required NotificationRepository notificationRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
         _friendRepository = friendRepository,
         _chatRoomRepository = chatRoomRepository,
-        _messageRepository = messageRepository;
+        _messageRepository = messageRepository,
+        _notificationRepository = notificationRepository;
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
   final FriendRepository _friendRepository;
   final ChatRoomRepository _chatRoomRepository;
   final MessageRepository _messageRepository;
+  final NotificationRepository _notificationRepository;
 
   // This widget is the root of your application.
   @override
@@ -40,6 +44,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(value: _friendRepository),
         RepositoryProvider.value(value: _chatRoomRepository),
         RepositoryProvider.value(value: _messageRepository),
+        RepositoryProvider.value(value: _notificationRepository),
       ],
       child: MultiBlocProvider(
         providers: [

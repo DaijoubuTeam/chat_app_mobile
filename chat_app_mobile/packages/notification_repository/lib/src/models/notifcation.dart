@@ -2,7 +2,7 @@ import './models.dart';
 
 class Notification {
   final String id;
-  final String? notifiType;
+  final String? notifyType;
   final bool? readed;
   final User? notificationSender;
   final User? notificationReceiver;
@@ -12,7 +12,7 @@ class Notification {
 
   Notification({
     required this.id,
-    this.notifiType,
+    this.notifyType,
     this.readed = false,
     this.notificationSender,
     this.notificationReceiver,
@@ -23,7 +23,7 @@ class Notification {
 
   Notification copyWith({
     String? id,
-    String? notifiType,
+    String? notifyType,
     bool? readed,
     User? notificationSender,
     User? notificationReceiver,
@@ -33,7 +33,7 @@ class Notification {
   }) =>
       Notification(
           id: id ?? this.id,
-          notifiType: notifiType ?? this.notifiType,
+          notifyType: notifyType ?? this.notifyType,
           readed: readed ?? this.readed,
           notificationSender: notificationSender ?? this.notificationSender,
           notificationReceiver:

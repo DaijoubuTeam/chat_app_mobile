@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class PersonListItem extends StatelessWidget {
   const PersonListItem({
@@ -8,6 +9,7 @@ class PersonListItem extends StatelessWidget {
     this.title,
     this.subTitle,
     this.isShowPoint = false,
+    this.time,
     required this.handleOnTab,
   });
 
@@ -15,6 +17,7 @@ class PersonListItem extends StatelessWidget {
   final bool isOnline;
   final String? title;
   final String? subTitle;
+  final DateTime? time;
   final bool? isShowPoint;
   final void Function() handleOnTab;
 
@@ -81,7 +84,7 @@ class PersonListItem extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              const Text('14:01'),
+              if (time != null) Text(DateFormat.jm().format(time!.toLocal())),
               const SizedBox(
                 height: 8,
               ),

@@ -9,6 +9,7 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:message_repository/message_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 void bootstrap(
@@ -17,6 +18,7 @@ void bootstrap(
   FriendRepository friendRepository,
   ChatRoomRepository chatRoomRepository,
   MessageRepository messageRepository,
+  NotificationRepository notificationRepository,
 ) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
@@ -32,6 +34,7 @@ void bootstrap(
         friendRepository: friendRepository,
         chatRoomRepository: chatRoomRepository,
         messageRepository: messageRepository,
+        notificationRepository: notificationRepository,
       ),
     ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
