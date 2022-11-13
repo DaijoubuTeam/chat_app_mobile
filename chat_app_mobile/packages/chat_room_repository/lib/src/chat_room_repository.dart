@@ -18,6 +18,15 @@ class ChatRoomRepository {
     return chatRoomsRepo;
   }
 
+  Future<ChatRoom> getChatRoomById(String bearerToken, String id) async {
+    final chat_app_api.ChatRoom chatRoomApi =
+        await _chatAppApi.getChatRoomById(bearerToken, id);
+
+    final chatRoomRepo = chatRoomApi.toRepositoryChatRoom();
+
+    return chatRoomRepo;
+  }
+
   Future<bool> createNewChatRoom(
       String bearerToken, String chatRoomName) async {
     return await _chatAppApi.createNewChatRoom(bearerToken, chatRoomName);

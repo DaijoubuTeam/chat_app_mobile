@@ -51,11 +51,16 @@ class ChatDetailView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const ChatAppBarTitle(),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 1,
         actions: [
           IconButton(
             onPressed: () => {
-              context.pushNamed(ChatRoomDetailPage.namePage,
-                  params: {'chatRoomId': chatRoomId})
+              context.pushNamed(
+                ChatRoomDetailPage.namePage,
+                params: {'chatRoomId': chatRoomId},
+              ),
             },
             icon: const Icon(Icons.more_vert),
           ),

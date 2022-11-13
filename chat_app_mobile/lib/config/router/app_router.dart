@@ -69,7 +69,9 @@ class AppRouter {
                 name: ChatRoomDetailPage.namePage,
                 path: 'chat-rooms-details',
                 builder: (BuildContext context, GoRouterState state) {
-                  return const ChatRoomDetailPage();
+                  return ChatRoomDetailPage(
+                    chatRoomId: state.params['chatRoomId']!,
+                  );
                 },
               ),
             ]),

@@ -12,9 +12,9 @@ class HomeBottomNavigationBar extends StatelessWidget {
       currentIndex: tabIndex,
       onTap: (value) =>
           context.read<HomeBloc>().add(SelectTabIndexChanged(value)),
-      backgroundColor: Theme.of(context).primaryColor,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.grey[250],
+      backgroundColor: Colors.white,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.grey[110],
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.chat),

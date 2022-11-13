@@ -118,6 +118,10 @@ class ChatAppApi {
     return await _chatRoomApi.getChatRoom(bearerToken);
   }
 
+  Future<ChatRoom> getChatRoomById(String bearerToken, String id) async {
+    return await _chatRoomApi.getChatRoomById(bearerToken, id);
+  }
+
   Future<bool> createNewChatRoom(
       String bearerToken, String chatRoomName) async {
     return await _chatRoomApi.createNewChatRoom(bearerToken, chatRoomName);

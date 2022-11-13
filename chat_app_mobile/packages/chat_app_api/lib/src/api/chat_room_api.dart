@@ -29,6 +29,19 @@ class ChatRoomApi {
     return chatRooms;
   }
 
+  Future<ChatRoom> getChatRoomById(String bearerToken, String id) async {
+    final url = '$basePath/$id';
+
+    final response = await _dio.get(url,
+        options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+
+    final chatRoomJson = response.data;
+
+    final chatRoom = ChatRoom.fromJson(chatRoomJson);
+
+    return chatRoom;
+  }
+
   Future<bool> createNewChatRoom(
       String bearerToken, String chatRoomName) async {
     try {
