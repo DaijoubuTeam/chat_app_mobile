@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,19 +17,35 @@ class EditAvatar extends StatefulWidget {
 }
 
 class _EditAvatarState extends State<EditAvatar> {
-  File? imageAvatar;
+  XFile? imageAvatar;
+  UploadTask? uploadTask;
+  String? urlDownload;
 
-  Future _pickImage() async {
+  Future<void> _pickImage(BuildContext ctx) async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
-      final imageTemporary = File(image.path);
+      // create firebase storage
+      String uniqueImageName = DateTime.now().microsecondsSinceEpoch.toString();
+      Reference ref = FirebaseStorage.instance.ref();
+      Reference refDirImage = ref.child('images');
+      Reference refToUpload = refDirImage.child(uniqueImageName);
+      uploadTask = refToUpload.putFile(File(image.path));
+      final snapshot = await uploadTask!.whenComplete(() => {});
+      final urlDownloadImage = await snapshot.ref.getDownloadURL();
+      if (!mounted) return;
+      if (mounted) {
+        ctx
+            .read<EditProfileBloc>()
+            .add(EditProfileAvatarChanged(urlDownloadImage));
+      }
       setState(() {
-        imageAvatar = imageTemporary;
-        print(imageAvatar?.path.toString());
+        urlDownload = urlDownloadImage;
       });
     } on PlatformException catch (e) {
       log('Failed to pick image: $e');
+    } on FirebaseException catch (e) {
+      log('Failed to upload image: $e');
     }
   }
 
@@ -38,7 +55,9 @@ class _EditAvatarState extends State<EditAvatar> {
       builder: (context, state) {
         return Stack(
           children: [
-            CircleAvatarCustom(urlImage: state.avatar),
+            urlDownload == null
+                ? CircleAvatarCustom(urlImage: state.avatar)
+                : CircleAvatarCustom(urlImage: urlDownload),
             Positioned(
               bottom: 1,
               right: 1,
@@ -70,9 +89,7 @@ class _EditAvatarState extends State<EditAvatar> {
                       Icons.add_a_photo,
                       color: Colors.black,
                     ),
-                    onPressed: () {
-                      _pickImage();
-                    },
+                    onPressed: () => _pickImage(context),
                   ),
                 ),
               ),

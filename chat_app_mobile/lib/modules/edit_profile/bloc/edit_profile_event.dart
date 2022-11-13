@@ -4,7 +4,7 @@ abstract class EditProfileEvent extends Equatable {
   const EditProfileEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class EditProfilePageInited extends EditProfileEvent {}
@@ -14,7 +14,7 @@ class EditProfileEmailChanged extends EditProfileEvent {
   final String email;
 
   @override
-  List<Object> get props => [email];
+  List<Object?> get props => [email];
 }
 
 class EditProfileFullNameChanged extends EditProfileEvent {
@@ -22,7 +22,7 @@ class EditProfileFullNameChanged extends EditProfileEvent {
   final String fullname;
 
   @override
-  List<Object> get props => [fullname];
+  List<Object?> get props => [fullname];
 }
 
 class EditProfilePhoneChanged extends EditProfileEvent {
@@ -30,7 +30,15 @@ class EditProfilePhoneChanged extends EditProfileEvent {
   final String phone;
 
   @override
-  List<Object> get props => [phone];
+  List<Object?> get props => [phone];
+}
+
+class EditProfileAvatarChanged extends EditProfileEvent {
+  const EditProfileAvatarChanged(this.urlImage);
+  final String? urlImage;
+
+  @override
+  List<Object?> get props => [urlImage];
 }
 
 class EditProfileAboutChanged extends EditProfileEvent {
@@ -38,7 +46,7 @@ class EditProfileAboutChanged extends EditProfileEvent {
   final String about;
 
   @override
-  List<Object> get props => [about];
+  List<Object?> get props => [about];
 }
 
 class EditProfileFormSubmited extends EditProfileEvent {}

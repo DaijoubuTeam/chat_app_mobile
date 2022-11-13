@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:chat_app_mobile/modules/edit_profile/widget/edit_about_input.dart';
 import 'package:chat_app_mobile/modules/edit_profile/widget/edit_avatar.dart';
@@ -8,6 +9,7 @@ import 'package:chat_app_mobile/modules/edit_profile/widget/edit_phone_input.dar
 import 'package:chat_app_mobile/modules/edit_profile/widget/edit_submit_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:user_repository/user_repository.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -22,38 +24,71 @@ class EditProfilePage extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => EditProfileBloc(userRepository, authRepository),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Edit Profile')),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  EditAvatar(),
-                  SizedBox(
-                    height: 64,
-                  ),
-                  EditEmailInput(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  EditFullNameInput(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  EditPhoneInput(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  EditAboutInput(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  EditSubmitButton()
-                ],
-              ),
+      child: const EditProfileView(),
+    );
+  }
+}
+
+class EditProfileView extends StatelessWidget {
+  const EditProfileView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const AppBarCustom(
+        title: "Edit Profile",
+      ),
+      body: BlocListener<EditProfileBloc, EditProfileState>(
+        listenWhen: (previous, current) => previous.status != current.status,
+        listener: (context, state) {
+          if (state.status == FormzStatus.submissionSuccess) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: const Text("Edit Successfully"),
+                backgroundColor: Colors.green[400]!,
+              ));
+          }
+          if (state.status == FormzStatus.submissionFailure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: const Text("Edit Successfully"),
+                backgroundColor: Colors.red[400]!,
+              ));
+          }
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                SizedBox(
+                  height: 8,
+                ),
+                EditAvatar(),
+                SizedBox(
+                  height: 36,
+                ),
+                EditEmailInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditFullNameInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditPhoneInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditAboutInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditSubmitButton()
+              ],
             ),
           ),
         ),
