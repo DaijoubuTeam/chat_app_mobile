@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBarCustom({super.key, this.bottomWidget});
+  const HomeAppBarCustom({
+    super.key,
+    this.bottomWidget,
+    this.numberNotificaion = 0,
+  });
 
   final PreferredSizeWidget? bottomWidget;
+  final int numberNotificaion;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      elevation: 1,
+      elevation: 0.5,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,9 +53,30 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
           },
         ),
         IconButton(
-          icon: Icon(
-            Icons.notifications,
-            color: Theme.of(context).primaryColor,
+          icon: Stack(
+            children: [
+              Icon(
+                Icons.notifications,
+                color: Theme.of(context).primaryColor,
+              ),
+              if (numberNotificaion > 0)
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 10,
+                    width: 10,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                )
+            ],
           ),
           onPressed: () {
             context.pushNamed(NotificationsPage.namePage);

@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/list_title/request_friend_list_item.dart';
 import 'package:chat_app_mobile/modules/friends_request/bloc/friends_request_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,35 +38,12 @@ class ItemUserRequest extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 24,
-            child: ClipOval(child: Image.network(avatar ?? '')),
-          ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 12.0),
-            child: Text(fullname ?? ''),
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(email ?? ''),
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              IconButton(
-                color: Theme.of(context).primaryColor,
-                onPressed: () => _handleActionCard(context, uid, "accept"),
-                icon: const Icon(Icons.check),
-              ),
-              IconButton(
-                color: Theme.of(context).errorColor,
-                onPressed: () => _handleActionCard(context, uid, "denied"),
-                icon: const Icon(Icons.close),
-              )
-            ],
-          ),
+        child: RequestFriendListItem(
+          avatar: avatar,
+          title: fullname,
+          subtitle: email,
+          acceptAction: () => _handleActionCard(context, uid, "accept"),
+          denyAction: () => _handleActionCard(context, uid, "denied"),
         ),
       ),
     );

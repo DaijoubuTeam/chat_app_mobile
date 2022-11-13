@@ -1,5 +1,5 @@
-import './message.dart';
 import 'package:json_annotation/json_annotation.dart';
+import './models.dart';
 
 part 'chat_room.g.dart';
 
@@ -8,9 +8,9 @@ class ChatRoom {
   final String chatRoomId;
   final String? chatRoomName;
   final String? chatRoomAvatar;
-  final Iterable<String> members;
+  final Iterable<User> members;
   final Iterable<String> admin;
-  final Message? lastestMessage;
+  final Message? latestMessage;
   final String? type;
 
   ChatRoom({
@@ -18,8 +18,8 @@ class ChatRoom {
     this.chatRoomName,
     this.chatRoomAvatar,
     this.type,
-    this.lastestMessage,
-    Iterable<String>? members,
+    this.latestMessage,
+    Iterable<User>? members,
     Iterable<String>? admin,
   })  : members = members ?? List.unmodifiable([]),
         admin = admin ?? List.unmodifiable([]);
@@ -29,8 +29,8 @@ class ChatRoom {
     String? chatRoomName,
     String? chatRoomAvatar,
     String? type,
-    Message? lastestMessage,
-    List<String>? members,
+    Message? latestMessage,
+    List<User>? members,
     List<String>? admin,
   }) =>
       ChatRoom(
@@ -38,7 +38,7 @@ class ChatRoom {
         chatRoomName: chatRoomName ?? this.chatRoomName,
         chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
         type: type ?? this.type,
-        lastestMessage: lastestMessage ?? this.lastestMessage,
+        latestMessage: latestMessage ?? this.latestMessage,
         members: members ?? this.members,
         admin: admin ?? this.admin,
       );

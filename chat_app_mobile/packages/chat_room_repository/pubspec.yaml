@@ -14,6 +14,8 @@ dependencies:
     path: ../chat_app_api
   message_repository:
     path: ../message_repository
+  model_repository:
+    path: ../model_repository
 
 dev_dependencies:
   flutter_test:

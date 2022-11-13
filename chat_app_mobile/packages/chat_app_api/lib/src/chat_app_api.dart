@@ -1,6 +1,7 @@
 import 'package:chat_app_api/src/api/message_api.dart';
 import 'package:chat_app_api/src/api/chat_room_api.dart';
 import 'package:chat_app_api/src/api/friend_api.dart';
+import 'package:chat_app_api/src/api/notification_api.dart';
 import 'package:chat_app_api/src/api/user_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
@@ -14,6 +15,7 @@ class ChatAppApi {
       FriendApi? friendApi,
       ChatRoomApi? chatRoomApi,
       MessageApi? chatMessageApi,
+      NotificationApi? notificationApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
@@ -23,13 +25,16 @@ class ChatAppApi {
         _chatRoomApi =
             chatRoomApi ?? ChatRoomApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _messageApi = chatMessageApi ??
-            MessageApi(serverUrl: serverUrl, dio: dio ?? Dio());
+            MessageApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _notificationApi = notificationApi ??
+            NotificationApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
   FriendApi _friendApi;
   ChatRoomApi _chatRoomApi;
   MessageApi _messageApi;
+  NotificationApi _notificationApi;
 
   //auth api
   Future<User> verifyUser(String bearerToken) async {
@@ -185,5 +190,21 @@ class ChatAppApi {
   Future<bool> sendMessage(
       String bearerToken, String chatRoomId, String content) async {
     return await _messageApi.sendMessage(bearerToken, chatRoomId, content);
+  }
+
+  // notification api
+  Future<List<Notification>> getUserNotification(String bearerToken) async {
+    return await _notificationApi.getUserNotification(bearerToken);
+  }
+
+  Future<bool> readNotification(
+      String bearerToken, String notificationId) async {
+    return await _notificationApi.readNotification(bearerToken, notificationId);
+  }
+
+  Future<bool> deleteNotification(
+      String bearerToken, String notificationId) async {
+    return await _notificationApi.deleteNotification(
+        bearerToken, notificationId);
   }
 }

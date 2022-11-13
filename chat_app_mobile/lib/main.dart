@@ -14,6 +14,7 @@ import 'package:friend_repository/friend_repository.dart';
 import 'package:socket_repository/socket_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:message_repository/message_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +53,7 @@ Future<void> main() async {
   final friendRepository = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
   final messageRepository = MessageRepository(chatAppApi);
+  final notificationRepository = NotificationRepository(chatAppApi);
 
   SocketAPI.SocketApi.socketConnect();
 
@@ -63,5 +65,6 @@ Future<void> main() async {
     friendRepository,
     chatRoomRepository,
     messageRepository,
+    notificationRepository,
   );
 }

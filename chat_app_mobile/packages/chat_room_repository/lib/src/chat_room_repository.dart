@@ -1,4 +1,4 @@
-import './models/models.dart';
+import './models/models.dart' as chatroom_model;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
 
 class ChatRoomRepository {
@@ -7,7 +7,7 @@ class ChatRoomRepository {
 
   final chat_app_api.ChatAppApi _chatAppApi;
 
-  Future<List<ChatRoom>> getChatRoom(String bearerToken) async {
+  Future<List<chatroom_model.ChatRoom>> getChatRoom(String bearerToken) async {
     final List<chat_app_api.ChatRoom> chatRoomsApi =
         await _chatAppApi.getChatRoom(bearerToken);
 
@@ -18,7 +18,8 @@ class ChatRoomRepository {
     return chatRoomsRepo;
   }
 
-  Future<ChatRoom> getChatRoomById(String bearerToken, String id) async {
+  Future<chatroom_model.ChatRoom> getChatRoomById(
+      String bearerToken, String id) async {
     final chat_app_api.ChatRoom chatRoomApi =
         await _chatAppApi.getChatRoomById(bearerToken, id);
 
@@ -79,7 +80,8 @@ class ChatRoomRepository {
         bearerToken, chatRoomId, memberId);
   }
 
-  Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {
+  Future<List<chatroom_model.ChatRoom>> getAllChatRoomRequest(
+      String bearerToken) async {
     final List<chat_app_api.ChatRoom> chatRoomsApi =
         await _chatAppApi.getAllChatRoomRequest(bearerToken);
 
@@ -92,18 +94,43 @@ class ChatRoomRepository {
 }
 
 extension on chat_app_api.ChatRoom {
-  ChatRoom toRepositoryChatRoom() {
+  chatroom_model.ChatRoom toRepositoryChatRoom() {
     if (this == chat_app_api.ChatRoom.empty) {
-      return ChatRoom.empty;
+      return chatroom_model.ChatRoom.empty;
     }
-    final chatRoom = ChatRoom(
+    final chatRoom = chatroom_model.ChatRoom(
       chatRoomId: chatRoomId,
       chatRoomName: chatRoomName,
       chatRoomAvatar: chatRoomAvatar,
       type: type,
-      members: members,
+      members: members.map((member) => member.toRepositoryUser()),
       admin: admin,
+      fromLatestMessage: latestMessage?.from?.toRepositoryUser(),
+      readedLatestMessage:
+          latestMessage?.readed?.map((user) => user.toRepositoryUser()),
+      contentLatestMessage: latestMessage?.content,
+      latestTime: latestMessage?.createdAt,
     );
     return chatRoom;
+  }
+}
+
+extension on chat_app_api.User {
+  chatroom_model.User toRepositoryUser() {
+    if (this == chat_app_api.User.empty) {
+      return chatroom_model.User.empty;
+    }
+    final user = chatroom_model.User(
+      uid: uid,
+      username: username,
+      fullname: fullname,
+      avatar: avatar,
+      phone: phone,
+      about: about,
+      email: email,
+      isEmailVerified: isEmailVerified,
+      isProfileFilled: isProfileFilled,
+    );
+    return user;
   }
 }

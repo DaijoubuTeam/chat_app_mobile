@@ -20,7 +20,7 @@ class ChatRoomApi {
     final response = await _dio.get(url,
         options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
 
-    final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
+    final chatRoomsJson = response.data as List<dynamic>;
 
     final chatRooms = chatRoomsJson
         .map((chatRoomJson) => ChatRoom.fromJson(chatRoomJson))

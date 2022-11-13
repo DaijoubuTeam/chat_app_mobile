@@ -1,8 +1,8 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/app_bar/home_app_bar.dart';
 import 'package:chat_app_mobile/modules/chat/bloc/chat_bloc.dart';
-import 'package:chat_app_mobile/modules/chat/components/chat_item.dart';
-import 'package:chat_app_mobile/modules/chat/components/chat_place_holder.dart';
+import 'package:chat_app_mobile/modules/chat/widgets/chat_item.dart';
+import 'package:chat_app_mobile/modules/chat/widgets/chat_place_holder.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +32,7 @@ class ChatView extends StatelessWidget {
     return Scaffold(
       appBar: const HomeAppBarCustom(),
       body: Container(
-        color: Colors.grey[100],
+        color: Colors.white,
         child: BlocBuilder<ChatBloc, ChatState>(
           builder: (context, state) {
             if (state.runtimeType == ChatGetListSuccess) {
@@ -51,6 +51,8 @@ class ChatView extends StatelessWidget {
                         chatRoomId: listChatRoom[index].chatRoomId,
                         chatRoomName: listChatRoom[index].chatRoomName,
                         chatRoomAvatar: listChatRoom[index].chatRoomAvatar,
+                        latestMessage: listChatRoom[index].contentLatestMessage,
+                        time: listChatRoom[index].latestTime,
                       );
                     }),
                     itemCount: listChatRoom.length,

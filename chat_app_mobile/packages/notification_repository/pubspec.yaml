@@ -1,4 +1,4 @@
-name: model_repository
+name: notification_repository
 description: A new Flutter package project.
 version: 0.0.1
 publish_to: 'none'
@@ -10,6 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  chat_app_api:
+    path: ../chat_app_api
+  model_repository:
+    path: ../model_repository
 
 dev_dependencies:
   flutter_test:
