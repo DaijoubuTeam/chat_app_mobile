@@ -4,7 +4,7 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../components/chat_room_information.dart';
+import '../widgets/chat_room_information.dart';
 
 class ChatRoomDetailPage extends StatelessWidget {
   const ChatRoomDetailPage({

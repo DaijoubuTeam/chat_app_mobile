@@ -1,5 +1,5 @@
-import 'package:chat_app_mobile/modules/chat_detail/components/chat_content_button_send.dart';
-import 'package:chat_app_mobile/modules/chat_detail/components/chat_content_input.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_content_button_send.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_content_input.dart';
 import 'package:flutter/material.dart';
 
 class ChatBox extends StatefulWidget {

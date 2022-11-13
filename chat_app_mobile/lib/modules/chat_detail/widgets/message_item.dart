@@ -11,6 +11,7 @@ class MessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double withScreen = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Row(
@@ -30,15 +31,17 @@ class MessageItem extends StatelessWidget {
             )
           ],
           Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.6),
             padding: const EdgeInsets.symmetric(
-              horizontal: 16 * 0.75,
-              vertical: 16 / 2,
+              horizontal: 16,
+              vertical: 8,
             ),
             decoration: BoxDecoration(
               color: isMe
                   ? Theme.of(context).primaryColor
                   : Colors.grey[800]?.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               content,

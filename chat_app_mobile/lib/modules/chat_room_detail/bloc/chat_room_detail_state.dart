@@ -19,9 +19,15 @@ class ChatRoomDetailGetDataInProgress extends ChatRoomDetailState {
 }
 
 class ChatRoomDetailGetDataSuccess extends ChatRoomDetailState {
-  const ChatRoomDetailGetDataSuccess(
-      {required super.chatRoomId, this.chatRoomInformation});
+  const ChatRoomDetailGetDataSuccess({
+    required super.chatRoomId,
+    this.chatRoomInformation,
+  });
+
   final chat_room_repository.ChatRoom? chatRoomInformation;
+
+  @override
+  List<Object?> get props => [chatRoomId, chatRoomInformation];
 }
 
 class ChatRoomDetailGetDataFailure extends ChatRoomDetailState {

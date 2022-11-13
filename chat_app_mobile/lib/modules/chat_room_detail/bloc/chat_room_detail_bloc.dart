@@ -37,9 +37,13 @@ class ChatRoomDetailBloc
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final chatRoomInfor = await _chatRoomRepository.getChatRoomById(
-            bearerToken, state.chatRoomId);
+          bearerToken,
+          state.chatRoomId,
+        );
         emit(ChatRoomDetailGetDataSuccess(
-            chatRoomId: state.chatRoomId, chatRoomInformation: chatRoomInfor));
+          chatRoomId: state.chatRoomId,
+          chatRoomInformation: chatRoomInfor,
+        ));
       } else {
         emit(ChatRoomDetailGetDataFailure(chatRoomId: state.chatRoomId));
       }

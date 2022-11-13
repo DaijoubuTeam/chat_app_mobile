@@ -10,7 +10,7 @@ class ChatRoomInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatRoomDetailBloc, ChatRoomDetailState>(
-      buildWhen: (previous, current) => previous != current,
+      // buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         if (state.runtimeType == ChatRoomDetailGetDataSuccess) {
           return Column(
@@ -27,9 +27,9 @@ class ChatRoomInformation extends StatelessWidget {
               ),
               Text(
                 (state as ChatRoomDetailGetDataSuccess)
-                        .chatRoomInformation
-                        ?.chatRoomName ??
-                    state.chatRoomId,
+                        .chatRoomInformation!
+                        .chatRoomName ??
+                    '',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -47,7 +47,7 @@ class ChatRoomInformation extends StatelessWidget {
             ],
           );
         } else {
-          return Text("Somethings wrrong!");
+          return const Text("Somethings wrrong!");
         }
       },
     );
