@@ -24,7 +24,7 @@ class NotificationsView extends StatelessWidget {
         itemBuilder: ((context, index) {
           return PersonListItem(handleOnTab: () {});
         }),
-        itemCount: 1,
+        itemCount: 10,
       ),
     );
   }

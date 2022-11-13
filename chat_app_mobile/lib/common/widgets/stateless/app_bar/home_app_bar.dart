@@ -11,7 +11,7 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      elevation: 1,
+      elevation: 0.5,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
