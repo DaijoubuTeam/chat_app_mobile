@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/message_item/factory_message_item.dart';
 import 'package:flutter/material.dart';
 
 // class MessageItem extends StatelessWidget {
@@ -88,25 +89,8 @@ class _MessageItemState extends State<MessageItem> {
               width: 8,
             )
           ],
-          Container(
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.6),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            decoration: BoxDecoration(
-              color: widget.isMe
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey[800]?.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              widget.content,
-              style:
-                  TextStyle(color: widget.isMe ? Colors.white : Colors.black),
-            ),
-          ),
+          FactoryMessageItem.buildMessageItem(
+              "text", widget.isMe, widget.content),
         ],
       ),
     );
