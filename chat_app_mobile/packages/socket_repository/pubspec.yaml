@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
   json_annotation: ^4.7.0
   json_serializable: ^6.4.1
-
+  model_repository:
+    path: ../model_repository
 
 dev_dependencies:
   flutter_test:

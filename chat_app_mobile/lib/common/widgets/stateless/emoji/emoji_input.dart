@@ -3,14 +3,14 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 
-class EmojiInput extends StatelessWidget {
-  const EmojiInput({
+class EmojiInputCustom extends StatelessWidget {
+  const EmojiInputCustom({
     super.key,
     this.emojiShowing = false,
-    // required this.editingController,
+    required this.editingController,
   });
   final bool emojiShowing;
-  // final TextEditingController editingController;
+  final TextEditingController editingController;
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +19,18 @@ class EmojiInput extends StatelessWidget {
       child: SizedBox(
         height: 250,
         child: EmojiPicker(
-          // textEditingController: editingController,
+          textEditingController: editingController,
           config: Config(
             columns: 7,
             // Issue: https://github.com/flutter/flutter/issues/28894
             emojiSizeMax:
-                32 * (Platform.isIOS || Platform.isMacOS ? 1.30 : 1.0),
+                24 * (Platform.isIOS || Platform.isMacOS ? 1.30 : 1.0),
             // (!foundation.kIsWeb && Platform.isIOS ? 1.30 : 1.0),
             verticalSpacing: 0,
             horizontalSpacing: 0,
             gridPadding: EdgeInsets.zero,
             initCategory: Category.RECENT,
-            bgColor: const Color(0xFFF2F2F2),
+            bgColor: Colors.transparent,
             indicatorColor: Colors.blue,
             iconColor: Colors.grey,
             iconColorSelected: Colors.blue,

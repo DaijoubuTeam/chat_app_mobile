@@ -3,25 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-class ChatContentInput extends StatefulWidget {
-  const ChatContentInput({Key? key}) : super(key: key);
+class ChatContentInput extends StatelessWidget {
+  const ChatContentInput({
+    super.key,
+    required this.inputController,
+  });
 
-  @override
-  State<ChatContentInput> createState() => _ChatContentInputState();
-}
-
-class _ChatContentInputState extends State<ChatContentInput> {
-  final TextEditingController _inputController = TextEditingController();
-
-  @override
-  void initState() {
-    _inputController.addListener(() => {
-          context
-              .read<ChatDetailBloc>()
-              .add(ChatDetailContentChanging(_inputController.text))
-        });
-    super.initState();
-  }
+  final TextEditingController inputController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +19,7 @@ class _ChatContentInputState extends State<ChatContentInput> {
           current.status == FormzStatus.submissionSuccess,
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {
-          _inputController.clear();
-          // ScaffoldMessenger.of(context)
-          //     .showSnackBar(SnackBar(content: Text("Da gui thanh cong")));
+          inputController.clear();
         }
       },
       child: Expanded(
@@ -50,19 +36,10 @@ class _ChatContentInputState extends State<ChatContentInput> {
             children: [
               Row(
                 children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.sentiment_satisfied_alt_outlined),
-                    onPressed: () => {
-                      // EmojiInput(
-                      //   emojiShowing: true,
-                      //   editingController: _inputController,
-                      // )
-                    },
-                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: TextField(
-                      controller: _inputController,
+                      controller: inputController,
                       maxLines: 11,
                       minLines: 1,
                       decoration: const InputDecoration(
@@ -80,11 +57,5 @@ class _ChatContentInputState extends State<ChatContentInput> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _inputController.dispose();
-    super.dispose();
   }
 }

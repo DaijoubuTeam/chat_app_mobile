@@ -5,7 +5,7 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:socket_repository/socket_repository.dart';
+import 'package:socket_repository/socket_repository.dart' as socket_repo;
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -32,11 +32,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onAppUserChanged(AppUserChanged event, Emitter<AppState> emit) {
-    SocketAPI.SocketApi.socketDisconnected();
-    SocketAPI.SocketApi.socketConnect().onConnect((data) {
+    socket_repo.SocketAPI.SocketApi.socketDisconnected();
+    socket_repo.SocketAPI.SocketApi.socketConnect().onConnect((data) {
       if (event.user != User.empty) {
         log(_authRepository.currentUser.uid);
-        SocketAPI.SocketApi.socketRegister(_authRepository.currentUser.uid);
+        socket_repo.SocketAPI.SocketApi
+            .socketRegister(_authRepository.currentUser.uid);
       }
     });
     if (event.user != User.empty) {
