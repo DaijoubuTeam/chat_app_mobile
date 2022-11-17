@@ -49,6 +49,7 @@ dependencies:
   formz: ^0.4.1
   image_picker: ^0.8.6
   emoji_picker_flutter: ^1.5.0
+  flutter_reaction_button: ^2.0.1+2
   intl: ^0.17.0
   auth_repository: 
     path: packages/auth_repository
@@ -70,6 +71,8 @@ dependencies:
     path: packages/socket_repository
   form_inputs:
     path: packages/form_inputs
+  firestore_upload_file:
+    path: packages/firestore_upload_file
 
 dev_dependencies:
   flutter_test:

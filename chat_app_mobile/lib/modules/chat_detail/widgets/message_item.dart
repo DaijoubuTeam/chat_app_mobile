@@ -69,6 +69,8 @@ class MessageItem extends StatefulWidget {
 }
 
 class _MessageItemState extends State<MessageItem> {
+  bool isTapping = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -89,8 +91,15 @@ class _MessageItemState extends State<MessageItem> {
               width: 8,
             )
           ],
-          FactoryMessageItem.buildMessageItem(
-              "text", widget.isMe, widget.content),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                isTapping = !isTapping;
+              });
+            },
+            child: FactoryMessageItem.buildMessageItem(
+                "text", widget.isMe, widget.content),
+          ),
         ],
       ),
     );

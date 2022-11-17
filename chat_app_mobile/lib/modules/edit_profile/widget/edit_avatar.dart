@@ -1,9 +1,9 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firestore_upload_file/firestore_upload_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,14 +25,8 @@ class _EditAvatarState extends State<EditAvatar> {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
-      // create firebase storage
-      String uniqueImageName = DateTime.now().microsecondsSinceEpoch.toString();
-      Reference ref = FirebaseStorage.instance.ref();
-      Reference refDirImage = ref.child('images');
-      Reference refToUpload = refDirImage.child(uniqueImageName);
-      uploadTask = refToUpload.putFile(File(image.path));
-      final snapshot = await uploadTask!.whenComplete(() => {});
-      final urlDownloadImage = await snapshot.ref.getDownloadURL();
+      final urlDownloadImage =
+          await FireStoreUploadFileService.firseStoreService.uploadFile(image);
       if (!mounted) return;
       if (mounted) {
         ctx
