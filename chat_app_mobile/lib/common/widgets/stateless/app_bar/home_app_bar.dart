@@ -6,11 +6,11 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBarCustom({
     super.key,
     this.bottomWidget,
-    this.numberNotificaion = 0,
+    this.numberNotification = 0,
   });
 
   final PreferredSizeWidget? bottomWidget;
-  final int numberNotificaion;
+  final int numberNotification;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
                 Icons.notifications,
                 color: Theme.of(context).primaryColor,
               ),
-              if (numberNotificaion > 0)
+              if (numberNotification > 0)
                 Positioned(
                   right: 0,
                   bottom: 0,

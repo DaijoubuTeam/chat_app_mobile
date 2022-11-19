@@ -6,6 +6,7 @@ import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
+import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
 import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/modules/login/view/view.dart';
 import 'package:chat_app_mobile/modules/notifications/view/view.dart';
@@ -13,6 +14,8 @@ import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
+
+import '../../modules/group_request/view/view.dart';
 
 class AppRouter {
   AppRouter({required this.appBloc});
@@ -77,7 +80,6 @@ class AppRouter {
                 name: ChatRoomDetailPage.namePage,
                 path: 'chat-rooms-details',
                 builder: (BuildContext context, GoRouterState state) {
-                  final mapStateExtra = state.extra as Map<String, String?>;
                   return ChatRoomDetailPage(
                     chatRoomId: state.params['chatRoomId']!,
                   );
@@ -105,6 +107,20 @@ class AppRouter {
             return FriendProfilePage(
               friendInfor: state.extra as user_repository.User,
             );
+          },
+        ),
+        GoRoute(
+          name: GroupRequestPage.namePage,
+          path: '/group-request',
+          builder: (BuildContext context, GoRouterState state) {
+            return const GroupRequestPage();
+          },
+        ),
+        GoRoute(
+          name: GroupCreatePage.namePage,
+          path: '/create-group',
+          builder: (BuildContext context, GoRouterState state) {
+            return const GroupCreatePage();
           },
         ),
       ],
