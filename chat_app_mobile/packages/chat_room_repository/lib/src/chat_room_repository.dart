@@ -24,7 +24,6 @@ class ChatRoomRepository {
         await _chatAppApi.getChatRoomById(bearerToken, id);
 
     final chatRoomRepo = chatRoomApi.toRepositoryChatRoom();
-
     return chatRoomRepo;
   }
 
@@ -110,6 +109,7 @@ extension on chat_app_api.ChatRoom {
           latestMessage?.readed?.map((user) => user.toRepositoryUser()),
       contentLatestMessage: latestMessage?.content,
       latestTime: latestMessage?.createdAt,
+      //friendsInChatRoom: members.map((member) => member.ui)
     );
     return chatRoom;
   }

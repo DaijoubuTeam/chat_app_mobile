@@ -30,6 +30,7 @@ class TextMessageItem extends IMessageItem {
         content ?? '',
         style: TextStyle(
           color: isMe ? Colors.white : Colors.black,
+          fontSize: 16,
         ),
       ),
     );

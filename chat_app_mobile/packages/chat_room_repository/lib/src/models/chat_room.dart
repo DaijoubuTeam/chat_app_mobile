@@ -15,6 +15,8 @@ class ChatRoom {
   final Iterable<chat_room_models.User>? readedLatestMessage;
   final String? contentLatestMessage;
   final DateTime? latestTime;
+  // add new property for handle UI
+  final Iterable<chat_room_models.User> friendsInChatRoom;
 
   ChatRoom({
     required this.chatRoomId,
@@ -28,9 +30,11 @@ class ChatRoom {
     Iterable<chat_room_models.User>? readedLatestMessage,
     this.contentLatestMessage,
     this.latestTime,
+    Iterable<chat_room_models.User>? friendsInChatRoom,
   })  : members = members ?? List.unmodifiable([]),
         admin = admin ?? List.unmodifiable([]),
-        readedLatestMessage = readedLatestMessage ?? List.unmodifiable([]);
+        readedLatestMessage = readedLatestMessage ?? List.unmodifiable([]),
+        friendsInChatRoom = friendsInChatRoom ?? List.unmodifiable([]);
 
   ChatRoom copyWith({
     String? chatRoomId,
@@ -44,6 +48,7 @@ class ChatRoom {
     Iterable<chat_room_models.User>? readedLatestMessage,
     String? contentLatestMessage,
     DateTime? latestTime,
+    Iterable<chat_room_models.User>? friendsInChatRoom,
   }) =>
       ChatRoom(
         chatRoomId: chatRoomId ?? this.chatRoomId,
@@ -57,6 +62,7 @@ class ChatRoom {
         readedLatestMessage: readedLatestMessage ?? this.readedLatestMessage,
         contentLatestMessage: contentLatestMessage ?? this.contentLatestMessage,
         latestTime: latestTime ?? this.latestTime,
+        friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
       );
 
   static final empty = ChatRoom(chatRoomId: '');

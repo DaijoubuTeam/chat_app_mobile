@@ -7,10 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/chat_room_information.dart';
 
 class ChatRoomDetailPage extends StatelessWidget {
-  const ChatRoomDetailPage({
-    super.key,
-    required this.chatRoomId,
-  });
+  const ChatRoomDetailPage(
+      {super.key,
+      required this.chatRoomId,});
 
   static const namePage = 'chat-room-details';
 
@@ -30,7 +29,9 @@ class ChatRoomDetailPage extends StatelessWidget {
 }
 
 class ChatRoomView extends StatelessWidget {
-  const ChatRoomView({super.key});
+  const ChatRoomView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

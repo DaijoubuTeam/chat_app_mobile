@@ -20,6 +20,7 @@ class ChatContents extends StatelessWidget {
               isMe: listMessage[index].isMe ?? false,
               content: listMessage[index].content!,
               friendAvatar: listMessage[index].from?.avatar,
+              readed: listMessage[index].readed?.toList(),
             );
           }),
           itemCount: listMessage.length,

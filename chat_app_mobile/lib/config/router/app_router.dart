@@ -77,6 +77,7 @@ class AppRouter {
                 name: ChatRoomDetailPage.namePage,
                 path: 'chat-rooms-details',
                 builder: (BuildContext context, GoRouterState state) {
+                  final mapStateExtra = state.extra as Map<String, String?>;
                   return ChatRoomDetailPage(
                     chatRoomId: state.params['chatRoomId']!,
                   );

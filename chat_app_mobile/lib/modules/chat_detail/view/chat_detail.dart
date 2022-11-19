@@ -34,18 +34,24 @@ class ChatDetailPage extends StatelessWidget {
       ),
       child: ChatDetailView(
         chatRoomId: chatRoomId,
+        chatRoomAvatar: chatRoomAvatar,
+        chatRoomName: chatRoomName,
       ),
     );
   }
 }
 
 class ChatDetailView extends StatelessWidget {
-  const ChatDetailView({
-    Key? key,
-    required this.chatRoomId,
-  }) : super(key: key);
+  const ChatDetailView(
+      {Key? key,
+      required this.chatRoomId,
+      this.chatRoomAvatar,
+      this.chatRoomName})
+      : super(key: key);
 
   final String chatRoomId;
+  final String? chatRoomAvatar;
+  final String? chatRoomName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +65,13 @@ class ChatDetailView extends StatelessWidget {
             onPressed: () => {
               context.pushNamed(
                 ChatRoomDetailPage.namePage,
-                params: {'chatRoomId': chatRoomId},
+                params: {
+                  'chatRoomId': chatRoomId,
+                },
+                extra: {
+                  'chatRoomName': chatRoomName,
+                  'chatRoomAvatar': chatRoomAvatar,
+                }
               ),
             },
             icon: const Icon(Icons.more_vert),

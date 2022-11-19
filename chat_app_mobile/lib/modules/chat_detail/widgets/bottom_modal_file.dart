@@ -34,12 +34,17 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     print(urlDownloadImage);
                   }
                 },
-                child: Text("Send"),
+                child: const Text("Send"),
               ),
               const SizedBox(
                 width: 10,
               ),
-              const Text("Cancel"),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Cancel"),
+              ),
             ],
           ),
           // area show image
