@@ -1,10 +1,47 @@
+import 'dart:developer';
+
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firestore_upload_file/firestore_upload_file.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
-class EditAvatar extends StatelessWidget {
+class EditAvatar extends StatefulWidget {
   const EditAvatar({super.key});
+
+  @override
+  State<EditAvatar> createState() => _EditAvatarState();
+}
+
+class _EditAvatarState extends State<EditAvatar> {
+  XFile? imageAvatar;
+  UploadTask? uploadTask;
+  String? urlDownload;
+
+  Future<void> _pickImage(BuildContext ctx) async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final urlDownloadImage =
+          await FireStoreUploadFileService.firseStoreService.uploadFile(image);
+      if (!mounted) return;
+      if (mounted) {
+        ctx
+            .read<EditProfileBloc>()
+            .add(EditProfileAvatarChanged(urlDownloadImage));
+      }
+      setState(() {
+        urlDownload = urlDownloadImage;
+      });
+    } on PlatformException catch (e) {
+      log('Failed to pick image: $e');
+    } on FirebaseException catch (e) {
+      log('Failed to upload image: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +49,9 @@ class EditAvatar extends StatelessWidget {
       builder: (context, state) {
         return Stack(
           children: [
-            CircleAvatarCustom(urlImage: state.avatar),
+            urlDownload == null
+                ? CircleAvatarCustom(urlImage: state.avatar)
+                : CircleAvatarCustom(urlImage: urlDownload),
             Positioned(
               bottom: 1,
               right: 1,
@@ -34,9 +73,18 @@ class EditAvatar extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Icon(Icons.add_a_photo, color: Colors.black),
+                child: SizedBox(
+                  height: 28,
+                  width: 28,
+                  child: IconButton(
+                    padding: const EdgeInsets.all(2),
+                    iconSize: 24,
+                    icon: const Icon(
+                      Icons.add_a_photo,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => _pickImage(context),
+                  ),
                 ),
               ),
             ),

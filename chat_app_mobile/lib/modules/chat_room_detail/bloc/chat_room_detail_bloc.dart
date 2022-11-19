@@ -14,13 +14,13 @@ class ChatRoomDetailBloc
     extends Bloc<ChatRoomDetailEvent, ChatRoomDetailState> {
   ChatRoomDetailBloc({
     required String chatRoomId,
+    String? chatRoomAvatar,
+    String? chatRoomName,
     required auth_repository.AuthRepository authRepository,
     required chat_room_repository.ChatRoomRepository chatRoomRepository,
   })  : _authRepository = authRepository,
         _chatRoomRepository = chatRoomRepository,
-        super(ChatRoomDetailInitial(
-          chatRoomId: chatRoomId,
-        )) {
+        super(ChatRoomDetailInitial(chatRoomId: chatRoomId)) {
     on<ChatRoomDetailInited>(_onChatRoomDetailInited);
     on<ChatRoomDetailBlocked>(_onChatRoomDetailBlocked);
 
@@ -37,15 +37,23 @@ class ChatRoomDetailBloc
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final chatRoomInfor = await _chatRoomRepository.getChatRoomById(
-            bearerToken, state.chatRoomId);
+          bearerToken,
+          state.chatRoomId,
+        );
         emit(ChatRoomDetailGetDataSuccess(
-            chatRoomId: state.chatRoomId, chatRoomInformation: chatRoomInfor));
+          chatRoomId: state.chatRoomId,
+          chatRoomInformation: chatRoomInfor,
+        ));
       } else {
-        emit(ChatRoomDetailGetDataFailure(chatRoomId: state.chatRoomId));
+        emit(ChatRoomDetailGetDataFailure(
+          chatRoomId: state.chatRoomId,
+        ));
       }
     } catch (e) {
       log(e.toString(), name: "ChatRoomDetailInited");
-      emit(ChatRoomDetailGetDataFailure(chatRoomId: state.chatRoomId));
+      emit(ChatRoomDetailGetDataFailure(
+        chatRoomId: state.chatRoomId,
+      ));
     }
   }
 

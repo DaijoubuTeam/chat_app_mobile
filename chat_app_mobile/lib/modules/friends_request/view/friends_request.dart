@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/modules/find_friend/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/bloc/friends_request_bloc.dart';
 import 'package:chat_app_mobile/modules/friends_request/widgets/list_user_request.dart';
@@ -53,9 +54,7 @@ class FriendsRequestView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Friends Request Page'),
-        ),
+        appBar: const AppBarCustom(title: 'Friends Request Page'),
         backgroundColor: Colors.grey[100],
         body: RefreshIndicator(
           onRefresh: () async {

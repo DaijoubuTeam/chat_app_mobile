@@ -42,9 +42,9 @@ class FindFriendView extends StatelessWidget {
 
           final user_repository.User friendInfor =
               (state as FindFriendSuccess).friendInfor;
-          // hide snackbar before push friend profile
+
           Navigator.pop(context);
-          // pass params for friend infor page
+
           context.pushNamed(
             FriendProfilePage.namePage,
             extra: friendInfor,

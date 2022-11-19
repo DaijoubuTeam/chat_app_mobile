@@ -29,6 +29,23 @@ class HomeView extends StatelessWidget {
     SettingPage(),
   ];
 
+  List<BottomNavigationBarItem> _buildTabLabel() {
+    return const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+        icon: Icon(Icons.chat),
+        label: 'Chat',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.phone),
+        label: 'Call',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Setting',
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
@@ -38,6 +55,7 @@ class HomeView extends StatelessWidget {
           body: _widgetOptions.elementAt(state.tabIndex),
           bottomNavigationBar: HomeBottomNavigationBar(
             tabIndex: state.tabIndex,
+            items: _buildTabLabel(),
           ),
         );
       },

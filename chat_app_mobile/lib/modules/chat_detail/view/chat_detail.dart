@@ -1,8 +1,8 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
-import 'package:chat_app_mobile/modules/chat_detail/components/chat_app_bar_title.dart';
-import 'package:chat_app_mobile/modules/chat_detail/components/chat_box.dart';
-import 'package:chat_app_mobile/modules/chat_detail/components/list_message.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_app_bar_title.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_box.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/list_message.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,18 +34,24 @@ class ChatDetailPage extends StatelessWidget {
       ),
       child: ChatDetailView(
         chatRoomId: chatRoomId,
+        chatRoomAvatar: chatRoomAvatar,
+        chatRoomName: chatRoomName,
       ),
     );
   }
 }
 
 class ChatDetailView extends StatelessWidget {
-  const ChatDetailView({
-    Key? key,
-    required this.chatRoomId,
-  }) : super(key: key);
+  const ChatDetailView(
+      {Key? key,
+      required this.chatRoomId,
+      this.chatRoomAvatar,
+      this.chatRoomName})
+      : super(key: key);
 
   final String chatRoomId;
+  final String? chatRoomAvatar;
+  final String? chatRoomName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +65,13 @@ class ChatDetailView extends StatelessWidget {
             onPressed: () => {
               context.pushNamed(
                 ChatRoomDetailPage.namePage,
-                params: {'chatRoomId': chatRoomId},
+                params: {
+                  'chatRoomId': chatRoomId,
+                },
+                extra: {
+                  'chatRoomName': chatRoomName,
+                  'chatRoomAvatar': chatRoomAvatar,
+                }
               ),
             },
             icon: const Icon(Icons.more_vert),

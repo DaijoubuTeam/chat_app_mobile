@@ -9,6 +9,7 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:socket_repository/socket_repository.dart';
@@ -24,10 +25,12 @@ Future<void> main() async {
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {
     // serverUrl = "https://10.0.2.2/api/v1";
-    serverUrl = "https://192.168.2.154/api/v1";
-    firebase_auth.FirebaseAuth.instance.useAuthEmulator("192.168.2.154", 9099);
+    serverUrl = "https://10.0.2.2/api/v1";
+    firebase_auth.FirebaseAuth.instance.useAuthEmulator("10.0.2.2", 9099);
+    FirebaseStorage.instance.useStorageEmulator("10.0.2.2", 9099);
   } else {
     firebase_auth.FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
+    FirebaseStorage.instance.useStorageEmulator("localhost", 9199);
   }
 
   // Create dio

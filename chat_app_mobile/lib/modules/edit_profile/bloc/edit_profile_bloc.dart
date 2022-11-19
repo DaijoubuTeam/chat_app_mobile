@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:user_repository/src/models/models.dart' as user_model;
 
@@ -20,6 +21,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<EditProfileFullNameChanged>(_onEditProfileFullNameChanged);
     on<EditProfilePhoneChanged>(_onEditProfilePhoneChanged);
     on<EditProfileAboutChanged>(_onEditProfileAboutChanged);
+    on<EditProfileAvatarChanged>(_onEditProfileAvatarChanged);
     on<EditProfileFormSubmited>(_onEditProfileFormSubmited);
     add(EditProfilePageInited());
   }
@@ -78,6 +80,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   Future<void> _onEditProfileFormSubmited(
       EditProfileFormSubmited event, Emitter<EditProfileState> emit) async {
     try {
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final user = user_model.User(
@@ -98,11 +101,17 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
                 phone: updatedUser.phone,
                 about: updatedUser.about,
                 avatar: updatedUser.avatar,
-              )
+                status: FormzStatus.submissionSuccess)
             : state.copyWith());
       }
     } catch (err) {
       log(err.toString(), name: 'edit profile form submit error');
+      emit(state.copyWith(status: FormzStatus.submissionSuccess));
     }
+  }
+
+  void _onEditProfileAvatarChanged(
+      EditProfileAvatarChanged event, Emitter<EditProfileState> emit) {
+    emit(state.copyWith(avatar: event.urlImage));
   }
 }

@@ -18,4 +18,4 @@ class ChatDetailContentChanging extends ChatDetailEvent {
   List<Object?> get props => [];
 }
 
-class ChatDetailContentSubmited extends ChatDetailEvent {}
+class ChatDetailContentSubmitted extends ChatDetailEvent {}

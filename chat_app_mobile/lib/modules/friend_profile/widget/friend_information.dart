@@ -30,7 +30,9 @@ class FriendInformation extends StatelessWidget {
             ),
             Text(
               state.friendInfor.about ?? '',
-              style: const TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+              style: const TextStyle(
+                fontSize: 16,
+              ),
             ),
             const SizedBox(
               height: 32,

@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/bloc/chat_room_detail_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,26 +11,28 @@ class ChatRoomInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatRoomDetailBloc, ChatRoomDetailState>(
-      buildWhen: (previous, current) => previous != current,
+      // buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         if (state.runtimeType == ChatRoomDetailGetDataSuccess) {
+          final chatRoomInfor =
+              (state as ChatRoomDetailGetDataSuccess).chatRoomInformation;
           return Column(
             children: <Widget>[
               const SizedBox(
                 height: 48,
               ),
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/empty_avatar.png'),
-                maxRadius: 48,
-              ),
+              (chatRoomInfor?.chatRoomAvatar != null)
+                  ? CircleAvatarCustom(urlImage: chatRoomInfor!.chatRoomAvatar!)
+                  : const CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/empty_avatar.png'),
+                      maxRadius: 48,
+                    ),
               const SizedBox(
                 height: 24,
               ),
               Text(
-                (state as ChatRoomDetailGetDataSuccess)
-                        .chatRoomInformation
-                        ?.chatRoomName ??
-                    state.chatRoomId,
+                chatRoomInfor?.chatRoomName ?? '',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -47,7 +50,7 @@ class ChatRoomInformation extends StatelessWidget {
             ],
           );
         } else {
-          return Text("Somethings wrrong!");
+          return const Text("Somethings wrrong!");
         }
       },
     );

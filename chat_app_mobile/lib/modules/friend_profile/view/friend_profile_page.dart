@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
+import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/buttons/elevated_button.dart';
 import 'package:chat_app_mobile/modules/friend_profile/bloc/friend_profile_bloc.dart';
 import 'package:chat_app_mobile/modules/friend_profile/widget/friend_information.dart';
@@ -18,9 +19,7 @@ class FriendProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(friendInfor.uid),
-      ),
+      appBar: const AppBarCustom(title: "Friend information"),
       body: BlocProvider(
         create: (_) => FriendProfileBloc(
             friendSearchInfor: friendInfor,

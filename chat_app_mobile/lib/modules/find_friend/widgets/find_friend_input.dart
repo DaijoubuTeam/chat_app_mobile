@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/text_fields/outline_input_border_custom.dart';
 import 'package:chat_app_mobile/modules/find_friend/bloc/find_friend_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,38 +11,25 @@ class FindFriendInput extends StatefulWidget {
 }
 
 class _FindFriendInputState extends State<FindFriendInput> {
-  TextEditingController inputController = TextEditingController();
+  final TextEditingController _inputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    inputController.addListener(() => context
+    _inputController.addListener(() => context
         .read<FindFriendBloc>()
-        .add(FindFriendInputSearchChanged(inputController.text)));
+        .add(FindFriendInputSearchChanged(_inputController.text)));
 
-    return BlocListener<FindFriendBloc, FindFriendState>(
-      listenWhen: (previous, current) {
-        // check runtimeType for guaranteed type is true
-        // so you can get inputSearch in listener
-        return previous != current &&
-            current.runtimeType == FindFriendInputChanging;
-      },
-      listener: (context, state) {
-        inputController.text = (state as FindFriendInputChanging).inputSearch;
-        inputController.selection = TextSelection.fromPosition(
-          TextPosition(offset: inputController.text.length),
-        );
-      },
-      child: TextFormField(
-        controller: inputController,
-        decoration: InputDecoration(
-          labelText: 'Email/Phone',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          prefixIcon: const Icon(Icons.search),
-          helperText: '',
-        ),
-      ),
+    return OutlineInputBorderCustom(
+      inputController: _inputController,
+      labelText: "Email/Phone number",
+      hintText: "Search user by email or phone number",
+      icon: const Icon(Icons.search),
     );
+  }
+
+  @override
+  void dispose() {
+    _inputController.dispose();
+    super.dispose();
   }
 }

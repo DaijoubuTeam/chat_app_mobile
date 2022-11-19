@@ -27,7 +27,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
             chatRoomAvatar: chatRoomAvatar)) {
     on<ChatDetailPageInited>(_onChatDetailPageInited);
     on<ChatDetailContentChanging>(_onChatDetailContentChanging);
-    on<ChatDetailContentSubmited>(_onChatDetailContentSubmited);
+    on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
 
     add(ChatDetailPageInited());
 
@@ -75,8 +75,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     emit(state.copyWith(content: event.content));
   }
 
-  Future<void> _onChatDetailContentSubmited(
-      ChatDetailContentSubmited event, Emitter<ChatDetailState> emit) async {
+  Future<void> _onChatDetailContentSubmitted(
+      ChatDetailContentSubmitted event, Emitter<ChatDetailState> emit) async {
     try {
       if (state.content == null) {
         return;

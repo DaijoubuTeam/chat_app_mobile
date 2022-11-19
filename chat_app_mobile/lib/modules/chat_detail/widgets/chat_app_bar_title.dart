@@ -8,7 +8,8 @@ class ChatAppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
-      buildWhen: (previous, current) => previous != current,
+      buildWhen: (previous, current) =>
+          previous.chatRoomName != current.chatRoomName,
       builder: (context, state) {
         return Row(
           children: <Widget>[
@@ -39,24 +40,29 @@ class ChatAppBarTitle extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              width: 20,
+              width: 16,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  state.chatRoomName ?? '',
-                  style: const TextStyle(
-                    fontSize: 16,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    state.chatRoomName ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                const Text(
-                  'Active 3m ago',
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                )
-              ],
+                  // const Text(
+                  //   'Active 3m ago',
+                  //   style: TextStyle(
+                  //     fontSize: 12,
+                  //   ),
+                  // )
+                ],
+              ),
             )
           ],
         );

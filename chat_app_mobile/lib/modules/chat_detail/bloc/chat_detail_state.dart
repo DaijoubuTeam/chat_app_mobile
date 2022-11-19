@@ -21,9 +21,13 @@ class ChatDetailState extends Equatable {
     String? content,
     List<message_repository.Message>? listMessage,
     FormzStatus? status,
+    String? chatRoomName,
+    String? chatRoomAvatar,
   }) {
     return ChatDetailState(
         chatRoomId: chatRoomId,
+        chatRoomName: chatRoomName ?? this.chatRoomName,
+        chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
         content: content ?? this.content,
         listMessage: listMessage ?? this.listMessage,
         status: status ?? this.status);

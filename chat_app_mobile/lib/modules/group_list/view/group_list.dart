@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/modules/group_list/widgets/button_request_group.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/button_create_group.dart';
 import '../widgets/list_group_jonied.dart';
 
 class GroupListPage extends StatelessWidget {
@@ -21,6 +22,7 @@ class GroupListView extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const ButtonRequestGroup(),
+          const ButtonCreateGroup(),
           Divider(
             height: 25,
             color: Theme.of(context).backgroundColor,

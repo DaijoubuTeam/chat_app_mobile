@@ -9,7 +9,7 @@ class ChatContentButtonSend extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        context.read<ChatDetailBloc>().add(ChatDetailContentSubmited());
+        context.read<ChatDetailBloc>().add(ChatDetailContentSubmitted());
       },
       icon: Icon(
         Icons.send,
