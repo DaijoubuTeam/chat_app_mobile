@@ -28,8 +28,17 @@ class ChatRoomRepository {
   }
 
   Future<bool> createNewChatRoom(
-      String bearerToken, String chatRoomName) async {
-    return await _chatAppApi.createNewChatRoom(bearerToken, chatRoomName);
+    String bearerToken,
+    String chatRoomName,
+    String? chatRoomAvatar,
+    List<String>? memberIds,
+  ) async {
+    return await _chatAppApi.createNewChatRoom(
+      bearerToken,
+      chatRoomName,
+      chatRoomAvatar,
+      memberIds,
+    );
   }
 
   Future<bool> acceptJoinChat(String bearerToken, String chatRoomId) async {
