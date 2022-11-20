@@ -1,15 +1,26 @@
+import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
 import 'package:chat_app_mobile/modules/group_list/widgets/button_request_group.dart';
+import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 import '../widgets/button_create_group.dart';
-import '../widgets/list_group_jonied.dart';
+import '../widgets/list_group_joined.dart';
 
 class GroupListPage extends StatelessWidget {
   const GroupListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const GroupListView();
+    return BlocProvider(
+      create: (_) => GroupListBloc(
+        context.read<AuthRepository>(),
+        context.read<ChatRoomRepository>(),
+      ),
+      child: const GroupListView(),
+    );
   }
 }
 
@@ -18,25 +29,38 @@ class GroupListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          const ButtonRequestGroup(),
-          const ButtonCreateGroup(),
-          Divider(
-            height: 25,
-            color: Theme.of(context).backgroundColor,
-            thickness: 16,
-          ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {},
-              child: const Scrollbar(
-                child: ListGroupJoined(),
+    return BlocListener<GroupListBloc, GroupListState>(
+      listenWhen: (prev, current) => prev.status != current.status,
+      listener: (context, state) {
+        if (state.status == FormzStatus.submissionSuccess) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content: Text("Delete group chat success"),
+              backgroundColor: Colors.green,
+            ));
+        }
+      },
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            const ButtonRequestGroup(),
+            const ButtonCreateGroup(),
+            Divider(
+              height: 25,
+              color: Theme.of(context).backgroundColor,
+              thickness: 16,
+            ),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {},
+                child: const Scrollbar(
+                  child: ListGroupJoined(),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

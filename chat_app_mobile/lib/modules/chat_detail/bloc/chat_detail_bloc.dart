@@ -34,7 +34,6 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     _newMessageStreamSubscription = socket_repository
         .SocketAPI.SocketApi.newMessageController.stream
         .listen((data) {
-      print(data);
       add(ChatDetailPageInited());
     });
   }

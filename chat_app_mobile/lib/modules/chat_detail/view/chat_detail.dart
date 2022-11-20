@@ -68,10 +68,6 @@ class ChatDetailView extends StatelessWidget {
                 params: {
                   'chatRoomId': chatRoomId,
                 },
-                extra: {
-                  'chatRoomName': chatRoomName,
-                  'chatRoomAvatar': chatRoomAvatar,
-                }
               ),
             },
             icon: const Icon(Icons.more_vert),

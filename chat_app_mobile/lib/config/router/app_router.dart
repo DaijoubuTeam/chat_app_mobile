@@ -1,5 +1,5 @@
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
-import 'package:chat_app_mobile/config/router/go_router_refesh_stream.dart';
+import 'package:chat_app_mobile/config/router/go_router_refresh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
@@ -126,16 +126,16 @@ class AppRouter {
       ],
       refreshListenable: GoRouterRefreshStream(appBloc.stream),
       redirect: (BuildContext context, GoRouterState state) async {
-        final bool logginIn = state.subloc == '/';
+        final bool loginIn = state.subloc == '/';
         final bool signUpIn =
             state.subloc == '/sign-up' || state.subloc == '/verify-email';
         final bool isAuthorized =
             appBloc.authCurrentUser != auth_repository.User.empty;
         if (!isAuthorized) {
           if (signUpIn) return null;
-          return logginIn ? null : '/';
+          return loginIn ? null : '/';
         }
-        if (logginIn) {
+        if (loginIn) {
           return '/home';
         }
         return null;
