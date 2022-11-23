@@ -60,6 +60,7 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
 
         if (res) {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
+          add(GroupListInited());
         } else {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }

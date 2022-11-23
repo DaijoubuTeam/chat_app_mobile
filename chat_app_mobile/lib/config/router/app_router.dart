@@ -6,7 +6,9 @@ import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
+import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
 import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
+import 'package:chat_app_mobile/modules/group_member/view/group_member_page.dart';
 import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/modules/login/view/view.dart';
 import 'package:chat_app_mobile/modules/notifications/view/view.dart';
@@ -14,6 +16,8 @@ import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
+import 'package:chat_room_repository/chat_room_repository.dart'
+    as chat_room_repo;
 
 import '../../modules/group_request/view/view.dart';
 
@@ -77,14 +81,40 @@ class AppRouter {
             },
             routes: [
               GoRoute(
-                name: ChatRoomDetailPage.namePage,
-                path: 'chat-rooms-details',
-                builder: (BuildContext context, GoRouterState state) {
-                  return ChatRoomDetailPage(
-                    chatRoomId: state.params['chatRoomId']!,
-                  );
-                },
-              ),
+                  name: ChatRoomDetailPage.namePage,
+                  path: 'chat-rooms-details',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return ChatRoomDetailPage(
+                      chatRoomId: state.params['chatRoomId']!,
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                        name: GroupMemberPage.namePage,
+                        path: 'group-member',
+                        builder: (BuildContext context, GoRouterState state) {
+                          final mapStateExtra = state.extra
+                              as Map<String, chat_room_repo.ChatRoom?>;
+                          return GroupMemberPage(
+                            chatRoomInfor: (mapStateExtra["chatRoomInfor"])!,
+                          );
+                        },
+                        routes: [
+                          GoRoute(
+                            name: GroupAddNewMemberPage.namePage,
+                            path: 'group-add-new-member',
+                            builder:
+                                (BuildContext context, GoRouterState state) {
+                              final mapStateExtra = state.extra
+                                  as Map<String, List<chat_room_repo.User>?>;
+                              return GroupAddNewMemberPage(
+                                chatRoomId: state.params['chatRoomId']!,
+                                members: mapStateExtra["chatRoomMember"]!,
+                              );
+                            },
+                          ),
+                        ]),
+                  ]),
             ]),
         GoRoute(
           name: EditProfilePage.namePage,

@@ -45,10 +45,10 @@ class ChatRoom {
     List<chat_room_models.User>? members,
     List<String>? admin,
     chat_room_models.User? fromLatestMessage,
-    Iterable<chat_room_models.User>? readedLatestMessage,
+    List<chat_room_models.User>? readedLatestMessage,
     String? contentLatestMessage,
     DateTime? latestTime,
-    Iterable<chat_room_models.User>? friendsInChatRoom,
+    List<chat_room_models.User>? friendsInChatRoom,
   }) =>
       ChatRoom(
         chatRoomId: chatRoomId ?? this.chatRoomId,

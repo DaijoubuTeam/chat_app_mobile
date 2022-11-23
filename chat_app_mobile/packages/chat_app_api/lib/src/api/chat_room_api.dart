@@ -201,6 +201,10 @@ class ChatRoomApi {
 
     final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
 
+    for (var chatRoom in chatRoomsJson) {
+      chatRoom["latestMessage"] = null;
+    }
+
     final chatRooms = chatRoomsJson
         .map((chatRoomJson) => ChatRoom.fromJson(chatRoomJson))
         .toList();

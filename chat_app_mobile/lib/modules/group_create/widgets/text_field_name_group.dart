@@ -24,7 +24,6 @@ class _TextFieldNameGroupState extends State<TextFieldNameGroup> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: TextFormField(
         controller: _inputController,
-        obscureText: true,
         decoration: const InputDecoration(
           labelText: "Enter your group name",
         ),

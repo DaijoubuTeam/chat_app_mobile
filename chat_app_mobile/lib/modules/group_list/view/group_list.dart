@@ -53,7 +53,9 @@ class GroupListView extends StatelessWidget {
             ),
             Expanded(
               child: RefreshIndicator(
-                onRefresh: () async {},
+                onRefresh: () async {
+                  context.read<GroupListBloc>().add(GroupListInited());
+                },
                 child: const Scrollbar(
                   child: ListGroupJoined(),
                 ),

@@ -2,11 +2,13 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/group_create/bloc/group_create_bloc.dart';
 import 'package:chat_app_mobile/modules/group_create/widgets/search_list_friend.dart';
 import 'package:chat_app_mobile/modules/group_create/widgets/text_field_name_group.dart';
+import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:friend_repository/friend_repository.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/list_member_group.dart';
 import '../widgets/upload_image_group_button.dart';
@@ -47,6 +49,8 @@ class GroupCreateView extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
             );
+          //context.read<GroupListBloc>().add(GroupListInited());
+          Navigator.of(context).pop(true);
         }
         if (state.status == FormzStatus.submissionFailure) {
           ScaffoldMessenger.of(context)

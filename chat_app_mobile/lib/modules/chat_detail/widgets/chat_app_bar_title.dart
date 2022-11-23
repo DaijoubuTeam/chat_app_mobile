@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,11 +17,24 @@ class ChatAppBarTitle extends StatelessWidget {
             //Avatar
             Stack(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(state.chatRoomAvatar ??
-                      'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_people_person_avatar_white_tone_icon_159363.png'),
-                  maxRadius: 20,
-                ),
+                // CircleAvatar(
+                //   backgroundImage: NetworkImage(state.chatRoomAvatar ??
+                //       'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_people_person_avatar_white_tone_icon_159363.png'),
+                //   maxRadius: 20,
+                // ),
+
+                (state.chatRoomAvatar != null)
+                    ? CircleAvatarCustom(
+                        urlImage: state.chatRoomAvatar,
+                        widthImage: 40,
+                        heightImage: 40,
+                      )
+                    : const CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/images/empty_avatar.png'),
+                        maxRadius: 20,
+                      ),
+
                 Positioned(
                   right: 0,
                   bottom: 0,

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
+import '../widgets/group_request_item.dart';
+
 class GroupRequestReceivePage extends StatelessWidget {
   const GroupRequestReceivePage({Key? key}) : super(key: key);
 
@@ -41,9 +43,12 @@ class GroupRequestReceiveView extends StatelessWidget {
             return Center(
               child: ListView.builder(
                   itemBuilder: ((context, index) {
-                    return Text(
-                        state.listGroupRequestReceived![index].chatRoomName ??
-                            '');
+                    final groupInfor = state.listGroupRequestReceived![index];
+                    return GroupRequestItem(
+                      chatRoomId: groupInfor.chatRoomId,
+                      chatRoomName: groupInfor.chatRoomName,
+                      chatRoomAvatar: groupInfor.chatRoomAvatar,
+                    );
                   }),
                   itemCount: state.listGroupRequestReceived!.length),
             );
