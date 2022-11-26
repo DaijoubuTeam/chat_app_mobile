@@ -31,7 +31,7 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
   Future<void> _onGroupMemberDeleteSubmitted(
       GroupMemberDeleteSubmitted event, Emitter<GroupMemberState> emit) async {
     try {
-      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      emit(state.copyWith(deleteStatus: DeleteStatus.loading));
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final res = await _chatRoomRepository.removeMemberChatRoom(
@@ -41,14 +41,22 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
         );
 
         if (res) {
-          emit(state.copyWith(status: FormzStatus.submissionSuccess));
-          // add(GroupListInited());
+          final List<chat_room_repo.User> newListMemberDisplay = state.members!
+              .where((member) => member.uid != event.idMember)
+              .toList();
+          emit(state.copyWith(
+              deleteStatus: DeleteStatus.success,
+              members: newListMemberDisplay));
         } else {
-          emit(state.copyWith(status: FormzStatus.submissionFailure));
+          emit(state.copyWith(
+            deleteStatus: DeleteStatus.failure,
+          ));
         }
       }
     } catch (_) {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
+      emit(state.copyWith(
+        deleteStatus: DeleteStatus.failure,
+      ));
     }
   }
 }

@@ -29,7 +29,6 @@ class GroupAddNewMemberPage extends StatelessWidget {
       create: (_) => GroupAddNewMemberBloc(
         chatRoomId,
         members,
-        context.read<UserRepository>(),
         context.read<AuthRepository>(),
         context.read<FriendRepository>(),
         context.read<ChatRoomRepository>(),
@@ -44,38 +43,59 @@ class GroupAddNewMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Invite new member"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              context
-                  .read<GroupAddNewMemberBloc>()
-                  .add(GroupAddNewMemberButtonSubmitted());
-            },
-            child: const Text("Done"),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 8,
-        ),
-        child: Column(
-          children: <Widget>[
-            const ListNewMember(),
-            const SizedBox(
-              height: 20,
-            ),
-            Flexible(
-              child: SearchNewMember(),
+    return BlocListener<GroupAddNewMemberBloc, GroupAddNewMemberState>(
+      listener: (context, state) {
+        if (state.actionStatus == ActionStatus.success) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content: Text("Invited success"),
+              backgroundColor: Colors.green,
+            ));
+        }
+        if (state.actionStatus == ActionStatus.failure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content:
+                  Text("Something went wrong or this person has been invited"),
+              backgroundColor: Colors.red,
+            ));
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Invite new member"),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 1,
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                context
+                    .read<GroupAddNewMemberBloc>()
+                    .add(GroupAddNewMemberButtonSubmitted());
+              },
+              child: const Text("Done"),
             ),
           ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 8,
+          ),
+          child: Column(
+            children: <Widget>[
+              const ListNewMember(),
+              const SizedBox(
+                height: 20,
+              ),
+              Flexible(
+                child: SearchNewMember(),
+              ),
+            ],
+          ),
         ),
       ),
     );

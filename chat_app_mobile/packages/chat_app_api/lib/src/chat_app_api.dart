@@ -57,6 +57,7 @@ class ChatAppApi {
   // user api
   Future<User> getSelfProfile(String bearerToken) async {
     try {
+      print(bearerToken);
       final user = await _userApi.getSelfProfile(bearerToken);
       return user;
     } catch (e) {

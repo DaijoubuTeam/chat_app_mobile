@@ -1,5 +1,7 @@
 part of 'group_add_new_member_bloc.dart';
 
+enum ActionStatus { initial, loading, success, failure }
+
 class GroupAddNewMemberState extends Equatable {
   const GroupAddNewMemberState({
     required this.chatRoomId,
@@ -8,6 +10,7 @@ class GroupAddNewMemberState extends Equatable {
     this.listFriendDisplay,
     this.newMemberGroup,
     this.status = FormzStatus.pure,
+    this.actionStatus = ActionStatus.initial,
   });
 
   final String chatRoomId;
@@ -16,12 +19,14 @@ class GroupAddNewMemberState extends Equatable {
   final List<friend_repository.User>? listFriendDisplay;
   final List<friend_repository.User>? newMemberGroup;
   final FormzStatus status;
+  final ActionStatus actionStatus;
 
   GroupAddNewMemberState copyWith({
     List<friend_repository.User>? listFriend,
     List<friend_repository.User>? listFriendDisplay,
     List<friend_repository.User>? newMemberGroup,
     FormzStatus? status,
+    ActionStatus? actionStatus,
   }) {
     return GroupAddNewMemberState(
       chatRoomId: chatRoomId,
@@ -30,6 +35,7 @@ class GroupAddNewMemberState extends Equatable {
       listFriendDisplay: listFriendDisplay ?? this.listFriendDisplay,
       newMemberGroup: newMemberGroup ?? this.newMemberGroup,
       status: status ?? this.status,
+      actionStatus: actionStatus ?? this.actionStatus,
     );
   }
 
@@ -40,6 +46,7 @@ class GroupAddNewMemberState extends Equatable {
         listFriend,
         listFriendDisplay,
         newMemberGroup,
-        status
+        status,
+        actionStatus
       ];
 }

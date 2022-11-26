@@ -35,16 +35,32 @@ class GroupMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GroupMemberBloc, GroupMemberState>(
-      builder: (context, state) {
-        return const Scaffold(
-          appBar: AppBarCustom(
-            title: "Group member",
-          ),
-          body: GroupMemberList(),
-          floatingActionButton: FloatingAddNewMemberButton(),
-        );
+    return BlocListener<GroupMemberBloc, GroupMemberState>(
+      listener: (context, state) {
+        if (state.deleteStatus == DeleteStatus.success) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content: Text("Delete member success"),
+              backgroundColor: Colors.green,
+            ));
+        }
+        if (state.deleteStatus == DeleteStatus.failure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content: Text("Delete member fail"),
+              backgroundColor: Colors.red,
+            ));
+        }
       },
+      child: const Scaffold(
+        appBar: AppBarCustom(
+          title: "Group member",
+        ),
+        body: GroupMemberList(),
+        floatingActionButton: FloatingAddNewMemberButton(),
+      ),
     );
   }
 }

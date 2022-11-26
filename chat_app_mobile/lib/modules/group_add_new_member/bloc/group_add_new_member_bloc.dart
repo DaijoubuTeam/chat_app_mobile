@@ -17,7 +17,6 @@ class GroupAddNewMemberBloc
   GroupAddNewMemberBloc(
     String chatRoomId,
     List<chat_room_repo.User> members,
-    this._userRepository,
     this._authRepository,
     this._friendRepository,
     this._chatRoomRepository,
@@ -33,7 +32,6 @@ class GroupAddNewMemberBloc
     add(GroupAddNewMemberInputInitialized());
   }
 
-  final user_repository.UserRepository _userRepository;
   final auth_repository.AuthRepository _authRepository;
   final friend_repository.FriendRepository _friendRepository;
   final chat_room_repo.ChatRoomRepository _chatRoomRepository;
@@ -104,7 +102,7 @@ class GroupAddNewMemberBloc
       GroupAddNewMemberButtonSubmitted event,
       Emitter<GroupAddNewMemberState> emit) async {
     try {
-      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      emit(state.copyWith(actionStatus: ActionStatus.loading));
 
       final List<String>? listIdMembers;
       if (state.newMemberGroup != null) {
@@ -119,15 +117,15 @@ class GroupAddNewMemberBloc
               await _chatRoomRepository.inviteMemberChatRoom(
                   bearerToken, state.chatRoomId, idMember);
             }
-            emit(state.copyWith(status: FormzStatus.submissionSuccess));
+            emit(state.copyWith(actionStatus: ActionStatus.success));
             add(GroupAddNewMemberInputInitialized());
           }
         }
       }
 
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
+      emit(state.copyWith(actionStatus: ActionStatus.failure));
     } catch (_) {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
+      emit(state.copyWith(actionStatus: ActionStatus.failure));
     }
   }
 }
