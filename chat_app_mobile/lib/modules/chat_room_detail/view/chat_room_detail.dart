@@ -71,28 +71,11 @@ class ChatRoomView extends StatelessWidget {
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
-                    // ListTile(
-                    //   title: const Text(
-                    //     'Edit Profile',
-                    //     style: TextStyle(fontSize: 18),
-                    //   ),
-                    //   trailing: const Icon(Icons.chevron_right),
-                    //   onTap: (() {
-                    //     //context.pushNamed(EditProfilePage.namePage);
-                    //   }),
-                    // ),
-                    // const ListTile(
-                    //   title: Text(
-                    //     'About us',
-                    //     style: TextStyle(fontSize: 18),
-                    //   ),
-                    //   trailing: Icon(Icons.chevron_right),
-                    // ),
                     if (state.chatRoomInformation!.type == "group")
                       ListTile(
-                        trailing: const Icon(Icons.group),
+                        trailing: const Icon(Icons.edit_outlined),
                         title: const Text(
-                          'See members',
+                          'Edit Group',
                           style: TextStyle(fontSize: 18),
                         ),
                         onTap: () {
@@ -101,6 +84,20 @@ class ChatRoomView extends StatelessWidget {
                           }, extra: {
                             "chatRoomInfor": state.chatRoomInformation,
                           });
+                        },
+                      ),
+                    if (state.chatRoomInformation!.type == "group")
+                      ListTile(
+                        trailing: const Icon(Icons.group_outlined),
+                        title: const Text(
+                          'See members',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        onTap: () {
+                          _handleManageMember(
+                            context,
+                            state.chatRoomInformation!,
+                          );
                         },
                       ),
                     if (state.chatRoomInformation!.type == "personal")
@@ -140,5 +137,14 @@ class ChatRoomView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _handleManageMember(BuildContext ctx, ChatRoom chatRoom) async {
+    await Navigator.of(ctx)
+        .push(MaterialPageRoute(
+            builder: (ctx) => GroupMemberPage(chatRoomInfor: chatRoom)))
+        .then((_) {
+      ctx.read<ChatRoomDetailBloc>().add(ChatRoomDetailInited());
+    });
   }
 }
