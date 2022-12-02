@@ -2,6 +2,8 @@ import 'package:chat_app_mobile/modules/notifications/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../modules/search_page.dart/view/search_button.dart';
+
 class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBarCustom({
     super.key,
@@ -52,6 +54,7 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
             showSearch(context: context, delegate: CustomSearch());
           },
         ),
+        //const SearchButton(),
         IconButton(
           icon: Stack(
             children: [
@@ -94,71 +97,5 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
     } else {
       return const Size.fromHeight(kToolbarHeight);
     }
-  }
-}
-
-class CustomSearch extends SearchDelegate {
-  // data lay tu api
-  List<String> allData = ['American', 'Russia', 'VietNam', 'China', 'Italy'];
-  List<String> res = [];
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(
-          Icons.clear,
-        ),
-        onPressed: () {
-          query = '';
-        },
-      ),
-      IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.done,
-            color: res.isEmpty ? Colors.grey : Colors.blue,
-          ))
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return const Center(
-      child: Text('text'),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: ((context, index) {
-        return RadioListTile<String>(
-          groupValue: null,
-          value: allData[index],
-          onChanged: (value) {
-            if (res.contains(value)) {
-              res.remove(value);
-            } else {
-              res.add(value!);
-            }
-            print(res);
-          },
-          toggleable: true,
-          title: Text(allData[index]),
-        );
-      }),
-      itemCount: allData.length,
-    );
   }
 }

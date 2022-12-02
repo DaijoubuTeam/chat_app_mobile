@@ -12,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_repository/friend_repository.dart';
+import 'package:search_repository/search_repository.dart';
 import 'package:socket_repository/socket_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:message_repository/message_repository.dart';
@@ -25,9 +26,9 @@ Future<void> main() async {
   String serverUrl = 'https://localhost/api/v1';
   if (Platform.isAndroid) {
     // serverUrl = "https://10.0.2.2/api/v1";
-    serverUrl = "https://10.0.2.2/api/v1";
-    firebase_auth.FirebaseAuth.instance.useAuthEmulator("10.0.2.2", 9099);
-    FirebaseStorage.instance.useStorageEmulator("10.0.2.2", 9099);
+    serverUrl = "http://alpha.chatapp.daijoubuteam.xyz/api/v1";
+    // firebase_auth.FirebaseAuth.instance.useAuthEmulator("10.0.2.2", 9099);
+    // FirebaseStorage.instance.useStorageEmulator("10.0.2.2", 9099);
   } else {
     firebase_auth.FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
     FirebaseStorage.instance.useStorageEmulator("localhost", 9199);
@@ -57,6 +58,7 @@ Future<void> main() async {
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
   final messageRepository = MessageRepository(chatAppApi);
   final notificationRepository = NotificationRepository(chatAppApi);
+  final searchRepository = SearchRepository(chatAppApi);
 
   SocketAPI.SocketApi.socketConnect();
 
@@ -69,5 +71,6 @@ Future<void> main() async {
     chatRoomRepository,
     messageRepository,
     notificationRepository,
+    searchRepository,
   );
 }

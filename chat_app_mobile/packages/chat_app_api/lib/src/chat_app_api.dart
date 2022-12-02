@@ -224,6 +224,7 @@ class ChatAppApi {
 
   //Search API
   Future<Search> getSearch(String bearerToken, String input) async {
-    return await _searchApi.getSearch(bearerToken, input);
+    final res = await _searchApi.getSearch(bearerToken, input);
+    return res;
   }
 }

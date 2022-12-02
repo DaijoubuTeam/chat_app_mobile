@@ -10,8 +10,7 @@ class SearchRepository {
 
   Future<search_repository.Search> getSearch(
       String bearerToken, String input) async {
-    final chat_app_api.Search searchApi =
-        await _chatAppApi.getSearch(bearerToken, input);
+    final searchApi = await _chatAppApi.getSearch(bearerToken, input);
 
     final search_repository.Search searchRepo = searchApi.toRepositorySearch();
 
@@ -23,7 +22,7 @@ extension on chat_app_api.Search {
   search_repository.Search toRepositorySearch() {
     final searchRes = search_repository.Search(
       users: users.map((user) => user.toRepositoryUser()),
-      chatrooms: chatrooms.map((chatRoom) => chatRoom.toRepositoryChatRoom()),
+      chatrooms: chatRooms.map((chatRoom) => chatRoom.toRepositoryChatRoom()),
       messages: messages.map((message) => message.toRepositoryChatMessage()),
     );
     return searchRes;
