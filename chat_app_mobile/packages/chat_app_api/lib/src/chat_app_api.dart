@@ -1,12 +1,13 @@
-import 'package:chat_app_api/src/api/message_api.dart';
-import 'package:chat_app_api/src/api/chat_room_api.dart';
-import 'package:chat_app_api/src/api/friend_api.dart';
-import 'package:chat_app_api/src/api/notification_api.dart';
-import 'package:chat_app_api/src/api/user_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
 
 import 'api/auth_api.dart';
+import 'api/search_api.dart';
+import 'api/message_api.dart';
+import 'api/chat_room_api.dart';
+import 'api/friend_api.dart';
+import 'api/notification_api.dart';
+import 'api/user_api.dart';
 
 class ChatAppApi {
   ChatAppApi(
@@ -16,6 +17,7 @@ class ChatAppApi {
       ChatRoomApi? chatRoomApi,
       MessageApi? chatMessageApi,
       NotificationApi? notificationApi,
+      SearchApi? searchApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
@@ -27,7 +29,8 @@ class ChatAppApi {
         _messageApi = chatMessageApi ??
             MessageApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _notificationApi = notificationApi ??
-            NotificationApi(serverUrl: serverUrl, dio: dio ?? Dio());
+            NotificationApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _searchApi = SearchApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
@@ -35,6 +38,7 @@ class ChatAppApi {
   ChatRoomApi _chatRoomApi;
   MessageApi _messageApi;
   NotificationApi _notificationApi;
+  SearchApi _searchApi;
 
   //auth api
   Future<User> verifyUser(String bearerToken) async {
@@ -216,5 +220,10 @@ class ChatAppApi {
       String bearerToken, String notificationId) async {
     return await _notificationApi.deleteNotification(
         bearerToken, notificationId);
+  }
+
+  //Search API
+  Future<Search> getSearch(String bearerToken, String input) async {
+    return await _searchApi.getSearch(bearerToken, input);
   }
 }

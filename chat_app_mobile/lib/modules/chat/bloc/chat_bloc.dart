@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repository;
-// import 'package:socket_repository/socket_repository.dart' as socket_repository;
+import 'package:socket_repository/socket_repository.dart' as socket_repository;
 import 'package:equatable/equatable.dart';
 
 part 'chat_event.dart';
@@ -21,18 +21,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     add(ChatPageInited());
 
-    // _newMessageStreamSubscription = socket_repository
-    //     .SocketAPI.SocketApi.newMessageController.stream
-    //     .listen((data) {
-    //   add(ChatPageInited());
-    // });
+    _newMessageStreamSubscription = socket_repository
+        .SocketAPI.SocketApi.newMessageController.stream
+        .listen((data) {
+      add(ChatPageInited());
+    });
   }
 
   final auth_repository.AuthRepository _authRepository;
   final chat_room_repository.ChatRoomRepository _chatRoomRepository;
 
-  // late final StreamSubscription<socket_repository.NewMessage>
-  //     _newMessageStreamSubscription;
+  late final StreamSubscription<socket_repository.NewMessage>
+      _newMessageStreamSubscription;
 
   Future<void> _onChatPageInited(
       ChatPageInited event, Emitter<ChatState> emit) async {
@@ -49,9 +49,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  // @override
-  // Future<void> close() {
-  //   _newMessageStreamSubscription.cancel();
-  //   return super.close();
-  // }
+  @override
+  Future<void> close() {
+    _newMessageStreamSubscription.cancel();
+    return super.close();
+  }
 }

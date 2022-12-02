@@ -17,12 +17,6 @@ class ChatAppBarTitle extends StatelessWidget {
             //Avatar
             Stack(
               children: [
-                // CircleAvatar(
-                //   backgroundImage: NetworkImage(state.chatRoomAvatar ??
-                //       'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_people_person_avatar_white_tone_icon_159363.png'),
-                //   maxRadius: 20,
-                // ),
-
                 (state.chatRoomAvatar != null)
                     ? CircleAvatarCustom(
                         urlImage: state.chatRoomAvatar,
@@ -34,7 +28,6 @@ class ChatAppBarTitle extends StatelessWidget {
                             AssetImage('assets/images/empty_avatar.png'),
                         maxRadius: 20,
                       ),
-
                 Positioned(
                   right: 0,
                   bottom: 0,

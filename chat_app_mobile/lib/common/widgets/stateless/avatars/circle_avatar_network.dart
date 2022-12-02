@@ -33,7 +33,6 @@ class CircleAvatarCustom extends StatelessWidget {
       ),
       placeholder: (context, url) => const CircularProgressIndicator(),
       errorWidget: (context, url, error) {
-        log(error.toString(), name: 'url error');
         return const Icon(Icons.error);
       },
     );
