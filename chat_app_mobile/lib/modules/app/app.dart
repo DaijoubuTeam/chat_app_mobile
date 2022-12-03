@@ -7,6 +7,7 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
@@ -77,15 +78,22 @@ class MyAppView extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.white),
     );
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        backgroundColor: Colors.grey[100],
-      ),
-      debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter(appBloc: context.read<AppBloc>()).router,
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp.router(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            scaffoldBackgroundColor: Colors.white,
+            backgroundColor: Colors.grey[100],
+          ),
+          debugShowCheckedModeBanner: false,
+          routerConfig: AppRouter(appBloc: context.read<AppBloc>()).router,
+        );
+      },
     );
   }
 }

@@ -35,7 +35,11 @@ class MessageApi {
   }
 
   Future<bool> sendMessage(
-      String bearerToken, String chatRoomId, String content) async {
+    String bearerToken,
+    String chatRoomId,
+    String content,
+    String type,
+  ) async {
     try {
       final url = '$basePath/$chatRoomId';
       final response = await _dio.post(url,
@@ -44,6 +48,7 @@ class MessageApi {
           ),
           data: {
             "message": content,
+            "type": type,
           });
       if (response.statusCode == 201) {
         return true;

@@ -201,9 +201,10 @@ class ChatAppApi {
     return await _messageApi.getMessages(bearerToken, chatRoomId, from, to);
   }
 
-  Future<bool> sendMessage(
-      String bearerToken, String chatRoomId, String content) async {
-    return await _messageApi.sendMessage(bearerToken, chatRoomId, content);
+  Future<bool> sendMessage(String bearerToken, String chatRoomId,
+      String content, String type) async {
+    return await _messageApi.sendMessage(
+        bearerToken, chatRoomId, content, type);
   }
 
   // notification api

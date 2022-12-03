@@ -28,6 +28,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     on<ChatDetailPageInited>(_onChatDetailPageInited);
     on<ChatDetailContentChanging>(_onChatDetailContentChanging);
     on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
+    on<ChatDetailSpecificSubmitted>(_onChatDetailSpecificSubmitted);
 
     add(ChatDetailPageInited());
 
@@ -48,6 +49,9 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       ChatDetailPageInited event, Emitter<ChatDetailState> emit) async {
     try {
       final bearerToken = await _authRepository.bearToken;
+
+      //log(state.chatRoomId, name: "chatroomid");
+      print(state.chatRoomId);
 
       if (bearerToken != null) {
         final listMessage = await _chatMessageRepository.getMessages(
@@ -87,7 +91,11 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         emit(state.copyWith(status: FormzStatus.submissionInProgress));
 
         final res = await _chatMessageRepository.sendMessage(
-            bearerToken, state.chatRoomId, state.content!);
+          bearerToken,
+          state.chatRoomId,
+          state.content!,
+          state.type,
+        );
 
         if (res) {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
@@ -98,7 +106,42 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         }
       }
     } catch (e) {
-      log(e.toString(), name: 'chatDetailContentSubmited');
+      log(e.toString(), name: 'chatDetailContentSubmitted');
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
+    }
+  }
+
+  Future<void> _onChatDetailSpecificSubmitted(
+    ChatDetailSpecificSubmitted event,
+    Emitter<ChatDetailState> emit,
+  ) async {
+    try {
+      if (event.content == null || event.type == null) {
+        return;
+      }
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        emit(state.copyWith(status: FormzStatus.submissionInProgress));
+
+        final res = await _chatMessageRepository.sendMessage(
+          bearerToken,
+          state.chatRoomId,
+          event.content!,
+          event.type!,
+        );
+
+        if (res) {
+          emit(state.copyWith(status: FormzStatus.submissionSuccess));
+
+          add(ChatDetailPageInited());
+        } else {
+          emit(state.copyWith(status: FormzStatus.submissionFailure));
+        }
+      }
+    } catch (e) {
+      log(e.toString(), name: 'chatDetailContentSubmitted');
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }

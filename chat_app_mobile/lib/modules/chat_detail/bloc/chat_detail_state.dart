@@ -7,6 +7,7 @@ class ChatDetailState extends Equatable {
     this.chatRoomAvatar,
     this.listMessage,
     this.content,
+    this.type = "text",
     this.status = FormzStatus.pure,
   });
 
@@ -15,6 +16,7 @@ class ChatDetailState extends Equatable {
   final String? chatRoomAvatar;
   final List<message_repository.Message>? listMessage;
   final String? content;
+  final String type;
   final FormzStatus status;
 
   ChatDetailState copyWith({
@@ -22,18 +24,28 @@ class ChatDetailState extends Equatable {
     List<message_repository.Message>? listMessage,
     FormzStatus? status,
     String? chatRoomName,
+    String? type,
     String? chatRoomAvatar,
   }) {
     return ChatDetailState(
-        chatRoomId: chatRoomId,
-        chatRoomName: chatRoomName ?? this.chatRoomName,
-        chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
-        content: content ?? this.content,
-        listMessage: listMessage ?? this.listMessage,
-        status: status ?? this.status);
+      chatRoomId: chatRoomId,
+      chatRoomName: chatRoomName ?? this.chatRoomName,
+      chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
+      content: content ?? this.content,
+      type: type ?? this.type,
+      listMessage: listMessage ?? this.listMessage,
+      status: status ?? this.status,
+    );
   }
 
   @override
-  List<Object?> get props =>
-      [chatRoomId, chatRoomName, chatRoomAvatar, status, listMessage, content];
+  List<Object?> get props => [
+        chatRoomId,
+        chatRoomName,
+        chatRoomAvatar,
+        status,
+        listMessage,
+        content,
+        type
+      ];
 }

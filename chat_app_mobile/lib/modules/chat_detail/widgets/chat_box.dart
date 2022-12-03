@@ -22,9 +22,10 @@ class _ChatBoxState extends State<ChatBox> {
   @override
   void initState() {
     _inputController.addListener(() => {
-          context
-              .read<ChatDetailBloc>()
-              .add(ChatDetailContentChanging(_inputController.text)),
+          context.read<ChatDetailBloc>().add(
+                ChatDetailContentChanging(
+                    content: _inputController.text, type: "text"),
+              ),
           if (mounted)
             {
               if (_inputController.text.isEmpty)

@@ -6,6 +6,7 @@ class Message {
   final User? from;
   final bool? isMe;
   final String? content;
+  final String? type;
   final Iterable<User>? readed;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -16,6 +17,7 @@ class Message {
     this.from,
     this.isMe,
     this.content,
+    this.type,
     this.createdAt,
     this.updatedAt,
     Iterable<User>? readed,
@@ -27,6 +29,7 @@ class Message {
     User? from,
     bool? isMe,
     String? content,
+    String? type,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<User>? readed,
@@ -37,6 +40,7 @@ class Message {
         from: from ?? this.from,
         isMe: isMe ?? this.isMe,
         content: content ?? this.content,
+        type: type ?? this.type,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         readed: readed ?? this.readed,

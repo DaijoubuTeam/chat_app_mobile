@@ -9,6 +9,7 @@ class Message {
   final String? chatRoomId;
   final User? from;
   final String? content;
+  final String? type;
   final Iterable<User>? readed;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -18,6 +19,7 @@ class Message {
     this.chatRoomId,
     this.from,
     this.content,
+    this.type,
     this.createdAt,
     this.updatedAt,
     Iterable<User>? readed,
@@ -28,6 +30,7 @@ class Message {
     String? chatRoomId,
     User? from,
     String? content,
+    String? type,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<User>? readed,
@@ -37,6 +40,7 @@ class Message {
         chatRoomId: chatRoomId ?? this.chatRoomId,
         from: from ?? this.from,
         content: content ?? this.content,
+        type: type ?? this.type,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         readed: readed ?? this.readed,

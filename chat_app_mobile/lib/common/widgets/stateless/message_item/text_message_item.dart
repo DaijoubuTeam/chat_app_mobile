@@ -1,5 +1,6 @@
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/message_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextMessageItem extends IMessageItem {
   const TextMessageItem({
@@ -30,7 +31,7 @@ class TextMessageItem extends IMessageItem {
         content ?? '',
         style: TextStyle(
           color: isMe ? Colors.white : Colors.black,
-          fontSize: 16,
+          fontSize: 16.sp,
         ),
       ),
     );
