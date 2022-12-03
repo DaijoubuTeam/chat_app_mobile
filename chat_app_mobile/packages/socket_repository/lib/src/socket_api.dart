@@ -10,7 +10,7 @@ class SocketAPI {
 
   SocketAPI._()
       : _socket = IO.io(
-          'http://alpha.chatapp.daijoubuteam.xyz',
+          'https://alpha.chatapp.daijoubuteam.xyz',
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .disableAutoConnect() // for Flutter or Dart VM

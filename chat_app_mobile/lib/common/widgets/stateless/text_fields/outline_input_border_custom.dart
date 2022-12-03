@@ -30,6 +30,9 @@ class OutlineInputBorderCustom extends StatelessWidget {
         ),
         prefixIcon: icon,
         helperText: '',
+        errorStyle: TextStyle(
+          color: Theme.of(context).errorColor,
+        ),
         errorText: errorText,
       ),
     );

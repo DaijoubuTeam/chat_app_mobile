@@ -7,6 +7,7 @@ import 'package:chat_app_mobile/modules/login/widget/login_password_input.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_with_google_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -33,13 +34,18 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listenWhen: (prev, current) =>
-          prev != current && current.runtimeType == LoginStateSubmitFailure,
+          prev != current && current.status == FormzStatus.submissionFailure,
       listener: (context, state) => {
-        if (state.runtimeType == LoginStateSubmitFailure)
+        if (state.status == FormzStatus.submissionFailure)
           {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
-              ..showSnackBar(const SnackBar(content: Text("Login fail"))),
+              ..showSnackBar(
+                SnackBar(
+                  content: const Text("Login fail! Try again."),
+                  backgroundColor: Theme.of(context).errorColor,
+                ),
+              ),
             context.read<LoginBloc>().add(LoginSubmitFailure())
           }
       },
@@ -77,7 +83,7 @@ class LoginView extends StatelessWidget {
                 ),
                 const LoginEmailInput(),
                 const SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
                 const LoginPasswordInput(),
                 const SizedBox(

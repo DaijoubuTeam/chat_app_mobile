@@ -30,11 +30,9 @@ class _LoginPasswordInputState extends State<LoginPasswordInput> {
     );
 
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (prev, current) =>
-          prev != current && current.runtimeType == LoginStateInitial,
+      buildWhen: (prev, current) => prev != current,
       builder: (context, state) {
-        if (state.runtimeType == LoginSubmitFailure ||
-            state.runtimeType == LoginStateInitial) {
+        if (state.runtimeType == LoginSubmitFailure) {
           // to keep remain current value of email text fields when failure
           context
               .read<LoginBloc>()
@@ -44,8 +42,7 @@ class _LoginPasswordInputState extends State<LoginPasswordInput> {
           inputController: _passwordInputController,
           isPasswordVisible: _isPasswordVisible,
           handleOnPressVisibleButton: _handleOnPressVisibleButton,
-          errorText:
-              (state as LoginStateInitial).password.invalid ? 'validate' : null,
+          errorText: state.password.invalid ? 'invalid password' : null,
         );
       },
     );

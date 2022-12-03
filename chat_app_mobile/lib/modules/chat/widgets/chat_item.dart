@@ -34,7 +34,7 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return PersonListItem(
       handleOnTab: () => _handleTapChatRoomItem(context),
-      isShowPoint: true,
+      isShowPoint: false,
       isOnline: true,
       avatar: chatRoomAvatar,
       title: chatRoomName,

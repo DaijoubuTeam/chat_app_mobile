@@ -11,7 +11,7 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc(this._authRepository) : super(const LoginStateInitial()) {
+  LoginBloc(this._authRepository) : super(const LoginState()) {
     on<LoginEmailChanging>(_onLoginEmailChanging);
     on<LoginPasswordChanging>(_onPasswordChanging);
     on<LoginSubmitted>(_onLoginSubmitted);
@@ -28,11 +28,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return;
     }
     emit(
-      LoginStateInitial(
+      LoginState(
         email: Email.dirty(email),
-        password: (state as LoginStateInitial).password,
-        formzStatus: Formz.validate(
-          [Email.dirty(email), (state as LoginStateInitial).password],
+        password: state.password,
+        status: Formz.validate(
+          [Email.dirty(email), state.password],
         ),
       ),
     );
@@ -44,11 +44,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return;
     }
     emit(
-      LoginStateInitial(
-        email: (state as LoginStateInitial).email,
+      LoginState(
+        email: state.email,
         password: Password.dirty(password),
-        formzStatus: Formz.validate(
-          [(state as LoginStateInitial).email, Password.dirty(password)],
+        status: Formz.validate(
+          [state.email, Password.dirty(password)],
         ),
       ),
     );
@@ -57,34 +57,34 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<void> _onLoginSubmitted(
       LoginSubmitted event, Emitter<LoginState> emit) async {
     try {
-      emit(LoginStateSubmitLoading());
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
       if (event.email.invalid || event.password.invalid) {
-        emit(const LoginStateInitial());
+        //emit(const LoginStateInitial());
         return;
       }
       await _authRepository.logInWithEmailAndPassword(
           email: event.email.value, password: event.password.value);
-      emit(LoginStateSubmitSuccess());
+      emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } catch (err) {
       log(err.toString(), name: 'on login submitted error');
-      emit(LoginStateSubmitFailure());
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
 
   Future<void> _onLoginWithGoogleSubmitted(
       LoginWithGoogleSubmitted event, Emitter<LoginState> emit) async {
     try {
-      emit(LoginStateSubmitLoading());
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
       await _authRepository.logInWithGoogle();
-      emit(LoginStateSubmitSuccess());
+      emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } catch (err) {
       log(err.toString(), name: 'on login with google submitted error');
-      emit(LoginStateSubmitFailure());
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
 
   void _onLoginSubmitFailure(
       LoginSubmitFailure event, Emitter<LoginState> emit) {
-    emit(const LoginStateInitial());
+    emit(state.copyWith(status: FormzStatus.submissionFailure));
   }
 }

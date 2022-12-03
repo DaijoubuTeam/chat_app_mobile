@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
@@ -24,6 +25,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _newMessageStreamSubscription = socket_repository
         .SocketAPI.SocketApi.newMessageController.stream
         .listen((data) {
+      log("data");
       add(ChatPageInited());
     });
   }
@@ -42,6 +44,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (bearerToken != null) {
         final List<chat_room_repository.ChatRoom> listChatRoom =
             await _chatRoomRepository.getChatRoom(bearerToken);
+        listChatRoom.sort((room1, room2) {
+          if (room1.latestMessage != null && room2.latestMessage != null) {
+            return room1.latestMessage!.createdAt!
+                .compareTo(room2.latestMessage!.createdAt!);
+          }
+          if (room2.latestMessage == null) {
+            return -1;
+          }
+          return 1;
+        });
         emit(ChatGetListSuccess(listChatRoom: listChatRoom));
       }
     } catch (_) {

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CircleAvatarCustom extends StatelessWidget {
   const CircleAvatarCustom({
     super.key,
-    required this.urlImage,
+    this.urlImage,
     this.widthImage = 120,
     this.heightImage = 120,
   });
@@ -17,11 +17,17 @@ class CircleAvatarCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (urlImage == null) {
+      return const CircleAvatar(
+        backgroundImage: AssetImage('assets/images/empty_avatar.png'),
+        maxRadius: 24,
+      );
+    }
     return CachedNetworkImage(
       width: widthImage,
       height: heightImage,
       fit: BoxFit.cover,
-      imageUrl: urlImage ?? '',
+      imageUrl: urlImage!,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(

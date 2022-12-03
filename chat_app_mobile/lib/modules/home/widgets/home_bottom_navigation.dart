@@ -19,7 +19,7 @@ class HomeBottomNavigationBar extends StatelessWidget {
       onTap: (value) =>
           context.read<HomeBloc>().add(SelectTabIndexChanged(value)),
       backgroundColor: Colors.white,
-      selectedItemColor: Colors.black,
+      selectedItemColor: Theme.of(context).primaryColor,
       unselectedItemColor: Colors.grey[110],
       items: items,
     );

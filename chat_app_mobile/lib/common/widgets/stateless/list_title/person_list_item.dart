@@ -51,17 +51,11 @@ class PersonListItem extends StatelessWidget {
           minVerticalPadding: 20,
           leading: Stack(
             children: [
-              (avatar != null)
-                  ? CircleAvatarCustom(
-                      urlImage: avatar,
-                      widthImage: 48,
-                      heightImage: 48,
-                    )
-                  : const CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/empty_avatar.png'),
-                      maxRadius: 24,
-                    ),
+              CircleAvatarCustom(
+                urlImage: avatar,
+                widthImage: 48,
+                heightImage: 48,
+              ),
               if (isOnline)
                 Positioned(
                   right: 0,
