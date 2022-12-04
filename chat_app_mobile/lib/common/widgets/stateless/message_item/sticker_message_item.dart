@@ -1,5 +1,6 @@
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/message_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StickerMessageItem extends IMessageItem {
   const StickerMessageItem({
@@ -12,9 +13,9 @@ class StickerMessageItem extends IMessageItem {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'images/$content.gif',
-      width: 100,
-      height: 100,
+      'assets/stickers/$content.gif',
+      width: 148.w,
+      height: 148.h,
       fit: BoxFit.cover,
     );
   }

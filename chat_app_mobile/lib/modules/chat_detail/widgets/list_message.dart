@@ -16,7 +16,6 @@ class ChatContents extends StatelessWidget {
         return ListView.builder(
           reverse: true,
           itemBuilder: ((context, index) {
-            print(listMessage[index].type);
             return MessageItem(
               isMe: listMessage[index].isMe ?? false,
               content: listMessage[index].content!,

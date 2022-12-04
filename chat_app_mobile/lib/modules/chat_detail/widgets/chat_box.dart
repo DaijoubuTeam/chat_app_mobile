@@ -1,8 +1,10 @@
 import 'package:chat_app_mobile/modules/chat_detail/widgets/button_file_pop_up.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/button_send.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_content_input.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/stickers_option.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../common/widgets/stateless/emoji/emoji_input.dart';
 import '../bloc/chat_detail_bloc.dart';
@@ -17,6 +19,7 @@ class ChatBox extends StatefulWidget {
 class _ChatBoxState extends State<ChatBox> {
   final TextEditingController _inputController = TextEditingController();
   bool isShowEmoji = false;
+  bool isShowSticker = false;
   bool isShowSend = false;
 
   @override
@@ -45,6 +48,17 @@ class _ChatBoxState extends State<ChatBox> {
     super.initState();
   }
 
+  void handleShowEmoji(BuildContext ctx) {
+    showMaterialModalBottomSheet(
+      context: ctx,
+      builder: (ctx) {
+        return StickerOptions(
+          isShowing: isShowSticker,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,7 +79,19 @@ class _ChatBoxState extends State<ChatBox> {
                 onPressed: () => {
                   setState(() {
                     isShowEmoji = !isShowEmoji;
+                    isShowSticker = false;
+                    isShowSend = false;
                   }),
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.star_border_sharp),
+                onPressed: () => {
+                  setState(() {
+                    isShowEmoji = false;
+                    isShowSticker = !isShowSticker;
+                    isShowSend = false;
+                  })
                 },
               ),
               ChatContentInput(
@@ -82,6 +108,9 @@ class _ChatBoxState extends State<ChatBox> {
           EmojiInputCustom(
             emojiShowing: isShowEmoji,
             editingController: _inputController,
+          ),
+          StickerOptions(
+            isShowing: isShowSticker,
           ),
         ],
       ),
