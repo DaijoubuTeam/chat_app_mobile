@@ -55,14 +55,14 @@ class ChatRoom {
         chatRoomName: chatRoomName ?? this.chatRoomName,
         chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
         type: type ?? this.type,
-        latestMessage: latestMessage ?? this.latestMessage,
         members: members ?? this.members,
         admin: admin ?? this.admin,
-        fromLatestMessage: fromLatestMessage ?? this.fromLatestMessage,
+        latestMessage: latestMessage ?? this.latestMessage,
         readedLatestMessage: readedLatestMessage ?? this.readedLatestMessage,
-        contentLatestMessage: contentLatestMessage ?? this.contentLatestMessage,
-        latestTime: latestTime ?? this.latestTime,
-        friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
+        // fromLatestMessage: fromLatestMessage ?? this.fromLatestMessage,
+        // contentLatestMessage: contentLatestMessage ?? this.contentLatestMessage,
+        // latestTime: latestTime ?? this.latestTime,
+        // friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
       );
 
   static final empty = ChatRoom(chatRoomId: '');

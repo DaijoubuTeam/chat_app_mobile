@@ -114,11 +114,11 @@ extension on chat_app_api.ChatRoom {
       members: members.map((member) => member.toRepositoryUser()),
       admin: admin,
       latestMessage: latestMessage?.toRepositoryChatMessage(),
-      fromLatestMessage: latestMessage?.from?.toRepositoryUser(),
+      // fromLatestMessage: latestMessage?.from?.toRepositoryUser(),
+      // contentLatestMessage: latestMessage?.content,
+      // latestTime: latestMessage?.createdAt,
       readedLatestMessage:
           latestMessage?.readed?.map((user) => user.toRepositoryUser()),
-      contentLatestMessage: latestMessage?.content,
-      latestTime: latestMessage?.createdAt,
       //friendsInChatRoom: members.map((member) => member.ui)
     );
     return chatRoom;

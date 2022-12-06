@@ -13,7 +13,7 @@ class EmojiMessageItem extends IMessageItem {
   @override
   Widget build(BuildContext context) {
     return Text(
-      content ?? '',
+      content,
       style: TextStyle(
         fontSize: 48.sp,
       ),

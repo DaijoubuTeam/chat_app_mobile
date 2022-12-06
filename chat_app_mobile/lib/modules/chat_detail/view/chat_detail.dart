@@ -1,9 +1,11 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/button_go_to_new_message.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_app_bar_title.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_box.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/list_message.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
+import 'package:chat_app_mobile/utils/hide_keyboard.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,14 +63,17 @@ class ChatDetailView extends StatelessWidget {
         ],
       ),
       body: Column(
-        children: const <Widget>[
+        children: <Widget>[
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: ChatContents(),
+            child: GestureDetector(
+              onTap: () => SettingsKeyboard.hideKeyBoard(context),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: ChatContents(),
+              ),
             ),
           ),
-          ChatBox(),
+          const ChatBox(),
         ],
       ),
     );

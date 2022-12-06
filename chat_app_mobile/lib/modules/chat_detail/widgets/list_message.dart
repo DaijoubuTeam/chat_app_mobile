@@ -1,9 +1,10 @@
-import 'dart:developer';
-
+import 'package:chat_app_mobile/common/widgets/stateless/group_list_view/chat_group_list_view.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
-import 'package:chat_app_mobile/modules/chat_detail/widgets/message_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'button_go_to_new_message.dart';
 
 class ChatContents extends StatefulWidget {
   const ChatContents({super.key});
@@ -14,13 +15,17 @@ class ChatContents extends StatefulWidget {
 
 class _ChatContentsState extends State<ChatContents> {
   final controller = ScrollController();
+  double controllerOffset = 0.0;
 
   @override
   void initState() {
     super.initState();
 
     controller.addListener(() {
-      if (controller.position.maxScrollExtent - 20 == controller.offset - 20) {
+      setState(() {
+        controllerOffset = controller.offset;
+      });
+      if (controller.position.maxScrollExtent == controller.offset) {
         if (mounted) {
           context.read<ChatDetailBloc>().add(ChatDetailListMessageLoadMore());
         }
@@ -35,21 +40,24 @@ class _ChatContentsState extends State<ChatContents> {
       //     previous.listMessage.length != current.listMessage.length,
       builder: (context, state) {
         final listMessage = state.displayListMessage ?? [];
-        return ListView.builder(
-          controller: controller,
-          reverse: true,
-          itemBuilder: ((context, index) {
-            return MessageItem(
-              isMe: listMessage[index].isMe ?? false,
-              content: listMessage[index].content!,
-              friendAvatar: listMessage[index].from?.avatar,
-              readed: listMessage[index].readed?.toList(),
-              type: listMessage[index].type,
-            );
-          }),
-          itemCount: listMessage.length,
+        return Stack(
+          children: [
+            GroupListViewCustom(controller: controller, datas: listMessage),
+            if (controllerOffset != 0.0)
+              Positioned(
+                right: 0,
+                bottom: 8.h,
+                child: const ButtonGoToLastestMessage(),
+              ),
+          ],
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

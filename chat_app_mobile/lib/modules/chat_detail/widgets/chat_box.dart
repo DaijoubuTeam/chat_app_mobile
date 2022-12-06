@@ -4,7 +4,6 @@ import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_content_input.d
 import 'package:chat_app_mobile/modules/chat_detail/widgets/stickers_option.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../common/widgets/stateless/emoji/emoji_input.dart';
 import '../bloc/chat_detail_bloc.dart';
@@ -83,8 +82,18 @@ class _ChatBoxState extends State<ChatBox> {
                   })
                 },
               ),
-              ChatContentInput(
-                inputController: _inputController,
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isShowEmoji = false;
+                      isShowSticker = false;
+                    });
+                  },
+                  child: ChatContentInput(
+                    inputController: _inputController,
+                  ),
+                ),
               ),
               const SizedBox(
                 width: 16,

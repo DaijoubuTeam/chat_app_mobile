@@ -1,4 +1,5 @@
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
+import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -92,7 +93,10 @@ class PersonListItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
-                if (time != null) Text(DateFormat.jm().format(time!.toLocal())),
+                if (time != null)
+                  Text(
+                    DateTimeLocalString.convertToHourMinute(time!),
+                  ),
                 const SizedBox(
                   height: 8,
                 ),

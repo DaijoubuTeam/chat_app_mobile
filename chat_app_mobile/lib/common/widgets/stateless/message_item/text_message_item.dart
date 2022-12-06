@@ -31,7 +31,8 @@ class TextMessageItem extends IMessageItem {
         content ?? '',
         style: TextStyle(
           color: isMe ? Colors.white : Colors.black,
-          fontSize: 16.sp,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );

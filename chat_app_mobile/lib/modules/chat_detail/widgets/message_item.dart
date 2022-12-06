@@ -1,7 +1,10 @@
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/factory_message_item.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:message_repository/message_repository.dart'
     as message_repository;
 
@@ -11,6 +14,7 @@ class MessageItem extends StatefulWidget {
       required this.isMe,
       required this.content,
       required this.friendAvatar,
+      this.time,
       this.type = "text",
       this.readed});
 
@@ -19,6 +23,7 @@ class MessageItem extends StatefulWidget {
   final String? friendAvatar;
   final String? type;
   final List<message_repository.User>? readed;
+  final DateTime? time;
 
   @override
   State<MessageItem> createState() => _MessageItemState();
@@ -64,11 +69,16 @@ class _MessageItemState extends State<MessageItem> {
                       widget.content,
                     ),
                   ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
                   if (isTapping)
-                    Text(
-                      "Not seen",
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    )
+                    if (widget.time != null)
+                      Text(
+                        DateTimeLocalString.convertToHourMinute(widget.time!),
+                        style:
+                            TextStyle(fontSize: 8.sp, color: Colors.grey[600]),
+                      )
                 ],
               ),
             ],
