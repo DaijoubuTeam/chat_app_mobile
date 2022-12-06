@@ -8,9 +8,9 @@ class ChatRoom {
   final String? chatRoomAvatar;
   final Iterable<chat_room_models.User> members;
   final Iterable<String> admin;
-  final message_repository.Message? latestMessage;
   final String? type;
   //manage latest message
+  final chat_room_models.Message? latestMessage;
   final chat_room_models.User? fromLatestMessage;
   final Iterable<chat_room_models.User>? readedLatestMessage;
   final String? contentLatestMessage;
@@ -41,7 +41,7 @@ class ChatRoom {
     String? chatRoomName,
     String? chatRoomAvatar,
     String? type,
-    message_repository.Message? latestMessage,
+    chat_room_models.Message? latestMessage,
     List<chat_room_models.User>? members,
     List<String>? admin,
     chat_room_models.User? fromLatestMessage,

@@ -29,3 +29,5 @@ class ChatDetailSpecificSubmitted extends ChatDetailEvent {
   @override
   List<Object?> get props => [content, type];
 }
+
+class ChatDetailListMessageLoadMore extends ChatDetailEvent {}

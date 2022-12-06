@@ -16,7 +16,7 @@ class MessageApi {
 
   Future<List<Message>> getMessages(
       String bearerToken, String chatRoomId, int from, int to) async {
-    final url = '$basePath/$chatRoomId?from=$from&to=$to';
+    final url = '$_serverUrl/message/$chatRoomId?before=$from&after=$to';
 
     final response = await _dio.get(
       url,

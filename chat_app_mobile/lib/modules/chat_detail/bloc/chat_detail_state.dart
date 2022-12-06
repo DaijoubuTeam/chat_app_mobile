@@ -3,37 +3,45 @@ part of 'chat_detail_bloc.dart';
 class ChatDetailState extends Equatable {
   const ChatDetailState({
     required this.chatRoomId,
-    this.chatRoomName,
-    this.chatRoomAvatar,
+    this.chatRoomInfo,
     this.listMessage,
+    this.displayListMessage,
     this.content,
+    this.startMessageIndex = 20,
+    this.endMessageIndex = 20,
     this.type = "text",
     this.status = FormzStatus.pure,
   });
 
   final String chatRoomId;
-  final String? chatRoomName;
-  final String? chatRoomAvatar;
+  final chat_room_repository.ChatRoom? chatRoomInfo;
   final List<message_repository.Message>? listMessage;
+  final List<message_repository.Message>? displayListMessage;
+  final int startMessageIndex;
+  final int endMessageIndex;
   final String? content;
   final String type;
   final FormzStatus status;
 
   ChatDetailState copyWith({
-    String? content,
+    chat_room_repository.ChatRoom? chatRoomInfo,
     List<message_repository.Message>? listMessage,
+    List<message_repository.Message>? displayListMessage,
+    String? content,
+    int? startMessageIndex,
+    int? endMessageIndex,
     FormzStatus? status,
-    String? chatRoomName,
     String? type,
-    String? chatRoomAvatar,
   }) {
     return ChatDetailState(
       chatRoomId: chatRoomId,
-      chatRoomName: chatRoomName ?? this.chatRoomName,
-      chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
+      chatRoomInfo: chatRoomInfo ?? this.chatRoomInfo,
       content: content ?? this.content,
       type: type ?? this.type,
       listMessage: listMessage ?? this.listMessage,
+      displayListMessage: displayListMessage ?? this.displayListMessage,
+      startMessageIndex: startMessageIndex ?? this.startMessageIndex,
+      endMessageIndex: endMessageIndex ?? this.endMessageIndex,
       status: status ?? this.status,
     );
   }
@@ -41,10 +49,12 @@ class ChatDetailState extends Equatable {
   @override
   List<Object?> get props => [
         chatRoomId,
-        chatRoomName,
-        chatRoomAvatar,
+        chatRoomInfo,
         status,
         listMessage,
+        displayListMessage,
+        startMessageIndex,
+        endMessageIndex,
         content,
         type
       ];

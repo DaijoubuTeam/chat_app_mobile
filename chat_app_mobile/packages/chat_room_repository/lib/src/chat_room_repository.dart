@@ -113,6 +113,7 @@ extension on chat_app_api.ChatRoom {
       type: type,
       members: members.map((member) => member.toRepositoryUser()),
       admin: admin,
+      latestMessage: latestMessage?.toRepositoryChatMessage(),
       fromLatestMessage: latestMessage?.from?.toRepositoryUser(),
       readedLatestMessage:
           latestMessage?.readed?.map((user) => user.toRepositoryUser()),
@@ -121,6 +122,21 @@ extension on chat_app_api.ChatRoom {
       //friendsInChatRoom: members.map((member) => member.ui)
     );
     return chatRoom;
+  }
+}
+
+extension on chat_app_api.Message {
+  chatroom_model.Message toRepositoryChatMessage() {
+    final message = chatroom_model.Message(
+      id: id,
+      chatRoomId: chatRoomId,
+      from: from?.toRepositoryUser(),
+      content: content,
+      type: type,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+    return message;
   }
 }
 

@@ -6,6 +6,8 @@ import 'package:equatable/equatable.dart';
 import 'package:message_repository/message_repository.dart'
     as message_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
+import 'package:chat_room_repository/chat_room_repository.dart'
+    as chat_room_repository;
 import 'package:socket_repository/socket_repository.dart' as socket_repository;
 import 'package:formz/formz.dart';
 
@@ -15,20 +17,18 @@ part 'chat_detail_state.dart';
 class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
   ChatDetailBloc({
     required String chatRoomId,
-    String? chatRoomName,
-    String? chatRoomAvatar,
+    required chat_room_repository.ChatRoomRepository chatRoomRepository,
     required auth_repository.AuthRepository authRepository,
     required message_repository.MessageRepository messageRepository,
-  })  : _chatMessageRepository = messageRepository,
+  })  : _chatRoomRepository = chatRoomRepository,
+        _chatMessageRepository = messageRepository,
         _authRepository = authRepository,
-        super(ChatDetailState(
-            chatRoomId: chatRoomId,
-            chatRoomName: chatRoomName,
-            chatRoomAvatar: chatRoomAvatar)) {
+        super(ChatDetailState(chatRoomId: chatRoomId)) {
     on<ChatDetailPageInited>(_onChatDetailPageInited);
     on<ChatDetailContentChanging>(_onChatDetailContentChanging);
     on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
     on<ChatDetailSpecificSubmitted>(_onChatDetailSpecificSubmitted);
+    on<ChatDetailListMessageLoadMore>(_onChatDetailListMessageLoadMore);
 
     add(ChatDetailPageInited());
 
@@ -39,8 +39,9 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     });
   }
 
-  final message_repository.MessageRepository _chatMessageRepository;
   final auth_repository.AuthRepository _authRepository;
+  final message_repository.MessageRepository _chatMessageRepository;
+  final chat_room_repository.ChatRoomRepository _chatRoomRepository;
 
   late final StreamSubscription<socket_repository.NewMessage>
       _newMessageStreamSubscription;
@@ -50,20 +51,54 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     try {
       final bearerToken = await _authRepository.bearToken;
 
-      //log(state.chatRoomId, name: "chatroomid");
-      print(state.chatRoomId);
-
       if (bearerToken != null) {
+        final chatRoomInfo = await _chatRoomRepository.getChatRoomById(
+            bearerToken, state.chatRoomId);
         final listMessage = await _chatMessageRepository.getMessages(
           bearerToken,
           _authRepository.currentUser.uid,
-          state.chatRoomId,
-          0,
-          20,
+          chatRoomInfo.latestMessage!.id,
+          state.startMessageIndex,
+          state.endMessageIndex,
         );
 
-        emit(
-            state.copyWith(listMessage: listMessage, status: FormzStatus.pure));
+        emit(state.copyWith(
+          chatRoomInfo: chatRoomInfo,
+          listMessage: listMessage,
+          displayListMessage: listMessage,
+          status: FormzStatus.pure,
+        ));
+      }
+    } catch (e) {
+      log(e.toString(), name: 'chat detail page inited');
+    }
+  }
+
+  Future<void> _onChatDetailListMessageLoadMore(
+      ChatDetailListMessageLoadMore event,
+      Emitter<ChatDetailState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final newBeforeMessageIndex = state.startMessageIndex + 10;
+        final newAfterMessageIndex = state.endMessageIndex;
+        final displayListMessage = state.displayListMessage!;
+        final listMessage = await _chatMessageRepository.getMessages(
+          bearerToken,
+          _authRepository.currentUser.uid,
+          state.chatRoomInfo!.latestMessage!.id,
+          newBeforeMessageIndex,
+          newAfterMessageIndex,
+        );
+
+        emit(state.copyWith(
+          listMessage: listMessage,
+          displayListMessage: listMessage,
+          startMessageIndex: newBeforeMessageIndex,
+          endMessageIndex: newAfterMessageIndex,
+          status: FormzStatus.pure,
+        ));
       }
     } catch (e) {
       log(e.toString(), name: 'chat detail page inited');

@@ -10,16 +10,16 @@ class ChatAppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
       buildWhen: (previous, current) =>
-          previous.chatRoomName != current.chatRoomName,
+          previous.chatRoomId != current.chatRoomId,
       builder: (context, state) {
         return Row(
           children: <Widget>[
             //Avatar
             Stack(
               children: [
-                (state.chatRoomAvatar != null)
+                (state.chatRoomInfo?.chatRoomAvatar != null)
                     ? CircleAvatarCustom(
-                        urlImage: state.chatRoomAvatar,
+                        urlImage: state.chatRoomInfo!.chatRoomAvatar,
                         widthImage: 40,
                         heightImage: 40,
                       )
@@ -54,7 +54,7 @@ class ChatAppBarTitle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    state.chatRoomName ?? '',
+                    state.chatRoomInfo?.chatRoomAvatar ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,

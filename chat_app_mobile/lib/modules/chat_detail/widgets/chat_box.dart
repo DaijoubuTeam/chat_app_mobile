@@ -48,17 +48,6 @@ class _ChatBoxState extends State<ChatBox> {
     super.initState();
   }
 
-  void handleShowEmoji(BuildContext ctx) {
-    showMaterialModalBottomSheet(
-      context: ctx,
-      builder: (ctx) {
-        return StickerOptions(
-          isShowing: isShowSticker,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
