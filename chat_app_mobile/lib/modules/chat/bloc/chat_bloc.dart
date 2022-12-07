@@ -23,7 +23,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     add(ChatPageInited());
 
     _newMessageStreamSubscription = socket_repository
-        .SocketAPI.SocketApi.newMessageController.stream
+        .SocketAPI.socketApi.newMessageController.stream
         .listen((data) {
       log("data");
       add(ChatPageInited());

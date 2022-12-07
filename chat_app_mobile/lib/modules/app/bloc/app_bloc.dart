@@ -19,10 +19,17 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _userSubscription = _authRepository.user.listen((user) {
       add(AppUserChanged(user));
     });
+    _newNotificationStreamSubscription = socket_repo
+        .SocketAPI.socketApi.newNotificationController.stream
+        .listen((event) {
+      print(event);
+    });
   }
 
   final AuthRepository _authRepository;
   late final StreamSubscription<User> _userSubscription;
+  late final StreamSubscription<socket_repo.Notification>
+      _newNotificationStreamSubscription;
 
   User get authCurrentUser => _authRepository.currentUser;
 
@@ -32,11 +39,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onAppUserChanged(AppUserChanged event, Emitter<AppState> emit) {
-    socket_repo.SocketAPI.SocketApi.socketDisconnected();
-    socket_repo.SocketAPI.SocketApi.socketConnect().onConnect((data) {
+    socket_repo.SocketAPI.socketApi.socketDisconnected();
+    socket_repo.SocketAPI.socketApi.socketConnect().onConnect((data) {
       if (event.user != User.empty) {
         log(_authRepository.currentUser.uid);
-        socket_repo.SocketAPI.SocketApi
+        socket_repo.SocketAPI.socketApi
             .socketRegister(_authRepository.currentUser.uid);
       }
     });
@@ -50,6 +57,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   @override
   Future<void> close() {
     _userSubscription.cancel();
+    _newNotificationStreamSubscription.cancel();
     return super.close();
   }
 }

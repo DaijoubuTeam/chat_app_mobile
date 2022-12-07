@@ -4,8 +4,10 @@ class Notification {
   final String id;
   final String? notifyType;
   final bool? readed;
+  //user
   final User? notificationSender;
   final User? notificationReceiver;
+  //chat room
   final String? chatRoomId;
   final String? chatRoomName;
   final String? chatRoomAvatar;

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:socket_repository/src/models/new_message.dart';
+import 'package:socket_repository/socket_repository.dart';
 
 class SocketAPI {
   final IO.Socket _socket;
@@ -17,19 +17,23 @@ class SocketAPI {
               // .enableForceNew()
               .build(),
         ) {
-    _socket.onConnecting((data) => print("connecting"));
-    _socket.onConnect((data) => print("connected"));
-    _socket.onDisconnect((data) => print("disconnect"));
-    _socket.on('register', (data) => print(data));
+    _socket.onConnecting((data) => log("connecting"));
+    _socket.onConnect((data) => log("connected"));
+    _socket.onDisconnect((data) => log("disconnect"));
+    _socket.on('register', (data) => log(data));
     _socket.on('new-message', ((data) => socketNewMessage(data)));
+    _socket.on('notification', ((data) => socketNewNotification(data)));
   }
 
   StreamController<NewMessage> newMessageController =
       StreamController<NewMessage>.broadcast();
 
+  StreamController<Notification> newNotificationController =
+      StreamController<Notification>.broadcast();
+
   static SocketAPI? _socketApi;
 
-  static SocketAPI get SocketApi {
+  static SocketAPI get socketApi {
     _socketApi ??= SocketAPI._();
     return _socketApi!;
   }
@@ -59,12 +63,19 @@ class SocketAPI {
 
   Stream<NewMessage> socketNewMessage(dynamic data) {
     final newMessage = NewMessage.fromJson(data);
-    print(newMessage);
     newMessageController.sink.add(newMessage);
     return newMessageController.stream;
   }
 
+  Stream<Notification> socketNewNotification(dynamic data) {
+    log(data.toString(), name: "new notification");
+    final newNotifcation = Notification.fromJson(data);
+    newNotificationController.sink.add(newNotifcation);
+    return newNotificationController.stream;
+  }
+
   void dispose() {
     newMessageController.close();
+    newNotificationController.close();
   }
 }
