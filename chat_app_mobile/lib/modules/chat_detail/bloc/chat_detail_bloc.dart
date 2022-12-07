@@ -66,6 +66,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
           chatRoomInfo: chatRoomInfo,
           listMessage: listMessage,
           displayListMessage: listMessage,
+          latestMessage: chatRoomInfo.latestMessage,
           status: FormzStatus.pure,
         ));
       }
@@ -83,7 +84,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       if (bearerToken != null) {
         final newBeforeMessageIndex = state.startMessageIndex + 10;
         final newAfterMessageIndex = state.endMessageIndex;
-        final displayListMessage = state.displayListMessage!;
+        //final displayListMessage = state.displayListMessage!;
         final listMessage = await _chatMessageRepository.getMessages(
           bearerToken,
           _authRepository.currentUser.uid,

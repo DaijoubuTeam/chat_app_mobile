@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app_mobile/common/widgets/stateless/group_list_view/chat_group_list_view.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ class ChatContents extends StatefulWidget {
 }
 
 class _ChatContentsState extends State<ChatContents> {
-  final controller = ScrollController();
+  ScrollController controller = ScrollController(keepScrollOffset: true);
   double controllerOffset = 0.0;
 
   @override
@@ -33,6 +35,14 @@ class _ChatContentsState extends State<ChatContents> {
     });
   }
 
+  void _scrollDown() {
+    controller.animateTo(
+      controller.position.minScrollExtent,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.linearToEaseOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
@@ -47,7 +57,9 @@ class _ChatContentsState extends State<ChatContents> {
               Positioned(
                 right: 0,
                 bottom: 8.h,
-                child: const ButtonGoToLastestMessage(),
+                child: ButtonGoToLastestMessage(
+                  handleBackToBottom: _scrollDown,
+                ),
               ),
           ],
         );

@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ButtonGoToLastestMessage extends StatelessWidget {
-  const ButtonGoToLastestMessage({super.key, this.labelButton});
+  const ButtonGoToLastestMessage({
+    super.key,
+    this.labelButton,
+    this.handleBackToBottom,
+  });
 
   final String? labelButton;
+  final void Function()? handleBackToBottom;
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +20,19 @@ class ButtonGoToLastestMessage extends StatelessWidget {
           return FloatingActionButton.extended(
             icon: const Icon(Icons.arrow_downward),
             label: labelButton != null ? Text(labelButton!) : Container(),
-            onPressed: () {},
+            onPressed: handleBackToBottom,
           );
         }
         return FloatingActionButton(
-          onPressed: () {},
+          onPressed: handleBackToBottom,
+          backgroundColor: Colors.white,
+          elevation: 2.0,
+          shape: const StadiumBorder(
+            side: BorderSide(color: Colors.blue, width: 1),
+          ),
           child: Icon(
             Icons.arrow_downward,
             color: Theme.of(context).primaryColor,
-          ),
-          backgroundColor: Colors.white,
-          elevation: 2.0,
-          shape: StadiumBorder(
-            side: BorderSide(color: Colors.blue, width: 1),
           ),
         );
       },

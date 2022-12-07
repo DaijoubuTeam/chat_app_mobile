@@ -62,6 +62,7 @@ class GroupListViewCustom extends StatelessWidget {
   Widget _buildItemBuilder(Message element) {
     final Message message = element;
     return MessageItem(
+      key: GlobalObjectKey(element.id),
       isMe: message.isMe ?? false,
       content: message.content!,
       friendAvatar: message.from?.avatar,
