@@ -67,10 +67,7 @@ class ChatDetailView extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () => SettingsKeyboard.hideKeyBoard(context),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: ChatContents(),
-              ),
+              child: const ChatContents(),
             ),
           ),
           const ChatBox(),
