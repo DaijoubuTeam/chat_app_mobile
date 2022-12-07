@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'bottom_modal_file.dart';
+import '../../bottom_modal_upload_image/view/bottom_modal_upload_image.dart';
 
 class ButtonFilePopUp extends StatelessWidget {
   const ButtonFilePopUp({super.key});
