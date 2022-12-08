@@ -22,7 +22,7 @@ class SocketAPI {
     _socket.onDisconnect((data) => log("disconnect"));
     _socket.on('register', (data) => log(data));
     _socket.on('new-message', ((data) => socketNewMessage(data)));
-    _socket.on('notification', ((data) => socketNewNotification(data)));
+    _socket.on('new-notification', ((data) => socketNewNotification(data)));
   }
 
   StreamController<NewMessage> newMessageController =

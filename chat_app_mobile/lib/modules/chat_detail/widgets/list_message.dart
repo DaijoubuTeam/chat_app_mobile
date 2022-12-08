@@ -51,13 +51,17 @@ class _ChatContentsState extends State<ChatContents> {
         return Stack(
           children: [
             Scrollbar(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
+              controller: controller,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                ),
+                child: GroupListViewCustom(
+                  controller: controller,
+                  datas: listMessage,
+                ),
               ),
-              child: GroupListViewCustom(
-                  controller: controller, datas: listMessage),
-            )),
+            ),
             if (controllerOffset != 0.0)
               Positioned(
                 right: 0,

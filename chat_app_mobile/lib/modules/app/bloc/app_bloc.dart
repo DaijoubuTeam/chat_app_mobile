@@ -57,7 +57,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   @override
   Future<void> close() {
     _userSubscription.cancel();
-    _newNotificationStreamSubscription.cancel();
+    // _newNotificationStreamSubscription.cancel();
     return super.close();
   }
 }
