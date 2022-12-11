@@ -6,6 +6,7 @@ import 'package:notification_repository/notification_repository.dart'
     as notification_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:friend_repository/friend_repository.dart' as friend_repository;
+import 'package:socket_repository/socket_repository.dart' as socket_repo;
 
 part 'notification_event.dart';
 part 'notification_state.dart';
@@ -24,13 +25,19 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<NotificationRequestSubmitted>(_onNotificationRequestSubmitted);
 
     add(NotificationInited());
+
+    _newNotificationStreamSubscription = socket_repo
+        .SocketAPI.socketApi.newNotificationController.stream
+        .listen((_) {
+      add(NotificationInited());
+    });
   }
 
   final notification_repository.NotificationRepository _notificationRepository;
-
   final auth_repository.AuthRepository _authRepository;
-
   final friend_repository.FriendRepository _friendRepository;
+  late final StreamSubscription<socket_repo.Notification>
+      _newNotificationStreamSubscription;
 
   Future<void> _onNotificationInited(
       NotificationInited event, Emitter<NotificationState> emit) async {

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_repository/socket_repository.dart' as socket_repo;
@@ -21,8 +22,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     });
     _newNotificationStreamSubscription = socket_repo
         .SocketAPI.socketApi.newNotificationController.stream
-        .listen((event) {
-      print(event);
+        .listen((notification) {
+      NotificationService().showNotification(
+          id: 123,
+          title: "send friend request",
+          body: "ai đó đã gửi lời kết bạn cho bạn!");
     });
   }
 

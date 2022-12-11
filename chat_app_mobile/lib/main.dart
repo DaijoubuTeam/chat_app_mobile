@@ -43,6 +43,9 @@ Future<void> main() async {
     return client;
   };
 
+  // local notification
+  await NotificationService().initialize();
+
   final chatAppApi = ChatAppApi(serverUrl: serverUrl, dio: dio);
   final firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
@@ -61,9 +64,6 @@ Future<void> main() async {
   await authenticationRepository.user.first;
 
   SocketAPI.socketApi.socketConnect();
-
-  // local notification
-  await NotificationService().initialize();
 
   bootstrap(
     authenticationRepository,

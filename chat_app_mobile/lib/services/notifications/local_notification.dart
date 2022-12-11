@@ -1,4 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../../modules/notifications/view/view.dart';
+
+enum NotifiType {
+  defaultNotifi("default-notifi"),
+  mention("mention"),
+  friendRequest("friend-request"),
+  chatRoomInvitation("chat-room-invitation");
+
+  const NotifiType(this.type);
+  final String type;
+
+  @override
+  String toString() => type;
+}
 
 class NotificationService {
   static final NotificationService _notificationService =
@@ -11,6 +27,20 @@ class NotificationService {
   final _localNotificationPlugin = FlutterLocalNotificationsPlugin();
 
   NotificationService._internal();
+
+  //for ios
+  void _onDidReceiveLocalNotification(
+    int id,
+    String? title,
+    String? body,
+    String? payload,
+  ) {
+    showNotification(
+      id: id,
+      title: title ?? '',
+      body: body ?? '',
+    );
+  }
 
   Future<void> initialize() async {
     const AndroidInitializationSettings androidInitializationSettings =
@@ -25,12 +55,19 @@ class NotificationService {
       iOS: iosInitializationSettings,
     );
 
-    await _localNotificationPlugin.initialize(initializationSettings);
+    await _localNotificationPlugin.initialize(
+      initializationSettings,
+      onDidReceiveBackgroundNotificationResponse: _onSelectNotification,
+    );
   }
 
-  void _onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) {
-    showNotification(id: id, title: title ?? '', body: body ?? '');
+  static void _onSelectNotification(
+      NotificationResponse notificationResponse) async {
+    // var payloadData = jsonDecode(notificationResponse.payload);
+    // print("payload $payload");
+    //if(payloadData["type"]=="something" && payloadData["id"]!="something"){
+    Navigator.of(GlobalKey(debugLabel: "Main Navigator").currentContext!).push(
+        MaterialPageRoute(builder: (context) => const NotificationsPage()));
   }
 
   Future<NotificationDetails> _notificationDetails() async {
@@ -53,11 +90,11 @@ class NotificationService {
     );
   }
 
-  Future<void> showNotification({
-    required int id,
-    required String title,
-    required String body,
-  }) async {
+  Future<void> showNotification(
+      {required int id,
+      required String title,
+      required String body,
+      String type = "default-notifi"}) async {
     final details = await _notificationDetails();
     await _localNotificationPlugin.show(id, title, body, details);
   }
