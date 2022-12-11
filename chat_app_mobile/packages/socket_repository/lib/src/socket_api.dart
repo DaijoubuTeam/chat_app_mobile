@@ -69,8 +69,8 @@ class SocketAPI {
 
   Stream<Notification> socketNewNotification(dynamic data) {
     log(data.toString(), name: "new notification");
-    final newNotifcation = Notification.fromJson(data);
-    newNotificationController.sink.add(newNotifcation);
+    final newNotification = Notification.fromJson(data);
+    newNotificationController.sink.add(newNotification);
     return newNotificationController.stream;
   }
 
