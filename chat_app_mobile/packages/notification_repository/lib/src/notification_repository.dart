@@ -18,6 +18,7 @@ class NotificationRepository {
                 (notificationApi) => notificationApi.toRepositoryNotification())
             .toList();
 
+    //return notificationRepo.where((item) => item.chatRoomName != null).toList();
     return notificationRepo;
   }
 

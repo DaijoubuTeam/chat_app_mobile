@@ -23,10 +23,18 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _newNotificationStreamSubscription = socket_repo
         .SocketAPI.socketApi.newNotificationController.stream
         .listen((notification) {
-      NotificationService().showNotification(
-          id: 123,
-          title: "send friend request",
-          body: "ai đó đã gửi lời kết bạn cho bạn!");
+      if (notification.notifyType == "friend-request") {
+        NotificationService().showNotification(
+            id: 123,
+            title: notification.notificationSender!.fullname.toString(),
+            body: "want to be friends with you!");
+      }
+      if (notification.notifyType == "chat-room-invitation") {
+        NotificationService().showNotification(
+            id: 123,
+            title: notification.notificationSender!.fullname.toString(),
+            body: "invited you to join his group");
+      }
     });
   }
 

@@ -46,15 +46,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             await _chatRoomRepository.getChatRoom(bearerToken);
 
         listChatRoom.sort((room1, room2) {
-          if (room1.latestMessage != null && room2.latestMessage != null) {
-            return room1.latestMessage!.createdAt!
-                .compareTo(room2.latestMessage!.createdAt!);
-          }
-
-          if (room2.latestMessage == null) {
-            return -1;
-          }
-          return 1;
+          return room2.latestMessage!.createdAt!
+              .compareTo(room1.latestMessage!.createdAt!);
         });
         emit(ChatGetListSuccess(listChatRoom: listChatRoom));
       }

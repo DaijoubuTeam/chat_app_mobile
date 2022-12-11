@@ -73,4 +73,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       emit(NotificationGetListFailure());
     }
   }
+
+  @override
+  Future<void> close() {
+    _newNotificationStreamSubscription.cancel();
+    return super.close();
+  }
 }
