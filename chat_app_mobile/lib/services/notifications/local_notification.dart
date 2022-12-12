@@ -43,6 +43,11 @@ class NotificationService {
   }
 
   Future<void> initialize() async {
+    _localNotificationPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
+
     const AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     final DarwinInitializationSettings iosInitializationSettings =
