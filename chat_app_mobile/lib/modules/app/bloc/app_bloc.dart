@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/services/notifications/local_notification.dart';
+import 'package:chat_app_mobile/utils/select_notification_stream.dart';
 import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_repository/socket_repository.dart' as socket_repo;
@@ -20,20 +21,25 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _userSubscription = _authRepository.user.listen((user) {
       add(AppUserChanged(user));
     });
+
     _newNotificationStreamSubscription = socket_repo
         .SocketAPI.socketApi.newNotificationController.stream
         .listen((notification) {
       if (notification.notifyType == "friend-request") {
         NotificationService().showNotification(
-            id: 123,
-            title: notification.notificationSender!.fullname.toString(),
-            body: "want to be friends with you!");
+          id: 123,
+          title: notification.notificationSender!.fullname.toString(),
+          body: "want to be friends with you!",
+          payload: SelectNotificationStream.normalNotification,
+        );
       }
       if (notification.notifyType == "chat-room-invitation") {
         NotificationService().showNotification(
-            id: 123,
-            title: notification.notificationSender!.fullname.toString(),
-            body: "invited you to join his group");
+          id: 123,
+          title: notification.notificationSender!.fullname.toString(),
+          body: "invited you to join their group",
+          payload: SelectNotificationStream.normalNotification,
+        );
       }
     });
   }

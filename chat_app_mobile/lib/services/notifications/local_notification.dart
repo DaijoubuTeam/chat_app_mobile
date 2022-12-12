@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/utils/select_notification_stream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -39,6 +40,7 @@ class NotificationService {
       id: id,
       title: title ?? '',
       body: body ?? '',
+      payload: payload ?? '',
     );
   }
 
@@ -62,17 +64,20 @@ class NotificationService {
 
     await _localNotificationPlugin.initialize(
       initializationSettings,
-      onDidReceiveBackgroundNotificationResponse: _onSelectNotification,
+      onDidReceiveBackgroundNotificationResponse:
+          _onSelectBackgroundNotification,
+      onDidReceiveNotificationResponse: _onSelectNotification,
     );
   }
 
-  static void _onSelectNotification(
+  static void _onSelectBackgroundNotification(
       NotificationResponse notificationResponse) async {
-    // var payloadData = jsonDecode(notificationResponse.payload);
-    // print("payload $payload");
-    //if(payloadData["type"]=="something" && payloadData["id"]!="something"){
     Navigator.of(GlobalKey(debugLabel: "Main Navigator").currentContext!).push(
         MaterialPageRoute(builder: (context) => const NotificationsPage()));
+  }
+
+  void _onSelectNotification(NotificationResponse details) {
+    SelectNotificationStream.selectNotificationStream.add(details.payload);
   }
 
   Future<NotificationDetails> _notificationDetails() async {
@@ -84,6 +89,10 @@ class NotificationService {
       importance: Importance.max,
       priority: Priority.max,
       playSound: true,
+      actions: <AndroidNotificationAction>[
+        AndroidNotificationAction("1", "True"),
+        AndroidNotificationAction("2", "False"),
+      ],
     );
 
     const DarwinNotificationDetails iosNotificationDetails =
@@ -95,12 +104,15 @@ class NotificationService {
     );
   }
 
-  Future<void> showNotification(
-      {required int id,
-      required String title,
-      required String body,
-      String type = "default-notifi"}) async {
+  Future<void> showNotification({
+    required int id,
+    required String title,
+    required String body,
+    required String payload,
+    String type = "default-notifi",
+  }) async {
     final details = await _notificationDetails();
-    await _localNotificationPlugin.show(id, title, body, details);
+    await _localNotificationPlugin.show(id, title, body, details,
+        payload: payload);
   }
 }

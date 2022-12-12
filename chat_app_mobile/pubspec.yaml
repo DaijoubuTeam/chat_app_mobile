@@ -79,6 +79,7 @@ dependencies:
     path: packages/form_inputs
   firestore_upload_file:
     path: packages/firestore_upload_file
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
