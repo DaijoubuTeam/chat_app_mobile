@@ -78,8 +78,6 @@ class MyAppView extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.white),
     );
-    final GlobalKey<NavigatorState> navigatorKey =
-        GlobalKey(debugLabel: "Main Navigator");
 
     return ScreenUtilInit(
       designSize: const Size(360, 690),
@@ -87,7 +85,6 @@ class MyAppView extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
-          key: navigatorKey,
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.blue,

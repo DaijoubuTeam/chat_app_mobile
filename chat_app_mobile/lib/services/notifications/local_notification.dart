@@ -70,7 +70,8 @@ class NotificationService {
   }
 
   static void _onSelectNotification(NotificationResponse details) {
-    SelectNotificationStream.selectNotificationStream.add(details.payload);
+    print(details.actionId);
+    SelectNotificationStream.selectNotificationStream.add(details.actionId);
   }
 
   Future<NotificationDetails> _notificationDetails() async {
@@ -82,9 +83,20 @@ class NotificationService {
       importance: Importance.max,
       priority: Priority.max,
       playSound: true,
+      autoCancel: false,
       actions: <AndroidNotificationAction>[
-        AndroidNotificationAction("1", "True"),
-        AndroidNotificationAction("2", "False"),
+        AndroidNotificationAction(
+          SelectNotificationStream.acceptCallId,
+          "Accept",
+          showsUserInterface: true,
+          cancelNotification: true,
+        ),
+        AndroidNotificationAction(
+          SelectNotificationStream.acceptCallId,
+          "Deny",
+          cancelNotification: true,
+          showsUserInterface: true,
+        ),
       ],
     );
 
@@ -98,6 +110,18 @@ class NotificationService {
   }
 
   Future<void> showNotification({
+    required int id,
+    required String title,
+    required String body,
+    required String payload,
+    String type = "default-notifi",
+  }) async {
+    final details = await _notificationDetails();
+    await _localNotificationPlugin.show(id, title, body, details,
+        payload: payload);
+  }
+
+  Future<void> showCallNotification({
     required int id,
     required String title,
     required String body,
