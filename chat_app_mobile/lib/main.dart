@@ -26,7 +26,7 @@ Future<void> main() async {
   String serverUrl = "https://alpha.chatapp.daijoubuteam.xyz/api/v1";
   // if (Platform.isAndroid) {
   //   // serverUrl = "https://10.0.2.2/api/v1";
-  //   serverUrl = "https://alpha.chatapp.daijoubuteam.xyz/api/v1";
+  //   serverUrl = "https://alpha.chatapp.daijoubu`team.xyz/api/v1";
   //   // firebase_auth.FirebaseAuth.instance.useAuthEmulator("10.0.2.2", 9099);
   //   // FirebaseStorage.instance.useStorageEmulator("10.0.2.2", 9099);
   // } else {

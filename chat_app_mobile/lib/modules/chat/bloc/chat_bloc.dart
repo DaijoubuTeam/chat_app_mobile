@@ -19,6 +19,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _chatRoomRepository = chatRoomRepository,
         super(ChatInitial()) {
     on<ChatPageInited>(_onChatPageInited);
+    on<ChatPageRefreshed>(_onChatPageRefreshed);
 
     add(ChatPageInited());
 
@@ -26,7 +27,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         .SocketAPI.socketApi.newMessageController.stream
         .listen((data) {
       log("data");
-      add(ChatPageInited());
+      add(ChatPageRefreshed());
     });
   }
 
@@ -40,6 +41,25 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ChatPageInited event, Emitter<ChatState> emit) async {
     try {
       emit(ChatGetListRequest());
+      final bearerToken = await _authRepository.bearToken;
+      if (bearerToken != null) {
+        final List<chat_room_repository.ChatRoom> listChatRoom =
+            await _chatRoomRepository.getChatRoom(bearerToken);
+
+        listChatRoom.sort((room1, room2) {
+          return room2.latestMessage!.createdAt!
+              .compareTo(room1.latestMessage!.createdAt!);
+        });
+        emit(ChatGetListSuccess(listChatRoom: listChatRoom));
+      }
+    } catch (_) {
+      emit(ChatGetListFailure());
+    }
+  }
+
+  Future<void> _onChatPageRefreshed(
+      ChatPageRefreshed event, Emitter<ChatState> emit) async {
+    try {
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final List<chat_room_repository.ChatRoom> listChatRoom =
