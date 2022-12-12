@@ -1,8 +1,5 @@
 import 'package:chat_app_mobile/utils/select_notification_stream.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-import '../../modules/notifications/view/view.dart';
 
 enum NotifiType {
   defaultNotifi("default-notifi"),

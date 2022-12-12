@@ -79,6 +79,8 @@ class MyAppView extends StatelessWidget {
       const SystemUiOverlayStyle(statusBarColor: Colors.white),
     );
 
+    final routerConfig = AppRouter(appBloc: context.read<AppBloc>()).router;
+
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -92,7 +94,7 @@ class MyAppView extends StatelessWidget {
             backgroundColor: Colors.grey[100],
           ),
           debugShowCheckedModeBanner: false,
-          routerConfig: AppRouter(appBloc: context.read<AppBloc>()).router,
+          routerConfig: routerConfig,
         );
       },
     );

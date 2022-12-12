@@ -13,7 +13,7 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ChatBloc(
+      create: (_) => ChatBloc(
         context.read<AuthRepository>(),
         context.read<ChatRoomRepository>(),
       ),

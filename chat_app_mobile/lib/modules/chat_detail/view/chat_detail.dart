@@ -1,6 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
-import 'package:chat_app_mobile/modules/chat_detail/widgets/button_go_to_new_message.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_app_bar_title.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_box.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/list_message.dart';
@@ -39,40 +39,53 @@ class ChatDetailView extends StatelessWidget {
   final String chatRoomId;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const ChatAppBarTitle(),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-        actions: [
-          IconButton(
-            onPressed: () => {
-              context.pushNamed(
-                ChatRoomDetailPage.namePage,
-                params: {
-                  'chatRoomId': chatRoomId,
+    return BlocBuilder<ChatDetailBloc, ChatDetailState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const ChatAppBarTitle(),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 1,
+            actions: [
+              if (state.chatRoomInfo?.type == "personal")
+                IconButton(
+                  onPressed: () => {
+                    context.pushNamed(
+                      CallPage.namePage,
+                    ),
+                  },
+                  icon: const Icon(Icons.call),
+                ),
+              IconButton(
+                onPressed: () => {
+                  context.pushNamed(
+                    ChatRoomDetailPage.namePage,
+                    params: {
+                      'chatRoomId': chatRoomId,
+                    },
+                  ),
                 },
+                icon: const Icon(Icons.more_vert),
               ),
-            },
-            icon: const Icon(Icons.more_vert),
+              const SizedBox(
+                width: 16,
+              ),
+            ],
           ),
-          const SizedBox(
-            width: 16,
+          body: Column(
+            children: <Widget>[
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => SettingsKeyboard.hideKeyBoard(context),
+                  child: const ChatContents(),
+                ),
+              ),
+              const ChatBox(),
+            ],
           ),
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: GestureDetector(
-              onTap: () => SettingsKeyboard.hideKeyBoard(context),
-              child: const ChatContents(),
-            ),
-          ),
-          const ChatBox(),
-        ],
-      ),
+        );
+      },
     );
   }
 }

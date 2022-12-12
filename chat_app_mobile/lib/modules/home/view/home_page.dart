@@ -1,4 +1,4 @@
-import 'package:chat_app_mobile/modules/call_page/view/%20call_page.dart';
+import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
 import 'package:chat_app_mobile/modules/chat/view/chat_page.dart';
 import 'package:chat_app_mobile/modules/contact/view/view.dart';
 import 'package:chat_app_mobile/modules/home/bloc/home_bloc.dart';

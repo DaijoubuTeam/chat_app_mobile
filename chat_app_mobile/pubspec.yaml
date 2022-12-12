@@ -55,6 +55,8 @@ dependencies:
   flutter_screenutil: ^5.6.0
   grouped_list: ^5.1.2
   flutter_local_notifications: ^12.0.4
+  flutter_webrtc: ^0.9.18
+  permission_handler: ^10.2.0
   auth_repository: 
     path: packages/auth_repository
   user_repository:
@@ -79,7 +81,6 @@ dependencies:
     path: packages/form_inputs
   firestore_upload_file:
     path: packages/firestore_upload_file
-  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
