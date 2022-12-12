@@ -64,19 +64,12 @@ class NotificationService {
 
     await _localNotificationPlugin.initialize(
       initializationSettings,
-      onDidReceiveBackgroundNotificationResponse:
-          _onSelectBackgroundNotification,
+      onDidReceiveBackgroundNotificationResponse: _onSelectNotification,
       onDidReceiveNotificationResponse: _onSelectNotification,
     );
   }
 
-  static void _onSelectBackgroundNotification(
-      NotificationResponse notificationResponse) async {
-    Navigator.of(GlobalKey(debugLabel: "Main Navigator").currentContext!).push(
-        MaterialPageRoute(builder: (context) => const NotificationsPage()));
-  }
-
-  void _onSelectNotification(NotificationResponse details) {
+  static void _onSelectNotification(NotificationResponse details) {
     SelectNotificationStream.selectNotificationStream.add(details.payload);
   }
 

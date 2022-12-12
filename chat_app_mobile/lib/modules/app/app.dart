@@ -80,6 +80,7 @@ class MyAppView extends StatelessWidget {
     );
     final GlobalKey<NavigatorState> navigatorKey =
         GlobalKey(debugLabel: "Main Navigator");
+
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
