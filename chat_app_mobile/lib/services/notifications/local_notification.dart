@@ -67,8 +67,8 @@ class NotificationService {
   }
 
   static void _onSelectNotification(NotificationResponse details) {
-    print(details.actionId);
-    SelectNotificationStream.selectNotificationStream.add(details.actionId);
+    SelectNotificationStream.selectNotificationStream.add(
+        NotificationData(actionId: details.actionId, type: details.payload!));
   }
 
   Future<NotificationDetails> _notificationDetails() async {
@@ -89,7 +89,7 @@ class NotificationService {
           cancelNotification: true,
         ),
         AndroidNotificationAction(
-          SelectNotificationStream.acceptCallId,
+          SelectNotificationStream.deniedCallId,
           "Deny",
           cancelNotification: true,
           showsUserInterface: true,

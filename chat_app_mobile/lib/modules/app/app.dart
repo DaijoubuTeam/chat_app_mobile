@@ -13,6 +13,7 @@ import 'package:message_repository/message_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
 import 'package:search_repository/search_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:webrtc_repository/webrtc_repository.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({
@@ -24,13 +25,15 @@ class MyApp extends StatelessWidget {
     required MessageRepository messageRepository,
     required NotificationRepository notificationRepository,
     required SearchRepository searchRepository,
+    required WebRTCRepostiory webRTCRepostiory,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
         _friendRepository = friendRepository,
         _chatRoomRepository = chatRoomRepository,
         _messageRepository = messageRepository,
         _notificationRepository = notificationRepository,
-        _searchRepository = searchRepository;
+        _searchRepository = searchRepository,
+        _webRTCRepostiory = webRTCRepostiory;
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
@@ -39,6 +42,7 @@ class MyApp extends StatelessWidget {
   final MessageRepository _messageRepository;
   final NotificationRepository _notificationRepository;
   final SearchRepository _searchRepository;
+  final WebRTCRepostiory _webRTCRepostiory;
 
   // This widget is the root of your application.
   @override
@@ -52,6 +56,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(value: _messageRepository),
         RepositoryProvider.value(value: _notificationRepository),
         RepositoryProvider.value(value: _searchRepository),
+        RepositoryProvider.value(value: _webRTCRepostiory),
       ],
       child: MultiBlocProvider(
         providers: [

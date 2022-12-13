@@ -12,6 +12,7 @@ import 'package:message_repository/message_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
 import 'package:search_repository/search_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:webrtc_repository/webrtc_repository.dart';
 
 void bootstrap(
   AuthRepository authRepository,
@@ -21,6 +22,7 @@ void bootstrap(
   MessageRepository messageRepository,
   NotificationRepository notificationRepository,
   SearchRepository searchRepository,
+  WebRTCRepostiory webRTCRepostiory,
 ) {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
@@ -38,6 +40,7 @@ void bootstrap(
         messageRepository: messageRepository,
         notificationRepository: notificationRepository,
         searchRepository: searchRepository,
+        webRTCRepostiory: webRTCRepostiory,
       ),
     ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),

@@ -61,11 +61,16 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
           state.startMessageIndex,
           state.endMessageIndex,
         );
+        final listFriendId = chatRoomInfo.members
+            .where(
+                ((personal) => personal.uid != _authRepository.currentUser.uid))
+            .toList();
 
         emit(state.copyWith(
           chatRoomInfo: chatRoomInfo,
           listMessage: listMessage,
           displayListMessage: listMessage,
+          friends: listFriendId,
           latestMessage: chatRoomInfo.latestMessage,
           status: FormzStatus.pure,
         ));

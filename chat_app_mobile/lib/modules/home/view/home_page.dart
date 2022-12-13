@@ -1,3 +1,4 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
 import 'package:chat_app_mobile/modules/chat/view/chat_page.dart';
 import 'package:chat_app_mobile/modules/contact/view/view.dart';
@@ -7,6 +8,7 @@ import 'package:chat_app_mobile/modules/setting/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:webrtc_repository/webrtc_repository.dart';
 
 import '../../../utils/select_notification_stream.dart';
 import '../../notifications/view/notifications_page.dart';
@@ -19,7 +21,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc(),
+      create: (_) => HomeBloc(
+        context.read<AuthRepository>(),
+        context.read<WebRTCRepostiory>(),
+      ),
       child: const HomeView(),
     );
   }
@@ -53,16 +58,21 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SelectNotificationStream.selectNotificationStream.stream.listen((actionId) {
-      print("event: $actionId");
-      if (actionId == SelectNotificationStream.acceptCallId) {
-        //context.pushNamed(CallPage.namePage);
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const CallPage()));
-      } else {
-        //context.pushNamed(NotificationsPage.namePage);
+    SelectNotificationStream.selectNotificationStream.stream.listen((data) {
+      if (data?.actionId == null) {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const NotificationsPage()));
+      }
+      if (data?.actionId == SelectNotificationStream.acceptCallId) {
+        //context.pushNamed(CallPage.namePage);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const CallPage(
+                  friendId: "123",
+                )));
+      } else if (data?.actionId == SelectNotificationStream.deniedCallId) {
+        context
+            .read<HomeBloc>()
+            .add(SelectActionCallReject(friendId: data!.type));
       }
     });
 

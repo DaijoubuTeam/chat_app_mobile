@@ -51,9 +51,11 @@ class ChatDetailView extends StatelessWidget {
               if (state.chatRoomInfo?.type == "personal")
                 IconButton(
                   onPressed: () => {
-                    context.pushNamed(
-                      CallPage.namePage,
-                    ),
+                    context.pushNamed(CallPage.namePage, params: {
+                      'chatRoomId': chatRoomId,
+                    }, extra: {
+                      "friendId": state.friends![0].uid,
+                    }),
                   },
                   icon: const Icon(Icons.call),
                 ),

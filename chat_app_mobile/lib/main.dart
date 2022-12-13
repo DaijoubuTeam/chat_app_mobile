@@ -17,6 +17,7 @@ import 'package:socket_repository/socket_repository.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
+import 'package:webrtc_repository/webrtc_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,6 +61,7 @@ Future<void> main() async {
   final messageRepository = MessageRepository(chatAppApi);
   final notificationRepository = NotificationRepository(chatAppApi);
   final searchRepository = SearchRepository(chatAppApi);
+  final webRTCRepository = WebRTCRepostiory(chatAppApi);
 
   await authenticationRepository.user.first;
 
@@ -73,5 +75,6 @@ Future<void> main() async {
     messageRepository,
     notificationRepository,
     searchRepository,
+    webRTCRepository,
   );
 }

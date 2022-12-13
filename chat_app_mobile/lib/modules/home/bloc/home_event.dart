@@ -15,3 +15,11 @@ class SelectTabIndexChanged extends HomeEvent {
   @override
   List<Object?> get props => [tabIndex];
 }
+
+class SelectActionCallReject extends HomeEvent {
+  const SelectActionCallReject({required this.friendId});
+  final String friendId;
+
+  @override
+  List<Object?> get props => [friendId];
+}

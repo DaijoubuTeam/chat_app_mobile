@@ -79,6 +79,8 @@ dependencies:
     path: packages/socket_repository
   form_inputs:
     path: packages/form_inputs
+  webrtc_repository:
+    path: packages/webrtc_repository
   firestore_upload_file:
     path: packages/firestore_upload_file
 

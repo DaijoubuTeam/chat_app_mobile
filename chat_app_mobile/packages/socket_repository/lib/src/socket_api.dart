@@ -23,6 +23,7 @@ class SocketAPI {
     _socket.on('register', (data) => log(data));
     _socket.on('new-message', ((data) => socketNewMessage(data)));
     _socket.on('new-notification', ((data) => socketNewNotification(data)));
+    _socket.on('webrtc', ((data) => socketNewCallWebRTC(data)));
   }
 
   StreamController<NewMessage> newMessageController =
@@ -30,6 +31,9 @@ class SocketAPI {
 
   StreamController<Notification> newNotificationController =
       StreamController<Notification>.broadcast();
+
+  StreamController<dynamic> webRTCStream =
+      StreamController<dynamic>.broadcast();
 
   static SocketAPI? _socketApi;
 
@@ -72,6 +76,11 @@ class SocketAPI {
     final newNotification = Notification.fromJson(data);
     newNotificationController.sink.add(newNotification);
     return newNotificationController.stream;
+  }
+
+  Stream<dynamic> socketNewCallWebRTC(dynamic data) {
+    webRTCStream.sink.add(data);
+    return webRTCStream.stream;
   }
 
   void dispose() {

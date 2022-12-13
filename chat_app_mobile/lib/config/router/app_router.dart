@@ -79,6 +79,16 @@ class AppRouter {
             },
             routes: [
               GoRoute(
+                name: CallPage.namePage,
+                path: 'call-page',
+                builder: (BuildContext context, GoRouterState state) {
+                  final mapStateExtra = state.extra as Map<String, String>;
+                  return CallPage(
+                    friendId: mapStateExtra["friendId"]!,
+                  );
+                },
+              ),
+              GoRoute(
                   name: ChatRoomDetailPage.namePage,
                   path: 'chat-rooms-details',
                   builder: (BuildContext context, GoRouterState state) {
@@ -149,13 +159,6 @@ class AppRouter {
           path: '/create-group',
           builder: (BuildContext context, GoRouterState state) {
             return const GroupCreatePage();
-          },
-        ),
-        GoRoute(
-          name: CallPage.namePage,
-          path: '/call-page',
-          builder: (BuildContext context, GoRouterState state) {
-            return const CallPage();
           },
         ),
       ],

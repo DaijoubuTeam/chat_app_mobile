@@ -1,3 +1,4 @@
+import 'package:chat_app_api/src/api/webrtc_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
 
@@ -18,6 +19,7 @@ class ChatAppApi {
       MessageApi? chatMessageApi,
       NotificationApi? notificationApi,
       SearchApi? searchApi,
+      WebRTCApi? webRTCApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
@@ -30,7 +32,8 @@ class ChatAppApi {
             MessageApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _notificationApi = notificationApi ??
             NotificationApi(serverUrl: serverUrl, dio: dio ?? Dio()),
-        _searchApi = SearchApi(serverUrl: serverUrl, dio: dio ?? Dio());
+        _searchApi = SearchApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _webRTCApi = WebRTCApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
@@ -39,6 +42,7 @@ class ChatAppApi {
   MessageApi _messageApi;
   NotificationApi _notificationApi;
   SearchApi _searchApi;
+  WebRTCApi _webRTCApi;
 
   //auth api
   Future<User> verifyUser(String bearerToken) async {
@@ -227,5 +231,11 @@ class ChatAppApi {
   Future<Search> getSearch(String bearerToken, String input) async {
     final res = await _searchApi.getSearch(bearerToken, input);
     return res;
+  }
+
+  //WebRTC Api
+  Future<bool> postWebRTC(
+      String bearerToken, String friendId, dynamic data) async {
+    return await _webRTCApi.postWebRTC(bearerToken, friendId, data);
   }
 }

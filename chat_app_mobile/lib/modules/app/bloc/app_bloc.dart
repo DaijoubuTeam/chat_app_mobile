@@ -42,12 +42,25 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         );
       }
     });
+
+    _webRTCStreamSubscription =
+        socket_repo.SocketAPI.socketApi.webRTCStream.stream.listen((data) {
+      if (data["data"]["type"] == "invite") {
+        NotificationService().showNotification(
+          id: 123,
+          title: data["from"]["fullname"],
+          body: "call you",
+          payload: data["from"]["uid"],
+        );
+      }
+    });
   }
 
   final AuthRepository _authRepository;
   late final StreamSubscription<User> _userSubscription;
   late final StreamSubscription<socket_repo.Notification>
       _newNotificationStreamSubscription;
+  late final StreamSubscription<dynamic> _webRTCStreamSubscription;
 
   User get authCurrentUser => _authRepository.currentUser;
 
@@ -75,7 +88,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   @override
   Future<void> close() {
     _userSubscription.cancel();
-    // _newNotificationStreamSubscription.cancel();
+    _newNotificationStreamSubscription.cancel();
+    _webRTCStreamSubscription.cancel();
     return super.close();
   }
 }
