@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:socket_repository/socket_repository.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
 
 typedef StreamStateCallback = void Function(MediaStream stream);
@@ -51,6 +52,7 @@ class Signaling {
   ) async {
     debugPrint('Create PeerConnection with configuration: $configuration');
     peerConnection = await createPeerConnection(configuration);
+    ICEConnectionSetup(peerConnection, bearerToken, friendId);
 
     registerPeerConnection();
 
@@ -64,9 +66,15 @@ class Signaling {
 
     //candidate ice
     // get candidate from ice and upload it to firebase
-    peerConnection?.onIceCandidate = (RTCIceCandidate candidate) {
-      debugPrint('Got candidate: ${candidate.toMap()}');
-    };
+    // peerConnection?.onIceCandidate = (RTCIceCandidate candidate) {
+    //   debugPrint('Got candidate: ${candidate.toMap()}');
+    // };
+
+    peerConnection?.onIceCandidate = (RTCIceCandidate candidate) => {
+          print("createRoom here"),
+          _webRTCRepostiory?.postWebRTC(bearerToken, friendId,
+              {'type': 'icecandidate', 'data': candidate.toMap()}),
+        };
 
     //create offer
     RTCSessionDescription offer = await peerConnection!.createOffer();
@@ -84,6 +92,19 @@ class Signaling {
     };
 
     _webRTCRepostiory?.postWebRTC(bearerToken, friendId, offer.toMap());
+
+    // receiver answer and save peerConnection
+    SocketAPI.socketApi.webRTCStream.stream.listen((data) async {
+      if (data["data"]["type"] == "answer") {
+        var answer = RTCSessionDescription(
+          data['data']['sdp'],
+          data['data']['type'],
+        );
+
+        print("Someone tried to connect");
+        await peerConnection?.setRemoteDescription(answer);
+      }
+    });
   }
 
   Future<void> joinRoom(
@@ -112,6 +133,8 @@ class Signaling {
       RTCSessionDescription(data['sdp'], data['type']),
     );
 
+    ICEConnectionSetup(peerConnection, bearerToken, friendId);
+
     var answer = await peerConnection!.createAnswer();
     print('Created Answer $answer');
 
@@ -119,6 +142,31 @@ class Signaling {
 
     // Finished creating SDP answer
     _webRTCRepostiory?.postWebRTC(bearerToken, friendId, answer.toMap());
+
+    peerConnection?.onIceCandidate = (RTCIceCandidate candidate) => {
+          print("joinRoom here"),
+          _webRTCRepostiory?.postWebRTC(bearerToken, friendId,
+              {'type': 'icecandidate', 'data': candidate.toMap()}),
+        };
+  }
+
+  void ICEConnectionSetup(
+    RTCPeerConnection? rtcPeerConnection,
+    String bearerToken,
+    String friendId,
+  ) {
+    SocketAPI.socketApi.webRTCStream.stream.listen((data) {
+      print(data["data"]["type"]);
+      if (data["data"]["type"] == 'icecandidate') {
+        final candidate = data["data"]["data"];
+        print(candidate["sdpMLineIndex"]);
+        peerConnection?.addCandidate(RTCIceCandidate(
+          candidate['candidate'],
+          candidate['sdpMid'],
+          candidate['sdpMLineIndex'],
+        ));
+      }
+    });
   }
 
   void registerPeerConnection() {

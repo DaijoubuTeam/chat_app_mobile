@@ -30,7 +30,7 @@ class CallOfferReceived extends CallEvent {
 
 class CallCanceled extends CallEvent {}
 
-//event receivrt
+//event receiver
 class CallReceiverInited extends CallEvent {}
 
 class CallCreateRoomSucceeded extends CallEvent {}
