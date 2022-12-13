@@ -14,6 +14,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : super(const HomeState()) {
     on<SelectTabIndexChanged>(_onSelecTabIndexChanged);
     on<SelectActionCallReject>(_onSelectActionCallReject);
+    on<SelectActionCallAccept>(_onSelectActionCallAccept);
   }
 
   final AuthRepository authRepository;
@@ -30,6 +31,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final bearerToken = await authRepository.bearToken;
       if (bearerToken != null) {
         final newData = {"type": "reject"};
+        webRTCRepostiory.postWebRTC(bearerToken, event.friendId, newData);
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _onSelectActionCallAccept(
+      SelectActionCallAccept event, Emitter<HomeState> emit) async {
+    try {
+      final bearerToken = await authRepository.bearToken;
+      if (bearerToken != null) {
+        final newData = {"type": "accept"};
         webRTCRepostiory.postWebRTC(bearerToken, event.friendId, newData);
       }
     } catch (e) {

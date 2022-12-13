@@ -58,23 +58,32 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SelectNotificationStream.selectNotificationStream.stream.listen((data) {
-      if (data?.actionId == null) {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const NotificationsPage()));
-      }
-      if (data?.actionId == SelectNotificationStream.acceptCallId) {
-        //context.pushNamed(CallPage.namePage);
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const CallPage(
-                  friendId: "123",
-                )));
-      } else if (data?.actionId == SelectNotificationStream.deniedCallId) {
-        context
-            .read<HomeBloc>()
-            .add(SelectActionCallReject(friendId: data!.type));
-      }
-    });
+    SelectNotificationStream.selectNotificationStream.stream.listen(
+      (data) {
+        if (data?.actionId == null) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const NotificationsPage()));
+        }
+        if (data?.actionId == SelectNotificationStream.acceptCallId) {
+          //context.pushNamed(CallPage.namePage);
+          context
+              .read<HomeBloc>()
+              .add(SelectActionCallAccept(friendId: data!.type));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => CallPage(
+                friendId: data.type,
+                isReceiver: true,
+              ),
+            ),
+          );
+        } else if (data?.actionId == SelectNotificationStream.deniedCallId) {
+          context.read<HomeBloc>().add(
+                SelectActionCallReject(friendId: data!.type),
+              );
+        }
+      },
+    );
 
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) => previous.tabIndex != current.tabIndex,

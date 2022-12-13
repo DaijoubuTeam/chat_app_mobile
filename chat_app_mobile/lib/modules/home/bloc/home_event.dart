@@ -23,3 +23,11 @@ class SelectActionCallReject extends HomeEvent {
   @override
   List<Object?> get props => [friendId];
 }
+
+class SelectActionCallAccept extends HomeEvent {
+  const SelectActionCallAccept({required this.friendId});
+  final String friendId;
+
+  @override
+  List<Object?> get props => [friendId];
+}
