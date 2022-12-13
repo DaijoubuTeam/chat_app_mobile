@@ -7,7 +7,8 @@ abstract class CallEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CallInitial extends CallEvent {}
+//event sender
+class CallInited extends CallEvent {}
 
 class CallInvited extends CallEvent {}
 
@@ -22,3 +23,10 @@ class CallWaitingStateChanged extends CallEvent {
 class CallAccepted extends CallEvent {}
 
 class CallCanceled extends CallEvent {}
+
+//event receivrt
+class CallReceiverInited extends CallEvent {}
+
+class CallCreateRoomSucceeded extends CallEvent {}
+
+class CallCreateRoomFailed extends CallEvent {}

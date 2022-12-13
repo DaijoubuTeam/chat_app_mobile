@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:socket_repository/socket_repository.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
 
 typedef StreamStateCallback = void Function(MediaStream stream);

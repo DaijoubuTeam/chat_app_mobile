@@ -1,6 +1,5 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/call_page/bloc/call_bloc.dart';
-import 'package:chat_app_mobile/modules/call_page/widgets/call_container.dart';
 import 'package:chat_app_mobile/modules/call_page/widgets/video_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,11 +22,15 @@ class CallPage extends StatelessWidget {
         if (!isReceiver) {
           return CallBloc(
             friendId: friendId,
+            isReceiver: false,
             authRepository: context.read<AuthRepository>(),
           );
         }
         return CallBloc.invited(
-            friendId: friendId, authRepository: context.read<AuthRepository>());
+          friendId: friendId,
+          isReceiver: true,
+          authRepository: context.read<AuthRepository>(),
+        );
       },
       child: const CallView(),
     );

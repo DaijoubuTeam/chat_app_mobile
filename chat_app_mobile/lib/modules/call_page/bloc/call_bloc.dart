@@ -11,9 +11,13 @@ part 'call_event.dart';
 part 'call_state.dart';
 
 class CallBloc extends Bloc<CallEvent, CallState> {
-  CallBloc({required friendId, required this.authRepository})
-      : super(CallState(friendId: friendId)) {
-    on<CallInitial>(_onCallInitial);
+  CallBloc(
+      {required friendId, required isReceiver, required this.authRepository})
+      : super(CallState(
+          friendId: friendId,
+          isReceiver: isReceiver,
+        )) {
+    on<CallInited>(_onCallInited);
     //on<CallInvited>(_onCallInvited);
     //on<CallWaitingStateChanged>(_onCallWaitingStateChanged);
     on<CallAccepted>(_onCallAccepted);
@@ -22,27 +26,42 @@ class CallBloc extends Bloc<CallEvent, CallState> {
       if (data["data"]["type"] == "reject") {
         add(CallCanceled());
       }
-      if (data["data"]["type"] == "accept") {
-        add(CallAccepted());
+      if (data["data"]["type"] == "offer") {
+        //add(CallAccepted());
       }
     });
 
-    add(CallInitial());
+    add(CallInited());
   }
 
-  CallBloc.invited({required friendId, required this.authRepository})
-      : super(CallState(friendId: friendId));
+  CallBloc.invited(
+      {required friendId, required isReceiver, required this.authRepository})
+      : super(CallState(
+          friendId: friendId,
+          isReceiver: isReceiver,
+        )) {
+    on<CallReceiverInited>(_onCallReceiverInited);
+    on<CallCreateRoomSucceeded>(_onCallCreateRoomSucceeded);
+    on<CallCreateRoomFailed>(_onCallCreateRoomFailed);
+    add(CallReceiverInited());
+    socketSubscription =
+        SocketAPI.socketApi.webRTCStream.stream.listen((data) {});
+  }
 
   late final StreamSubscription<dynamic> socketSubscription;
   final auth_repo.AuthRepository authRepository;
 
-  Future<void> _onCallInitial(
-      CallInitial event, Emitter<CallState> emit) async {
+  Future<void> _onCallInited(CallInited event, Emitter<CallState> emit) async {
     final bearerToken = await authRepository.bearToken;
     if (bearerToken != null) {
       Signaling().inviteCall(bearerToken, state.friendId);
-      emit(state.copyWith(isWaiting: true));
     }
+    emit(state.copyWith(isWaiting: true));
+  }
+
+  Future<void> _onCallReceiverInited(
+      CallReceiverInited event, Emitter<CallState> emit) async {
+    emit(state.copyWith(isWaiting: true));
   }
 
   // Future<void> _onCallInvited(
@@ -71,5 +90,15 @@ class CallBloc extends Bloc<CallEvent, CallState> {
   Future<void> close() {
     socketSubscription.cancel();
     return super.close();
+  }
+
+  void _onCallCreateRoomSucceeded(
+      CallCreateRoomSucceeded event, Emitter<CallState> emit) {
+    emit(state.copyWith(isWaiting: false, isCancel: false));
+  }
+
+  void _onCallCreateRoomFailed(
+      CallCreateRoomFailed event, Emitter<CallState> emit) {
+    emit(state.copyWith(isWaiting: false, isCancel: true));
   }
 }

@@ -31,58 +31,38 @@ class _VideosContainerState extends State<VideosContainer> {
 
     if (mounted) {
       Signaling().setWebRTCRepository(context.read<WebRTCRepostiory>());
-      //inviteCall(context);
-      //createCallRoom(context);
     }
 
     super.initState();
   }
 
-  // void inviteCall(BuildContext ctx) async {
-  //   final bearerToken = await ctx.read<AuthRepository>().bearToken;
-  //   if (bearerToken != null) {
-  //     Signaling().inviteCall(bearerToken, widget.friendId);
-  //     setState(() {
-  //       isWaiting = true;
-  //     });
-  //     SocketAPI.socketApi.webRTCStream.stream.listen((data) {
-  //       setState(() {
-  //         isWaiting = false;
-  //       });
-  //       if (data["data"]["type"] == "reject") {
-  //         if (mounted) {
-  //           ctx.pop();
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
-
-  void _createCallRoom(BuildContext ctx, String friendId) async {
+  Future<void> _createCallRoom(BuildContext ctx, String friendId) async {
     final bearerToken = await ctx.read<AuthRepository>().bearToken;
     if (bearerToken != null) {
-      Signaling().createRoom(_localRenderer.srcObject,
+      await Signaling().createRoom(_localRenderer.srcObject,
           _remoteRenderer.srcObject, bearerToken, friendId);
     }
   }
-
-  // void stopWaitingCall(BuildContext ctx) async {
-  //   final bearerToken = await ctx.read<AuthRepository>().bearToken;
-  //   if (bearerToken != null) {
-  //     // Signaling().createRoom(_localRenderer.srcObject,
-  //     //     _remoteRenderer.srcObject, bearerToken, widget.friendId);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CallBloc, CallState>(
       listener: (context, state) {
+        print("here");
+        if (state.isReceiver) {
+          if (state.isWaiting && !state.isCancel) {
+            _createCallRoom(context, state.friendId).then((value) {
+              context.read<CallBloc>().add(CallCreateRoomSucceeded());
+            }).catchError((_) {
+              context.read<CallBloc>().add(CallCreateRoomFailed());
+            });
+          }
+        }
         if (state.isCancel && !state.isWaiting) {
           context.pop();
         }
         if (!state.isCancel && !state.isWaiting) {
-          _createCallRoom(context, state.friendId);
+          //_createCallRoom(context, state.friendId);
         }
       },
       builder: (context, state) {
@@ -133,10 +113,11 @@ class _VideosContainerState extends State<VideosContainer> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
-                        child: Container(
-                      color: Colors.black,
-                      child: RTCVideoView(_localRenderer, mirror: true),
-                    )),
+                      child: Container(
+                        color: Colors.black,
+                        child: RTCVideoView(_localRenderer, mirror: true),
+                      ),
+                    ),
                     Expanded(child: RTCVideoView(_remoteRenderer)),
                   ],
                 ),
