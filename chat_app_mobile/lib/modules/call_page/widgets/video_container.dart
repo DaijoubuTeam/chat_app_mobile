@@ -21,6 +21,7 @@ class _VideosContainerState extends State<VideosContainer> {
   Future<void> openUserMedia() async {
     _localRenderer.srcObject = await navigator.mediaDevices
         .getUserMedia({'video': true, 'audio': true});
+    _remoteRenderer.srcObject = await createLocalMediaStream('remote-renderer');
     setState(() {});
   }
 
@@ -28,6 +29,11 @@ class _VideosContainerState extends State<VideosContainer> {
   void initState() {
     _localRenderer.initialize();
     _remoteRenderer.initialize();
+
+    Signaling().onAddRemoteStream = (stream) {
+      _remoteRenderer.srcObject = stream;
+      setState(() {});
+    };
 
     if (mounted) {
       Signaling().setWebRTCRepository(context.read<WebRTCRepostiory>());
@@ -39,6 +45,7 @@ class _VideosContainerState extends State<VideosContainer> {
   Future<void> _createCallRoom(BuildContext ctx, String friendId) async {
     final bearerToken = await ctx.read<AuthRepository>().bearToken;
     if (bearerToken != null) {
+      await openUserMedia();
       await Signaling().createRoom(_localRenderer.srcObject,
           _remoteRenderer.srcObject, bearerToken, friendId);
     }
@@ -48,6 +55,7 @@ class _VideosContainerState extends State<VideosContainer> {
       BuildContext ctx, String friendId, dynamic data) async {
     final bearerToken = await ctx.read<AuthRepository>().bearToken;
     if (bearerToken != null) {
+      await openUserMedia();
       await Signaling().joinRoom(data, _localRenderer.srcObject,
           _remoteRenderer.srcObject, bearerToken, friendId);
     }

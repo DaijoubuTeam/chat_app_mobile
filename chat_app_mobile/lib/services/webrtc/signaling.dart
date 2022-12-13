@@ -32,6 +32,8 @@ class Signaling {
   RTCPeerConnection? peerConnection;
   MediaStream? localStream;
 
+  StreamStateCallback? onAddRemoteStream;
+
   void setWebRTCRepository(WebRTCRepostiory webRTCRepostiory) {
     _webRTCRepostiory = webRTCRepostiory;
   }
@@ -81,7 +83,6 @@ class Signaling {
     await peerConnection!.setLocalDescription(offer);
     print('Created offer: $offer');
 
-    // Created a Room
     peerConnection?.onTrack = (RTCTrackEvent event) {
       print('Got remote track: ${event.streams[0]}');
 
@@ -89,6 +90,7 @@ class Signaling {
         print('Add a track to the remoteStream $track');
         remoteMediaStream?.addTrack(track);
       });
+      onAddRemoteStream!(remoteMediaStream!);
     };
 
     _webRTCRepostiory?.postWebRTC(bearerToken, friendId, offer.toMap());
@@ -118,14 +120,20 @@ class Signaling {
 
     registerPeerConnection();
 
+    if (localMediaStream != null) {
+      localStream = localMediaStream;
+    }
+
     localStream?.getTracks().forEach((track) {
       peerConnection?.addTrack(track, localStream!);
     });
 
     peerConnection?.onTrack = (RTCTrackEvent event) {
       event.streams[0].getTracks().forEach((track) {
+        print('Add a track to the remoteStream $track');
         remoteMediaStream?.addTrack(track);
       });
+      onAddRemoteStream!(remoteMediaStream!);
     };
 
     // Code for creating SDP answer below
