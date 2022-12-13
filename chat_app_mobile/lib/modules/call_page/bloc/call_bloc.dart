@@ -18,16 +18,14 @@ class CallBloc extends Bloc<CallEvent, CallState> {
           isReceiver: isReceiver,
         )) {
     on<CallInited>(_onCallInited);
-    //on<CallInvited>(_onCallInvited);
-    //on<CallWaitingStateChanged>(_onCallWaitingStateChanged);
-    on<CallAccepted>(_onCallAccepted);
+    on<CallOfferReceived>(_onCallOfferReceived);
     on<CallCanceled>(_onCallCanceled);
     socketSubscription = SocketAPI.socketApi.webRTCStream.stream.listen((data) {
       if (data["data"]["type"] == "reject") {
         add(CallCanceled());
       }
       if (data["data"]["type"] == "offer") {
-        //add(CallAccepted());
+        add(CallOfferReceived(offer: data["data"]));
       }
     });
 
@@ -64,22 +62,8 @@ class CallBloc extends Bloc<CallEvent, CallState> {
     emit(state.copyWith(isWaiting: true));
   }
 
-  // Future<void> _onCallInvited(
-  //     CallInvited event, Emitter<CallState> emit) async {
-  //   final bearerToken = await authRepository.bearToken;
-  //   if (bearerToken != null) {
-  //     Signaling().inviteCall(bearerToken, state.friendId);
-  //     emit(state.copyWith(isWaiting: true));
-  //   }
-  // }
-
-  // void _onCallWaitingStateChanged(
-  //     CallWaitingStateChanged event, Emitter<CallState> emit) {
-  //   emit(state.copyWith(isWaiting: event.status));
-  // }
-
-  void _onCallAccepted(CallAccepted event, Emitter<CallState> emit) async {
-    emit(state.copyWith(isWaiting: false, isCancel: false));
+  void _onCallOfferReceived(CallOfferReceived event, Emitter<CallState> emit) {
+    emit(state.copyWith(offer: event.offer, isWaiting: false, isCancel: false));
   }
 
   void _onCallCanceled(CallCanceled event, Emitter<CallState> emit) {

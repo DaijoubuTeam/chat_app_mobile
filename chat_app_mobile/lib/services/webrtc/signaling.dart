@@ -86,6 +86,41 @@ class Signaling {
     _webRTCRepostiory?.postWebRTC(bearerToken, friendId, offer.toMap());
   }
 
+  Future<void> joinRoom(
+    dynamic data,
+    MediaStream? localMediaStream,
+    MediaStream? remoteMediaStream,
+    String bearerToken,
+    String friendId,
+  ) async {
+    peerConnection = await createPeerConnection(configuration);
+
+    registerPeerConnection();
+
+    localStream?.getTracks().forEach((track) {
+      peerConnection?.addTrack(track, localStream!);
+    });
+
+    peerConnection?.onTrack = (RTCTrackEvent event) {
+      event.streams[0].getTracks().forEach((track) {
+        remoteMediaStream?.addTrack(track);
+      });
+    };
+
+    // Code for creating SDP answer below
+    await peerConnection?.setRemoteDescription(
+      RTCSessionDescription(data['sdp'], data['type']),
+    );
+
+    var answer = await peerConnection!.createAnswer();
+    print('Created Answer $answer');
+
+    await peerConnection!.setLocalDescription(answer);
+
+    // Finished creating SDP answer
+    _webRTCRepostiory?.postWebRTC(bearerToken, friendId, answer.toMap());
+  }
+
   void registerPeerConnection() {
     peerConnection?.onIceGatheringState = (RTCIceGatheringState state) {
       log('ICE gathering state changed: $state');

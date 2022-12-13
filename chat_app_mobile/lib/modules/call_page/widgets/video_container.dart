@@ -44,11 +44,19 @@ class _VideosContainerState extends State<VideosContainer> {
     }
   }
 
+  Future<void> _joinCallRoom(
+      BuildContext ctx, String friendId, dynamic data) async {
+    final bearerToken = await ctx.read<AuthRepository>().bearToken;
+    if (bearerToken != null) {
+      await Signaling().joinRoom(data, _localRenderer.srcObject,
+          _remoteRenderer.srcObject, bearerToken, friendId);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CallBloc, CallState>(
       listener: (context, state) {
-        print("here");
         if (state.isReceiver) {
           if (state.isWaiting && !state.isCancel) {
             _createCallRoom(context, state.friendId).then((value) {
@@ -57,12 +65,13 @@ class _VideosContainerState extends State<VideosContainer> {
               context.read<CallBloc>().add(CallCreateRoomFailed());
             });
           }
+        } else {
+          if (!state.isCancel && !state.isWaiting) {
+            _joinCallRoom(context, state.friendId, state.offer);
+          }
         }
         if (state.isCancel && !state.isWaiting) {
           context.pop();
-        }
-        if (!state.isCancel && !state.isWaiting) {
-          //_createCallRoom(context, state.friendId);
         }
       },
       builder: (context, state) {

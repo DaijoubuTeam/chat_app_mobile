@@ -20,7 +20,13 @@ class CallWaitingStateChanged extends CallEvent {
   List<Object> get props => [status];
 }
 
-class CallAccepted extends CallEvent {}
+class CallOfferReceived extends CallEvent {
+  const CallOfferReceived({this.offer});
+  final dynamic offer;
+
+  @override
+  List<Object> get props => [offer];
+}
 
 class CallCanceled extends CallEvent {}
 
