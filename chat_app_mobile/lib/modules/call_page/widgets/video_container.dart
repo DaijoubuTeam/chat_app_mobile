@@ -63,88 +63,118 @@ class _VideosContainerState extends State<VideosContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CallBloc, CallState>(
-      listener: (context, state) {
-        if (state.isReceiver) {
-          if (state.isWaiting && !state.isCancel) {
-            _createCallRoom(context, state.friendId).then((value) {
-              context.read<CallBloc>().add(CallCreateRoomSucceeded());
-            }).catchError((_) {
-              context.read<CallBloc>().add(CallCreateRoomFailed());
-            });
-          }
-        } else {
-          if (!state.isCancel && !state.isWaiting) {
-            _joinCallRoom(context, state.friendId, state.offer);
-          }
+    return BlocConsumer<CallBloc, CallState>(listener: (context, state) {
+      if (state.isReceiver) {
+        if (state.isWaiting && !state.isCancel) {
+          _createCallRoom(context, state.friendId).then((value) {
+            context.read<CallBloc>().add(CallCreateRoomSucceeded());
+          }).catchError((_) {
+            context.read<CallBloc>().add(CallCreateRoomFailed());
+          });
         }
-        if (state.isCancel && !state.isWaiting) {
-          context.pop();
+      } else {
+        if (!state.isCancel && !state.isWaiting) {
+          _joinCallRoom(context, state.friendId, state.offer);
         }
-      },
-      builder: (context, state) {
-        if (state.isWaiting) {
-          return Stack(
-            children: [
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
-              Positioned(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(64.0),
-                    child: FloatingActionButton(
-                      onPressed: () {},
-                      child: const Icon(Icons.call_end),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        }
-        return Column(
+      }
+      if (state.isCancel && !state.isWaiting) {
+        context.pop();
+      }
+    }, builder: (context, state) {
+      if (state.isWaiting) {
+        return Stack(
           children: [
-            const SizedBox(height: 8),
-            Wrap(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    openUserMedia();
-                    //_makeCall();
-                  },
-                  child: const Text("Open camera & microphone"),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-              ],
+            const Center(
+              child: CircularProgressIndicator(),
             ),
-            const SizedBox(height: 8),
-            Expanded(
+          ],
+        );
+      }
+      return Center(
+        child: Stack(
+          children: [
+            RTCVideoView(
+              _remoteRenderer,
+              objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                width: 120,
+                height: 200,
+                color: Colors.black,
+                child: RTCVideoView(
+                  _localRenderer,
+                  mirror: true,
+                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        color: Colors.black,
-                        child: RTCVideoView(_localRenderer, mirror: true),
+                  children: <Widget>[
+                    SizedBox(
+                      width: 48.0,
+                      height: 48.0,
+                      child: FloatingActionButton(
+                        heroTag: null,
+                        backgroundColor: Colors.white,
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.videocam_off_outlined,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                    Expanded(child: RTCVideoView(_remoteRenderer)),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: const Icon(Icons.cameraswitch),
+                    // ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      width: 64.0,
+                      height: 64.0,
+                      child: FloatingActionButton(
+                        heroTag: null,
+                        backgroundColor: Colors.red[400],
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.call_end,
+                          size: 36,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      width: 48.0,
+                      height: 48.0,
+                      child: FloatingActionButton(
+                        heroTag: null,
+                        backgroundColor: Colors.white,
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.mic_off_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 8),
           ],
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 
   @override
