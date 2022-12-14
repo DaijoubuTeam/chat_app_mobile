@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
+import 'package:collection/collection.dart';
 
 class VideosContainer extends StatefulWidget {
   const VideosContainer({super.key});
@@ -20,6 +21,8 @@ class VideosContainer extends StatefulWidget {
 class _VideosContainerState extends State<VideosContainer> {
   final RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
+  bool isRemoteCameraOpen = true;
+  bool isCameraOpen = true;
 
   Future<void> openUserMedia() async {
     _localRenderer.srcObject = await navigator.mediaDevices
@@ -35,7 +38,17 @@ class _VideosContainerState extends State<VideosContainer> {
 
     Signaling().onAddRemoteStream = (stream) {
       _remoteRenderer.srcObject = stream;
-      setState(() {});
+      final index =
+          stream.getVideoTracks().indexWhere((track) => track.kind == 'video');
+      if (index != -1) {
+        setState(() {
+          isRemoteCameraOpen = true;
+        });
+      } else {
+        setState(() {
+          isRemoteCameraOpen = false;
+        });
+      }
     };
 
     if (mounted) {
@@ -87,6 +100,27 @@ class _VideosContainerState extends State<VideosContainer> {
     }
   }
 
+  void _closeCamera() async {
+    final cameraTrack = _localRenderer.srcObject
+        ?.getVideoTracks()
+        .firstWhereOrNull((track) => track.kind == 'video');
+    if (cameraTrack != null) {
+      await cameraTrack.stop();
+      // _localRenderer.srcObject?.removeTrack(cameraTrack);
+      setState(() => {
+            isCameraOpen = false,
+          });
+      final senders = (await Signaling().peerConnection?.senders);
+      final sender =
+          senders?.firstWhereOrNull((item) => item.track?.id == cameraTrack.id);
+
+      if (sender != null) {
+        log("sender found");
+        Signaling().peerConnection?.removeTrack(sender);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CallBloc, CallState>(listener: (context, state) {
@@ -119,24 +153,29 @@ class _VideosContainerState extends State<VideosContainer> {
       return Center(
         child: Stack(
           children: [
-            RTCVideoView(
-              _remoteRenderer,
-              objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
-                width: 120,
-                height: 200,
-                color: Colors.black,
-                child: RTCVideoView(
-                  _localRenderer,
-                  mirror: true,
-                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+            isRemoteCameraOpen
+                ? RTCVideoView(
+                    _remoteRenderer,
+                    objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                  )
+                : Container(
+                    color: Colors.black,
+                  ),
+            if (isCameraOpen)
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  width: 120,
+                  height: 200,
+                  color: Colors.black,
+                  child: RTCVideoView(
+                    _localRenderer,
+                    mirror: true,
+                    objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                  ),
                 ),
               ),
-            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -150,9 +189,11 @@ class _VideosContainerState extends State<VideosContainer> {
                       child: FloatingActionButton(
                         heroTag: null,
                         backgroundColor: Colors.white,
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.videocam_off_outlined,
+                        onPressed: _closeCamera,
+                        child: Icon(
+                          isCameraOpen
+                              ? Icons.videocam_outlined
+                              : Icons.videocam_off_outlined,
                           color: Colors.black,
                         ),
                       ),

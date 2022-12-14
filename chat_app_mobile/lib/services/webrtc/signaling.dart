@@ -98,10 +98,12 @@ class Signaling {
     await peerConnection!.setLocalDescription(offer);
 
     peerConnection?.onTrack = (RTCTrackEvent event) {
-      event.streams[0].getTracks().forEach((track) {
-        remoteMediaStream?.addTrack(track);
+      createLocalMediaStream('remote-renderer').then((newRemoteStream) {
+        event.streams[0].getTracks().forEach((track) {
+          newRemoteStream.addTrack(track);
+        });
+        onAddRemoteStream!(newRemoteStream);
       });
-      onAddRemoteStream!(remoteMediaStream!);
     };
 
     _webRTCRepostiory?.postWebRTC(bearerToken, friendId, offer.toMap());
@@ -138,10 +140,13 @@ class Signaling {
     });
 
     peerConnection?.onTrack = (RTCTrackEvent event) {
-      event.streams[0].getTracks().forEach((track) {
-        remoteMediaStream?.addTrack(track);
+      createLocalMediaStream('remote-renderer').then((newRemoteStream) {
+        print("newRemoteStream");
+        event.streams[0].getTracks().forEach((track) {
+          newRemoteStream.addTrack(track);
+        });
+        onAddRemoteStream!(newRemoteStream);
       });
-      onAddRemoteStream!(remoteMediaStream!);
     };
 
     // Code for creating SDP answer below
