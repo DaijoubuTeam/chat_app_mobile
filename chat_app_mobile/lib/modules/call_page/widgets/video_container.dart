@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/call_page/bloc/call_bloc.dart';
+import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +40,29 @@ class _VideosContainerState extends State<VideosContainer> {
 
     if (mounted) {
       Signaling().setWebRTCRepository(context.read<WebRTCRepostiory>());
+      Signaling().closeVideoRenderer = () {
+        List<MediaStreamTrack> tracks = _localRenderer.srcObject!.getTracks();
+        for (var track in tracks) {
+          track.stop();
+        }
+        List<MediaStreamTrack> remoteTracks =
+            _remoteRenderer.srcObject!.getTracks();
+        for (var remoteTrack in remoteTracks) {
+          remoteTrack.stop();
+        }
+        _localRenderer.dispose();
+        _localRenderer.srcObject?.dispose();
+        _remoteRenderer.dispose();
+        _remoteRenderer.srcObject?.dispose();
+        // if (context.read<CallBloc>().state.isReceiver) {
+        //   //Navigator.of(context).replace(oldRoute: oldRoute, newRoute: newRoute)
+        //   log("here", name: "navigator");
+        //   context.replaceNamed(HomePage.namePage);
+        // } else {
+
+        // }
+        context.pop();
+      };
     }
 
     super.initState();
@@ -83,8 +109,8 @@ class _VideosContainerState extends State<VideosContainer> {
     }, builder: (context, state) {
       if (state.isWaiting) {
         return Stack(
-          children: [
-            const Center(
+          children: const [
+            Center(
               child: CircularProgressIndicator(),
             ),
           ],
@@ -144,7 +170,9 @@ class _VideosContainerState extends State<VideosContainer> {
                       child: FloatingActionButton(
                         heroTag: null,
                         backgroundColor: Colors.red[400],
-                        onPressed: () {},
+                        onPressed: () {
+                          Signaling().hangUp();
+                        },
                         child: const Icon(
                           Icons.call_end,
                           size: 36,
@@ -179,10 +207,13 @@ class _VideosContainerState extends State<VideosContainer> {
 
   @override
   void dispose() {
-    _localRenderer.dispose();
-    _localRenderer.srcObject?.dispose();
-    _remoteRenderer.dispose();
-    _remoteRenderer.srcObject?.dispose();
+    Signaling().closeVideoRenderer = null;
+    // if (_localRenderer != null && _remoteRenderer != null) {
+    //   _localRenderer.dispose();
+    //   _localRenderer.srcObject?.dispose();
+    //   _remoteRenderer.dispose();
+    //   _remoteRenderer.srcObject?.dispose();
+    // }
     super.dispose();
   }
 }

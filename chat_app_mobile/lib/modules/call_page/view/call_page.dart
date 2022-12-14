@@ -45,29 +45,18 @@ class CallView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CallBloc, CallState>(
       builder: (context, state) {
-        // return Scaffold(
-        //   appBar: AppBar(
-        //     backgroundColor: Colors.black,
-        //     automaticallyImplyLeading: false,
-        //     systemOverlayStyle: const SystemUiOverlayStyle(
-        //       // Status bar color
-        //       statusBarColor: Colors.black,
-
-        //       // // Status bar brightness (optional)
-        //       // statusBarIconBrightness:
-        //       //     Brightness.dark, // For Android (dark icons)
-        //       // statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        //     ),
-        //   ),
-        //   body: const VideosContainer(),
-        // );
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-            //Set status bar icon color
-            value: SystemUiOverlayStyle.dark.copyWith(
-              statusBarColor: Colors.black,
-              statusBarIconBrightness: Brightness.light,
-            ),
-            child: const VideosContainer());
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+              //Set status bar icon color
+              value: SystemUiOverlayStyle.dark.copyWith(
+                statusBarColor: Colors.black,
+                statusBarIconBrightness: Brightness.light,
+              ),
+              child: const VideosContainer()),
+        );
       },
     );
   }

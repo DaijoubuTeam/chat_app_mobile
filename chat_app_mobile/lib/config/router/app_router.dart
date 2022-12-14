@@ -70,6 +70,17 @@ class AppRouter {
           },
         ),
         GoRoute(
+          name: CallPage.namePage,
+          path: '/call-page',
+          builder: (BuildContext context, GoRouterState state) {
+            final mapStateExtra = state.extra as Map<String, dynamic>;
+            return CallPage(
+              friendId: mapStateExtra["friendId"]! as String,
+              isReceiver: mapStateExtra["isReceiver"] as bool,
+            );
+          },
+        ),
+        GoRoute(
             name: ChatDetailPage.namePage,
             path: '/chatRooms/:chatRoomId',
             builder: (BuildContext context, GoRouterState state) {
@@ -78,16 +89,6 @@ class AppRouter {
               );
             },
             routes: [
-              GoRoute(
-                name: CallPage.namePage,
-                path: 'call-page',
-                builder: (BuildContext context, GoRouterState state) {
-                  final mapStateExtra = state.extra as Map<String, String>;
-                  return CallPage(
-                    friendId: mapStateExtra["friendId"]!,
-                  );
-                },
-              ),
               GoRoute(
                   name: ChatRoomDetailPage.namePage,
                   path: 'chat-rooms-details',

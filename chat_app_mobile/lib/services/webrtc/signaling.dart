@@ -22,8 +22,29 @@ class Signaling {
       {
         'urls': [
           'stun:stun1.l.google.com:19302',
-          'stun:stun2.l.google.com:19302'
+          'stun:stun2.l.google.com:19302',
         ]
+        // {
+        //   'url': 'stun:stun1.l.google.com:19302',
+        // },
+        // {
+        //   'url': 'stun:stun2.l.google.com:19302',
+        // },
+        // {
+        //   'url': "turn:openrelay.metered.ca:80",
+        //   'username': "openrelayproject",
+        //   'credential': "openrelayproject",
+        // },
+        // {
+        //   'urls': "turn:openrelay.metered.ca:443",
+        //   'username'
+        //       'credential': "openrelayproject",
+        // },
+        // {
+        //   'urls': "turn:openrelay.metered.ca:443?transport=tcp",
+        //   'username': "openrelayproject",
+        //   'credential': "openrelayproject",
+        // },
       }
     ]
   };
@@ -33,6 +54,7 @@ class Signaling {
   MediaStream? localStream;
 
   StreamStateCallback? onAddRemoteStream;
+  Function? closeVideoRenderer;
 
   void setWebRTCRepository(WebRTCRepostiory webRTCRepostiory) {
     _webRTCRepostiory = webRTCRepostiory;
@@ -53,8 +75,8 @@ class Signaling {
     String friendId,
   ) async {
     debugPrint('Create PeerConnection with configuration: $configuration');
-    peerConnection = await createPeerConnection(configuration);
-    ICEConnectionSetup(peerConnection, bearerToken, friendId);
+    peerConnection = await createPeerConnection({...configuration});
+    setupICEConnection(peerConnection, bearerToken, friendId);
 
     registerPeerConnection();
 
@@ -66,14 +88,7 @@ class Signaling {
       peerConnection?.addTrack(track, localStream!);
     });
 
-    //candidate ice
-    // get candidate from ice and upload it to firebase
-    // peerConnection?.onIceCandidate = (RTCIceCandidate candidate) {
-    //   debugPrint('Got candidate: ${candidate.toMap()}');
-    // };
-
     peerConnection?.onIceCandidate = (RTCIceCandidate candidate) => {
-          print("createRoom here"),
           _webRTCRepostiory?.postWebRTC(bearerToken, friendId,
               {'type': 'icecandidate', 'data': candidate.toMap()}),
         };
@@ -81,13 +96,9 @@ class Signaling {
     //create offer
     RTCSessionDescription offer = await peerConnection!.createOffer();
     await peerConnection!.setLocalDescription(offer);
-    print('Created offer: $offer');
 
     peerConnection?.onTrack = (RTCTrackEvent event) {
-      print('Got remote track: ${event.streams[0]}');
-
       event.streams[0].getTracks().forEach((track) {
-        print('Add a track to the remoteStream $track');
         remoteMediaStream?.addTrack(track);
       });
       onAddRemoteStream!(remoteMediaStream!);
@@ -102,8 +113,6 @@ class Signaling {
           data['data']['sdp'],
           data['data']['type'],
         );
-
-        print("Someone tried to connect");
         await peerConnection?.setRemoteDescription(answer);
       }
     });
@@ -130,7 +139,6 @@ class Signaling {
 
     peerConnection?.onTrack = (RTCTrackEvent event) {
       event.streams[0].getTracks().forEach((track) {
-        print('Add a track to the remoteStream $track');
         remoteMediaStream?.addTrack(track);
       });
       onAddRemoteStream!(remoteMediaStream!);
@@ -141,10 +149,9 @@ class Signaling {
       RTCSessionDescription(data['sdp'], data['type']),
     );
 
-    ICEConnectionSetup(peerConnection, bearerToken, friendId);
+    setupICEConnection(peerConnection, bearerToken, friendId);
 
     var answer = await peerConnection!.createAnswer();
-    print('Created Answer $answer');
 
     await peerConnection!.setLocalDescription(answer);
 
@@ -152,22 +159,26 @@ class Signaling {
     _webRTCRepostiory?.postWebRTC(bearerToken, friendId, answer.toMap());
 
     peerConnection?.onIceCandidate = (RTCIceCandidate candidate) => {
-          print("joinRoom here"),
           _webRTCRepostiory?.postWebRTC(bearerToken, friendId,
               {'type': 'icecandidate', 'data': candidate.toMap()}),
         };
   }
 
-  void ICEConnectionSetup(
+  void hangUp() {
+    if (closeVideoRenderer != null) {
+      closeVideoRenderer!();
+    }
+    if (peerConnection != null) peerConnection!.close();
+  }
+
+  void setupICEConnection(
     RTCPeerConnection? rtcPeerConnection,
     String bearerToken,
     String friendId,
   ) {
     SocketAPI.socketApi.webRTCStream.stream.listen((data) {
-      print(data["data"]["type"]);
       if (data["data"]["type"] == 'icecandidate') {
         final candidate = data["data"]["data"];
-        print(candidate["sdpMLineIndex"]);
         peerConnection?.addCandidate(RTCIceCandidate(
           candidate['candidate'],
           candidate['sdpMid'],
@@ -184,6 +195,9 @@ class Signaling {
 
     peerConnection?.onConnectionState = (RTCPeerConnectionState state) {
       log('Connection state change: $state');
+      if (state == RTCPeerConnectionState.RTCPeerConnectionStateDisconnected) {
+        hangUp();
+      }
     };
 
     peerConnection?.onSignalingState = (RTCSignalingState state) {

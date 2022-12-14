@@ -69,13 +69,20 @@ class HomeView extends StatelessWidget {
           // context
           //     .read<HomeBloc>()
           //     .add(SelectActionCallAccept(friendId: data!.type));
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => CallPage(
-                friendId: data!.type,
-                isReceiver: true,
-              ),
-            ),
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) => CallPage(
+          //       friendId: data!.type,
+          //       isReceiver: true,
+          //     ),
+          //   ),
+          // );
+          context.pushNamed(
+            CallPage.namePage,
+            extra: {
+              "friendId": data!.type,
+              "isReceiver": true,
+            },
           );
         } else if (data?.actionId == SelectNotificationStream.deniedCallId) {
           context.read<HomeBloc>().add(
