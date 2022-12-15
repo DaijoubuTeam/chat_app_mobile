@@ -1,12 +1,15 @@
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
-import 'package:chat_app_mobile/config/router/go_router_refesh_stream.dart';
+import 'package:chat_app_mobile/config/router/go_router_refresh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
+import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
+import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
 import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
+import 'package:chat_app_mobile/modules/group_member/view/group_member_page.dart';
 import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/modules/login/view/view.dart';
 import 'package:chat_app_mobile/modules/notifications/view/view.dart';
@@ -14,6 +17,8 @@ import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
+import 'package:chat_room_repository/chat_room_repository.dart'
+    as chat_room_repo;
 
 import '../../modules/group_request/view/view.dart';
 
@@ -65,26 +70,60 @@ class AppRouter {
           },
         ),
         GoRoute(
+          name: CallPage.namePage,
+          path: '/call-page',
+          builder: (BuildContext context, GoRouterState state) {
+            final mapStateExtra = state.extra as Map<String, dynamic>;
+            return CallPage(
+              friendId: mapStateExtra["friendId"]! as String,
+              isReceiver: mapStateExtra["isReceiver"] as bool,
+            );
+          },
+        ),
+        GoRoute(
             name: ChatDetailPage.namePage,
             path: '/chatRooms/:chatRoomId',
             builder: (BuildContext context, GoRouterState state) {
-              final mapStateExtra = state.extra as Map<String, String?>;
               return ChatDetailPage(
                 chatRoomId: state.params['chatRoomId']!,
-                chatRoomName: mapStateExtra['chatRoomName'],
-                chatRoomAvatar: mapStateExtra['chatRoomAvatar'],
               );
             },
             routes: [
               GoRoute(
-                name: ChatRoomDetailPage.namePage,
-                path: 'chat-rooms-details',
-                builder: (BuildContext context, GoRouterState state) {
-                  return ChatRoomDetailPage(
-                    chatRoomId: state.params['chatRoomId']!,
-                  );
-                },
-              ),
+                  name: ChatRoomDetailPage.namePage,
+                  path: 'chat-rooms-details',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return ChatRoomDetailPage(
+                      chatRoomId: state.params['chatRoomId']!,
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                        name: GroupMemberPage.namePage,
+                        path: 'group-member',
+                        builder: (BuildContext context, GoRouterState state) {
+                          final mapStateExtra = state.extra
+                              as Map<String, chat_room_repo.ChatRoom?>;
+                          return GroupMemberPage(
+                            chatRoomInfor: (mapStateExtra["chatRoomInfor"])!,
+                          );
+                        },
+                        routes: [
+                          GoRoute(
+                            name: GroupAddNewMemberPage.namePage,
+                            path: 'group-add-new-member',
+                            builder:
+                                (BuildContext context, GoRouterState state) {
+                              final mapStateExtra = state.extra
+                                  as Map<String, List<chat_room_repo.User>?>;
+                              return GroupAddNewMemberPage(
+                                chatRoomId: state.params['chatRoomId']!,
+                                members: mapStateExtra["chatRoomMember"]!,
+                              );
+                            },
+                          ),
+                        ]),
+                  ]),
             ]),
         GoRoute(
           name: EditProfilePage.namePage,
@@ -126,16 +165,16 @@ class AppRouter {
       ],
       refreshListenable: GoRouterRefreshStream(appBloc.stream),
       redirect: (BuildContext context, GoRouterState state) async {
-        final bool logginIn = state.subloc == '/';
+        final bool loginIn = state.subloc == '/';
         final bool signUpIn =
             state.subloc == '/sign-up' || state.subloc == '/verify-email';
         final bool isAuthorized =
             appBloc.authCurrentUser != auth_repository.User.empty;
         if (!isAuthorized) {
           if (signUpIn) return null;
-          return logginIn ? null : '/';
+          return loginIn ? null : '/';
         }
-        if (logginIn) {
+        if (loginIn) {
           return '/home';
         }
         return null;

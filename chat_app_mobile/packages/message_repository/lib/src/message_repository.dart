@@ -25,23 +25,29 @@ class MessageRepository {
     return chatMessagesRepo;
   }
 
-  Future<bool> sendMessage(
-      String bearerToken, String chatRoomId, String content) async {
-    return await _chatAppApi.sendMessage(bearerToken, chatRoomId, content);
+  Future<bool> sendMessage(String bearerToken, String chatRoomId,
+      String content, String type) async {
+    return await _chatAppApi.sendMessage(
+      bearerToken,
+      chatRoomId,
+      content,
+      type,
+    );
   }
 }
 
 extension on chat_app_api.Message {
   message_model.Message toRepositoryChatMessage() {
-    final friend = message_model.Message(
+    final message = message_model.Message(
       id: id,
       chatRoomId: chatRoomId,
       from: from?.toRepositoryUser(),
       content: content,
+      type: type,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
-    return friend;
+    return message;
   }
 }
 
@@ -74,6 +80,7 @@ extension on message_model.Message {
       from: from,
       isMe: uidOfUserMessage == uid,
       content: content,
+      type: type,
       createdAt: createdAt,
       updatedAt: updatedAt,
       readed: readed,

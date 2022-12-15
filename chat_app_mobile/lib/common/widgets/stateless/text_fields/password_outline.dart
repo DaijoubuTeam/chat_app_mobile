@@ -23,7 +23,7 @@ class PasswordOutline extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Your Password ...',
         labelText: 'Password',
-        helperText: '',
+        errorText: _errorText,
         // errorText: _errorText,
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(

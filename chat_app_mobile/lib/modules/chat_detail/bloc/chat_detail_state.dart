@@ -3,37 +3,69 @@ part of 'chat_detail_bloc.dart';
 class ChatDetailState extends Equatable {
   const ChatDetailState({
     required this.chatRoomId,
-    this.chatRoomName,
-    this.chatRoomAvatar,
+    this.chatRoomInfo,
     this.listMessage,
+    this.displayListMessage,
+    this.latestMessage,
+    this.friends,
     this.content,
+    this.startMessageIndex = 20,
+    this.endMessageIndex = 20,
+    this.type = "text",
     this.status = FormzStatus.pure,
   });
 
   final String chatRoomId;
-  final String? chatRoomName;
-  final String? chatRoomAvatar;
+  final chat_room_repository.ChatRoom? chatRoomInfo;
   final List<message_repository.Message>? listMessage;
+  final List<message_repository.Message>? displayListMessage;
+  final chat_room_repository.Message? latestMessage;
+  final List<chat_room_repository.User>? friends;
+  final int startMessageIndex;
+  final int endMessageIndex;
   final String? content;
+  final String type;
   final FormzStatus status;
 
   ChatDetailState copyWith({
-    String? content,
+    chat_room_repository.ChatRoom? chatRoomInfo,
     List<message_repository.Message>? listMessage,
+    List<message_repository.Message>? displayListMessage,
+    chat_room_repository.Message? latestMessage,
+    List<chat_room_repository.User>? friends,
+    String? content,
+    int? startMessageIndex,
+    int? endMessageIndex,
     FormzStatus? status,
-    String? chatRoomName,
-    String? chatRoomAvatar,
+    String? type,
   }) {
     return ChatDetailState(
-        chatRoomId: chatRoomId,
-        chatRoomName: chatRoomName ?? this.chatRoomName,
-        chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
-        content: content ?? this.content,
-        listMessage: listMessage ?? this.listMessage,
-        status: status ?? this.status);
+      chatRoomId: chatRoomId,
+      chatRoomInfo: chatRoomInfo ?? this.chatRoomInfo,
+      content: content ?? this.content,
+      type: type ?? this.type,
+      listMessage: listMessage ?? this.listMessage,
+      displayListMessage: displayListMessage ?? this.displayListMessage,
+      friends: friends ?? this.friends,
+      latestMessage: latestMessage ?? this.latestMessage,
+      startMessageIndex: startMessageIndex ?? this.startMessageIndex,
+      endMessageIndex: endMessageIndex ?? this.endMessageIndex,
+      status: status ?? this.status,
+    );
   }
 
   @override
-  List<Object?> get props =>
-      [chatRoomId, chatRoomName, chatRoomAvatar, status, listMessage, content];
+  List<Object?> get props => [
+        chatRoomId,
+        chatRoomInfo,
+        status,
+        listMessage,
+        displayListMessage,
+        friends,
+        latestMessage,
+        startMessageIndex,
+        endMessageIndex,
+        content,
+        type
+      ];
 }

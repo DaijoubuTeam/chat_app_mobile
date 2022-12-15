@@ -25,6 +25,7 @@ class _SearchListFriendState extends State<SearchListFriend> {
     return BlocBuilder<GroupCreateBloc, GroupCreateState>(
       builder: (context, state) {
         return Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             TextField(
               controller: _inputController,
@@ -46,18 +47,33 @@ class _SearchListFriendState extends State<SearchListFriend> {
                       state.listFriendDisplay!.isNotEmpty)
                   ? ListView.builder(
                       itemBuilder: (context, index) {
-                        // return Text(
-                        //     state.listFriendDisplay?[index].email ?? ''
                         return CheckboxListTile(
-                            value: state.memberNewGroup!
-                                .contains(state.listFriendDisplay?[index]),
-                            title: Text(
-                                state.listFriendDisplay?[index].email ?? ''),
-                            onChanged: (value) {
-                              context.read<GroupCreateBloc>().add(
-                                  GroupCreateMemberChanged(
-                                      user: state.listFriendDisplay![index]));
-                            });
+                          checkboxShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          title: Text(
+                              state.listFriendDisplay?[index].fullname ?? ''),
+                          subtitle:
+                              Text(state.listFriendDisplay?[index].email ?? ''),
+                          secondary: state.listFriendDisplay![index].avatar !=
+                                  null
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      state.listFriendDisplay![index].avatar!),
+                                )
+                              : const CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                      'assets/images/empty_avatar.png'),
+                                  maxRadius: 24,
+                                ),
+                          value: state.memberNewGroup!
+                              .contains(state.listFriendDisplay?[index]),
+                          onChanged: (value) {
+                            context.read<GroupCreateBloc>().add(
+                                GroupCreateMemberChanged(
+                                    user: state.listFriendDisplay![index]));
+                          },
+                        );
                       },
                       itemCount: state.listFriendDisplay?.length,
                     )

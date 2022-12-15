@@ -15,22 +15,14 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (prev, current) =>
-          prev != current && current.runtimeType == LoginStateInitial,
+      buildWhen: (prev, current) => prev != current,
       builder: (context, state) {
-        if (state.runtimeType == LoginStateInitial) {
-          final stateValue = state as LoginStateInitial;
-          return ElevatedButtonCustom(
-            onPressed: () => loginWithEmailAndPassword(
-              context,
-              stateValue.email,
-              stateValue.password,
-            ),
-            text: 'Login',
-          );
-        }
         return ElevatedButtonCustom(
-          onPressed: () => {},
+          onPressed: () => loginWithEmailAndPassword(
+            context,
+            state.email,
+            state.password,
+          ),
           text: 'Login',
         );
       },

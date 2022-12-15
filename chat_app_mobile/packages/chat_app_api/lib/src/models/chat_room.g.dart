@@ -11,7 +11,8 @@ ChatRoom _$ChatRoomFromJson(Map<String, dynamic> json) => ChatRoom(
       chatRoomName: json['chatRoomName'] as String?,
       chatRoomAvatar: json['chatRoomAvatar'] as String?,
       type: json['type'] as String?,
-      latestMessage: json['latestMessage'] == null
+      latestMessage: json['latestMessage'] == null ||
+              json['latestMessage'].runtimeType == String
           ? null
           : Message.fromJson(json['latestMessage'] as Map<String, dynamic>),
       members: (json['members'] as List<dynamic>?)

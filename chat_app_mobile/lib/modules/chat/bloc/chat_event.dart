@@ -8,3 +8,5 @@ abstract class ChatEvent extends Equatable {
 }
 
 class ChatPageInited extends ChatEvent {}
+
+class ChatPageRefreshed extends ChatEvent {}

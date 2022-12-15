@@ -7,9 +7,11 @@ class ChatContentInput extends StatelessWidget {
   const ChatContentInput({
     super.key,
     required this.inputController,
+    required this.focus,
   });
 
   final TextEditingController inputController;
+  final FocusNode focus;
 
   @override
   Widget build(BuildContext context) {
@@ -22,38 +24,37 @@ class ChatContentInput extends StatelessWidget {
           inputController.clear();
         }
       },
-      child: Expanded(
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 4,
-            horizontal: 12,
-          ),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.05),
-            borderRadius: BorderRadius.circular(40),
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: <Widget>[
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      controller: inputController,
-                      maxLines: 11,
-                      minLines: 1,
-                      decoration: const InputDecoration(
-                        hintText: "Type Message",
-                        border: InputBorder.none,
-                      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 4,
+          horizontal: 12,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextField(
+                    focusNode: focus,
+                    controller: inputController,
+                    maxLines: 11,
+                    minLines: 1,
+                    decoration: const InputDecoration(
+                      hintText: "Type Message",
+                      border: InputBorder.none,
                     ),
                   ),
-                  // Icon(Icons.attach_file),
-                  // Icon(Icons.camera_alt_outlined),
-                ],
-              ),
-            ],
-          ),
+                ),
+                // Icon(Icons.attach_file),
+                // Icon(Icons.camera_alt_outlined),
+              ],
+            ),
+          ],
         ),
       ),
     );

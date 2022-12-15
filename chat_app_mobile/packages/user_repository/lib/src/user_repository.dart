@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-// import 'package:user_repository/src/models/user.dart' as user_model;
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
-// import 'package:model_repository/model_repository.dart' as model_repo;
 import './models/models.dart' as user_model;
 
 class UserRepository {
@@ -10,6 +8,7 @@ class UserRepository {
   final chat_app_api.ChatAppApi _chatAppApi;
 
   Future<user_model.User> getSelfProfile(String bearerToken) async {
+    log(bearerToken);
     final apiUser = await _chatAppApi.getSelfProfile(bearerToken);
     return apiUser.toRepositoryUser();
   }

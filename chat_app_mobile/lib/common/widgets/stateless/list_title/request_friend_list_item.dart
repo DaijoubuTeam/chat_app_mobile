@@ -11,8 +11,8 @@ class RequestFriendListItem extends StatelessWidget {
   final String? avatar;
   final String? title;
   final String? subtitle;
-  final void Function() acceptAction;
-  final void Function() denyAction;
+  final void Function()? acceptAction;
+  final void Function()? denyAction;
 
   @override
   Widget build(BuildContext context) {

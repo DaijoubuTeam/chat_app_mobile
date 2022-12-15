@@ -39,6 +39,7 @@ class AuthRepository {
       _currentUser = User.empty;
       return User.empty;
     }
+
     final bearerToken = await user.getIdToken();
     _currentUser = await _getSelfProfile(bearerToken);
     return _currentUser;

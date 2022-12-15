@@ -1,12 +1,14 @@
-import 'package:chat_app_api/src/api/message_api.dart';
-import 'package:chat_app_api/src/api/chat_room_api.dart';
-import 'package:chat_app_api/src/api/friend_api.dart';
-import 'package:chat_app_api/src/api/notification_api.dart';
-import 'package:chat_app_api/src/api/user_api.dart';
+import 'package:chat_app_api/src/api/webrtc_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
 
 import 'api/auth_api.dart';
+import 'api/search_api.dart';
+import 'api/message_api.dart';
+import 'api/chat_room_api.dart';
+import 'api/friend_api.dart';
+import 'api/notification_api.dart';
+import 'api/user_api.dart';
 
 class ChatAppApi {
   ChatAppApi(
@@ -16,6 +18,8 @@ class ChatAppApi {
       ChatRoomApi? chatRoomApi,
       MessageApi? chatMessageApi,
       NotificationApi? notificationApi,
+      SearchApi? searchApi,
+      WebRTCApi? webRTCApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
@@ -27,7 +31,9 @@ class ChatAppApi {
         _messageApi = chatMessageApi ??
             MessageApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _notificationApi = notificationApi ??
-            NotificationApi(serverUrl: serverUrl, dio: dio ?? Dio());
+            NotificationApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _searchApi = SearchApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _webRTCApi = WebRTCApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   AuthApi _authApi;
   UserApi _userApi;
@@ -35,6 +41,8 @@ class ChatAppApi {
   ChatRoomApi _chatRoomApi;
   MessageApi _messageApi;
   NotificationApi _notificationApi;
+  SearchApi _searchApi;
+  WebRTCApi _webRTCApi;
 
   //auth api
   Future<User> verifyUser(String bearerToken) async {
@@ -57,6 +65,7 @@ class ChatAppApi {
   // user api
   Future<User> getSelfProfile(String bearerToken) async {
     try {
+      print(bearerToken);
       final user = await _userApi.getSelfProfile(bearerToken);
       return user;
     } catch (e) {
@@ -128,8 +137,17 @@ class ChatAppApi {
   }
 
   Future<bool> createNewChatRoom(
-      String bearerToken, String chatRoomName) async {
-    return await _chatRoomApi.createNewChatRoom(bearerToken, chatRoomName);
+    String bearerToken,
+    String chatRoomName,
+    String? chatRoomAvatar,
+    List<String>? memberIds,
+  ) async {
+    return await _chatRoomApi.createNewChatRoom(
+      bearerToken,
+      chatRoomName,
+      chatRoomAvatar,
+      memberIds,
+    );
   }
 
   Future<bool> acceptJoinChat(String bearerToken, String chatRoomId) async {
@@ -187,9 +205,10 @@ class ChatAppApi {
     return await _messageApi.getMessages(bearerToken, chatRoomId, from, to);
   }
 
-  Future<bool> sendMessage(
-      String bearerToken, String chatRoomId, String content) async {
-    return await _messageApi.sendMessage(bearerToken, chatRoomId, content);
+  Future<bool> sendMessage(String bearerToken, String chatRoomId,
+      String content, String type) async {
+    return await _messageApi.sendMessage(
+        bearerToken, chatRoomId, content, type);
   }
 
   // notification api
@@ -206,5 +225,17 @@ class ChatAppApi {
       String bearerToken, String notificationId) async {
     return await _notificationApi.deleteNotification(
         bearerToken, notificationId);
+  }
+
+  //Search API
+  Future<Search> getSearch(String bearerToken, String input) async {
+    final res = await _searchApi.getSearch(bearerToken, input);
+    return res;
+  }
+
+  //WebRTC Api
+  Future<bool> postWebRTC(
+      String bearerToken, String friendId, dynamic data) async {
+    return await _webRTCApi.postWebRTC(bearerToken, friendId, data);
   }
 }

@@ -20,6 +20,7 @@ class GroupRequestReceiveBloc
         _chatRoomRepository = chatRoomRepository,
         super(const GroupRequestReceiveState()) {
     on<GroupRequestReceiveInited>(_onGroupRequestReceiveInited);
+    on<GroupRequestActionSubmitted>(_onGroupRequestActionSubmitted);
     add(GroupRequestReceiveInited());
   }
 
@@ -47,6 +48,46 @@ class GroupRequestReceiveBloc
       log(err.toString(), name: "get list request receive");
       emit(const GroupRequestReceiveState(
           status: FormzStatus.submissionFailure));
+    }
+  }
+
+  Future<void> _onGroupRequestActionSubmitted(
+    GroupRequestActionSubmitted event,
+    Emitter<GroupRequestReceiveState> emit,
+  ) async {
+    try {
+      emit(const GroupRequestReceiveState(
+        actionSubmitStatus: ActionSubmitState.submitInitial,
+      ));
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        bool isActionSuccess = false;
+        if (event.type == "accept") {
+          isActionSuccess = await _chatRoomRepository.acceptJoinChat(
+              bearerToken, event.chatRoomId);
+        }
+        if (event.type == "reject") {
+          isActionSuccess = await _chatRoomRepository.rejectJoinChat(
+              bearerToken, event.chatRoomId);
+        }
+
+        if (isActionSuccess) {
+          emit(const GroupRequestReceiveState(
+            actionSubmitStatus: ActionSubmitState.submitSuccess,
+          ));
+          add(GroupRequestReceiveInited());
+        }
+      }
+      emit(const GroupRequestReceiveState(
+        actionSubmitStatus: ActionSubmitState.submitFailure,
+      ));
+    } catch (err) {
+      log(err.toString(), name: "get list request receive");
+      emit(const GroupRequestReceiveState(
+        actionSubmitStatus: ActionSubmitState.submitFailure,
+      ));
     }
   }
 }

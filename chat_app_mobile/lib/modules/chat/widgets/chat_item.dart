@@ -19,22 +19,18 @@ class ChatItem extends StatelessWidget {
   final String? latestMessage;
   final DateTime? time;
 
-  void _handleTabChatRoomItem(BuildContext ctx) {
+  void _handleTapChatRoomItem(BuildContext ctx) {
     ctx.pushNamed(
       ChatDetailPage.namePage,
       params: {'chatRoomId': chatRoomId},
-      extra: {
-        'chatRoomName': chatRoomName,
-        'chatRoomAvatar': chatRoomAvatar,
-      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return PersonListItem(
-      handleOnTab: () => _handleTabChatRoomItem(context),
-      isShowPoint: true,
+      handleOnTab: () => _handleTapChatRoomItem(context),
+      isShowPoint: false,
       isOnline: true,
       avatar: chatRoomAvatar,
       title: chatRoomName,

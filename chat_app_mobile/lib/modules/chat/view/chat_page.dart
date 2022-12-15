@@ -13,7 +13,7 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ChatBloc(
+      create: (_) => ChatBloc(
         context.read<AuthRepository>(),
         context.read<ChatRoomRepository>(),
       ),
@@ -45,17 +45,23 @@ class ChatView extends StatelessWidget {
                   context.read<ChatBloc>().add(ChatPageInited());
                 },
                 child: Scrollbar(
-                  child: ListView.builder(
-                    itemBuilder: ((context, index) {
-                      return ChatItem(
-                        chatRoomId: listChatRoom[index].chatRoomId,
-                        chatRoomName: listChatRoom[index].chatRoomName,
-                        chatRoomAvatar: listChatRoom[index].chatRoomAvatar,
-                        latestMessage: listChatRoom[index].contentLatestMessage,
-                        time: listChatRoom[index].latestTime,
-                      );
-                    }),
-                    itemCount: listChatRoom.length,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: ListView.builder(
+                      //reverse: true,
+                      shrinkWrap: true,
+                      itemBuilder: ((context, index) {
+                        return ChatItem(
+                          chatRoomId: listChatRoom[index].chatRoomId,
+                          chatRoomName: listChatRoom[index].chatRoomName,
+                          chatRoomAvatar: listChatRoom[index].chatRoomAvatar,
+                          latestMessage:
+                              listChatRoom[index].latestMessage?.content ?? '',
+                          time: listChatRoom[index].latestMessage?.createdAt,
+                        );
+                      }),
+                      itemCount: listChatRoom.length,
+                    ),
                   ),
                 ),
               );

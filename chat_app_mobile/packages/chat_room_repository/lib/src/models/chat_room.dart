@@ -8,9 +8,9 @@ class ChatRoom {
   final String? chatRoomAvatar;
   final Iterable<chat_room_models.User> members;
   final Iterable<String> admin;
-  final message_repository.Message? latestMessage;
   final String? type;
   //manage latest message
+  final chat_room_models.Message? latestMessage;
   final chat_room_models.User? fromLatestMessage;
   final Iterable<chat_room_models.User>? readedLatestMessage;
   final String? contentLatestMessage;
@@ -41,28 +41,28 @@ class ChatRoom {
     String? chatRoomName,
     String? chatRoomAvatar,
     String? type,
-    message_repository.Message? latestMessage,
+    chat_room_models.Message? latestMessage,
     List<chat_room_models.User>? members,
     List<String>? admin,
     chat_room_models.User? fromLatestMessage,
-    Iterable<chat_room_models.User>? readedLatestMessage,
+    List<chat_room_models.User>? readedLatestMessage,
     String? contentLatestMessage,
     DateTime? latestTime,
-    Iterable<chat_room_models.User>? friendsInChatRoom,
+    List<chat_room_models.User>? friendsInChatRoom,
   }) =>
       ChatRoom(
         chatRoomId: chatRoomId ?? this.chatRoomId,
         chatRoomName: chatRoomName ?? this.chatRoomName,
         chatRoomAvatar: chatRoomAvatar ?? this.chatRoomAvatar,
         type: type ?? this.type,
-        latestMessage: latestMessage ?? this.latestMessage,
         members: members ?? this.members,
         admin: admin ?? this.admin,
-        fromLatestMessage: fromLatestMessage ?? this.fromLatestMessage,
+        latestMessage: latestMessage ?? this.latestMessage,
         readedLatestMessage: readedLatestMessage ?? this.readedLatestMessage,
-        contentLatestMessage: contentLatestMessage ?? this.contentLatestMessage,
-        latestTime: latestTime ?? this.latestTime,
-        friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
+        // fromLatestMessage: fromLatestMessage ?? this.fromLatestMessage,
+        // contentLatestMessage: contentLatestMessage ?? this.contentLatestMessage,
+        // latestTime: latestTime ?? this.latestTime,
+        // friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
       );
 
   static final empty = ChatRoom(chatRoomId: '');

@@ -16,7 +16,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title ?? ''),
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
-      elevation: 1,
+      elevation: 0,
       bottom: bottomWidget,
     );
   }

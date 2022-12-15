@@ -43,13 +43,21 @@ class ChatRoomApi {
   }
 
   Future<bool> createNewChatRoom(
-      String bearerToken, String chatRoomName) async {
+    String bearerToken,
+    String chatRoomName,
+    String? chatRoomAvatar,
+    List<String>? memberIds,
+  ) async {
     try {
       final url = basePath;
 
       final response = await _dio.post(url,
           options: Options(headers: {"authorization": 'Bearer $bearerToken'}),
-          data: {"chatRoomName": chatRoomName});
+          data: {
+            "chatRoomName": chatRoomName,
+            "chatRoomAvatar": chatRoomAvatar,
+            "members": memberIds,
+          });
 
       if (response.statusCode == 201) {
         return true;
@@ -192,6 +200,10 @@ class ChatRoomApi {
         options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
 
     final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
+
+    for (var chatRoom in chatRoomsJson) {
+      chatRoom["latestMessage"] = null;
+    }
 
     final chatRooms = chatRoomsJson
         .map((chatRoomJson) => ChatRoom.fromJson(chatRoomJson))

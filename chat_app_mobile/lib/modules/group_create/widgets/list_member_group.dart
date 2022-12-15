@@ -10,8 +10,8 @@ class ListNewMemberGroup extends StatelessWidget {
     return BlocBuilder<GroupCreateBloc, GroupCreateState>(
       builder: (context, state) {
         if (state.memberNewGroup != null && state.memberNewGroup!.isNotEmpty) {
-          return Expanded(
-            flex: 2,
+          return SizedBox(
+            height: 90,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -25,7 +25,8 @@ class ListNewMemberGroup extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                Expanded(
+                Flexible(
+                  fit: FlexFit.loose,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {

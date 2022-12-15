@@ -28,13 +28,6 @@ class ImageMessageItem extends IMessageItem {
             : Colors.grey[800]?.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
-      // child: ClipRRect(
-      //   borderRadius: BorderRadius.circular(20),
-      //   child: Image.network(
-      //     "https://www.tutorialspoint.com/design_pattern/images/factory_pattern_uml_diagram.jpg",
-      //     fit: BoxFit.fill,
-      //   ),
-      // ),
       child: GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {

@@ -28,8 +28,17 @@ class ChatRoomRepository {
   }
 
   Future<bool> createNewChatRoom(
-      String bearerToken, String chatRoomName) async {
-    return await _chatAppApi.createNewChatRoom(bearerToken, chatRoomName);
+    String bearerToken,
+    String chatRoomName,
+    String? chatRoomAvatar,
+    List<String>? memberIds,
+  ) async {
+    return await _chatAppApi.createNewChatRoom(
+      bearerToken,
+      chatRoomName,
+      chatRoomAvatar,
+      memberIds,
+    );
   }
 
   Future<bool> acceptJoinChat(String bearerToken, String chatRoomId) async {
@@ -104,14 +113,30 @@ extension on chat_app_api.ChatRoom {
       type: type,
       members: members.map((member) => member.toRepositoryUser()),
       admin: admin,
-      fromLatestMessage: latestMessage?.from?.toRepositoryUser(),
+      latestMessage: latestMessage?.toRepositoryChatMessage(),
+      // fromLatestMessage: latestMessage?.from?.toRepositoryUser(),
+      // contentLatestMessage: latestMessage?.content,
+      // latestTime: latestMessage?.createdAt,
       readedLatestMessage:
           latestMessage?.readed?.map((user) => user.toRepositoryUser()),
-      contentLatestMessage: latestMessage?.content,
-      latestTime: latestMessage?.createdAt,
       //friendsInChatRoom: members.map((member) => member.ui)
     );
     return chatRoom;
+  }
+}
+
+extension on chat_app_api.Message {
+  chatroom_model.Message toRepositoryChatMessage() {
+    final message = chatroom_model.Message(
+      id: id,
+      chatRoomId: chatRoomId,
+      from: from?.toRepositoryUser(),
+      content: content,
+      type: type,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+    return message;
   }
 }
 

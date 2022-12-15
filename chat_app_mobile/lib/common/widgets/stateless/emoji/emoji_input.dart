@@ -1,7 +1,9 @@
 import 'dart:io' show Platform;
 
+import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EmojiInputCustom extends StatelessWidget {
   const EmojiInputCustom({
@@ -20,6 +22,14 @@ class EmojiInputCustom extends StatelessWidget {
         height: 250,
         child: EmojiPicker(
           textEditingController: editingController,
+          onEmojiSelected: (_, Emoji emoji) {
+            context.read<ChatDetailBloc>().add(
+                  ChatDetailSpecificSubmitted(
+                    content: emoji.emoji,
+                    type: "emoji",
+                  ),
+                );
+          },
           config: Config(
             columns: 7,
             // Issue: https://github.com/flutter/flutter/issues/28894
