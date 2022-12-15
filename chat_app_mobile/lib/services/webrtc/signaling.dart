@@ -133,6 +133,9 @@ class Signaling {
     String friendId,
   ) async {
     peerConnection = await createPeerConnection(configuration);
+    if (peerConnection == null) {
+      log("Create peer connection failed");
+    }
 
     registerPeerConnection();
 
@@ -176,7 +179,7 @@ class Signaling {
         };
   }
 
-  void hangUp() {
+  void hangUp() async {
     if (closeVideoRenderer != null) {
       closeVideoRenderer!();
     }
@@ -210,15 +213,18 @@ class Signaling {
     };
 
     peerConnection?.onConnectionState = (RTCPeerConnectionState state) {
-      // log('Connection state change: $state');
+      log('Connection state change: $state');
     };
 
     peerConnection?.onSignalingState = (RTCSignalingState state) {
       log('Signaling state change: $state');
     };
 
-    peerConnection?.onIceGatheringState = (RTCIceGatheringState state) {
+    peerConnection?.onIceConnectionState = (RTCIceConnectionState state) {
       log('ICE connection state change: $state');
+      if (state == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
+        hangUp();
+      }
     };
 
     peerConnection?.onAddStream = (MediaStream stream) {

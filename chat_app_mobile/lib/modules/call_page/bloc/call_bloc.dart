@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -78,6 +79,7 @@ class CallBloc extends Bloc<CallEvent, CallState> {
 
   void _onCallCameraStatusChanged(
       CallCameraStatusChanged event, Emitter<CallState> emit) {
+    log(event.isCameraOpen.toString(), name: "camera");
     emit(state.copyWith(isCameraOpen: event.isCameraOpen));
   }
 

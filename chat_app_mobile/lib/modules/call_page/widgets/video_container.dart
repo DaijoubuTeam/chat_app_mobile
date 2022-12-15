@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/call_page/bloc/call_bloc.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
@@ -19,9 +21,13 @@ class _VideosContainerState extends State<VideosContainer> {
   final RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
 
+  bool isMicOpen = true;
+  bool isCameraOpen = true;
+
   Future<void> openUserMedia() async {
     _localRenderer.srcObject = await navigator.mediaDevices
         .getUserMedia({'video': true, 'audio': true});
+
     _remoteRenderer.srcObject = await createLocalMediaStream('remote-renderer');
     setState(() {});
   }
@@ -38,7 +44,6 @@ class _VideosContainerState extends State<VideosContainer> {
     if (mounted) {
       Signaling().setWebRTCRepository(context.read<WebRTCRepostiory>());
       Signaling().closeVideoRenderer = () {
-        print("close video renderer");
         List<MediaStreamTrack> tracks = _localRenderer.srcObject!.getTracks();
         for (var track in tracks) {
           track.stop();
@@ -81,15 +86,15 @@ class _VideosContainerState extends State<VideosContainer> {
     }
   }
 
-  Function _closeMedia(String kind, Function setStateTrack) {
+  Function _closeMedia(String kind, Function(bool) setStateTrack) {
     return () async {
       final track = _localRenderer.srcObject
           ?.getTracks()
           .firstWhereOrNull((track) => track.kind == kind);
       if (track != null) {
-        // _localRenderer.srcObject?.removeTrack(cameraTrack);
         track.enabled = !track.enabled;
-        setStateTrack(track);
+        log("Enable camera ${track.enabled}");
+        setStateTrack(track.enabled);
       }
     };
   }
@@ -97,142 +102,164 @@ class _VideosContainerState extends State<VideosContainer> {
   void _closeCamera(BuildContext ctx) async {
     _closeMedia(
       "video",
-      (MediaStreamTrack track) => {
-        ctx
-            .read<CallBloc>()
-            .add(CallCameraStatusChanged(isCameraOpen: track.enabled))
+      (bool isTrackEnabled) {
+        setState(() => {isCameraOpen = isTrackEnabled});
       },
     )();
+    // if (videoTrack != null) {
+    //   setState(() {
+    //     videoTrack!.enabled = !videoTrack!.enabled;
+    //   });
+
+    //   ctx
+    //       .read<CallBloc>()
+    //       .add(CallCameraStatusChanged(isCameraOpen: videoTrack!.enabled));
+    // }
   }
 
   void _closeMic(BuildContext ctx) async {
     _closeMedia(
       "audio",
-      (MediaStreamTrack track) => {
-        ctx.read<CallBloc>().add(CallMicStatusChanged(isMicOpen: track.enabled))
+      (bool isTrackEnabled) {
+        setState((() => {
+              isMicOpen = isTrackEnabled,
+            }));
       },
     )();
+    // if (audioTrack != null) {
+    //   audioTrack!.enabled = !audioTrack!.enabled;
+    //   ctx
+    //       .read<CallBloc>()
+    //       .add(CallCameraStatusChanged(isCameraOpen: audioTrack!.enabled));
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CallBloc, CallState>(listener: (context, state) {
-      if (state.isReceiver) {
-        if (state.isWaiting && !state.isCancel) {
-          _createCallRoom(context, state.friendId).then((value) {
-            context.read<CallBloc>().add(CallCreateRoomSucceeded());
-          }).catchError((_) {
-            context.read<CallBloc>().add(CallCreateRoomFailed());
-          });
+    return BlocConsumer<CallBloc, CallState>(
+      listener: (context, state) {
+        if (state.isReceiver) {
+          if (state.isWaiting && !state.isCancel) {
+            _createCallRoom(context, state.friendId).then((value) {
+              context.read<CallBloc>().add(CallCreateRoomSucceeded());
+            }).catchError((_) {
+              context.read<CallBloc>().add(CallCreateRoomFailed());
+            });
+          }
+        } else {
+          if (!state.isCancel && !state.isWaiting) {
+            _joinCallRoom(context, state.friendId, state.offer);
+          }
         }
-      } else {
-        if (!state.isCancel && !state.isWaiting) {
-          _joinCallRoom(context, state.friendId, state.offer);
+        if (state.isCancel && !state.isWaiting) {
+          context.pop();
         }
-      }
-      if (state.isCancel && !state.isWaiting) {
-        context.pop();
-      }
-    }, builder: (context, state) {
-      if (state.isWaiting) {
-        return Stack(
-          children: const [
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-          ],
-        );
-      }
-      return Center(
-        child: Stack(
-          children: [
-            state.isRemoteCameraOpen
-                ? RTCVideoView(
-                    _remoteRenderer,
-                    objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                  )
-                : Container(
+      },
+      builder: (context, state) {
+        if (state.isWaiting) {
+          return Stack(
+            children: const [
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+            ],
+          );
+        }
+        return Center(
+          child: Stack(
+            children: [
+              state.isRemoteCameraOpen
+                  ? RTCVideoView(
+                      _remoteRenderer,
+                      objectFit:
+                          RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                    )
+                  : Container(
+                      color: Colors.green,
+                    ),
+              if (isCameraOpen)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    width: 120,
+                    height: 200,
                     color: Colors.black,
+                    child: RTCVideoView(
+                      _localRenderer,
+                      mirror: true,
+                      objectFit:
+                          RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                    ),
                   ),
-            if (state.isCameraOpen)
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  width: 120,
-                  height: 200,
-                  color: Colors.black,
-                  child: RTCVideoView(
-                    _localRenderer,
-                    mirror: true,
-                    objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 48.0,
+                        height: 48.0,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            _closeCamera(context);
+                          },
+                          child: Icon(
+                            isCameraOpen
+                                ? Icons.videocam_outlined
+                                : Icons.videocam_off_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      SizedBox(
+                        width: 64.0,
+                        height: 64.0,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          backgroundColor: Colors.red[400],
+                          onPressed: () {
+                            Signaling().hangUp();
+                          },
+                          child: const Icon(
+                            Icons.call_end,
+                            size: 36,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      SizedBox(
+                        width: 48.0,
+                        height: 48.0,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          backgroundColor: Colors.white,
+                          onPressed: () => _closeMic(context),
+                          child: Icon(
+                            isMicOpen ? Icons.mic : Icons.mic_off_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 48.0,
-                      height: 48.0,
-                      child: FloatingActionButton(
-                        heroTag: null,
-                        backgroundColor: Colors.white,
-                        onPressed: () => _closeCamera(context),
-                        child: Icon(
-                          state.isCameraOpen
-                              ? Icons.videocam_outlined
-                              : Icons.videocam_off_outlined,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    SizedBox(
-                      width: 64.0,
-                      height: 64.0,
-                      child: FloatingActionButton(
-                        heroTag: null,
-                        backgroundColor: Colors.red[400],
-                        onPressed: () {
-                          Signaling().hangUp();
-                        },
-                        child: const Icon(
-                          Icons.call_end,
-                          size: 36,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    SizedBox(
-                      width: 48.0,
-                      height: 48.0,
-                      child: FloatingActionButton(
-                        heroTag: null,
-                        backgroundColor: Colors.white,
-                        onPressed: () => _closeMic(context),
-                        child: Icon(
-                          state.isMicOpen ? Icons.mic : Icons.mic_off_outlined,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
