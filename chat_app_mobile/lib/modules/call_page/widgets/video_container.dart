@@ -173,6 +173,10 @@ class _VideosContainerState extends State<VideosContainer> {
           }
         }
         if (state.isCancel && !state.isWaiting) {
+          _localRenderer.srcObject?.dispose();
+          _localRenderer.dispose();
+          _remoteRenderer.srcObject?.dispose();
+          _remoteRenderer.dispose();
           context.pop();
         }
       },
