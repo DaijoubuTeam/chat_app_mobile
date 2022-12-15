@@ -9,7 +9,7 @@ import 'package:webrtc_repository/webrtc_repository.dart';
 typedef StreamStateCallback = void Function(MediaStream stream);
 
 class Signaling {
-  static final Signaling _signaling = Signaling._internal();
+  static Signaling _signaling = Signaling._internal();
 
   factory Signaling() {
     return _signaling;
@@ -115,7 +115,10 @@ class Signaling {
           data['data']['sdp'],
           data['data']['type'],
         );
-        await peerConnection?.setRemoteDescription(answer);
+        if (peerConnection?.signalingState !=
+            RTCSignalingState.RTCSignalingStateStable) {
+          await peerConnection?.setRemoteDescription(answer);
+        }
       }
     });
   }
@@ -173,7 +176,11 @@ class Signaling {
     if (closeVideoRenderer != null) {
       closeVideoRenderer!();
     }
-    if (peerConnection != null) peerConnection!.close();
+    if (peerConnection != null) {
+      peerConnection!.close();
+      peerConnection = null;
+    }
+    _signaling = Signaling._internal();
   }
 
   void setupICEConnection(
@@ -200,7 +207,9 @@ class Signaling {
 
     peerConnection?.onConnectionState = (RTCPeerConnectionState state) {
       log('Connection state change: $state');
-      if (state == RTCPeerConnectionState.RTCPeerConnectionStateDisconnected) {
+      if (state == RTCPeerConnectionState.RTCPeerConnectionStateDisconnected ||
+          state == RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
+          state == RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
         hangUp();
       }
     };

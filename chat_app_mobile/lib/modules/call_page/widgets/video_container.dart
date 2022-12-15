@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/call_page/bloc/call_bloc.dart';
-import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +20,7 @@ class _VideosContainerState extends State<VideosContainer> {
   final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   bool isRemoteCameraOpen = true;
   bool isCameraOpen = true;
+  bool isMicOpen = true;
 
   Future<void> openUserMedia() async {
     _localRenderer.srcObject = await navigator.mediaDevices
@@ -54,6 +52,7 @@ class _VideosContainerState extends State<VideosContainer> {
     if (mounted) {
       Signaling().setWebRTCRepository(context.read<WebRTCRepostiory>());
       Signaling().closeVideoRenderer = () {
+        print("close video renderer");
         List<MediaStreamTrack> tracks = _localRenderer.srcObject!.getTracks();
         for (var track in tracks) {
           track.stop();
@@ -67,13 +66,6 @@ class _VideosContainerState extends State<VideosContainer> {
         _localRenderer.srcObject?.dispose();
         _remoteRenderer.dispose();
         _remoteRenderer.srcObject?.dispose();
-        // if (context.read<CallBloc>().state.isReceiver) {
-        //   //Navigator.of(context).replace(oldRoute: oldRoute, newRoute: newRoute)
-        //   log("here", name: "navigator");
-        //   context.replaceNamed(HomePage.namePage);
-        // } else {
-
-        // }
         context.pop();
       };
     }
@@ -100,25 +92,44 @@ class _VideosContainerState extends State<VideosContainer> {
     }
   }
 
-  void _closeCamera() async {
-    final cameraTrack = _localRenderer.srcObject
-        ?.getVideoTracks()
-        .firstWhereOrNull((track) => track.kind == 'video');
-    if (cameraTrack != null) {
-      await cameraTrack.stop();
-      // _localRenderer.srcObject?.removeTrack(cameraTrack);
-      setState(() => {
-            isCameraOpen = false,
-          });
-      final senders = (await Signaling().peerConnection?.senders);
-      final sender =
-          senders?.firstWhereOrNull((item) => item.track?.id == cameraTrack.id);
-
-      if (sender != null) {
-        log("sender found");
-        Signaling().peerConnection?.removeTrack(sender);
+  Function _closeMedia(String kind, Function setStateTrack) {
+    return () async {
+      final track = _localRenderer.srcObject
+          ?.getTracks()
+          .firstWhereOrNull((track) => track.kind == kind);
+      if (track != null) {
+        // _localRenderer.srcObject?.removeTrack(cameraTrack);
+        track.enabled = !track.enabled;
+        setStateTrack(track);
+        // setState(
+        //   () => {
+        //     isCameraOpen = cameraTrack.enabled,
+        //   },
+        // );
       }
-    }
+    };
+  }
+
+  void _closeCamera() async {
+    _closeMedia(
+      "video",
+      (MediaStreamTrack track) => {
+        setState(() => {
+              isCameraOpen = track.enabled,
+            })
+      },
+    )();
+  }
+
+  void _closeMic() async {
+    _closeMedia(
+      "audio",
+      (MediaStreamTrack track) => {
+        setState(() => {
+              isMicOpen = track.enabled,
+            })
+      },
+    )();
   }
 
   @override
@@ -229,9 +240,9 @@ class _VideosContainerState extends State<VideosContainer> {
                       child: FloatingActionButton(
                         heroTag: null,
                         backgroundColor: Colors.white,
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.mic_off_outlined,
+                        onPressed: _closeMic,
+                        child: Icon(
+                          isMicOpen ? Icons.mic : Icons.mic_off_outlined,
                           color: Colors.black,
                         ),
                       ),
