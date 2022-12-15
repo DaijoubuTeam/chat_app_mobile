@@ -23,6 +23,7 @@ class _VideosContainerState extends State<VideosContainer> {
 
   bool isMicOpen = true;
   bool isCameraOpen = true;
+  bool isVolumeUp = true;
 
   Future<void> openUserMedia() async {
     _localRenderer.srcObject = await navigator.mediaDevices
@@ -34,6 +35,8 @@ class _VideosContainerState extends State<VideosContainer> {
 
   @override
   void initState() {
+    Signaling().isInCall = true;
+
     _localRenderer.initialize();
     _remoteRenderer.initialize();
 
@@ -134,6 +137,24 @@ class _VideosContainerState extends State<VideosContainer> {
     // }
   }
 
+  void _switchCamera() {
+    final track = _localRenderer.srcObject?.getVideoTracks().first;
+    if (track != null) {
+      Helper.switchCamera(track);
+    }
+  }
+
+  void _muteRemoteSound() {
+    final track = _remoteRenderer.srcObject?.getAudioTracks().first;
+    if (track != null) {
+      track.enabled = !track.enabled;
+      log("Enable camera ${track.enabled}");
+      setState(() {
+        isVolumeUp = track.enabled;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CallBloc, CallState>(
@@ -163,6 +184,11 @@ class _VideosContainerState extends State<VideosContainer> {
                 child: CircularProgressIndicator(),
               ),
             ],
+          );
+        }
+        if (state.isCancel) {
+          return Container(
+            color: Colors.transparent,
           );
         }
         return Center(
@@ -200,6 +226,7 @@ class _VideosContainerState extends State<VideosContainer> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      // open camera
                       SizedBox(
                         width: 48.0,
                         height: 48.0,
@@ -213,6 +240,25 @@ class _VideosContainerState extends State<VideosContainer> {
                             isCameraOpen
                                 ? Icons.videocam_outlined
                                 : Icons.videocam_off_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      // switch camera
+                      SizedBox(
+                        width: 48.0,
+                        height: 48.0,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          backgroundColor: Colors.white,
+                          onPressed: () {
+                            _switchCamera();
+                          },
+                          child: const Icon(
+                            Icons.flip_camera_ios,
                             color: Colors.black,
                           ),
                         ),
@@ -251,6 +297,24 @@ class _VideosContainerState extends State<VideosContainer> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      SizedBox(
+                        width: 48.0,
+                        height: 48.0,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          backgroundColor: Colors.white,
+                          onPressed: () => _muteRemoteSound(),
+                          child: Icon(
+                            isVolumeUp
+                                ? Icons.volume_up_outlined
+                                : Icons.volume_off_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -271,6 +335,8 @@ class _VideosContainerState extends State<VideosContainer> {
     //   _remoteRenderer.dispose();
     //   _remoteRenderer.srcObject?.dispose();
     // }
+    Signaling().isInCall = false;
+    // Signaling().dispose();
     super.dispose();
   }
 }

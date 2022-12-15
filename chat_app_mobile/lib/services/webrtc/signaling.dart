@@ -76,7 +76,6 @@ class Signaling {
     String bearerToken,
     String friendId,
   ) async {
-    isInCall = true;
     debugPrint('Create PeerConnection with configuration: $configuration');
     peerConnection = await createPeerConnection({...configuration});
     setupICEConnection(peerConnection, bearerToken, friendId);
@@ -135,7 +134,6 @@ class Signaling {
     String bearerToken,
     String friendId,
   ) async {
-    isInCall = true;
     peerConnection = await createPeerConnection(configuration);
     if (peerConnection == null) {
       log("Create peer connection failed");

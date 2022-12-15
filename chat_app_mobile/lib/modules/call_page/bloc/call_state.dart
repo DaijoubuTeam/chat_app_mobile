@@ -4,7 +4,7 @@ class CallState extends Equatable {
   const CallState({
     required this.friendId,
     required this.isReceiver,
-    this.isWaiting = false,
+    this.isWaiting = true,
     this.isCancel = false,
     this.isCameraOpen = true,
     this.isMicOpen = true,
