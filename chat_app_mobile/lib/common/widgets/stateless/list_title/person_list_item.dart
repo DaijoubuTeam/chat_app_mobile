@@ -1,7 +1,6 @@
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 

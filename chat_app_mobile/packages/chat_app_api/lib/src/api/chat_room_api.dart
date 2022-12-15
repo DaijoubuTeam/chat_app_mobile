@@ -211,4 +211,25 @@ class ChatRoomApi {
 
     return chatRooms;
   }
+
+  Future<List<ChatRoom>> getAllChatRoomSent(String bearerToken) async {
+    final url = '$basePath/chat-room-requests-sent';
+
+    final response = await _dio.get(
+      url,
+      options: Options(headers: {"authorization": 'Bearer $bearerToken'}),
+    );
+
+    final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
+
+    for (var chatRoom in chatRoomsJson) {
+      chatRoom["latestMessage"] = null;
+    }
+
+    final chatRooms = chatRoomsJson
+        .map((chatRoomJson) => ChatRoom.fromJson(chatRoomJson))
+        .toList();
+
+    return chatRooms;
+  }
 }

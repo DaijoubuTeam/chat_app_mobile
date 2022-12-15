@@ -13,7 +13,7 @@ class NotificationApi {
 
   String get basePath => '$_serverUrl/notification';
 
-  Dio _dio;
+  final Dio _dio;
 
   Future<List<Notification>> getUserNotification(String bearerToken) async {
     final url = basePath;

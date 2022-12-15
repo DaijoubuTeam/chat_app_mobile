@@ -99,6 +99,18 @@ class ChatRoomRepository {
 
     return chatRoomsRepo;
   }
+
+  Future<List<chatroom_model.ChatRoom>> getAllChatRoomSent(
+      String bearerToken) async {
+    final List<chat_app_api.ChatRoom> chatRoomsApi =
+        await _chatAppApi.getAllChatRoomSent(bearerToken);
+
+    final chatRoomsRepo = chatRoomsApi
+        .map((chatRoomApi) => chatRoomApi.toRepositoryChatRoom())
+        .toList();
+
+    return chatRoomsRepo;
+  }
 }
 
 extension on chat_app_api.ChatRoom {

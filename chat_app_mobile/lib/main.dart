@@ -1,4 +1,4 @@
-import 'dart:io' show HttpClient, Platform, X509Certificate;
+import 'dart:io' show HttpClient, X509Certificate;
 
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_api/chat_app_api.dart';

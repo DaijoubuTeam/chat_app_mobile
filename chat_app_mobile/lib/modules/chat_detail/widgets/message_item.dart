@@ -4,7 +4,6 @@ import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:message_repository/message_repository.dart'
     as message_repository;
 

@@ -1,10 +1,9 @@
 import 'package:chat_app_mobile/common/widgets/stateless/list_title/request_friend_list_item.dart';
-import 'package:chat_app_mobile/modules/group_request_receive/bloc/group_request_receive_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GroupRequestItem extends StatelessWidget {
-  const GroupRequestItem({
+class GroupRequestSentItem extends StatelessWidget {
+  const GroupRequestSentItem({
     super.key,
     required this.chatRoomId,
     this.chatRoomAvatar,
@@ -16,9 +15,9 @@ class GroupRequestItem extends StatelessWidget {
   final String? chatRoomName;
 
   void _handleActionCard(BuildContext ctx, String chatRoomId, String type) {
-    ctx
-        .read<GroupRequestReceiveBloc>()
-        .add(GroupRequestActionSubmitted(chatRoomId: chatRoomId, type: type));
+    // ctx
+    //     .read<GroupRequestReceiveBloc>()
+    //     .add(GroupRequestActionSubmitted(chatRoomId: chatRoomId, type: type));
   }
 
   @override
@@ -34,8 +33,11 @@ class GroupRequestItem extends StatelessWidget {
         child: RequestFriendListItem(
           avatar: chatRoomAvatar,
           title: chatRoomName,
-          acceptAction: () => _handleActionCard(context, chatRoomId, "accept"),
-          denyAction: () => _handleActionCard(context, chatRoomId, "denied"),
+          customActionButton: IconButton(
+            color: Theme.of(context).errorColor,
+            onPressed: () => {},
+            icon: const Icon(Icons.close),
+          ),
         ),
       ),
     );

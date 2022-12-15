@@ -5,7 +5,6 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
-import 'package:user_repository/user_repository.dart';
 import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
 
