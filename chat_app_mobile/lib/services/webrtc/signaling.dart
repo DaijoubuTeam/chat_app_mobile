@@ -56,6 +56,8 @@ class Signaling {
   StreamStateCallback? onAddRemoteStream;
   Function? closeVideoRenderer;
 
+  bool isInCall = false;
+
   void setWebRTCRepository(WebRTCRepostiory webRTCRepostiory) {
     _webRTCRepostiory = webRTCRepostiory;
   }
@@ -74,6 +76,7 @@ class Signaling {
     String bearerToken,
     String friendId,
   ) async {
+    isInCall = true;
     debugPrint('Create PeerConnection with configuration: $configuration');
     peerConnection = await createPeerConnection({...configuration});
     setupICEConnection(peerConnection, bearerToken, friendId);
@@ -132,6 +135,7 @@ class Signaling {
     String bearerToken,
     String friendId,
   ) async {
+    isInCall = true;
     peerConnection = await createPeerConnection(configuration);
     if (peerConnection == null) {
       log("Create peer connection failed");
@@ -180,6 +184,7 @@ class Signaling {
   }
 
   void hangUp() async {
+    isInCall = false;
     if (closeVideoRenderer != null) {
       closeVideoRenderer!();
     }

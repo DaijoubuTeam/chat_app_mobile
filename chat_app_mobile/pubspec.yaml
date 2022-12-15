@@ -57,6 +57,7 @@ dependencies:
   flutter_local_notifications: ^12.0.4
   flutter_webrtc: ^0.9.18
   permission_handler: ^10.2.0
+  fluttertoast: ^8.1.2
   auth_repository: 
     path: packages/auth_repository
   user_repository:

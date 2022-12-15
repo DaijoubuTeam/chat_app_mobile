@@ -4,17 +4,22 @@ import 'dart:developer';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/services/notifications/local_notification.dart';
+import 'package:chat_app_mobile/services/webrtc/signaling.dart';
 import 'package:chat_app_mobile/utils/select_notification_stream.dart';
 import 'package:equatable/equatable.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_repository/socket_repository.dart' as socket_repo;
+import 'package:webrtc_repository/webrtc_repository.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  AppBloc({required AuthRepository authRepository})
-      : _authRepository = authRepository,
+  AppBloc({
+    required AuthRepository authRepository,
+    required WebRTCRepostiory webRTCRepostiory,
+  })  : _authRepository = authRepository,
+        _webRTCRepostiory = webRTCRepostiory,
         super(const AppState.unAuthorized()) {
     on<AppLogOutRequested>(_onAppLogOutRequested);
     on<AppUserChanged>(_onAppUserChanged);
@@ -46,12 +51,20 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _webRTCStreamSubscription =
         socket_repo.SocketAPI.socketApi.webRTCStream.stream.listen((data) {
       if (data["data"]["type"] == "invite") {
-        NotificationService().showNotification(
-          id: 123,
-          title: data["from"]["fullname"],
-          body: "call you",
-          payload: data["from"]["uid"],
-        );
+        if (Signaling().isInCall) {
+          _authRepository.bearToken?.then((token) {
+            _webRTCRepostiory.postWebRTC(token, data["from"]["uid"], {
+              "type": "busy",
+            });
+          });
+        } else {
+          NotificationService().showNotification(
+            id: 123,
+            title: data["from"]["fullname"],
+            body: "call you",
+            payload: data["from"]["uid"],
+          );
+        }
       }
     });
   }
@@ -61,6 +74,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   late final StreamSubscription<socket_repo.Notification>
       _newNotificationStreamSubscription;
   late final StreamSubscription<dynamic> _webRTCStreamSubscription;
+  final WebRTCRepostiory _webRTCRepostiory;
 
   User get authCurrentUser => _authRepository.currentUser;
 

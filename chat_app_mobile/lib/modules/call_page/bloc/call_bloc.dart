@@ -31,6 +31,9 @@ class CallBloc extends Bloc<CallEvent, CallState> {
       if (data["data"]["type"] == "offer") {
         add(CallOfferReceived(offer: data["data"]));
       }
+      if (data["data"]["type"] == "busy") {
+        add(CallCanceled());
+      }
     });
 
     add(CallInited());
