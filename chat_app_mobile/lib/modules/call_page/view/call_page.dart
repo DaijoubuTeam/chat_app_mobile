@@ -4,6 +4,7 @@ import 'package:chat_app_mobile/modules/call_page/widgets/video_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:webrtc_repository/webrtc_repository.dart';
 
 class CallPage extends StatelessWidget {
   const CallPage({
@@ -25,13 +26,14 @@ class CallPage extends StatelessWidget {
             friendId: friendId,
             isReceiver: false,
             authRepository: context.read<AuthRepository>(),
+            webRTCRepostiory: context.read<WebRTCRepostiory>(),
           );
         }
         return CallBloc.invited(
-          friendId: friendId,
-          isReceiver: true,
-          authRepository: context.read<AuthRepository>(),
-        );
+            friendId: friendId,
+            isReceiver: true,
+            authRepository: context.read<AuthRepository>(),
+            webRTCRepostiory: context.read<WebRTCRepostiory>());
       },
       child: const CallView(),
     );

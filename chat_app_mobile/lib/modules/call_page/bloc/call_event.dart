@@ -30,6 +30,8 @@ class CallOfferReceived extends CallEvent {
 
 class CallCanceled extends CallEvent {}
 
+class CallMissed extends CallEvent {}
+
 class CallCameraStatusChanged extends CallEvent {
   const CallCameraStatusChanged({required this.isCameraOpen});
   final bool isCameraOpen;

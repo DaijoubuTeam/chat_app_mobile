@@ -129,4 +129,8 @@ class NotificationService {
     await _localNotificationPlugin.show(id, title, body, details,
         payload: payload);
   }
+
+  Future<void> cancelNotification(int id) async {
+    await _localNotificationPlugin.cancel(id);
+  }
 }

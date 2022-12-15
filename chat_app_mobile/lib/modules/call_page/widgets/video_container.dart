@@ -183,10 +183,28 @@ class _VideosContainerState extends State<VideosContainer> {
       builder: (context, state) {
         if (state.isWaiting) {
           return Stack(
-            children: const [
-              Center(
+            children: <Widget>[
+              const Center(
                 child: CircularProgressIndicator(),
               ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: 64.0,
+                  height: 64.0,
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    backgroundColor: Colors.red[400],
+                    onPressed: () {
+                      context.read<CallBloc>().add(CallMissed());
+                    },
+                    child: const Icon(
+                      Icons.call_end,
+                      size: 36,
+                    ),
+                  ),
+                ),
+              )
             ],
           );
         }

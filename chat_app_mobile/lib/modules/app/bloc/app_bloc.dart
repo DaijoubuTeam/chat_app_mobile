@@ -66,6 +66,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           );
         }
       }
+
+      if (data["data"]["type"] == "missed") {
+        NotificationService().cancelNotification(123);
+      }
     });
   }
 
