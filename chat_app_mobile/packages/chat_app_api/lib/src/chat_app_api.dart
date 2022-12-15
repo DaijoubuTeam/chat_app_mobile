@@ -195,8 +195,13 @@ class ChatAppApi {
     return await _chatRoomApi.getAllChatRoomRequest(bearerToken);
   }
 
-  Future<List<ChatRoom>> getAllChatRoomSent(String bearerToken) async {
+  Future<List<ChatRoomSent>> getAllChatRoomSent(String bearerToken) async {
     return await _chatRoomApi.getAllChatRoomSent(bearerToken);
+  }
+
+  Future<bool> unsentIniviteChatRoom(
+      String bearerToken, String chatRoomId, String friendId) async {
+    return await _chatRoomApi.unsetRequest(bearerToken, chatRoomId, friendId);
   }
 
   //Chat app api

@@ -19,6 +19,7 @@ class GroupRequestSentBloc
         _chatRoomRepository = chatRoomRepository,
         super(GroupRequestSentInitial()) {
     on<GroupRequestSentInited>(_onGroupRequestSentInited);
+    on<GroupRequestSentRefreshed>(_onGroupRequestSentRefreshed);
     on<GroupRequestSentSubmitted>(_onGroupRequestSentSubmitted);
     add(GroupRequestSentInited());
   }
@@ -28,7 +29,6 @@ class GroupRequestSentBloc
 
   Future<void> _onGroupRequestSentInited(
       GroupRequestSentInited event, Emitter<GroupRequestSentState> emit) async {
-    FlutterToastCustom.showToast("hello", "success");
     try {
       emit(GroupRequestSentLoading());
 
@@ -48,6 +48,44 @@ class GroupRequestSentBloc
     }
   }
 
-  FutureOr<void> _onGroupRequestSentSubmitted(
-      GroupRequestSentSubmitted event, Emitter<GroupRequestSentState> emit) {}
+  Future<void> _onGroupRequestSentRefreshed(GroupRequestSentRefreshed event,
+      Emitter<GroupRequestSentState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final listGroupRequestSent =
+            await _chatRoomRepository.getAllChatRoomSent(bearerToken);
+
+        emit(GroupRequestGetListSentSuccess(
+          listGroupRequestSent: listGroupRequestSent,
+        ));
+      }
+    } catch (err) {
+      FlutterToastCustom.showToast("Something wrong! Try again", "error");
+      emit(GroupRequestSentFailure());
+    }
+  }
+
+  Future<void> _onGroupRequestSentSubmitted(GroupRequestSentSubmitted event,
+      Emitter<GroupRequestSentState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final isUnsentSuccess = await _chatRoomRepository.unsetInivteChatRoom(
+            bearerToken, event.chatRoomId, event.friendId);
+        if (isUnsentSuccess) {
+          FlutterToastCustom.showToast(
+              "Successfully revoked invitation", "success");
+        } else {
+          FlutterToastCustom.showToast("Failed to revoke invitation", "error");
+        }
+        add(GroupRequestSentRefreshed());
+      }
+    } catch (err) {
+      FlutterToastCustom.showToast("Failed to revoke invitation", "error");
+      emit(GroupRequestSentFailure());
+    }
+  }
 }

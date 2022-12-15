@@ -9,6 +9,8 @@ abstract class GroupRequestSentEvent extends Equatable {
 
 class GroupRequestSentInited extends GroupRequestSentEvent {}
 
+class GroupRequestSentRefreshed extends GroupRequestSentEvent {}
+
 class GroupRequestSentSubmitted extends GroupRequestSentEvent {
   const GroupRequestSentSubmitted(
       {required this.chatRoomId, required this.friendId});

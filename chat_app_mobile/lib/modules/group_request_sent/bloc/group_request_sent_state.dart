@@ -17,7 +17,7 @@ class GroupRequestGetListSentSuccess extends GroupRequestSentState {
     required this.listGroupRequestSent,
   });
 
-  final List<chat_room_repo.ChatRoom> listGroupRequestSent;
+  final List<chat_room_repo.ChatRoomSent> listGroupRequestSent;
 
   // GroupRequestGetListSentSuccess copyWith({
   //   List<chat_room_repo.ChatRoom>? listGroupRequestReceived,

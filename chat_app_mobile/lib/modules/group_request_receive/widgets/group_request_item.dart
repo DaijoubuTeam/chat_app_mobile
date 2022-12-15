@@ -24,10 +24,10 @@ class GroupRequestItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 0.6,
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.white70, width: 1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -35,7 +35,7 @@ class GroupRequestItem extends StatelessWidget {
           avatar: chatRoomAvatar,
           title: chatRoomName,
           acceptAction: () => _handleActionCard(context, chatRoomId, "accept"),
-          denyAction: () => _handleActionCard(context, chatRoomId, "denied"),
+          denyAction: () => _handleActionCard(context, chatRoomId, "reject"),
         ),
       ),
     );

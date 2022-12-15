@@ -212,7 +212,7 @@ class ChatRoomApi {
     return chatRooms;
   }
 
-  Future<List<ChatRoom>> getAllChatRoomSent(String bearerToken) async {
+  Future<List<ChatRoomSent>> getAllChatRoomSent(String bearerToken) async {
     final url = '$basePath/chat-room-requests-sent';
 
     final response = await _dio.get(
@@ -227,9 +227,25 @@ class ChatRoomApi {
     }
 
     final chatRooms = chatRoomsJson
-        .map((chatRoomJson) => ChatRoom.fromJson(chatRoomJson))
+        .map((chatRoomJson) => ChatRoomSent.fromJson(chatRoomJson))
         .toList();
 
     return chatRooms;
+  }
+
+  Future<bool> unsetRequest(
+      String bearerToken, String chatRoomId, String friendId) async {
+    final url = '$basePath/chat-room-requests-sent/$chatRoomId/$friendId';
+
+    final response = await _dio.delete(
+      url,
+      options: Options(headers: {"authorization": 'Bearer $bearerToken'}),
+    );
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

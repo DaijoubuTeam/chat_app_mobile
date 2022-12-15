@@ -54,8 +54,7 @@ class RequestFriendListItem extends StatelessWidget {
               onPressed: denyAction,
               icon: const Icon(Icons.close),
             ),
-          if (customActionButton != null)
-            customActionButton!,
+          if (customActionButton != null) customActionButton!,
         ],
       ),
     );

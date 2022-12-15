@@ -100,16 +100,22 @@ class ChatRoomRepository {
     return chatRoomsRepo;
   }
 
-  Future<List<chatroom_model.ChatRoom>> getAllChatRoomSent(
+  Future<List<chatroom_model.ChatRoomSent>> getAllChatRoomSent(
       String bearerToken) async {
-    final List<chat_app_api.ChatRoom> chatRoomsApi =
+    final List<chat_app_api.ChatRoomSent> chatRoomsApi =
         await _chatAppApi.getAllChatRoomSent(bearerToken);
 
     final chatRoomsRepo = chatRoomsApi
-        .map((chatRoomApi) => chatRoomApi.toRepositoryChatRoom())
+        .map((chatRoomApi) => chatRoomApi.toRepositoryChatRoomSent())
         .toList();
 
     return chatRoomsRepo;
+  }
+
+  Future<bool> unsetInivteChatRoom(
+      String bearerToken, String chatRoomId, String friendId) async {
+    return await _chatAppApi.unsentIniviteChatRoom(
+        bearerToken, chatRoomId, friendId);
   }
 }
 
@@ -134,6 +140,16 @@ extension on chat_app_api.ChatRoom {
       //friendsInChatRoom: members.map((member) => member.ui)
     );
     return chatRoom;
+  }
+}
+
+extension on chat_app_api.ChatRoomSent {
+  chatroom_model.ChatRoomSent toRepositoryChatRoomSent() {
+    final chatRoomSent = chatroom_model.ChatRoomSent(
+      chatRoom: chatRoom?.toRepositoryChatRoom(),
+      to: to?.toRepositoryUser(),
+    );
+    return chatRoomSent;
   }
 }
 

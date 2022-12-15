@@ -22,9 +22,11 @@ class ListGroupRequestSent extends StatelessWidget {
             itemBuilder: ((context, index) {
               final requestInfor = listRequest[index];
               return GroupRequestSentItem(
-                chatRoomId: requestInfor.chatRoomId,
-                chatRoomName: requestInfor.chatRoomName,
-                chatRoomAvatar: requestInfor.chatRoomAvatar,
+                chatRoomId: requestInfor.chatRoom!.chatRoomId,
+                friendId: requestInfor.to!.uid,
+                friendAvatar: requestInfor.to!.avatar,
+                friendName: requestInfor.to!.fullname,
+                chatRoomName: requestInfor.chatRoom!.chatRoomName,
               );
             }),
             itemCount: listRequest.length,
