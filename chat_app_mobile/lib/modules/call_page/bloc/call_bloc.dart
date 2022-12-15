@@ -20,6 +20,9 @@ class CallBloc extends Bloc<CallEvent, CallState> {
     on<CallInited>(_onCallInited);
     on<CallOfferReceived>(_onCallOfferReceived);
     on<CallCanceled>(_onCallCanceled);
+    on<CallCameraStatusChanged>(_onCallCameraStatusChanged);
+    on<CallMicStatusChanged>(_onCallMicStatusChanged);
+
     socketSubscription = SocketAPI.socketApi.webRTCStream.stream.listen((data) {
       if (data["data"]["type"] == "reject") {
         add(CallCanceled());
@@ -41,9 +44,12 @@ class CallBloc extends Bloc<CallEvent, CallState> {
     on<CallReceiverInited>(_onCallReceiverInited);
     on<CallCreateRoomSucceeded>(_onCallCreateRoomSucceeded);
     on<CallCreateRoomFailed>(_onCallCreateRoomFailed);
-    add(CallReceiverInited());
+    on<CallRemoteCameraStatusChanged>(_onCallRemoteCameraStatusChanged);
+
     socketSubscription =
         SocketAPI.socketApi.webRTCStream.stream.listen((data) {});
+
+    add(CallReceiverInited());
   }
 
   late final StreamSubscription<dynamic> socketSubscription;
@@ -70,6 +76,16 @@ class CallBloc extends Bloc<CallEvent, CallState> {
     emit(state.copyWith(isWaiting: false, isCancel: true));
   }
 
+  void _onCallCameraStatusChanged(
+      CallCameraStatusChanged event, Emitter<CallState> emit) {
+    emit(state.copyWith(isCameraOpen: event.isCameraOpen));
+  }
+
+  void _onCallMicStatusChanged(
+      CallMicStatusChanged event, Emitter<CallState> emit) {
+    emit(state.copyWith(isMicOpen: event.isMicOpen));
+  }
+
   @override
   Future<void> close() {
     socketSubscription.cancel();
@@ -84,5 +100,10 @@ class CallBloc extends Bloc<CallEvent, CallState> {
   void _onCallCreateRoomFailed(
       CallCreateRoomFailed event, Emitter<CallState> emit) {
     emit(state.copyWith(isWaiting: false, isCancel: true));
+  }
+
+  void _onCallRemoteCameraStatusChanged(
+      CallRemoteCameraStatusChanged event, Emitter<CallState> emit) {
+    emit(state.copyWith(isRemoteCameraOpen: event.isRemoteCameraOpen));
   }
 }

@@ -18,9 +18,6 @@ class VideosContainer extends StatefulWidget {
 class _VideosContainerState extends State<VideosContainer> {
   final RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
-  bool isRemoteCameraOpen = true;
-  bool isCameraOpen = true;
-  bool isMicOpen = true;
 
   Future<void> openUserMedia() async {
     _localRenderer.srcObject = await navigator.mediaDevices
@@ -36,19 +33,8 @@ class _VideosContainerState extends State<VideosContainer> {
 
     Signaling().onAddRemoteStream = (stream) {
       _remoteRenderer.srcObject = stream;
-      final index =
-          stream.getVideoTracks().indexWhere((track) => track.kind == 'video');
-      if (index != -1) {
-        setState(() {
-          isRemoteCameraOpen = true;
-        });
-      } else {
-        setState(() {
-          isRemoteCameraOpen = false;
-        });
-      }
     };
-
+    super.initState();
     if (mounted) {
       Signaling().setWebRTCRepository(context.read<WebRTCRepostiory>());
       Signaling().closeVideoRenderer = () {
@@ -62,15 +48,18 @@ class _VideosContainerState extends State<VideosContainer> {
         for (var remoteTrack in remoteTracks) {
           remoteTrack.stop();
         }
-        _localRenderer.dispose();
-        _localRenderer.srcObject?.dispose();
-        _remoteRenderer.dispose();
-        _remoteRenderer.srcObject?.dispose();
-        context.pop();
+        cancelWebRTC().then((_) {
+          context.pop();
+        });
       };
     }
+  }
 
-    super.initState();
+  Future<void> cancelWebRTC() async {
+    await _localRenderer.dispose();
+    await _localRenderer.srcObject?.dispose();
+    await _remoteRenderer.dispose();
+    await _remoteRenderer.srcObject?.dispose();
   }
 
   Future<void> _createCallRoom(BuildContext ctx, String friendId) async {
@@ -101,33 +90,26 @@ class _VideosContainerState extends State<VideosContainer> {
         // _localRenderer.srcObject?.removeTrack(cameraTrack);
         track.enabled = !track.enabled;
         setStateTrack(track);
-        // setState(
-        //   () => {
-        //     isCameraOpen = cameraTrack.enabled,
-        //   },
-        // );
       }
     };
   }
 
-  void _closeCamera() async {
+  void _closeCamera(BuildContext ctx) async {
     _closeMedia(
       "video",
       (MediaStreamTrack track) => {
-        setState(() => {
-              isCameraOpen = track.enabled,
-            })
+        ctx
+            .read<CallBloc>()
+            .add(CallCameraStatusChanged(isCameraOpen: track.enabled))
       },
     )();
   }
 
-  void _closeMic() async {
+  void _closeMic(BuildContext ctx) async {
     _closeMedia(
       "audio",
       (MediaStreamTrack track) => {
-        setState(() => {
-              isMicOpen = track.enabled,
-            })
+        ctx.read<CallBloc>().add(CallMicStatusChanged(isMicOpen: track.enabled))
       },
     )();
   }
@@ -164,7 +146,7 @@ class _VideosContainerState extends State<VideosContainer> {
       return Center(
         child: Stack(
           children: [
-            isRemoteCameraOpen
+            state.isRemoteCameraOpen
                 ? RTCVideoView(
                     _remoteRenderer,
                     objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
@@ -172,7 +154,7 @@ class _VideosContainerState extends State<VideosContainer> {
                 : Container(
                     color: Colors.black,
                   ),
-            if (isCameraOpen)
+            if (state.isCameraOpen)
               Positioned(
                 top: 0,
                 right: 0,
@@ -200,19 +182,15 @@ class _VideosContainerState extends State<VideosContainer> {
                       child: FloatingActionButton(
                         heroTag: null,
                         backgroundColor: Colors.white,
-                        onPressed: _closeCamera,
+                        onPressed: () => _closeCamera(context),
                         child: Icon(
-                          isCameraOpen
+                          state.isCameraOpen
                               ? Icons.videocam_outlined
                               : Icons.videocam_off_outlined,
                           color: Colors.black,
                         ),
                       ),
                     ),
-                    // IconButton(
-                    //   onPressed: () {},
-                    //   icon: const Icon(Icons.cameraswitch),
-                    // ),
                     const SizedBox(
                       width: 20,
                     ),
@@ -240,9 +218,9 @@ class _VideosContainerState extends State<VideosContainer> {
                       child: FloatingActionButton(
                         heroTag: null,
                         backgroundColor: Colors.white,
-                        onPressed: _closeMic,
+                        onPressed: () => _closeMic(context),
                         child: Icon(
-                          isMicOpen ? Icons.mic : Icons.mic_off_outlined,
+                          state.isMicOpen ? Icons.mic : Icons.mic_off_outlined,
                           color: Colors.black,
                         ),
                       ),

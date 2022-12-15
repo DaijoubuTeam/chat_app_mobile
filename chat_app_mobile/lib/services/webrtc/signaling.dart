@@ -102,7 +102,9 @@ class Signaling {
         event.streams[0].getTracks().forEach((track) {
           newRemoteStream.addTrack(track);
         });
-        onAddRemoteStream!(newRemoteStream);
+        if (onAddRemoteStream != null) {
+          onAddRemoteStream!(newRemoteStream);
+        }
       });
     };
 
@@ -148,7 +150,9 @@ class Signaling {
         event.streams[0].getTracks().forEach((track) {
           newRemoteStream.addTrack(track);
         });
-        onAddRemoteStream!(newRemoteStream);
+        if (onAddRemoteStream != null) {
+          onAddRemoteStream!(newRemoteStream);
+        }
       });
     };
 
@@ -206,12 +210,7 @@ class Signaling {
     };
 
     peerConnection?.onConnectionState = (RTCPeerConnectionState state) {
-      log('Connection state change: $state');
-      if (state == RTCPeerConnectionState.RTCPeerConnectionStateDisconnected ||
-          state == RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
-          state == RTCPeerConnectionState.RTCPeerConnectionStateClosed) {
-        hangUp();
-      }
+      // log('Connection state change: $state');
     };
 
     peerConnection?.onSignalingState = (RTCSignalingState state) {

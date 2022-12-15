@@ -30,9 +30,33 @@ class CallOfferReceived extends CallEvent {
 
 class CallCanceled extends CallEvent {}
 
+class CallCameraStatusChanged extends CallEvent {
+  const CallCameraStatusChanged({required this.isCameraOpen});
+  final bool isCameraOpen;
+
+  @override
+  List<Object> get props => [isCameraOpen];
+}
+
+class CallMicStatusChanged extends CallEvent {
+  const CallMicStatusChanged({required this.isMicOpen});
+  final bool isMicOpen;
+
+  @override
+  List<Object> get props => [isMicOpen];
+}
+
 //event receiver
 class CallReceiverInited extends CallEvent {}
 
 class CallCreateRoomSucceeded extends CallEvent {}
 
 class CallCreateRoomFailed extends CallEvent {}
+
+class CallRemoteCameraStatusChanged extends CallEvent {
+  const CallRemoteCameraStatusChanged({required this.isRemoteCameraOpen});
+  final bool isRemoteCameraOpen;
+
+  @override
+  List<Object> get props => [isRemoteCameraOpen];
+}
