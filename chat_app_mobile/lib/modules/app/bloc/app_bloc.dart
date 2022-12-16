@@ -29,51 +29,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _userSubscription = _authRepository.user.listen((user) {
       add(AppUserChanged(user));
     });
-
-    _newNotificationStreamSubscription = socket_repo
-        .SocketAPI.socketApi.newNotificationController.stream
-        .listen((notification) {
-      if (notification.notifyType == "friend-request") {
-        NotificationService().showNotification(
-          id: 123,
-          title: notification.notificationSender!.fullname.toString(),
-          body: "want to be friends with you!",
-          payload: SelectNotificationStream.normalNotification,
-        );
-      }
-      if (notification.notifyType == "chat-room-invitation") {
-        NotificationService().showNotification(
-          id: 123,
-          title: notification.notificationSender!.fullname.toString(),
-          body: "invited you to join their group",
-          payload: SelectNotificationStream.normalNotification,
-        );
-      }
-    });
-
-    _webRTCStreamSubscription =
-        socket_repo.SocketAPI.socketApi.webRTCStream.stream.listen((data) {
-      if (data["data"]["type"] == "invite") {
-        if (Signaling().isInCall) {
-          _authRepository.bearToken?.then((token) {
-            _webRTCRepostiory.postWebRTC(token, data["from"]["uid"], {
-              "type": "busy",
-            });
-          });
-        } else {
-          NotificationService().showNotification(
-            id: 123,
-            title: data["from"]["fullname"],
-            body: "call you",
-            payload: data["from"]["uid"],
-          );
-        }
-      }
-
-      if (data["data"]["type"] == "missed") {
-        NotificationService().cancelNotification(123);
-      }
-    });
+    _subcribeNotification();
+    _subscribeWebRTC();
   }
 
   final AuthRepository _authRepository;
@@ -109,6 +66,55 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       emit(AppStateUnAuthorized());
     }
     FlutterNativeSplash.remove();
+  }
+
+  void _subscribeWebRTC() {
+    _webRTCStreamSubscription =
+        socket_repo.SocketAPI.socketApi.webRTCStream.stream.listen((data) {
+      if (data["data"]["type"] == "invite") {
+        if (Signaling().isInCall) {
+          _authRepository.bearToken?.then((token) {
+            _webRTCRepostiory.postWebRTC(token, data["from"]["uid"], {
+              "type": "busy",
+            });
+          });
+        } else {
+          NotificationService().showNotification(
+            id: 123,
+            title: data["from"]["fullname"],
+            body: "call you",
+            payload: data["from"]["uid"],
+          );
+        }
+      }
+
+      if (data["data"]["type"] == "missed") {
+        NotificationService().cancelNotification(123);
+      }
+    });
+  }
+
+  void _subcribeNotification() {
+    _newNotificationStreamSubscription = socket_repo
+        .SocketAPI.socketApi.newNotificationController.stream
+        .listen((notification) {
+      if (notification.notifyType == "friend-request") {
+        NotificationService().showNotification(
+          id: 123,
+          title: notification.notificationSender!.fullname.toString(),
+          body: "want to be friends with you!",
+          payload: SelectNotificationStream.normalNotification,
+        );
+      }
+      if (notification.notifyType == "chat-room-invitation") {
+        NotificationService().showNotification(
+          id: 123,
+          title: notification.notificationSender!.fullname.toString(),
+          body: "invited you to join their group",
+          payload: SelectNotificationStream.normalNotification,
+        );
+      }
+    });
   }
 
   @override

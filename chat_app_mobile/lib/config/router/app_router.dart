@@ -33,206 +33,186 @@ class AppRouter {
   GoRouter get router => _router;
 
   late final GoRouter _router = GoRouter(
-      routes: <GoRoute>[
-        GoRoute(
-          name: 'login',
-          path: '/',
-          pageBuilder: (context, state) {
-            return MaterialPage(
-              key: state.pageKey,
-              child: const LoginPage(),
+    routes: <GoRoute>[
+      GoRoute(
+        name: 'login',
+        path: '/',
+        pageBuilder: (context, state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const LoginPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: 'signUp',
+        path: '/sign-up',
+        builder: (BuildContext context, GoRouterState state) {
+          return const SignUpPage();
+        },
+      ),
+      GoRoute(
+        name: VerifyEmailPage.namePage,
+        path: '/verify-email',
+        builder: (BuildContext context, GoRouterState state) {
+          return const VerifyEmailPage();
+        },
+      ),
+      GoRoute(
+        name: HomePage.namePage,
+        path: '/home',
+        builder: (BuildContext context, GoRouterState state) {
+          return const HomePage();
+        },
+      ),
+      GoRoute(
+        name: NotificationsPage.namePage,
+        path: '/notifications',
+        builder: (BuildContext context, GoRouterState state) {
+          return const NotificationsPage();
+        },
+      ),
+      GoRoute(
+        name: CallPage.namePage,
+        path: '/call-page',
+        builder: (BuildContext context, GoRouterState state) {
+          final mapStateExtra = state.extra as Map<String, dynamic>;
+          return CallPage(
+            friendId: mapStateExtra["friendId"]! as String,
+            isReceiver: mapStateExtra["isReceiver"] as bool,
+          );
+        },
+      ),
+      GoRoute(
+        name: GroupEditPage.namePage,
+        path: '/group-edit/:groupId',
+        builder: (BuildContext context, GoRouterState state) {
+          return GroupEditPage(
+            groupId: state.params['groupId'] as String,
+          );
+        },
+      ),
+      GoRoute(
+          name: ChatDetailPage.namePage,
+          path: '/chatRooms/:chatRoomId',
+          builder: (BuildContext context, GoRouterState state) {
+            return ChatDetailPage(
+              chatRoomId: state.params['chatRoomId']!,
             );
           },
-        ),
-        GoRoute(
-          name: 'signUp',
-          path: '/sign-up',
-          builder: (BuildContext context, GoRouterState state) {
-            return const SignUpPage();
-          },
-        ),
-        GoRoute(
-          name: VerifyEmailPage.namePage,
-          path: '/verify-email',
-          builder: (BuildContext context, GoRouterState state) {
-            return const VerifyEmailPage();
-          },
-        ),
-        GoRoute(
-          name: HomePage.namePage,
-          path: '/home',
-          builder: (BuildContext context, GoRouterState state) {
-            return const HomePage();
-          },
-        ),
-        GoRoute(
-          name: NotificationsPage.namePage,
-          path: '/notifications',
-          builder: (BuildContext context, GoRouterState state) {
-            return const NotificationsPage();
-          },
-        ),
-        GoRoute(
-          name: CallPage.namePage,
-          path: '/call-page',
-          builder: (BuildContext context, GoRouterState state) {
-            final mapStateExtra = state.extra as Map<String, dynamic>;
-            return CallPage(
-              friendId: mapStateExtra["friendId"]! as String,
-              isReceiver: mapStateExtra["isReceiver"] as bool,
-            );
-          },
-        ),
-        GoRoute(
-          name: GroupEditPage.namePage,
-          path: '/group-edit',
-          builder: (BuildContext context, GoRouterState state) {
-            return GroupEditPage(
-              groupId: state.params['groupId'] as String,
-            );
-          },
-        ),
-        GoRoute(
-            name: ChatDetailPage.namePage,
-            path: '/chatRooms/:chatRoomId',
-            builder: (BuildContext context, GoRouterState state) {
-              return ChatDetailPage(
-                chatRoomId: state.params['chatRoomId']!,
-              );
-            },
-            routes: [
-              GoRoute(
-                  name: ChatRoomDetailPage.namePage,
-                  path: 'chat-rooms-details',
-                  builder: (BuildContext context, GoRouterState state) {
-                    return ChatRoomDetailPage(
-                      chatRoomId: state.params['chatRoomId']!,
-                    );
-                  },
-                  routes: [
-                    GoRoute(
-                        name: GroupMemberPage.namePage,
-                        path: 'group-member',
-                        builder: (BuildContext context, GoRouterState state) {
-                          final mapStateExtra = state.extra
-                              as Map<String, chat_room_repo.ChatRoom?>;
-                          return GroupMemberPage(
-                            chatRoomInfor: (mapStateExtra["chatRoomInfor"])!,
-                          );
-                        },
-                        routes: [
-                          GoRoute(
-                            name: GroupAddNewMemberPage.namePage,
-                            path: 'group-add-new-member',
-                            builder:
-                                (BuildContext context, GoRouterState state) {
-                              final mapStateExtra = state.extra
-                                  as Map<String, List<chat_room_repo.User>?>;
-                              return GroupAddNewMemberPage(
-                                chatRoomId: state.params['chatRoomId']!,
-                                members: mapStateExtra["chatRoomMember"]!,
-                              );
-                            },
-                          ),
-                        ]),
-                  ]),
-            ]),
-        GoRoute(
-          name: EditProfilePage.namePage,
-          path: '/edit-profile',
-          builder: (BuildContext context, GoRouterState state) {
-            return const EditProfilePage();
-          },
-        ),
-        GoRoute(
-          name: FriendsRequestPage.namePage,
-          path: '/friends-request',
-          builder: (BuildContext context, GoRouterState state) {
-            return const FriendsRequestPage();
-          },
-        ),
-        GoRoute(
-          name: FriendProfilePage.namePage,
-          path: '/friend-profile',
-          builder: (BuildContext context, GoRouterState state) {
-            return FriendProfilePage(
-              friendInfor: state.extra as user_repository.User,
-            );
-          },
-        ),
-        GoRoute(
-          name: GroupRequestPage.namePage,
-          path: '/group-request',
-          builder: (BuildContext context, GoRouterState state) {
-            return const GroupRequestPage();
-          },
-        ),
-        GoRoute(
-          name: GroupCreatePage.namePage,
-          path: '/create-group',
-          builder: (BuildContext context, GoRouterState state) {
-            return const GroupCreatePage();
-          },
-        ),
-      ],
-      refreshListenable: GoRouterRefreshStream(appBloc.stream),
-      redirect: (BuildContext context, GoRouterState state) async {
-        // final bool loginIn = state.subloc == '/';
-        // final bool signUpIn =
-        //     state.subloc == '/sign-up' || state.subloc == '/verify-email';
-
-        // if (appBloc.state is AppStateUnAuthorized) {
-        //   if (signUpIn) return null;
-        //   return loginIn ? null : '/';
-        // }
-        // if (loginIn) {
-        //   return '/home';
-        // }
-
-        String? shouldRedirect(String to) {
-          if (appBloc.state == GoRouterRefreshStream.latestState) {
-            return null;
-          }
-          if (state.subloc == to) {
-            return null;
-          }
-          return to;
-        }
-
-        if (appBloc.state is AppStateUnAuthorized) {
-          // if (state.subloc == '/') {
-          //   return null;
-          // }
-          // return '/';
-          return shouldRedirect('/');
-        }
-        if (appBloc.state is AppStateLoading) {
-          // if (state.subloc == '/') {
-          //   return null;
-          // }
-          // return '/';
-          return shouldRedirect('/');
-        }
-        log(appBloc.state.toString());
-        final st = appBloc.state as AppStateAuthorized;
-        if (!st.isEmailVerified) {
-          return shouldRedirect('/verify-emai');
-        }
-        if (!st.isProfileFilled) {
-          return shouldRedirect('/fill-profile');
-        }
-        return shouldRedirect('/home');
-        // return null;
-      },
-      errorPageBuilder: (context, state) {
-        return MaterialPage(
-          key: state.pageKey,
-          child: const Scaffold(
-            body: Center(
-              child: Text('Somethings wrong!'),
-            ),
+          routes: [
+            GoRoute(
+                name: ChatRoomDetailPage.namePage,
+                path: 'chat-rooms-details',
+                builder: (BuildContext context, GoRouterState state) {
+                  return ChatRoomDetailPage(
+                    chatRoomId: state.params['chatRoomId']!,
+                  );
+                },
+                routes: [
+                  GoRoute(
+                      name: GroupMemberPage.namePage,
+                      path: 'group-member',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final mapStateExtra = state.extra
+                            as Map<String, chat_room_repo.ChatRoom?>;
+                        return GroupMemberPage(
+                          chatRoomInfor: (mapStateExtra["chatRoomInfor"])!,
+                        );
+                      },
+                      routes: [
+                        GoRoute(
+                          name: GroupAddNewMemberPage.namePage,
+                          path: 'group-add-new-member',
+                          builder: (BuildContext context, GoRouterState state) {
+                            final mapStateExtra = state.extra
+                                as Map<String, List<chat_room_repo.User>?>;
+                            return GroupAddNewMemberPage(
+                              chatRoomId: state.params['chatRoomId']!,
+                              members: mapStateExtra["chatRoomMember"]!,
+                            );
+                          },
+                        ),
+                      ]),
+                ]),
+          ]),
+      GoRoute(
+        name: EditProfilePage.namePage,
+        path: '/edit-profile',
+        builder: (BuildContext context, GoRouterState state) {
+          return const EditProfilePage();
+        },
+      ),
+      GoRoute(
+        name: FriendsRequestPage.namePage,
+        path: '/friends-request',
+        builder: (BuildContext context, GoRouterState state) {
+          return const FriendsRequestPage();
+        },
+      ),
+      GoRoute(
+        name: FriendProfilePage.namePage,
+        path: '/friend-profile',
+        builder: (BuildContext context, GoRouterState state) {
+          return FriendProfilePage(
+            friendInfor: state.extra as user_repository.User,
+          );
+        },
+      ),
+      GoRoute(
+        name: GroupRequestPage.namePage,
+        path: '/group-request',
+        builder: (BuildContext context, GoRouterState state) {
+          return const GroupRequestPage();
+        },
+      ),
+      GoRoute(
+        name: GroupCreatePage.namePage,
+        path: '/create-group',
+        builder: (BuildContext context, GoRouterState state) {
+          return const GroupCreatePage();
+        },
+      ),
+    ],
+    refreshListenable: GoRouterRefreshStream(appBloc.stream),
+    redirect: (BuildContext context, GoRouterState state) async {
+      if (appBloc.state is AppStateUnAuthorized) {
+        return shouldRedirect('/', state);
+      }
+      if (appBloc.state is AppStateLoading) {
+        return shouldRedirect('/', state);
+      }
+      log(appBloc.state.toString());
+      final st = appBloc.state as AppStateAuthorized;
+      if (!st.isEmailVerified) {
+        return shouldRedirect('/verify-email', state);
+      }
+      if (!st.isProfileFilled) {
+        return shouldRedirect('/fill-profile', state);
+      }
+      return shouldRedirect('/home', state);
+      // return null;
+    },
+    errorPageBuilder: (context, state) {
+      return MaterialPage(
+        key: state.pageKey,
+        child: const Scaffold(
+          body: Center(
+            child: Text('Somethings wrong!'),
           ),
-        );
-      },
-      debugLogDiagnostics: true);
+        ),
+      );
+    },
+    debugLogDiagnostics: true,
+  );
+
+  String? shouldRedirect(String to, GoRouterState state) {
+    if (appBloc.state == GoRouterRefreshStream.latestState) {
+      return null;
+    }
+    if (state.subloc == to) {
+      return null;
+    }
+    return to;
+  }
 }

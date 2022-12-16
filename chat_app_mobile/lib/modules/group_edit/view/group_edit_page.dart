@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/modules/group_edit/bloc/group_edit_bloc.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class GroupEditPage extends StatelessWidget {
           authRepository: context.read<AuthRepository>(),
           chatRoomRepository: context.read<ChatRoomRepository>(),
           groupId: groupId),
-      child: Container(),
+      child: const GroupEditView(),
     );
   }
 }
@@ -32,10 +33,18 @@ class GroupEditView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GroupEditBloc, GroupEditState>(
       builder: (context, state) {
+        if (state is GroupEditInitial) {
+          return Scaffold(
+            appBar: AppBarCustom(
+              title: state.groupId,
+            ),
+          );
+        }
         return Scaffold(
-          appBar: AppBar(
-            title: const Text("Group edit"),
+          appBar: AppBarCustom(
+            title: state.groupId,
           ),
+          body: Container(),
         );
       },
     );

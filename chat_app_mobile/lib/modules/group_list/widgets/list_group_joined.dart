@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/modules/group_edit/view/group_edit_page.dart';
 import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,14 @@ class ListGroupJoined extends StatelessWidget {
       children: [
         SlidableAction(
           // An action can be bigger than the others.
-          onPressed: null,
+          onPressed: (ctx) => {
+            ctx.pushNamed(
+              GroupEditPage.namePage,
+              params: {
+                "groupId": groupId,
+              },
+            ),
+          },
           backgroundColor: Theme.of(ctx).primaryColor,
           foregroundColor: Colors.white,
           icon: Icons.archive,

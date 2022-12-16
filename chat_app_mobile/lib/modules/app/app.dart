@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:friend_repository/friend_repository.dart';
+import 'package:go_router/go_router.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
 import 'package:search_repository/search_repository.dart';
@@ -75,18 +76,34 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyAppView extends StatelessWidget {
+class MyAppView extends StatefulWidget {
   const MyAppView({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<MyAppView> createState() => _MyAppViewState();
+}
+
+class _MyAppViewState extends State<MyAppView> {
+  late GoRouter routerConfig;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    routerConfig = AppRouter(appBloc: context.read<AppBloc>()).router;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.white),
     );
-
-    final routerConfig = AppRouter(appBloc: context.read<AppBloc>()).router;
 
     return ScreenUtilInit(
       designSize: const Size(360, 690),
