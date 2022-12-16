@@ -42,7 +42,7 @@ class GroupRequestReceiveView extends StatelessWidget {
             onRefresh: () async {
               context
                   .read<GroupRequestReceiveBloc>()
-                  .add(GroupRequestReceiveRefreshed());
+                  .add(GroupRequestReceiveInited());
             },
             child: Container(
               child: state.listGroupRequestReceived!.isEmpty

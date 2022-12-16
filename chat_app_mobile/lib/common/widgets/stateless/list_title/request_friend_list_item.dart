@@ -46,17 +46,17 @@ class RequestFriendListItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          if (acceptAction != null)
-            IconButton(
-              color: Theme.of(context).primaryColor,
-              onPressed: acceptAction,
-              icon: const Icon(Icons.check),
-            ),
           if (denyAction != null)
             IconButton(
               color: Theme.of(context).errorColor,
               onPressed: denyAction,
               icon: const Icon(Icons.close),
+            ),
+          if (acceptAction != null)
+            IconButton(
+              color: Theme.of(context).primaryColor,
+              onPressed: acceptAction,
+              icon: const Icon(Icons.check),
             ),
           if (customActionButton != null) customActionButton!,
         ],

@@ -32,7 +32,7 @@ class GroupRequestSentView extends StatelessWidget {
         builder: (context, state) {
       return RefreshIndicator(
         onRefresh: (() async {
-          context.read<GroupRequestSentBloc>().add(GroupRequestSentRefreshed());
+          context.read<GroupRequestSentBloc>().add(GroupRequestSentInited());
         }),
         child: (state is GroupRequestSentLoading)
             ? const Center(

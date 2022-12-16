@@ -4,7 +4,6 @@ import 'package:chat_app_mobile/modules/group_request_sent/bloc/group_request_se
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class GroupRequestSentItem extends StatelessWidget {
   const GroupRequestSentItem({
