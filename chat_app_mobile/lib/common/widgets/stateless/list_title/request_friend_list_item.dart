@@ -6,6 +6,7 @@ class RequestFriendListItem extends StatelessWidget {
     this.avatar,
     this.title,
     this.subtitle,
+    this.subtitleTextSpan,
     this.acceptAction,
     this.denyAction,
     this.customActionButton,
@@ -13,6 +14,7 @@ class RequestFriendListItem extends StatelessWidget {
   final String? avatar;
   final String? title;
   final String? subtitle;
+  final Widget? subtitleTextSpan;
   final void Function()? acceptAction;
   final void Function()? denyAction;
   final Widget? customActionButton;
@@ -32,11 +34,13 @@ class RequestFriendListItem extends StatelessWidget {
       ),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Text(
-          subtitle ?? '',
-          maxLines: 5,
-          softWrap: true,
-        ),
+        child: subtitle != null
+            ? Text(
+                subtitle ?? '',
+                maxLines: 5,
+                softWrap: true,
+              )
+            : subtitleTextSpan,
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
