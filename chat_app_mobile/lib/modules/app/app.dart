@@ -7,6 +7,7 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:go_router/go_router.dart';
@@ -87,11 +88,6 @@ class MyAppView extends StatefulWidget {
 
 class _MyAppViewState extends State<MyAppView> {
   late GoRouter routerConfig;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {

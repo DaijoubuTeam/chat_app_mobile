@@ -65,7 +65,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     } else {
       emit(AppStateUnAuthorized());
     }
-    FlutterNativeSplash.remove();
   }
 
   void _subscribeWebRTC() {

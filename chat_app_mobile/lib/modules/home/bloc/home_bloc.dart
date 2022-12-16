@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import "package:auth_repository/auth_repository.dart";
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import "package:webrtc_repository/webrtc_repository.dart";
 
 part 'home_event.dart';
@@ -15,6 +16,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SelectTabIndexChanged>(_onSelecTabIndexChanged);
     on<SelectActionCallReject>(_onSelectActionCallReject);
     on<SelectActionCallAccept>(_onSelectActionCallAccept);
+
+    FlutterNativeSplash.remove();
   }
 
   final AuthRepository authRepository;

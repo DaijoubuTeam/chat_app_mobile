@@ -17,6 +17,7 @@ import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/modules/login/view/view.dart';
 import 'package:chat_app_mobile/modules/notifications/view/view.dart';
 import 'package:chat_app_mobile/modules/signup/view/view.dart';
+import 'package:chat_app_mobile/modules/splash_screen/view/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
@@ -33,15 +34,20 @@ class AppRouter {
   GoRouter get router => _router;
 
   late final GoRouter _router = GoRouter(
+    initialLocation: '/splash-screen',
     routes: <GoRoute>[
+      GoRoute(
+        name: 'splach-screen',
+        path: '/splash-screen',
+        builder: (BuildContext context, GoRouterState state) {
+          return const SplachScreen();
+        },
+      ),
       GoRoute(
         name: 'login',
         path: '/',
-        pageBuilder: (context, state) {
-          return MaterialPage(
-            key: state.pageKey,
-            child: const LoginPage(),
-          );
+        builder: (BuildContext context, GoRouterState state) {
+          return const LoginPage();
         },
       ),
       GoRoute(
@@ -176,6 +182,9 @@ class AppRouter {
     ],
     refreshListenable: GoRouterRefreshStream(appBloc.stream),
     redirect: (BuildContext context, GoRouterState state) async {
+      if (appBloc.state is AppStateLoading) {
+        return shouldRedirect('/splash-screen', state);
+      }
       if (appBloc.state is AppStateUnAuthorized) {
         return shouldRedirect('/', state);
       }
