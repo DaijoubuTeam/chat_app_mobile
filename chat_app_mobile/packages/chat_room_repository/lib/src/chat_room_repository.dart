@@ -7,23 +7,24 @@ class ChatRoomRepository {
 
   final chat_app_api.ChatAppApi _chatAppApi;
 
-  Future<List<chatroom_model.ChatRoom>> getChatRoom(String bearerToken) async {
+  Future<List<chatroom_model.ChatRoom>> getChatRoom(
+      String bearerToken, String adminId) async {
     final List<chat_app_api.ChatRoom> chatRoomsApi =
         await _chatAppApi.getChatRoom(bearerToken);
 
     final chatRoomsRepo = chatRoomsApi
-        .map((chatRoomApi) => chatRoomApi.toRepositoryChatRoom())
+        .map((chatRoomApi) => chatRoomApi.toRepositoryChatRoom(uid: adminId))
         .toList();
 
     return chatRoomsRepo;
   }
 
   Future<chatroom_model.ChatRoom> getChatRoomById(
-      String bearerToken, String id) async {
+      String bearerToken, String id, String adminId) async {
     final chat_app_api.ChatRoom chatRoomApi =
         await _chatAppApi.getChatRoomById(bearerToken, id);
 
-    final chatRoomRepo = chatRoomApi.toRepositoryChatRoom();
+    final chatRoomRepo = chatRoomApi.toRepositoryChatRoom(uid: adminId);
     return chatRoomRepo;
   }
 
@@ -120,7 +121,7 @@ class ChatRoomRepository {
 }
 
 extension on chat_app_api.ChatRoom {
-  chatroom_model.ChatRoom toRepositoryChatRoom() {
+  chatroom_model.ChatRoom toRepositoryChatRoom({String? uid}) {
     if (this == chat_app_api.ChatRoom.empty) {
       return chatroom_model.ChatRoom.empty;
     }
@@ -131,10 +132,8 @@ extension on chat_app_api.ChatRoom {
       type: type,
       members: members.map((member) => member.toRepositoryUser()),
       admin: admin,
+      isAdmin: uid != null ? admin.contains(uid) : false,
       latestMessage: latestMessage?.toRepositoryChatMessage(),
-      // fromLatestMessage: latestMessage?.from?.toRepositoryUser(),
-      // contentLatestMessage: latestMessage?.content,
-      // latestTime: latestMessage?.createdAt,
       readedLatestMessage:
           latestMessage?.readed?.map((user) => user.toRepositoryUser()),
       //friendsInChatRoom: members.map((member) => member.ui)

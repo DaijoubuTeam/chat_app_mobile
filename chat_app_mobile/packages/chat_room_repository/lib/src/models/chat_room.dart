@@ -8,6 +8,7 @@ class ChatRoom {
   final String? chatRoomAvatar;
   final Iterable<chat_room_models.User> members;
   final Iterable<String> admin;
+  bool isAdmin;
   final String? type;
   //manage latest message
   final chat_room_models.Message? latestMessage;
@@ -26,6 +27,7 @@ class ChatRoom {
     this.latestMessage,
     Iterable<chat_room_models.User>? members,
     Iterable<String>? admin,
+    this.isAdmin = false,
     this.fromLatestMessage,
     Iterable<chat_room_models.User>? readedLatestMessage,
     this.contentLatestMessage,
@@ -44,6 +46,7 @@ class ChatRoom {
     chat_room_models.Message? latestMessage,
     List<chat_room_models.User>? members,
     List<String>? admin,
+    bool? isAdmin,
     chat_room_models.User? fromLatestMessage,
     List<chat_room_models.User>? readedLatestMessage,
     String? contentLatestMessage,
@@ -57,6 +60,7 @@ class ChatRoom {
         type: type ?? this.type,
         members: members ?? this.members,
         admin: admin ?? this.admin,
+        isAdmin: isAdmin ?? this.isAdmin,
         latestMessage: latestMessage ?? this.latestMessage,
         readedLatestMessage: readedLatestMessage ?? this.readedLatestMessage,
         // fromLatestMessage: fromLatestMessage ?? this.fromLatestMessage,

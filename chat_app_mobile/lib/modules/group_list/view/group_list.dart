@@ -4,7 +4,6 @@ import 'package:chat_app_mobile/modules/group_list/widgets/button_request_group.
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 
 import '../widgets/button_create_group.dart';
 import '../widgets/list_group_joined.dart';
@@ -29,40 +28,27 @@ class GroupListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GroupListBloc, GroupListState>(
-      listenWhen: (prev, current) => prev.status != current.status,
-      listener: (context, state) {
-        if (state.status == FormzStatus.submissionSuccess) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text("Delete group chat success"),
-              backgroundColor: Colors.green,
-            ));
-        }
-      },
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            const ButtonRequestGroup(),
-            const ButtonCreateGroup(),
-            Divider(
-              height: 25,
-              color: Theme.of(context).backgroundColor,
-              thickness: 16,
-            ),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  context.read<GroupListBloc>().add(GroupListInited());
-                },
-                child: const Scrollbar(
-                  child: ListGroupJoined(),
-                ),
+    return Center(
+      child: Column(
+        children: <Widget>[
+          const ButtonRequestGroup(),
+          const ButtonCreateGroup(),
+          Divider(
+            height: 25,
+            color: Theme.of(context).backgroundColor,
+            thickness: 16,
+          ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<GroupListBloc>().add(GroupListInited());
+              },
+              child: const Scrollbar(
+                child: ListGroupJoined(),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
