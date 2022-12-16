@@ -44,7 +44,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final List<chat_room_repository.ChatRoom> listChatRoom =
-            await _chatRoomRepository.getChatRoom(bearerToken);
+            await _chatRoomRepository.getChatRoom(
+                bearerToken, _authRepository.currentUser.uid);
 
         listChatRoom.sort((room1, room2) {
           return room2.latestMessage!.createdAt!
@@ -63,7 +64,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final List<chat_room_repository.ChatRoom> listChatRoom =
-            await _chatRoomRepository.getChatRoom(bearerToken);
+            await _chatRoomRepository.getChatRoom(
+                bearerToken, _authRepository.currentUser.uid);
 
         listChatRoom.sort((room1, room2) {
           return room2.latestMessage!.createdAt!

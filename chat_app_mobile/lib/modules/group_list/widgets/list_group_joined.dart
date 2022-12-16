@@ -63,12 +63,16 @@ class ListGroupJoined extends StatelessWidget {
           return ListView.builder(
             itemBuilder: ((context, index) {
               return PersonListItem(
+                key: ValueKey(state.listChatRoom![index].chatRoomId),
                 title: state.listChatRoom![index].chatRoomName,
                 avatar: state.listChatRoom![index].chatRoomAvatar,
-                endActionPane: _buildEndActionPane(
-                  context,
-                  state.listChatRoom![index].chatRoomId,
-                ),
+                isAdmin: state.listChatRoom![index].isAdmin,
+                endActionPane: state.listChatRoom![index].isAdmin
+                    ? _buildEndActionPane(
+                        context,
+                        state.listChatRoom![index].chatRoomId,
+                      )
+                    : null,
                 handleOnTab: () => _handleTapGroupChatItem(
                   context,
                   state.listChatRoom![index].chatRoomId,

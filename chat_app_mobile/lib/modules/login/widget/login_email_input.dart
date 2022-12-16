@@ -21,27 +21,6 @@ class _LoginEmailInputState extends State<LoginEmailInput> {
           .read<LoginBloc>()
           .add(LoginEmailChanging(_emailController.text)),
     );
-
-    // return BlocListener<LoginBloc, LoginState>(
-    //   listenWhen: (prev, current) => prev != current,
-    //   listener: (context, state) =>
-    //   {
-    //     if (state.status == FormzStatus.submissionFailure)
-    //       {
-    //         context
-    //             .read<LoginBloc>()
-    //             .add(LoginEmailChanging(_emailController.text)),
-    //       }
-    //   },
-    //   child: OutlineInputBorderCustom(
-    //     inputController: _emailController,
-    //     inputType: TextInputType.emailAddress,
-    //     labelText: 'Email',
-    //     hintText: 'abc@gmail.com',
-    //     icon: const Icon(Icons.email),
-    //     errorText: state,
-    //   ),
-    // );
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         if (state.status == FormzStatus.submissionFailure) {

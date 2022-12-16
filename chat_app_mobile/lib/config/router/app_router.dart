@@ -9,6 +9,7 @@ import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
 import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
 import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
+import 'package:chat_app_mobile/modules/group_edit/view/view.dart';
 import 'package:chat_app_mobile/modules/group_member/view/group_member_page.dart';
 import 'package:chat_app_mobile/modules/home/view/view.dart';
 import 'package:chat_app_mobile/modules/login/view/view.dart';
@@ -77,6 +78,15 @@ class AppRouter {
             return CallPage(
               friendId: mapStateExtra["friendId"]! as String,
               isReceiver: mapStateExtra["isReceiver"] as bool,
+            );
+          },
+        ),
+        GoRoute(
+          name: GroupEditPage.namePage,
+          path: '/group-edit',
+          builder: (BuildContext context, GoRouterState state) {
+            return GroupEditPage(
+              groupId: state.params['groupId'] as String,
             );
           },
         ),

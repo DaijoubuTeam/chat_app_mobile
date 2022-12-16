@@ -1,5 +1,5 @@
 import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
-import 'package:chat_app_mobile/modules/group_request/view/group_request_send.dart';
+import 'package:chat_app_mobile/modules/group_request_sent/view/view.dart';
 import 'package:flutter/material.dart';
 
 import '../../group_request_receive/view/view.dart';
@@ -26,7 +26,7 @@ class GroupRequestView extends StatelessWidget {
         child: GroupRequestReceivePage(),
       ),
       const Tab(
-        child: GroupRequestSendView(),
+        child: GroupRequestSentPage(),
       ),
     ];
 
@@ -67,11 +67,6 @@ class GroupRequestView extends StatelessWidget {
                         child: CircularProgressIndicator(),
                       );
                 }).toList(),
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () => {},
-                backgroundColor: Theme.of(context).primaryColor,
-                child: const Icon(Icons.add),
               ),
             );
           },

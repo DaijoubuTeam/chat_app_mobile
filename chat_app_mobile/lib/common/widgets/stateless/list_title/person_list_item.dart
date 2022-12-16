@@ -1,7 +1,6 @@
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -14,6 +13,7 @@ class PersonListItem extends StatelessWidget {
     this.subTitle,
     this.isShowPoint = false,
     this.time,
+    this.isAdmin = false,
     required this.handleOnTab,
     this.startActionPane,
     this.endActionPane,
@@ -24,6 +24,7 @@ class PersonListItem extends StatelessWidget {
   final String? title;
   final String? subTitle;
   final DateTime? time;
+  final bool isAdmin;
   final bool? isShowPoint;
   final void Function() handleOnTab;
   final ActionPane? startActionPane;
@@ -93,6 +94,13 @@ class PersonListItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
+                if (isAdmin)
+                  Text(
+                    "Admin",
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
                 if (time != null)
                   Text(
                     DateTimeLocalString.convertToHourMinute(time!),

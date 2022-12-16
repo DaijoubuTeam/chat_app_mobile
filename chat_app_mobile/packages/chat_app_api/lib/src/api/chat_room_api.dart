@@ -129,22 +129,17 @@ class ChatRoomApi {
 
   Future<bool> deleteGroupChatRoom(
       String bearerToken, String chatRoomId) async {
-    try {
-      final url = '$basePath/$chatRoomId';
-      final response = await _dio.delete(
-        url,
-        options: Options(
-          headers: {"authorization": 'Bearer $bearerToken'},
-        ),
-      );
-      if (response.statusCode == 204) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      log(e.toString(), name: 'delete group chat room');
-      return false;
+    final url = '$basePath/$chatRoomId';
+    final response = await _dio.delete(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+      ),
+    );
+    if (response.statusCode == 204) {
+      return true;
     }
+    return false;
   }
 
   Future<bool> inviteMemberChatRoom(
@@ -210,5 +205,42 @@ class ChatRoomApi {
         .toList();
 
     return chatRooms;
+  }
+
+  Future<List<ChatRoomSent>> getAllChatRoomSent(String bearerToken) async {
+    final url = '$basePath/chat-room-requests-sent';
+
+    final response = await _dio.get(
+      url,
+      options: Options(headers: {"authorization": 'Bearer $bearerToken'}),
+    );
+
+    final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
+
+    for (var chatRoom in chatRoomsJson) {
+      chatRoom["latestMessage"] = null;
+    }
+
+    final chatRooms = chatRoomsJson
+        .map((chatRoomJson) => ChatRoomSent.fromJson(chatRoomJson))
+        .toList();
+
+    return chatRooms;
+  }
+
+  Future<bool> unsetRequest(
+      String bearerToken, String chatRoomId, String friendId) async {
+    final url = '$basePath/chat-room-requests-sent/$chatRoomId/$friendId';
+
+    final response = await _dio.delete(
+      url,
+      options: Options(headers: {"authorization": 'Bearer $bearerToken'}),
+    );
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

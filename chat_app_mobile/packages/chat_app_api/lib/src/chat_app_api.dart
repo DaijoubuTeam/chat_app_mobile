@@ -35,14 +35,14 @@ class ChatAppApi {
         _searchApi = SearchApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _webRTCApi = WebRTCApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
-  AuthApi _authApi;
-  UserApi _userApi;
-  FriendApi _friendApi;
-  ChatRoomApi _chatRoomApi;
-  MessageApi _messageApi;
-  NotificationApi _notificationApi;
-  SearchApi _searchApi;
-  WebRTCApi _webRTCApi;
+  final AuthApi _authApi;
+  final UserApi _userApi;
+  final FriendApi _friendApi;
+  final ChatRoomApi _chatRoomApi;
+  final MessageApi _messageApi;
+  final NotificationApi _notificationApi;
+  final SearchApi _searchApi;
+  final WebRTCApi _webRTCApi;
 
   //auth api
   Future<User> verifyUser(String bearerToken) async {
@@ -193,6 +193,15 @@ class ChatAppApi {
 
   Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {
     return await _chatRoomApi.getAllChatRoomRequest(bearerToken);
+  }
+
+  Future<List<ChatRoomSent>> getAllChatRoomSent(String bearerToken) async {
+    return await _chatRoomApi.getAllChatRoomSent(bearerToken);
+  }
+
+  Future<bool> unsentIniviteChatRoom(
+      String bearerToken, String chatRoomId, String friendId) async {
+    return await _chatRoomApi.unsetRequest(bearerToken, chatRoomId, friendId);
   }
 
   //Chat app api

@@ -17,7 +17,10 @@ class GroupRequestReceivePage extends StatelessWidget {
         context.read<AuthRepository>(),
         context.read<ChatRoomRepository>(),
       ),
-      child: const GroupRequestReceiveView(),
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        child: const GroupRequestReceiveView(),
+      ),
     );
   }
 }
@@ -35,24 +38,32 @@ class GroupRequestReceiveView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (state.status == FormzStatus.submissionSuccess) {
-          if (state.listGroupRequestReceived!.isEmpty) {
-            return const Center(
-              child: Text("No request now!"),
-            );
-          } else {
-            return Center(
-              child: ListView.builder(
-                  itemBuilder: ((context, index) {
-                    final groupInfor = state.listGroupRequestReceived![index];
-                    return GroupRequestItem(
-                      chatRoomId: groupInfor.chatRoomId,
-                      chatRoomName: groupInfor.chatRoomName,
-                      chatRoomAvatar: groupInfor.chatRoomAvatar,
-                    );
-                  }),
-                  itemCount: state.listGroupRequestReceived!.length),
-            );
-          }
+          return RefreshIndicator(
+            onRefresh: () async {
+              context
+                  .read<GroupRequestReceiveBloc>()
+                  .add(GroupRequestReceiveInited());
+            },
+            child: Container(
+              child: state.listGroupRequestReceived!.isEmpty
+                  ? const Center(
+                      child: Text("No request now!"),
+                    )
+                  : Center(
+                      child: ListView.builder(
+                          itemBuilder: ((context, index) {
+                            final groupInfor =
+                                state.listGroupRequestReceived![index];
+                            return GroupRequestItem(
+                              chatRoomId: groupInfor.chatRoomId,
+                              chatRoomName: groupInfor.chatRoomName,
+                              chatRoomAvatar: groupInfor.chatRoomAvatar,
+                            );
+                          }),
+                          itemCount: state.listGroupRequestReceived!.length),
+                    ),
+            ),
+          );
         } else {
           return const Center(
             child: Text("Something wrong!"),

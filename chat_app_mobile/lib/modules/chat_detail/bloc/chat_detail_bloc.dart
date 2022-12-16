@@ -53,7 +53,10 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
       if (bearerToken != null) {
         final chatRoomInfo = await _chatRoomRepository.getChatRoomById(
-            bearerToken, state.chatRoomId);
+          bearerToken,
+          state.chatRoomId,
+          _authRepository.currentUser.uid,
+        );
         final listMessage = await _chatMessageRepository.getMessages(
           bearerToken,
           _authRepository.currentUser.uid,

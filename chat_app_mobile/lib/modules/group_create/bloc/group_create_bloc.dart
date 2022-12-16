@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
@@ -94,7 +95,10 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
   Future<void> _onGroupCreateFormSubmitted(
       GroupCreateFormSubmitted event, Emitter<GroupCreateState> emit) async {
     try {
-      if (state.groupName == null || state.groupName == '') return;
+      if (state.groupName == null || state.groupName == '') {
+        FlutterToastCustom.showToast("Group name cannot be empty", "warning");
+        return;
+      }
       List<String>? listIdMembers = [];
       if (state.memberNewGroup != null) {
         listIdMembers =
@@ -113,10 +117,12 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
         );
         if (isCreateRoomSuccess) {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
+          FlutterToastCustom.showToast("Create group success", "success");
           return;
         }
       }
       emit(state.copyWith(status: FormzStatus.submissionFailure));
+      FlutterToastCustom.showToast("Group creation failed", "error");
     } catch (_) {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }

@@ -41,26 +41,7 @@ class GroupCreateView extends StatelessWidget {
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess &&
             state.groupName != null) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: Text("Create group chat success"),
-                backgroundColor: Colors.green,
-              ),
-            );
-          //context.read<GroupListBloc>().add(GroupListInited());
           Navigator.of(context).pop(true);
-        }
-        if (state.status == FormzStatus.submissionFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: Text("Create group chat failure"),
-                backgroundColor: Colors.red,
-              ),
-            );
         }
       },
       child: Scaffold(

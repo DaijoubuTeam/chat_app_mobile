@@ -35,7 +35,6 @@ class _BottomModalFileState extends State<BottomModalFile> {
                       final urlDownloadImage = await FireStoreUploadFileService
                           .firseStoreService
                           .uploadFile(item["file"] as XFile);
-                      print(urlDownloadImage);
                     }
                   },
                   child: const Icon(Icons.send),
@@ -80,7 +79,6 @@ class _BottomModalFileState extends State<BottomModalFile> {
                   final images = await ImagePicker().pickMultiImage();
                   if (images != null) {
                     for (var image in images) {
-                      print(image.path);
                       XFile file = XFile(image.path);
                       setState(() {
                         media.add({"type": "image", "file": file});

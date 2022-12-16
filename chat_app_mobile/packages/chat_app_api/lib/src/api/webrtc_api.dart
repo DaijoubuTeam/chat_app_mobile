@@ -7,9 +7,9 @@ class WebRTCApi {
 
   final String _serverUrl;
 
-  String get basePath => '$_serverUrl';
+  String get basePath => _serverUrl;
 
-  Dio _dio;
+  final Dio _dio;
 
   Future<bool> postWebRTC(
       String bearerToken, String friendId, dynamic data) async {

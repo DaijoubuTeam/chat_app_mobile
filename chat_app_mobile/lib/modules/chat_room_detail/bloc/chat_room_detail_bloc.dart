@@ -39,6 +39,7 @@ class ChatRoomDetailBloc
         final chatRoomInfor = await _chatRoomRepository.getChatRoomById(
           bearerToken,
           state.chatRoomId,
+          _authRepository.currentUser.uid,
         );
         emit(ChatRoomDetailGetDataSuccess(
           chatRoomId: state.chatRoomId,
