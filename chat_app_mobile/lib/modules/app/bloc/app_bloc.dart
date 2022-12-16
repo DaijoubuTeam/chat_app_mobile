@@ -20,9 +20,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     required WebRTCRepostiory webRTCRepostiory,
   })  : _authRepository = authRepository,
         _webRTCRepostiory = webRTCRepostiory,
-        super(const AppState.unAuthorized()) {
+        super(AppStateLoading()) {
+    on<AppLoaded>(_onAppLoaded);
     on<AppLogOutRequested>(_onAppLogOutRequested);
     on<AppUserChanged>(_onAppUserChanged);
+
     _userSubscription = _authRepository.user.listen((user) {
       add(AppUserChanged(user));
     });
@@ -82,6 +84,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   User get authCurrentUser => _authRepository.currentUser;
 
+  FutureOr<void> _onAppLoaded(AppLoaded event, Emitter<AppState> emit) {
+    // final
+  }
+
   Future<void> _onAppLogOutRequested(
       AppLogOutRequested event, Emitter<AppState> emit) async {
     await (_authRepository.logOut());
@@ -97,9 +103,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       }
     });
     if (event.user != User.empty) {
-      emit(const AppState.authorized());
+      emit(const AppStateAuthorized());
     } else {
-      emit(const AppState.unAuthorized());
+      emit(AppStateUnAuthorized());
     }
   }
 

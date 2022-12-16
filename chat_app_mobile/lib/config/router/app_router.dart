@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:chat_app_mobile/config/router/go_router_refresh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
@@ -175,19 +177,52 @@ class AppRouter {
       ],
       refreshListenable: GoRouterRefreshStream(appBloc.stream),
       redirect: (BuildContext context, GoRouterState state) async {
-        final bool loginIn = state.subloc == '/';
-        final bool signUpIn =
-            state.subloc == '/sign-up' || state.subloc == '/verify-email';
-        final bool isAuthorized =
-            appBloc.authCurrentUser != auth_repository.User.empty;
-        if (!isAuthorized) {
-          if (signUpIn) return null;
-          return loginIn ? null : '/';
+        // final bool loginIn = state.subloc == '/';
+        // final bool signUpIn =
+        //     state.subloc == '/sign-up' || state.subloc == '/verify-email';
+
+        // if (appBloc.state is AppStateUnAuthorized) {
+        //   if (signUpIn) return null;
+        //   return loginIn ? null : '/';
+        // }
+        // if (loginIn) {
+        //   return '/home';
+        // }
+
+        String? shouldRedirect(String to) {
+          if (appBloc.state == GoRouterRefreshStream.latestState) {
+            return null;
+          }
+          if (state.subloc == to) {
+            return null;
+          }
+          return to;
         }
-        if (loginIn) {
-          return '/home';
+
+        if (appBloc.state is AppStateUnAuthorized) {
+          // if (state.subloc == '/') {
+          //   return null;
+          // }
+          // return '/';
+          return shouldRedirect('/');
         }
-        return null;
+        if (appBloc.state is AppStateLoading) {
+          // if (state.subloc == '/') {
+          //   return null;
+          // }
+          // return '/';
+          return shouldRedirect('/');
+        }
+        log(appBloc.state.toString());
+        final st = appBloc.state as AppStateAuthorized;
+        if (!st.isEmailVerified) {
+          return shouldRedirect('/verify-emai');
+        }
+        if (!st.isProfileFilled) {
+          return shouldRedirect('/fill-profile');
+        }
+        return shouldRedirect('/home');
+        // return null;
       },
       errorPageBuilder: (context, state) {
         return MaterialPage(
