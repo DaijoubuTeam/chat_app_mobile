@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:search_repository/search_repository.dart';
 import 'package:socket_repository/socket_repository.dart';
@@ -20,7 +21,8 @@ import 'package:notification_repository/notification_repository.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //set up url
