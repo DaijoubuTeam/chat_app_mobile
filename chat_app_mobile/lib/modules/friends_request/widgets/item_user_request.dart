@@ -1,7 +1,9 @@
+import 'package:chat_app_mobile/common/widgets/dialogs/confirm_dialog.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/list_title/request_friend_list_item.dart';
 import 'package:chat_app_mobile/modules/friends_request/bloc/friends_request_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ItemUserRequest extends StatelessWidget {
   const ItemUserRequest(
@@ -23,18 +25,55 @@ class ItemUserRequest extends StatelessWidget {
   final String? email;
 
   void _handleActionCard(BuildContext ctx, String id, String action) {
-    ctx
-        .read<FriendsRequestBloc>()
-        .add(FriendRequestCardAction(id: id, action: action));
+    if (action == "denied") {
+      ConfirmDiaglog.showConfirmDialog(
+        ctx,
+        "Deny request",
+        "Do you want to deny request friends!",
+        [
+          TextButton(
+            onPressed: () {
+              // Close the dialog
+              Navigator.of(ctx).pop();
+            },
+            child: Text(
+              'No',
+              style: TextStyle(
+                color: Theme.of(ctx).errorColor,
+                fontSize: 16.sp,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              ctx
+                  .read<FriendsRequestBloc>()
+                  .add(FriendRequestCardAction(id: id, action: action));
+              Navigator.of(ctx).pop();
+            },
+            child: Text(
+              'Yes',
+              style:
+                  TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
+            ),
+          ),
+        ],
+      );
+    }
+    if (action == "accept") {
+      ctx
+          .read<FriendsRequestBloc>()
+          .add(FriendRequestCardAction(id: id, action: action));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 1,
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.white70, width: 1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),

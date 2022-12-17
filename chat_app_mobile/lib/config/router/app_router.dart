@@ -8,7 +8,6 @@ import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
-import 'package:chat_app_mobile/modules/friends_request/view/view.dart';
 import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
 import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
 import 'package:chat_app_mobile/modules/group_edit/view/view.dart';
@@ -24,6 +23,7 @@ import 'package:user_repository/user_repository.dart' as user_repository;
 import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
 
+import '../../modules/friends_request_tab/view/view.dart';
 import '../../modules/group_request/view/view.dart';
 
 class AppRouter {
@@ -150,10 +150,10 @@ class AppRouter {
         },
       ),
       GoRoute(
-        name: FriendsRequestPage.namePage,
+        name: FriendRequestTabPage.namePage,
         path: '/friends-request',
         builder: (BuildContext context, GoRouterState state) {
-          return const FriendsRequestPage();
+          return const FriendRequestTabPage();
         },
       ),
       GoRoute(

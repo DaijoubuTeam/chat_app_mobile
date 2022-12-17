@@ -1,6 +1,4 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
-import 'package:chat_app_mobile/modules/find_friend/view/view.dart';
 import 'package:chat_app_mobile/modules/friends_request/bloc/friends_request_bloc.dart';
 import 'package:chat_app_mobile/modules/friends_request/widgets/list_user_request.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
 
 class FriendsRequestPage extends StatelessWidget {
-  static String namePage = 'friends-request';
+  //static String namePage = 'friends-request';
   const FriendsRequestPage({super.key});
 
   @override
@@ -26,49 +24,17 @@ class FriendsRequestPage extends StatelessWidget {
 class FriendsRequestView extends StatelessWidget {
   const FriendsRequestView({super.key});
 
-  void _buildModalBottomSheet(BuildContext ctx) {
-    showModalBottomSheet(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20.0),
-        ),
-      ),
-      context: ctx,
-      isScrollControlled: true,
-      builder: ((ctx) => const FindFriendPage()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FriendsRequestBloc, FriendsRequestState>(
-      listenWhen: (previous, current) => previous != current,
-      listener: (context, state) {
-        if (state.runtimeType == FriendsRequestCardActionSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Action with your friend success')));
-        }
-        if (state.runtimeType == FriendsRequestCardActionFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Action with your friend failed')));
-        }
-      },
-      child: Scaffold(
-        appBar: const AppBarCustom(title: 'Friends Request Page'),
-        backgroundColor: Colors.grey[100],
-        body: RefreshIndicator(
-          onRefresh: () async {
-            context
-                .read<FriendsRequestBloc>()
-                .add(const FriendRequestPageInited());
-          },
-          child: const ListUserRequest(),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _buildModalBottomSheet(context),
-          backgroundColor: Theme.of(context).primaryColor,
-          child: const Icon(Icons.add),
-        ),
+    return Container(
+      color: Colors.grey[100],
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context
+              .read<FriendsRequestBloc>()
+              .add(const FriendRequestPageInited());
+        },
+        child: const ListUserRequest(),
       ),
     );
   }

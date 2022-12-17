@@ -15,7 +15,3 @@ class FriendProfileInitial extends FriendProfileState {
   @override
   List<Object?> get props => [friendInfor];
 }
-
-class FriendProfileSendRequestSuccess extends FriendProfileState {}
-
-class FriendProfileSendRequestFailure extends FriendProfileState {}

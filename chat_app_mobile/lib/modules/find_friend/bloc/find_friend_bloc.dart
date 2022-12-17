@@ -46,7 +46,7 @@ class FindFriendBloc extends Bloc<FindFriendEvent, FindFriendState> {
       if (bearerToken != null) {
         final user_repository.User resUser =
             await _userRepository.searchUserByEmailOrPhone(
-          inputSearch: (state as FindFriendInputChanging).inputSearch,
+          inputSearch: (state as FindFriendInputChanging).inputSearch.trim(),
           bearerToken: bearerToken,
         );
 

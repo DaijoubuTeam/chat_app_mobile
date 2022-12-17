@@ -10,18 +10,7 @@ class SplachScreen extends StatefulWidget {
 
 class _SplachScreenState extends State<SplachScreen> {
   @override
-  void initState() {
-    print("hello");
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return const Scaffold();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

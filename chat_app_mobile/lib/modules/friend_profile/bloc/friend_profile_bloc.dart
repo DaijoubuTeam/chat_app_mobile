@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
@@ -36,9 +36,9 @@ class FriendProfileBloc extends Bloc<FriendProfileEvent, FriendProfileState> {
           bearerToken, _friendInfor.uid);
 
       if (res) {
-        emit(FriendProfileSendRequestSuccess());
+        FlutterToastCustom.showToast("Send request success", "success");
       } else {
-        emit(FriendProfileSendRequestFailure());
+        FlutterToastCustom.showToast("Send request fail", "error");
       }
     }
     try {} catch (err) {

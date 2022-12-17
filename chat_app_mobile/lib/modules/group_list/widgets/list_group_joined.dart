@@ -1,7 +1,9 @@
+import 'package:chat_app_mobile/common/widgets/dialogs/confirm_dialog.dart';
 import 'package:chat_app_mobile/modules/group_edit/view/group_edit_page.dart';
 import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +28,79 @@ class ListGroupJoined extends StatelessWidget {
   }
 
   void _handleDeleteGroupChatItem(BuildContext ctx, String groupId) {
-    ctx.read<GroupListBloc>().add(GroupListGroupDeleted(idChatRoom: groupId));
+    ConfirmDiaglog.showConfirmDialog(
+      ctx,
+      "Confirm delete group",
+      "Do you want to delete group?",
+      [
+        // The "Yes" button
+
+        TextButton(
+          onPressed: () {
+            // Close the dialog
+            Navigator.of(ctx).pop();
+          },
+          child: Text(
+            'No',
+            style: TextStyle(
+              color: Theme.of(ctx).errorColor,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            ctx
+                .read<GroupListBloc>()
+                .add(GroupListGroupDeleted(idChatRoom: groupId));
+            Navigator.of(ctx).pop();
+          },
+          child: Text(
+            'Yes',
+            style:
+                TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _handleLeaveGroupChat(BuildContext ctx, String groupId) {
+    ConfirmDiaglog.showConfirmDialog(
+      ctx,
+      "Confirm leave group",
+      "Do you want to leave group?",
+      [
+        // The "Yes" button
+
+        TextButton(
+          onPressed: () {
+            // Close the dialog
+            Navigator.of(ctx).pop();
+          },
+          child: Text(
+            'No',
+            style: TextStyle(
+              color: Theme.of(ctx).errorColor,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            ctx
+                .read<GroupListBloc>()
+                .add(GroupListGroupLeft(idChatRoom: groupId));
+            Navigator.of(ctx).pop();
+          },
+          child: Text(
+            'Yes',
+            style:
+                TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
+          ),
+        ),
+      ],
+    );
   }
 
   ActionPane _buildEndActionPane(BuildContext ctx, String groupId) {
@@ -49,7 +123,7 @@ class ListGroupJoined extends StatelessWidget {
           label: 'Edit',
         ),
         SlidableAction(
-          onPressed: (context) => _handleDeleteGroupChatItem(context, groupId),
+          onPressed: (_) => _handleDeleteGroupChatItem(ctx, groupId),
           backgroundColor: Colors.red[400]!,
           foregroundColor: Colors.white,
           icon: Icons.delete,
@@ -65,11 +139,7 @@ class ListGroupJoined extends StatelessWidget {
       children: [
         SlidableAction(
           // An action can be bigger than the others.
-          onPressed: (ctx) => {
-            ctx
-                .read<GroupListBloc>()
-                .add(GroupListGroupLeft(idChatRoom: groupId)),
-          },
+          onPressed: (ctx) => _handleLeaveGroupChat(ctx, groupId),
           backgroundColor: Colors.red[400]!,
           foregroundColor: Colors.white,
           icon: Icons.login_outlined,

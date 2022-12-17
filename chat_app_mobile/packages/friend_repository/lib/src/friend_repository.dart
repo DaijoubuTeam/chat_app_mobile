@@ -37,6 +37,19 @@ class FriendRepository {
   Future<bool> deleteFriend(String bearerToken, String id) async {
     return await _chatAppApi.deleteFriend(bearerToken, id);
   }
+
+  Future<List<friend_repository.User>> getListRequestsSentFriends(
+      String bearerToken) async {
+    final List<chat_app_api.User> friendsApi =
+        await _chatAppApi.getListRequestsSentFriends(bearerToken);
+    final friendRepo =
+        friendsApi.map((friendApi) => friendApi.toRepositoryUser()).toList();
+    return friendRepo;
+  }
+
+  Future<bool> unsentFriendsRequest(String bearerToken, String id) async {
+    return await _chatAppApi.unsentFriendsRequest(bearerToken, id);
+  }
 }
 
 extension on chat_app_api.User {
@@ -54,6 +67,7 @@ extension on chat_app_api.User {
       email: email,
       isEmailVerified: isEmailVerified,
       isProfileFilled: isProfileFilled,
+      personalChatRoomId: personalChatRoomId,
     );
     return user;
   }
