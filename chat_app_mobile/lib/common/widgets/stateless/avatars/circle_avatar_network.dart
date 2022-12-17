@@ -15,7 +15,7 @@ class CircleAvatarCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (urlImage == null) {
+    if (urlImage == null || urlImage == "") {
       return const CircleAvatar(
         backgroundImage: AssetImage('assets/images/empty_avatar.png'),
         maxRadius: 24,

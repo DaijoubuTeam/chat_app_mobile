@@ -59,6 +59,26 @@ class ListGroupJoined extends StatelessWidget {
     );
   }
 
+  ActionPane _buildEndActionLeaveGroup(BuildContext ctx, String groupId) {
+    return ActionPane(
+      motion: const ScrollMotion(),
+      children: [
+        SlidableAction(
+          // An action can be bigger than the others.
+          onPressed: (ctx) => {
+            ctx
+                .read<GroupListBloc>()
+                .add(GroupListGroupLeft(idChatRoom: groupId)),
+          },
+          backgroundColor: Colors.red[400]!,
+          foregroundColor: Colors.white,
+          icon: Icons.login_outlined,
+          label: 'Leave',
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GroupListBloc, GroupListState>(
@@ -80,7 +100,10 @@ class ListGroupJoined extends StatelessWidget {
                         context,
                         state.listChatRoom![index].chatRoomId,
                       )
-                    : null,
+                    : _buildEndActionLeaveGroup(
+                        context,
+                        state.listChatRoom![index].chatRoomId,
+                      ),
                 handleOnTab: () => _handleTapGroupChatItem(
                   context,
                   state.listChatRoom![index].chatRoomId,

@@ -21,6 +21,7 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
     on<GroupListInited>(_onGroupListInited);
     on<GroupListRefreshed>(_onGroupListRefreshed);
     on<GroupListGroupDeleted>(_onGroupListGroupDeleted);
+    on<GroupListGroupLeft>(_onGroupListGroupLeft);
     add(GroupListInited());
   }
 
@@ -39,6 +40,13 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
           _authRepository.currentUser.uid,
         );
 
+        int numberRequestRoom = 0;
+        await _chatRoomRepository
+            .getAllChatRoomRequest(bearerToken)
+            .then((listRequest) {
+          numberRequestRoom = listRequest.length;
+        });
+
         final List<chat_room_repository.ChatRoom> listGroupChatJoined =
             listChatRoom.where((chatRoom) => chatRoom.type == 'group').toList();
 
@@ -46,6 +54,7 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
           state.copyWith(
             listChatRoom: listGroupChatJoined,
             status: FormzStatus.submissionCanceled,
+            numberRequestRoom: numberRequestRoom,
           ),
         );
       }
@@ -65,6 +74,13 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
           _authRepository.currentUser.uid,
         );
 
+        int numberRequestRoom = 0;
+        await _chatRoomRepository
+            .getAllChatRoomRequest(bearerToken)
+            .then((listRequest) {
+          numberRequestRoom = listRequest.length;
+        });
+
         final List<chat_room_repository.ChatRoom> listGroupChatJoined =
             listChatRoom.where((chatRoom) => chatRoom.type == 'group').toList();
 
@@ -72,6 +88,7 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
           state.copyWith(
             listChatRoom: listGroupChatJoined,
             status: FormzStatus.submissionCanceled,
+            numberRequestRoom: numberRequestRoom,
           ),
         );
       }
@@ -93,6 +110,26 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
           add(GroupListRefreshed());
         } else {
           FlutterToastCustom.showToast("Delete group chat failed", "success");
+        }
+      }
+    } catch (_) {
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
+    }
+  }
+
+  Future<void> _onGroupListGroupLeft(
+      GroupListGroupLeft event, Emitter<GroupListState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+      if (bearerToken != null) {
+        final res = await _chatRoomRepository.leaveGroupChatRoom(
+            bearerToken, event.idChatRoom);
+
+        if (res) {
+          FlutterToastCustom.showToast("Leave group chat success", "success");
+          add(GroupListRefreshed());
+        } else {
+          FlutterToastCustom.showToast("Leave group chat failed", "success");
         }
       }
     } catch (_) {

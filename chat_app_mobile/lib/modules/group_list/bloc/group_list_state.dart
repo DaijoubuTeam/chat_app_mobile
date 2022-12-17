@@ -4,18 +4,22 @@ class GroupListState extends Equatable {
   const GroupListState({
     this.listChatRoom,
     this.status = FormzStatus.pure,
+    this.numberRequestRoom = 0,
   });
 
+  final int numberRequestRoom;
   final List<chat_room_repository.ChatRoom>? listChatRoom;
   final FormzStatus status;
 
   GroupListState copyWith({
     List<chat_room_repository.ChatRoom>? listChatRoom,
     FormzStatus? status,
+    int? numberRequestRoom,
   }) {
     return GroupListState(
       listChatRoom: listChatRoom ?? this.listChatRoom,
       status: status ?? this.status,
+      numberRequestRoom: numberRequestRoom ?? this.numberRequestRoom,
     );
   }
 

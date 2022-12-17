@@ -162,7 +162,7 @@ class ChatAppApi {
     String bearerToken,
     String chatRoomId,
     String chatRoomName,
-    String chatRoomAvatar,
+    String? chatRoomAvatar,
   ) async {
     return await _chatRoomApi.updateChatRoom(
         bearerToken, chatRoomId, chatRoomName, chatRoomAvatar);
@@ -189,6 +189,10 @@ class ChatAppApi {
   ) async {
     return await _chatRoomApi.removeMemberChatRoom(
         bearerToken, chatRoomId, memberId);
+  }
+
+  Future<bool> leaveGroupChatRoom(String bearerToken, String chatRoomId) async {
+    return await _chatRoomApi.leaveGroupChatRoom(bearerToken, chatRoomId);
   }
 
   Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {

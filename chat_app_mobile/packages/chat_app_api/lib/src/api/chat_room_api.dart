@@ -107,7 +107,7 @@ class ChatRoomApi {
     String bearerToken,
     String chatRoomId,
     String chatRoomName,
-    String chatRoomAvatar,
+    String? chatRoomAvatar,
   ) async {
     try {
       final url = '$basePath/$chatRoomId';
@@ -186,6 +186,20 @@ class ChatRoomApi {
       log(e.toString(), name: 'add member to chat room');
       return false;
     }
+  }
+
+  Future<bool> leaveGroupChatRoom(String bearerToken, String chatRoomId) async {
+    final url = '$basePath/$chatRoomId/leave';
+    final response = await _dio.get(
+      url,
+      options: Options(
+        headers: {"authorization": 'Bearer $bearerToken'},
+      ),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
   }
 
   Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {
