@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/text_fields/outline_input_border_custom.dart';
 import 'package:chat_app_mobile/modules/signup/bloc/sign_up_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,17 +18,18 @@ class _SignUpEmailInputState extends State<SignUpEmailInput> {
     _emailController.addListener(() {
       context.read<SignUpBloc>().add(EmailChanged(_emailController.text));
     });
-    return TextField(
-      key: const Key('loginForm_emailInput_textField'),
-      controller: _emailController,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        labelText: 'Email',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        helperText: '',
-      ),
+
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      builder: (context, state) {
+        return OutlineInputBorderCustom(
+          inputController: _emailController,
+          inputType: TextInputType.emailAddress,
+          labelText: 'Email',
+          hintText: 'abc@gmail.com',
+          icon: const Icon(Icons.email),
+          errorText: state.email.invalid ? "Invalid email" : null,
+        );
+      },
     );
   }
 }

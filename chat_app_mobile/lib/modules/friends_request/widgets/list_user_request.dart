@@ -20,7 +20,7 @@ class ListUserRequest extends StatelessWidget {
             );
           }
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Scrollbar(
               child: ListView.builder(
                 itemBuilder: ((context, index) {

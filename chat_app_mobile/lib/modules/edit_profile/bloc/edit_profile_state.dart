@@ -2,21 +2,21 @@ part of 'edit_profile_bloc.dart';
 
 class EditProfileState extends Equatable {
   const EditProfileState({
-    this.uid = '',
-    this.email = '',
-    this.fullname = '',
-    this.phone = '',
-    this.about = '',
-    this.avatar = '',
+    this.uid = "",
+    this.email,
+    this.fullname,
+    this.phone,
+    this.about,
+    this.avatar,
     this.status = FormzStatus.pure,
   });
 
   final String uid;
-  final String email;
-  final String fullname;
-  final String phone;
-  final String about;
-  final String avatar;
+  final String? email;
+  final String? fullname;
+  final String? phone;
+  final String? about;
+  final String? avatar;
   final FormzStatus status;
 
   EditProfileState copyWith({
@@ -40,6 +40,6 @@ class EditProfileState extends Equatable {
   }
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [uid, email, fullname, phone, about, avatar, status];
 }

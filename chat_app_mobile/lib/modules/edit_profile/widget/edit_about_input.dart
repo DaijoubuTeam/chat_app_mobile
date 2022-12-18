@@ -22,7 +22,10 @@ class _EditAboutInputState extends State<EditAboutInput> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listenWhen: (previous, current) => previous.about != current.about,
       listener: (context, state) {
-        aboutInputController.text = state.about;
+        if (state.about != null) {
+          aboutInputController.text = state.about!;
+        }
+
         aboutInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: aboutInputController.text.length));
       },
@@ -32,5 +35,11 @@ class _EditAboutInputState extends State<EditAboutInput> {
         icon: const Icon(Icons.info_outline_rounded),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    aboutInputController.dispose();
+    super.dispose();
   }
 }

@@ -1,13 +1,11 @@
-import 'dart:developer';
-
 import 'package:auth_repository/auth_repository.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:user_repository/user_repository.dart';
 
 import '../../../common/widgets/stateless/avatars/circle_avatar_network.dart';
 
@@ -18,8 +16,8 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SettingBloc(
-        authRepository: context.read<AuthRepository>(),
-      ),
+          authRepository: context.read<AuthRepository>(),
+          userRepository: context.read<UserRepository>()),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Setting Page'),
@@ -81,14 +79,14 @@ class SettingView extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
-                        SwitchListTile(
-                          value: true,
-                          onChanged: ((value) => {}),
-                          title: const Text(
-                            'Stop notification',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
+                        // SwitchListTile(
+                        //   value: true,
+                        //   onChanged: ((value) => {}),
+                        //   title: const Text(
+                        //     'Stop notification',
+                        //     style: TextStyle(fontSize: 18),
+                        //   ),
+                        // ),
                         ListTile(
                           title: const Text(
                             'Edit Profile',
@@ -97,6 +95,18 @@ class SettingView extends StatelessWidget {
                           trailing: const Icon(Icons.chevron_right),
                           onTap: (() {
                             context.pushNamed(EditProfilePage.namePage);
+                          }),
+                        ),
+                        ListTile(
+                          title: const Text(
+                            'Change password',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: (() {
+                            context
+                                .read<SettingBloc>()
+                                .add(SettingPageChangePassword());
                           }),
                         ),
                         const ListTile(

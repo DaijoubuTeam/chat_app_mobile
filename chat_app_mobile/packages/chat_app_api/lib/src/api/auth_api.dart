@@ -28,22 +28,26 @@ class AuthApi {
     }
   }
 
-  Future<void> forgotPassword(String email) async {
+  Future<bool> forgotPassword(String email) async {
     try {
       final url = '$basePath/forgot-password';
-      await _dio.post(url, data: {'email': email});
+      final res = await _dio.post(url, data: {'email': email});
+      if (res.statusCode == 202) {
+        return true;
+      }
+      return false;
     } catch (e) {
-      throw const HttpException("Send request failed");
+      throw Exception(e);
     }
   }
 
-  Future<void> resetPassword(String token, String password) async {
-    try {
-      final url = '$basePath/reset-password';
-      await _dio.patch(url,
-          data: {'password': password}, queryParameters: {'token': token});
-    } catch (e) {
-      throw const HttpException("Send request failed");
-    }
-  }
+  // Future<void> resetPassword(String token, String password) async {
+  //   try {
+  //     final url = '$basePath/reset-password';
+  //     await _dio.patch(url,
+  //         data: {'password': password}, queryParameters: {'token': token});
+  //   } catch (e) {
+  //     throw const HttpException("Send request failed");
+  //   }
+  // }
 }

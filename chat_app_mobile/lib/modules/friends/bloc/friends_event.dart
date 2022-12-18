@@ -10,3 +10,12 @@ abstract class FriendsEvent extends Equatable {
 class FriendsInited extends FriendsEvent {
   const FriendsInited();
 }
+
+class FriendsDeleted extends FriendsEvent {
+  const FriendsDeleted({required this.friendId});
+
+  final String friendId;
+
+  @override
+  List<Object?> get props => [friendId];
+}

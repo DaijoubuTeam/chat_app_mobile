@@ -12,12 +12,16 @@ class FriendsInitial extends FriendsState {}
 class FriendsGetListInProgress extends FriendsState {}
 
 class FriendsGetListSuccess extends FriendsState {
-  const FriendsGetListSuccess({required this.listFriend});
+  const FriendsGetListSuccess({
+    required this.listFriend,
+    this.numberRequestFriend = 0,
+  });
 
   final List<friend_repository.User> listFriend;
+  final int numberRequestFriend;
 
   @override
-  List<Object> get props => [listFriend];
+  List<Object> get props => [listFriend, numberRequestFriend];
 }
 
 class FriendsGetListFailure extends FriendsState {}

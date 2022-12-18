@@ -1,5 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
+import 'package:chat_app_mobile/modules/friends/widgets/button_add_new_friend.dart';
 import 'package:chat_app_mobile/modules/friends/widgets/list_friend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,7 @@ class FriendsView extends StatelessWidget {
       child: Column(
         children: [
           const ButtonRequestFriend(),
+          const ButtonAddNewFriend(),
           Divider(
             height: 25,
             color: Theme.of(context).backgroundColor,

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 
@@ -17,6 +18,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginSubmitted>(_onLoginSubmitted);
     on<LoginWithGoogleSubmitted>(_onLoginWithGoogleSubmitted);
     on<LoginSubmitFailure>(_onLoginSubmitFailure);
+
+    FlutterNativeSplash.remove();
   }
 
   final auth_repository.AuthRepository _authRepository;

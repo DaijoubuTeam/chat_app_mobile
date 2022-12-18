@@ -16,6 +16,7 @@ class User {
   final Iterable<String> friends;
   final Iterable<String> friendRequests;
   final Iterable<String> bans;
+  final String? personalChatRoomId;
 
   User({
     required this.uid,
@@ -30,6 +31,7 @@ class User {
     Iterable<String>? friends,
     Iterable<String>? friendRequests,
     Iterable<String>? bans,
+    this.personalChatRoomId,
   })  : friends = friends ?? List.unmodifiable([]),
         friendRequests = friendRequests ?? List.unmodifiable([]),
         bans = bans ?? List.unmodifiable([]);
@@ -47,6 +49,7 @@ class User {
     List<String>? friends,
     List<String>? friendRequests,
     List<String>? bans,
+    String? personalChatRoomId,
   }) =>
       User(
         uid: uid ?? this.uid,
@@ -61,6 +64,7 @@ class User {
         friends: friends ?? this.friends,
         friendRequests: friendRequests ?? this.friendRequests,
         bans: bans ?? this.bans,
+        personalChatRoomId: personalChatRoomId ?? this.personalChatRoomId,
       );
 
   static final empty = User(uid: '');

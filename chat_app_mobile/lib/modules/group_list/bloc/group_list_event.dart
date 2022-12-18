@@ -19,3 +19,12 @@ class GroupListGroupDeleted extends GroupListEvent {
   @override
   List<Object?> get props => [idChatRoom];
 }
+
+class GroupListGroupLeft extends GroupListEvent {
+  const GroupListGroupLeft({required this.idChatRoom});
+
+  final String idChatRoom;
+
+  @override
+  List<Object?> get props => [idChatRoom];
+}

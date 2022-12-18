@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:user_repository/user_repository.dart';
@@ -93,20 +94,24 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         );
         final updatedUser =
             await _userRepository.updateSelfProfile(user, bearerToken);
-        emit(updatedUser != user_model.User.empty
-            ? state.copyWith(
+        if (updatedUser != user_model.User.empty) {
+          emit(
+            state.copyWith(
                 uid: updatedUser.uid,
                 email: updatedUser.email,
                 fullname: updatedUser.fullname,
                 phone: updatedUser.phone,
                 about: updatedUser.about,
                 avatar: updatedUser.avatar,
-                status: FormzStatus.submissionSuccess)
-            : state.copyWith());
+                status: FormzStatus.submissionSuccess),
+          );
+          FlutterToastCustom.showToast("Edit profile success", "success");
+        } else {
+          FlutterToastCustom.showToast("Edit profile fail", "error");
+        }
       }
     } catch (err) {
-      log(err.toString(), name: 'edit profile form submit error');
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      FlutterToastCustom.showToast(err.toString(), "error");
     }
   }
 

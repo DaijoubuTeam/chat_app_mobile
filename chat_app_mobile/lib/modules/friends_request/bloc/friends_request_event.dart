@@ -16,5 +16,5 @@ class FriendRequestCardAction extends FriendsRequestEvent {
   final String id;
   final String action;
   @override
-  List<Object?> get props => [action];
+  List<Object?> get props => [id, action];
 }

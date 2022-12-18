@@ -24,7 +24,10 @@ class _EditFullNameInputState extends State<EditFullNameInput> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listenWhen: (previous, current) => previous.fullname != current.fullname,
       listener: (context, state) {
-        fullnameInputController.text = state.fullname;
+        if (state.fullname != null) {
+          fullnameInputController.text = state.fullname!;
+        }
+
         fullnameInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: fullnameInputController.text.length));
       },

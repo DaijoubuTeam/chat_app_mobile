@@ -1,5 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/bloc/chat_room_detail_bloc.dart';
+import 'package:chat_app_mobile/modules/group_edit/view/group_edit_page.dart';
 import 'package:chat_app_mobile/modules/group_member/view/group_member_page.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,8 @@ class ChatRoomView extends StatelessWidget {
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
-                    if (state.chatRoomInformation!.type == "group")
+                    if (state.chatRoomInformation!.type == "group" &&
+                        state.chatRoomInformation!.isAdmin)
                       ListTile(
                         trailing: const Icon(Icons.edit_outlined),
                         title: const Text(
@@ -79,11 +81,8 @@ class ChatRoomView extends StatelessWidget {
                           style: TextStyle(fontSize: 18),
                         ),
                         onTap: () {
-                          context.pushNamed(GroupMemberPage.namePage, params: {
-                            "chatRoomId": state.chatRoomId
-                          }, extra: {
-                            "chatRoomInfor": state.chatRoomInformation,
-                          });
+                          context.pushNamed(GroupEditPage.namePage,
+                              params: {"groupId": state.chatRoomId});
                         },
                       ),
                     if (state.chatRoomInformation!.type == "group")
@@ -100,18 +99,8 @@ class ChatRoomView extends StatelessWidget {
                           );
                         },
                       ),
-                    if (state.chatRoomInformation!.type == "personal")
-                      ListTile(
-                        iconColor: Colors.red[400],
-                        textColor: Colors.red[400],
-                        trailing: const Icon(Icons.block),
-                        title: const Text(
-                          'Block',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        onTap: () {},
-                      ),
-                    if (state.chatRoomInformation!.type == "group")
+                    if (state.chatRoomInformation!.type == "group" &&
+                        !state.chatRoomInformation!.isAdmin)
                       ListTile(
                         iconColor: Colors.red[400],
                         textColor: Colors.red[400],
@@ -122,6 +111,18 @@ class ChatRoomView extends StatelessWidget {
                         ),
                         onTap: () {},
                       ),
+                    if (state.chatRoomInformation!.type == "group" &&
+                        state.chatRoomInformation!.isAdmin)
+                      ListTile(
+                        iconColor: Colors.red[400],
+                        textColor: Colors.red[400],
+                        trailing: const Icon(Icons.logout),
+                        title: const Text(
+                          'Remove group',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        onTap: () {},
+                      )
                   ],
                 ),
               ),

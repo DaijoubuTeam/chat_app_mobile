@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app_api/src/api/webrtc_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
@@ -54,23 +56,23 @@ class ChatAppApi {
     }
   }
 
-  Future<void> forgotPassword(String email) {
+  Future<bool> forgotPassword(String email) {
     return _authApi.forgotPassword(email);
-  }
-
-  Future<void> resetPassword(String token, String password) {
-    return _authApi.resetPassword(token, password);
   }
 
   // user api
   Future<User> getSelfProfile(String bearerToken) async {
     try {
-      print(bearerToken);
+      log(bearerToken);
       final user = await _userApi.getSelfProfile(bearerToken);
       return user;
     } catch (e) {
       return User.empty;
     }
+  }
+
+  Future<bool> requestVerifyEmail(String bearerToken) async {
+    return await _userApi.requestVerifyEmail(bearerToken);
   }
 
   Future<User> updateSelfProfile(User user, String bearerToken) async {
@@ -162,7 +164,7 @@ class ChatAppApi {
     String bearerToken,
     String chatRoomId,
     String chatRoomName,
-    String chatRoomAvatar,
+    String? chatRoomAvatar,
   ) async {
     return await _chatRoomApi.updateChatRoom(
         bearerToken, chatRoomId, chatRoomName, chatRoomAvatar);
@@ -189,6 +191,10 @@ class ChatAppApi {
   ) async {
     return await _chatRoomApi.removeMemberChatRoom(
         bearerToken, chatRoomId, memberId);
+  }
+
+  Future<bool> leaveGroupChatRoom(String bearerToken, String chatRoomId) async {
+    return await _chatRoomApi.leaveGroupChatRoom(bearerToken, chatRoomId);
   }
 
   Future<List<ChatRoom>> getAllChatRoomRequest(String bearerToken) async {

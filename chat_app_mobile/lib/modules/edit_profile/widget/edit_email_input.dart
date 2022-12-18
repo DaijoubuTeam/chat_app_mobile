@@ -22,7 +22,10 @@ class _EditEmailInputState extends State<EditEmailInput> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listenWhen: ((previous, current) => previous.email != current.email),
       listener: ((context, state) {
-        emailController.text = state.email;
+        if (state.email != null) {
+          emailController.text = state.email!;
+        }
+
         emailController.selection = TextSelection.fromPosition(
             TextPosition(offset: emailController.text.length));
       }),

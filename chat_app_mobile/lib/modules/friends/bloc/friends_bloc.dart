@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:friend_repository/friend_repository.dart' as friend_repository;
@@ -13,6 +14,7 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
   FriendsBloc(this._authRepository, this._friendRepository)
       : super(FriendsInitial()) {
     on<FriendsInited>(_friendsInited);
+    on<FriendsDeleted>(_friendsDeleted);
 
     add(const FriendsInited());
   }
@@ -28,10 +30,36 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
       if (bearerToken != null) {
         final listFriend =
             await _friendRepository.getListUserFriends(bearerToken);
-        emit(FriendsGetListSuccess(listFriend: listFriend));
+        int numberRequestFriend = 0;
+        await _friendRepository
+            .getListRequestFriend(bearerToken)
+            .then((listRequest) => {numberRequestFriend = listRequest.length});
+        emit(FriendsGetListSuccess(
+          listFriend: listFriend,
+          numberRequestFriend: numberRequestFriend,
+        ));
       }
     } catch (_) {
       emit(FriendsGetListFailure());
+    }
+  }
+
+  Future<void> _friendsDeleted(
+      FriendsDeleted event, Emitter<FriendsState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+      if (bearerToken != null) {
+        final isDeleted =
+            await _friendRepository.deleteFriend(bearerToken, event.friendId);
+        if (isDeleted) {
+          FlutterToastCustom.showToast("Delete friend success", "success");
+        } else {
+          FlutterToastCustom.showToast("Delete friend fail", "error");
+        }
+        add(const FriendsInited());
+      }
+    } catch (_) {
+      FlutterToastCustom.showToast("Delete friend fail", "error");
     }
   }
 }

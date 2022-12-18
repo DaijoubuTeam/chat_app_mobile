@@ -54,7 +54,7 @@ class ChatRoomRepository {
     String bearerToken,
     String chatRoomId,
     String chatRoomName,
-    String chatRoomAvatar,
+    String? chatRoomAvatar,
   ) async {
     return await _chatAppApi.updateChatRoom(
       bearerToken,
@@ -69,6 +69,13 @@ class ChatRoomRepository {
     String chatRoomId,
   ) async {
     return await _chatAppApi.deleteGroupChatRoom(bearerToken, chatRoomId);
+  }
+
+  Future<bool> leaveGroupChatRoom(
+    String bearerToken,
+    String chatRoomId,
+  ) async {
+    return await _chatAppApi.leaveGroupChatRoom(bearerToken, chatRoomId);
   }
 
   Future<bool> inviteMemberChatRoom(

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 import 'package:friend_repository/friend_repository.dart' as friend_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
@@ -44,9 +45,16 @@ class FriendsRequestBloc
       final res = await _friendRepository.actionWithFriend(
           bearerToken, event.id, event.action);
       if (res) {
-        emit(FriendsRequestCardActionSuccess());
+        if (event.action == "accept") {
+          FlutterToastCustom.showToast(
+              "You have accepted the friend request", "success");
+        }
+        if (event.action == "denied") {
+          FlutterToastCustom.showToast(
+              "You have denied the friend request", "success");
+        }
       } else {
-        emit(FriendsRequestCardActionFailure());
+        FlutterToastCustom.showToast("Something wrongs! Try again", "error");
       }
       add(const FriendRequestPageInited());
     }

@@ -14,6 +14,7 @@ abstract class IUser {
   final Iterable<String> friends;
   final Iterable<String> friendRequests;
   final Iterable<String> bans;
+  final String? personalChatRoomId;
 
   IUser({
     required this.uid,
@@ -29,6 +30,7 @@ abstract class IUser {
     Iterable<String>? friends,
     Iterable<String>? friendRequests,
     Iterable<String>? bans,
+    this.personalChatRoomId,
   })  : friends = friends ?? List.unmodifiable([]),
         friendRequests = friendRequests ?? List.unmodifiable([]),
         bans = bans ?? List.unmodifiable([]);

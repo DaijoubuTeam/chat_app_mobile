@@ -22,7 +22,9 @@ class _EditPhoneInputState extends State<EditPhoneInput> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listenWhen: (previous, current) => previous.phone != current.phone,
       listener: (context, state) {
-        phoneInputController.text = state.phone;
+        if (state.phone != null) {
+          phoneInputController.text = state.phone!;
+        }
         phoneInputController.selection = TextSelection.fromPosition(
             TextPosition(offset: phoneInputController.text.length));
       },

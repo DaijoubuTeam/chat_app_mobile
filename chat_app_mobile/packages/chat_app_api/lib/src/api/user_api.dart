@@ -29,6 +29,21 @@ class UserApi {
     }
   }
 
+  Future<bool> requestVerifyEmail(String bearerToken) async {
+    try {
+      log(bearerToken);
+      final url = '$basePath/verify-email';
+      final response = await _dio.get(url,
+          options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<User> updateProfile(User user, String bearerToken) async {
     try {
       final url = '$basePath/self';

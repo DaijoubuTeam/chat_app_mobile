@@ -24,6 +24,7 @@ class SocketAPI {
     _socket.on('new-message', ((data) => socketNewMessage(data)));
     _socket.on('new-notification', ((data) => socketNewNotification(data)));
     _socket.on('webrtc', ((data) => socketNewCallWebRTC(data)));
+    _socket.on('email-verified', ((data) => socketNewEmailVerified(data)));
   }
 
   StreamController<NewMessage> newMessageController =
@@ -33,6 +34,9 @@ class SocketAPI {
       StreamController<Notification>.broadcast();
 
   StreamController<dynamic> webRTCStream =
+      StreamController<dynamic>.broadcast();
+
+  StreamController<dynamic> verifiedEmailStream =
       StreamController<dynamic>.broadcast();
 
   static SocketAPI? _socketApi;
@@ -83,8 +87,15 @@ class SocketAPI {
     return webRTCStream.stream;
   }
 
+  Stream<dynamic> socketNewEmailVerified(dynamic data) {
+    verifiedEmailStream.sink.add(data);
+    return verifiedEmailStream.stream;
+  }
+
   void dispose() {
     newMessageController.close();
     newNotificationController.close();
+    webRTCStream.close();
+    verifiedEmailStream.close();
   }
 }
