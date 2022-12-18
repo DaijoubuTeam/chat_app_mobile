@@ -1,49 +1,102 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
+import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
+import 'package:auth_repository/auth_repository.dart' as auth_repository;
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc() : super(const SignUpState()) {
+  SignUpBloc(this._authRepository) : super(const SignUpState()) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<ConfirmPasswordChanged>(_onConfirmPasswordChanged);
     on<SignUpSubmitted>(_onSignUpSubmitted);
   }
 
+  final auth_repository.AuthRepository _authRepository;
+
   void _onEmailChanged(EmailChanged event, Emitter<SignUpState> emit) {
-    emit(event.email.isNotEmpty
-        ? state.copyWith(email: event.email)
-        : state.copyWith(email: ''));
+    final email = event.email;
+    if (email == null) {
+      return;
+    }
+    emit(state.copyWith(
+      email: Email.dirty(email),
+      password: state.password,
+      confirmPassword: state.confirmPassword,
+      status: Formz.validate(
+        [
+          Email.dirty(email),
+          state.password,
+          state.confirmPassword,
+        ],
+      ),
+    ));
   }
 
   void _onPasswordChanged(PasswordChanged event, Emitter<SignUpState> emit) {
-    emit(event.password.isNotEmpty
-        ? state.copyWith(password: event.password)
-        : state.copyWith(password: ''));
+    final password = event.password;
+    if (password == null) {
+      return;
+    }
+    emit(state.copyWith(
+      email: state.email,
+      password: Password.dirty(password),
+      confirmPassword: state.confirmPassword,
+      status: Formz.validate(
+        [
+          state.email,
+          Password.dirty(password),
+          state.confirmPassword,
+        ],
+      ),
+    ));
   }
 
   void _onConfirmPasswordChanged(
       ConfirmPasswordChanged event, Emitter<SignUpState> emit) {
-    emit(event.confirmPassword.isNotEmpty
-        ? state.copyWith(confirmPassword: event.confirmPassword)
-        : state.copyWith(confirmPassword: ''));
+    final confirmPassword = event.confirmPassword;
+    if (confirmPassword == null) {
+      return;
+    }
+    emit(state.copyWith(
+      email: state.email,
+      password: state.password,
+      confirmPassword: ConfirmedPassword.dirty(
+        password: state.password.value,
+        value: confirmPassword,
+      ),
+      status: Formz.validate(
+        [
+          state.email,
+          state.password,
+          ConfirmedPassword.dirty(
+            password: state.password.value,
+            value: confirmPassword,
+          ),
+        ],
+      ),
+    ));
   }
 
   Future<void> _onSignUpSubmitted(
       SignUpSubmitted event, Emitter<SignUpState> emit) async {
-    if (state.email.isEmpty ||
-        state.password.isEmpty ||
-        state.confirmPassword.isEmpty) {
-      sleep(Duration(milliseconds: 100));
-      print("rong");
-    } else {
-      sleep(Duration(milliseconds: 100));
-      print("khong rong");
+    try {
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      if (state.email.invalid ||
+          state.password.invalid ||
+          state.confirmPassword.invalid) {
+        return;
+      }
+      // await _authRepository.
+    } catch (err) {
+      FlutterToastCustom.showToast(err.toString(), "error");
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
 }

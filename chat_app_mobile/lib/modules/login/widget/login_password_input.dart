@@ -32,7 +32,7 @@ class _LoginPasswordInputState extends State<LoginPasswordInput> {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (prev, current) => prev != current,
       builder: (context, state) {
-        if (state.runtimeType == LoginSubmitFailure) {
+        if (state is LoginSubmitFailure) {
           // to keep remain current value of email text fields when failure
           context
               .read<LoginBloc>()

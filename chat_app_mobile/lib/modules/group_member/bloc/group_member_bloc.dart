@@ -21,6 +21,7 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
           members: chatRoom?.members.toList(),
           groupName: chatRoom?.chatRoomName,
           chatRoomId: chatRoom!.chatRoomId,
+          isAdmin: chatRoom.isAdmin,
         )) {
     on<GroupMemberDeleteSubmitted>(_onGroupMemberDeleteSubmitted);
   }

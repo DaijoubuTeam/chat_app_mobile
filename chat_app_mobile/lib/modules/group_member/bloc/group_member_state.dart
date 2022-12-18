@@ -9,11 +9,13 @@ class GroupMemberState extends Equatable {
     required this.chatRoomId,
     this.status = FormzStatus.pure,
     this.deleteStatus = DeleteStatus.initial,
+    this.isAdmin = false,
   });
 
   final List<chat_room_repo.User>? members;
   final String? groupName;
   final String chatRoomId;
+  final bool isAdmin;
   final FormzStatus status;
   final DeleteStatus deleteStatus;
 
@@ -23,6 +25,7 @@ class GroupMemberState extends Equatable {
     String? chatRoomId,
     FormzStatus? status,
     DeleteStatus? deleteStatus,
+    bool? isAdmin,
   }) {
     return GroupMemberState(
       members: members ?? this.members,
@@ -30,10 +33,11 @@ class GroupMemberState extends Equatable {
       chatRoomId: chatRoomId ?? this.chatRoomId,
       status: status ?? this.status,
       deleteStatus: deleteStatus ?? this.deleteStatus,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
   @override
   List<Object?> get props =>
-      [members, groupName, chatRoomId, status, deleteStatus];
+      [members, groupName, chatRoomId, status, deleteStatus, isAdmin];
 }

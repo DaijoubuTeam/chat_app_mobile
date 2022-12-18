@@ -6,14 +6,17 @@ class PasswordOutline extends StatelessWidget {
     required TextEditingController inputController,
     bool? isPasswordVisible,
     String? errorText,
+    String? labelText,
     required this.handleOnPressVisibleButton,
   })  : _inputController = inputController,
         _isPasswordVisible = isPasswordVisible ?? false,
         _errorText = errorText,
+        _labelText = labelText,
         super(key: key);
   final TextEditingController _inputController;
   final bool _isPasswordVisible;
   final String? _errorText;
+  final String? _labelText;
   final void Function() handleOnPressVisibleButton;
 
   @override
@@ -22,7 +25,7 @@ class PasswordOutline extends StatelessWidget {
       controller: _inputController,
       decoration: InputDecoration(
         hintText: 'Your Password ...',
-        labelText: 'Password',
+        labelText: _labelText ?? 'Password',
         errorText: _errorText,
         // errorText: _errorText,
         prefixIcon: const Icon(Icons.lock),
