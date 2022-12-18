@@ -14,9 +14,9 @@ class SettingPageInLoading extends SettingState {}
 class SettingPageGetInfoSuccess extends SettingState {
   const SettingPageGetInfoSuccess({required this.user});
 
-  final auth_repo.User user;
+  final user_repo.User user;
 
-  SettingPageGetInfoSuccess copyWith({auth_repo.User? user}) {
+  SettingPageGetInfoSuccess copyWith({user_repo.User? user}) {
     return SettingPageGetInfoSuccess(user: user ?? this.user);
   }
 }

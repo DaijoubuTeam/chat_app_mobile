@@ -102,6 +102,10 @@ class AuthRepository {
     }
   }
 
+  Future<bool> forgotPassword(String email) {
+    return _chatAppApi.forgotPassword(email);
+  }
+
   Future<void> logOut() async {
     try {
       await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);

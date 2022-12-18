@@ -56,12 +56,8 @@ class ChatAppApi {
     }
   }
 
-  Future<void> forgotPassword(String email) {
+  Future<bool> forgotPassword(String email) {
     return _authApi.forgotPassword(email);
-  }
-
-  Future<void> resetPassword(String token, String password) {
-    return _authApi.resetPassword(token, password);
   }
 
   // user api
