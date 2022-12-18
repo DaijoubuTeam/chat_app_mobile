@@ -7,6 +7,7 @@ import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
+import 'package:chat_app_mobile/modules/fill_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
 import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
@@ -147,6 +148,13 @@ class AppRouter {
         path: '/edit-profile',
         builder: (BuildContext context, GoRouterState state) {
           return const EditProfilePage();
+        },
+      ),
+      GoRoute(
+        name: FillProfilePage.namePage,
+        path: '/fill-profile',
+        builder: (BuildContext context, GoRouterState state) {
+          return const FillProfilePage();
         },
       ),
       GoRoute(

@@ -43,7 +43,7 @@ class GroupRequestSentBloc
         ));
       }
     } catch (err) {
-      FlutterToastCustom.showToast("Something wrong! Try again", "error");
+      FlutterToastCustom.showToast(err.toString(), "error");
       emit(GroupRequestSentFailure());
     }
   }
@@ -62,7 +62,7 @@ class GroupRequestSentBloc
         ));
       }
     } catch (err) {
-      FlutterToastCustom.showToast("Something wrong! Try again", "error");
+      FlutterToastCustom.showToast(err.toString(), "error");
       emit(GroupRequestSentFailure());
     }
   }

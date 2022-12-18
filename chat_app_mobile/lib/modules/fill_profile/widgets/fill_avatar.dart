@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
-import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
+import 'package:chat_app_mobile/modules/fill_profile/bloc/fill_profile_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firestore_upload_file/firestore_upload_file.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +9,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-class EditAvatar extends StatefulWidget {
-  const EditAvatar({super.key});
+import '../../../common/widgets/stateless/avatars/circle_avatar_network.dart';
+
+class FillAvatar extends StatefulWidget {
+  const FillAvatar({super.key});
 
   @override
-  State<EditAvatar> createState() => _EditAvatarState();
+  State<FillAvatar> createState() => _FillAvatarState();
 }
 
-class _EditAvatarState extends State<EditAvatar> {
+class _FillAvatarState extends State<FillAvatar> {
   XFile? imageAvatar;
   UploadTask? uploadTask;
   String? urlDownload;
@@ -30,8 +32,8 @@ class _EditAvatarState extends State<EditAvatar> {
       if (!mounted) return;
       if (mounted) {
         ctx
-            .read<EditProfileBloc>()
-            .add(EditProfileAvatarChanged(urlDownloadImage));
+            .read<FillProfileBloc>()
+            .add(FillProfileAvatarChanged(urlDownloadImage));
       }
       setState(() {
         urlDownload = urlDownloadImage;
@@ -45,7 +47,7 @@ class _EditAvatarState extends State<EditAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EditProfileBloc, EditProfileState>(
+    return BlocBuilder<FillProfileBloc, FillProfileState>(
       builder: (context, state) {
         return Stack(
           children: [

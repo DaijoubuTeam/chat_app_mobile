@@ -86,6 +86,22 @@ class AuthRepository {
     }
   }
 
+  Future<void> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      throw Exception(e);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<void> logOut() async {
     try {
       await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);

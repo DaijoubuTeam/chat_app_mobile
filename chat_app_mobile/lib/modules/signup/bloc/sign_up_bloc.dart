@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
@@ -93,7 +94,18 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           state.confirmPassword.invalid) {
         return;
       }
-      // await _authRepository.
+      await _authRepository.createUserWithEmailAndPassword(
+          email: state.email.value, password: state.password.value);
+      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        FlutterToastCustom.showToast(
+            'The password provided is too weak.', 'error');
+      } else if (e.code == 'email-already-in-use') {
+        FlutterToastCustom.showToast(
+            'The account already exists for that email.', 'error');
+      }
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
     } catch (err) {
       FlutterToastCustom.showToast(err.toString(), "error");
       emit(state.copyWith(status: FormzStatus.submissionFailure));

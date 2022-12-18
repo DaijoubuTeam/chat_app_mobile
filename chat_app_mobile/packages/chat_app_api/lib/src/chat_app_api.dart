@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app_api/src/api/webrtc_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
@@ -65,12 +67,16 @@ class ChatAppApi {
   // user api
   Future<User> getSelfProfile(String bearerToken) async {
     try {
-      print(bearerToken);
+      log(bearerToken);
       final user = await _userApi.getSelfProfile(bearerToken);
       return user;
     } catch (e) {
       return User.empty;
     }
+  }
+
+  Future<bool> requestVerifyEmail(String bearerToken) async {
+    return await _userApi.requestVerifyEmail(bearerToken);
   }
 
   Future<User> updateSelfProfile(User user, String bearerToken) async {

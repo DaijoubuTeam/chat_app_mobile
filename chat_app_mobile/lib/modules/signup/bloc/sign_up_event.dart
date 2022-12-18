@@ -38,9 +38,9 @@ class SignUpSubmitted extends SignUpEvent {
     required this.password,
     required this.confirmedPassword,
   });
-  final Email email;
-  final Password password;
-  final ConfirmedPassword confirmedPassword;
+  final String email;
+  final String password;
+  final String confirmedPassword;
 
   @override
   List<Object?> get props => [email, password, confirmedPassword];

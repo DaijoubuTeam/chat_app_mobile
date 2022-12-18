@@ -13,6 +13,10 @@ class UserRepository {
     return apiUser.toRepositoryUser();
   }
 
+  Future<bool> requestVerifyEmail(String bearerToken) async {
+    return await _chatAppApi.requestVerifyEmail(bearerToken);
+  }
+
   Future<user_model.User> updateSelfProfile(
     user_model.User user,
     String bearerToken,

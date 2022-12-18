@@ -1,8 +1,8 @@
-part of 'edit_profile_bloc.dart';
+part of 'fill_profile_bloc.dart';
 
-class EditProfileState extends Equatable {
-  const EditProfileState({
-    this.uid = "",
+class FillProfileState extends Equatable {
+  const FillProfileState({
+    this.uid,
     this.email,
     this.fullname,
     this.phone,
@@ -11,7 +11,7 @@ class EditProfileState extends Equatable {
     this.status = FormzStatus.pure,
   });
 
-  final String uid;
+  final String? uid;
   final String? email;
   final String? fullname;
   final String? phone;
@@ -19,7 +19,7 @@ class EditProfileState extends Equatable {
   final String? avatar;
   final FormzStatus status;
 
-  EditProfileState copyWith({
+  FillProfileState copyWith({
     String? uid,
     String? email,
     String? fullname,
@@ -28,7 +28,7 @@ class EditProfileState extends Equatable {
     String? avatar,
     FormzStatus? status,
   }) {
-    return EditProfileState(
+    return FillProfileState(
       uid: uid ?? this.uid,
       email: email ?? this.email,
       fullname: fullname ?? this.fullname,

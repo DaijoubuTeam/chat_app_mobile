@@ -1,25 +1,25 @@
 import 'package:chat_app_mobile/common/widgets/stateless/text_fields/multiline_input_border.dart';
-import 'package:chat_app_mobile/modules/edit_profile/bloc/edit_profile_bloc.dart';
+import 'package:chat_app_mobile/modules/fill_profile/bloc/fill_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EditAboutInput extends StatefulWidget {
-  const EditAboutInput({super.key});
+class FillProfileAboutInput extends StatefulWidget {
+  const FillProfileAboutInput({super.key});
 
   @override
-  State<EditAboutInput> createState() => _EditAboutInputState();
+  State<FillProfileAboutInput> createState() => _FillProfileAboutInputState();
 }
 
-class _EditAboutInputState extends State<EditAboutInput> {
+class _FillProfileAboutInputState extends State<FillProfileAboutInput> {
   TextEditingController aboutInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     aboutInputController.addListener(() => context
-        .read<EditProfileBloc>()
-        .add(EditProfileAboutChanged(aboutInputController.text)));
+        .read<FillProfileBloc>()
+        .add(FillProfileAboutChanged(aboutInputController.text)));
 
-    return BlocListener<EditProfileBloc, EditProfileState>(
+    return BlocListener<FillProfileBloc, FillProfileState>(
       listenWhen: (previous, current) => previous.about != current.about,
       listener: (context, state) {
         if (state.about != null) {

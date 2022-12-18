@@ -30,8 +30,8 @@ class AppStateUnAuthorized extends AppState {}
 
 class AppStateAuthorized extends AppState {
   const AppStateAuthorized({
-    this.isProfileFilled = true,
-    this.isEmailVerified = true,
+    this.isProfileFilled = false,
+    this.isEmailVerified = false,
   });
 
   final bool isProfileFilled;

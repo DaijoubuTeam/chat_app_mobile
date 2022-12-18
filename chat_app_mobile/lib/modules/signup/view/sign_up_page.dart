@@ -12,6 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 
+  static const String namePage = "SignUpPage";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

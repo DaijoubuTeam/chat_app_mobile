@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CircleAvatarCustom extends StatelessWidget {
   const CircleAvatarCustom({
@@ -18,7 +19,7 @@ class CircleAvatarCustom extends StatelessWidget {
     if (urlImage == null || urlImage == "") {
       return const CircleAvatar(
         backgroundImage: AssetImage('assets/images/empty_avatar.png'),
-        maxRadius: 24,
+        maxRadius: 48,
       );
     }
     return CachedNetworkImage(
