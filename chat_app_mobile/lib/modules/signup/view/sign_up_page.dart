@@ -8,6 +8,7 @@ import 'package:chat_app_mobile/modules/signup/widget/sign_up_login_button.dart'
 import 'package:chat_app_mobile/modules/signup/widget/sign_up_password_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -55,11 +56,11 @@ class SignUpView extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              const Text(
-                'Sign up an account',
+              Text(
+                'Create new account',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 20.sp,
                 ),
               ),
               const SizedBox(
