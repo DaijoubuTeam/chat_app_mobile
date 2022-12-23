@@ -1,5 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/divider_with_text_center.dart';
+import 'package:chat_app_mobile/modules/forgot_password/view/view.dart';
 import 'package:chat_app_mobile/modules/login/bloc/login_bloc.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_email_input.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_list_button.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -94,7 +96,9 @@ class LoginView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     TextButton(
-                        onPressed: null,
+                        onPressed: () {
+                          context.pushNamed(ForgotPasswordPage.namePage);
+                        },
                         child: Text(
                           'Forgot Password',
                           style: TextStyle(

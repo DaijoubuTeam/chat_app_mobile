@@ -9,17 +9,20 @@ class OutlineInputBorderCustom extends StatelessWidget {
     this.hintText,
     this.errorText,
     this.icon,
+    this.isEnable = true,
   });
   final TextEditingController inputController;
   final TextInputType? inputType;
   final String? labelText;
   final String? hintText;
   final String? errorText;
+  final bool isEnable;
   final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: isEnable,
       controller: inputController,
       keyboardType: inputType,
       decoration: InputDecoration(

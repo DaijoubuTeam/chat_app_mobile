@@ -41,7 +41,7 @@ class _EditNameGroupState extends State<EditNameGroup> {
             labelText: "Enter your group name",
             labelStyle: TextStyle(
               color: Theme.of(context).primaryColor,
-              fontSize: 16.sp,
+              fontSize: 18.sp,
             )),
         validator: (value) {
           if (value!.isEmpty) {

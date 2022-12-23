@@ -31,6 +31,7 @@ class _FillEmailInputState extends State<FillEmailInput> {
             TextPosition(offset: emailController.text.length));
       }),
       child: OutlineInputBorderCustom(
+        isEnable: false,
         inputController: emailController,
         inputType: TextInputType.emailAddress,
         labelText: 'Email',

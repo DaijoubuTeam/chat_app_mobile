@@ -2,6 +2,7 @@ import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_n
 import 'package:chat_app_mobile/modules/chat_room_detail/bloc/chat_room_detail_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatRoomInformation extends StatelessWidget {
   const ChatRoomInformation({
@@ -16,6 +17,10 @@ class ChatRoomInformation extends StatelessWidget {
         if (state.runtimeType == ChatRoomDetailGetDataSuccess) {
           final chatRoomInfor =
               (state as ChatRoomDetailGetDataSuccess).chatRoomInformation;
+          final friendInChatRoom = (state as ChatRoomDetailGetDataSuccess)
+              .chatRoomInformation
+              ?.friendsInChatRoom
+              .toList();
           return Column(
             children: <Widget>[
               const SizedBox(
@@ -39,14 +44,31 @@ class ChatRoomInformation extends StatelessWidget {
                 ),
               ),
               const SizedBox(
+                height: 20,
+              ),
+              if (state.chatRoomInformation!.type == "personal")
+                Text(
+                  (friendInChatRoom?[0].email != null)
+                      ? "${friendInChatRoom![0].email}"
+                      : "",
+                  style: TextStyle(
+                    //fontWeight: FontWeight.thi,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              const SizedBox(
                 height: 16,
               ),
-              // const Text(
-              //   "Nguyễn Văn A",
-              //   style: TextStyle(
-              //     fontSize: 16,
-              //   ),
-              // ),
+              if (state.chatRoomInformation!.type == "personal")
+                Text(
+                  (friendInChatRoom?[0].email != null)
+                      ? "${friendInChatRoom![0].phone}"
+                      : "",
+                  style: TextStyle(
+                    //fontWeight: FontWeight.thi,
+                    fontSize: 14.sp,
+                  ),
+                ),
             ],
           );
         } else {

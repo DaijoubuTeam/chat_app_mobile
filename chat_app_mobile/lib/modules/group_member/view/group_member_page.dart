@@ -35,32 +35,38 @@ class GroupMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GroupMemberBloc, GroupMemberState>(
-      listener: (context, state) {
-        if (state.deleteStatus == DeleteStatus.success) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text("Delete member success"),
-              backgroundColor: Colors.green,
-            ));
-        }
-        if (state.deleteStatus == DeleteStatus.failure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text("Delete member fail"),
-              backgroundColor: Colors.red,
-            ));
-        }
-      },
-      child: const Scaffold(
-        appBar: AppBarCustom(
+    return BlocBuilder<GroupMemberBloc, GroupMemberState>(
+        builder: (context, state) {
+      return Scaffold(
+        appBar: const AppBarCustom(
           title: "Group member",
         ),
-        body: GroupMemberList(),
-        floatingActionButton: FloatingAddNewMemberButton(),
-      ),
-    );
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                //controller: _inputController,
+                decoration: InputDecoration(
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: "Search your friends",
+                  prefixIcon: const Icon(Icons.search),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            const Expanded(child: GroupMemberList()),
+          ],
+        ),
+        floatingActionButton:
+            state.isAdmin ? const FloatingAddNewMemberButton() : null,
+      );
+    });
   }
 }

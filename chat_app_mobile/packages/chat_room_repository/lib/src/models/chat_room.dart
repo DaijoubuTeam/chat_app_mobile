@@ -66,7 +66,7 @@ class ChatRoom {
         // fromLatestMessage: fromLatestMessage ?? this.fromLatestMessage,
         // contentLatestMessage: contentLatestMessage ?? this.contentLatestMessage,
         // latestTime: latestTime ?? this.latestTime,
-        // friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
+        friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
       );
 
   static final empty = ChatRoom(chatRoomId: '');

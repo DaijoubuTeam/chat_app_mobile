@@ -64,14 +64,6 @@ class ChatRoomView extends StatelessWidget {
                         thickness: 1,
                       ),
                     ),
-                    SwitchListTile(
-                      value: true,
-                      onChanged: ((value) => {}),
-                      title: const Text(
-                        'Stop notification',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
                     if (state.chatRoomInformation!.type == "group" &&
                         state.chatRoomInformation!.isAdmin)
                       ListTile(
@@ -122,7 +114,18 @@ class ChatRoomView extends StatelessWidget {
                           style: TextStyle(fontSize: 18),
                         ),
                         onTap: () {},
-                      )
+                      ),
+                    if (state.chatRoomInformation!.type == "personal")
+                      ListTile(
+                        iconColor: Colors.red[400],
+                        textColor: Colors.red[400],
+                        trailing: const Icon(Icons.logout),
+                        title: const Text(
+                          'Delete Friend',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        onTap: () {},
+                      ),
                   ],
                 ),
               ),

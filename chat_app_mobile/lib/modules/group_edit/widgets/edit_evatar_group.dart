@@ -47,8 +47,8 @@ class _EditAvatarGroupState extends State<EditAvatarGroup> {
       builder: (context, state) {
         if (state is GroupEditGetInforSuccess) {
           return Container(
-            height: 200,
-            width: 200,
+            height: 160,
+            width: 160,
             decoration: BoxDecoration(
               color: Colors.grey[200],
               shape: BoxShape.circle,
@@ -56,7 +56,7 @@ class _EditAvatarGroupState extends State<EditAvatarGroup> {
             child: state.groupAvatar == null
                 ? IconButton(
                     padding: const EdgeInsets.all(2),
-                    iconSize: 48,
+                    iconSize: 36,
                     icon: const Icon(
                       Icons.add_a_photo,
                       color: Colors.black,
@@ -68,8 +68,8 @@ class _EditAvatarGroupState extends State<EditAvatarGroup> {
                       children: [
                         CircleAvatarCustom(
                           urlImage: state.groupAvatar,
-                          widthImage: 200,
-                          heightImage: 200,
+                          widthImage: 160,
+                          heightImage: 160,
                         ),
                         Positioned(
                           bottom: 4.w,
@@ -81,7 +81,7 @@ class _EditAvatarGroupState extends State<EditAvatarGroup> {
                                 color: Colors.white,
                               ),
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(50),
+                                Radius.circular(36),
                               ),
                               color: Colors.white,
                               boxShadow: [

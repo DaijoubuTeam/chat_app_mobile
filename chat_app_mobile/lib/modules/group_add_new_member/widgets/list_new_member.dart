@@ -51,7 +51,7 @@ class ListNewMember extends StatelessWidget {
             ),
           );
         } else {
-          return const Text("No members in your new groups");
+          return const Text("Invite friends to your group");
         }
       },
     );

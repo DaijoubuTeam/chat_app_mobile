@@ -30,6 +30,7 @@ class _EditEmailInputState extends State<EditEmailInput> {
             TextPosition(offset: emailController.text.length));
       }),
       child: OutlineInputBorderCustom(
+        isEnable: false,
         inputController: emailController,
         inputType: TextInputType.emailAddress,
         labelText: 'Email',

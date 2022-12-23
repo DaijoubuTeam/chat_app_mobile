@@ -8,6 +8,7 @@ import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/fill_profile/view/view.dart';
+import 'package:chat_app_mobile/modules/forgot_password/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
 import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
@@ -49,6 +50,13 @@ class AppRouter {
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
           return const LoginPage();
+        },
+      ),
+      GoRoute(
+        name: ForgotPasswordPage.namePage,
+        path: '/forgot-password',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ForgotPasswordPage();
         },
       ),
       GoRoute(

@@ -1,5 +1,5 @@
-import 'package:chat_app_mobile/modules/search_page.dart/bloc/search_bloc.dart';
-import 'package:chat_app_mobile/modules/search_page.dart/widgets/search_result.dart';
+import 'package:chat_app_mobile/modules/search/bloc/search_bloc.dart';
+import 'package:chat_app_mobile/modules/search/widgets/search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

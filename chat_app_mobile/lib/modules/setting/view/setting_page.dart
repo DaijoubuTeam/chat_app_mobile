@@ -60,10 +60,27 @@ class SettingView extends StatelessWidget {
                     heightImage: 160,
                   ),
                   const SizedBox(
+                    height: 28,
+                  ),
+                  Text(
+                    state.user.fullname ?? '',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
                     height: 18,
                   ),
                   Text(
-                    state.user.email ?? '',
+                    "Email: ${state.user.email}",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  Text(
+                    "Phone: ${state.user.phone}",
                     style: const TextStyle(fontSize: 18),
                   ),
                   const SizedBox(
@@ -79,14 +96,14 @@ class SettingView extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
-                        // SwitchListTile(
-                        //   value: true,
-                        //   onChanged: ((value) => {}),
-                        //   title: const Text(
-                        //     'Stop notification',
-                        //     style: TextStyle(fontSize: 18),
-                        //   ),
-                        // ),
+                        SwitchListTile(
+                          value: true,
+                          onChanged: ((value) => {}),
+                          title: const Text(
+                            'Notifications',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
                         ListTile(
                           title: const Text(
                             'Edit Profile',

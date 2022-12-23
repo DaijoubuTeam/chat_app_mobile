@@ -143,7 +143,9 @@ extension on chat_app_api.ChatRoom {
       latestMessage: latestMessage?.toRepositoryChatMessage(),
       readedLatestMessage:
           latestMessage?.readed?.map((user) => user.toRepositoryUser()),
-      //friendsInChatRoom: members.map((member) => member.ui)
+      friendsInChatRoom: members
+          .where((member) => member.uid != uid)
+          .map((friend) => friend.toRepositoryUser()),
     );
     return chatRoom;
   }

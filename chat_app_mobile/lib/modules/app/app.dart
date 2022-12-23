@@ -1,13 +1,12 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/config/router/app_router.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
-import 'package:chat_app_mobile/modules/search_page.dart/bloc/search_bloc.dart';
+import 'package:chat_app_mobile/modules/search/bloc/search_bloc.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:go_router/go_router.dart';
