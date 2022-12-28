@@ -39,4 +39,24 @@ class FireStoreUploadFileService {
       return null;
     }
   }
+
+  //upload video file
+  Future<String?> uploadVideoFile(File file) async {
+    try {
+      //get name for file by random time.
+      String uniqueImageName = DateTime.now().microsecondsSinceEpoch.toString();
+      // path for file in firestore
+      Reference ref = FirebaseStorage.instance.ref();
+      Reference refDirImage = ref.child("videos");
+      Reference refToUpload = refDirImage.child(uniqueImageName);
+
+      UploadTask? uploadTask = refToUpload.putFile(File(file.path));
+      final snapshot = await uploadTask.whenComplete(() => {});
+      final urlDownloadImage = await snapshot.ref.getDownloadURL();
+      return urlDownloadImage;
+    } catch (err) {
+      log('Failed to pick image: $err');
+      return null;
+    }
+  }
 }

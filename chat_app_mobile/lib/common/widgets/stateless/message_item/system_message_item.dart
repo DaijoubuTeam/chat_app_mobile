@@ -26,7 +26,7 @@ class SystemMessageItem extends IMessageItem {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.grey[400]!)),
       child: Text(
-        '${nameActor ?? ''} ${convertSystemString(content ?? '')}' ?? '',
+        '${nameActor ?? ''} ${convertSystemString(content ?? '')}',
         style: TextStyle(
           color: Colors.black87,
           fontSize: 14.sp,

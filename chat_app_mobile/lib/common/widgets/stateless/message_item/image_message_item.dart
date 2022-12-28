@@ -31,9 +31,8 @@ class ImageMessageItem extends IMessageItem {
       child: GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return const FullScreenImage(
-              imageUrl:
-                  "https://www.tutorialspoint.com/design_pattern/images/factory_pattern_uml_diagram.jpg",
+            return FullScreenImage(
+              imageUrl: content!,
               tag: "generate_a_unique_tag",
             );
           }));
@@ -43,7 +42,7 @@ class ImageMessageItem extends IMessageItem {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Image.network(
-              "https://www.tutorialspoint.com/design_pattern/images/factory_pattern_uml_diagram.jpg",
+              content!,
               fit: BoxFit.fill,
             ),
           ),
