@@ -54,7 +54,7 @@ class FriendProfileView extends StatelessWidget {
                         .read<FriendProfileBloc>()
                         .add(FriendProfileButtonSubmitted());
                   },
-                  text: 'Add friends',
+                  text: 'Add friend',
                 ),
               ),
             ],

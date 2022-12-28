@@ -48,7 +48,7 @@ class NotificationItemGroupRequest extends StatelessWidget {
             subtitle != null ? () => _handleDeniedRequest(context) : null,
         avatar: avatar,
         title: fullname ?? '',
-        subtitle: "invited you to join his group: $subtitle",
+        subtitle: "invited you to join group: $subtitle",
       ),
     );
   }

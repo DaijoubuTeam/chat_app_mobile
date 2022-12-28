@@ -1,5 +1,8 @@
+import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
+import 'package:chat_app_mobile/modules/forgot_password/bloc/forgot_password_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/forgot_password_button.dart';
@@ -12,12 +15,16 @@ class ForgotPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: AppBarCustom(
-        title: "Forgot Password",
-      ),
-      body: Center(
-        child: ForgotPasswordView(),
+    return BlocProvider(
+      create: (_) =>
+          ForgotPasswordBloc(authRepository: context.read<AuthRepository>()),
+      child: const Scaffold(
+        appBar: AppBarCustom(
+          title: "Forgot Password",
+        ),
+        body: Center(
+          child: ForgotPasswordView(),
+        ),
       ),
     );
   }
