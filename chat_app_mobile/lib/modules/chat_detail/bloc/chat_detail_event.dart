@@ -31,3 +31,18 @@ class ChatDetailSpecificSubmitted extends ChatDetailEvent {
 }
 
 class ChatDetailListMessageLoadMore extends ChatDetailEvent {}
+
+class ChatDetailShowOptionChanged extends ChatDetailEvent {
+  const ChatDetailShowOptionChanged({
+    this.isShowEmoji = false,
+    this.isShowSticker = false,
+    this.isShowSend = false,
+  });
+
+  final bool isShowEmoji;
+  final bool isShowSticker;
+  final bool isShowSend;
+
+  @override
+  List<Object?> get props => [isShowEmoji, isShowSticker, isShowSend];
+}

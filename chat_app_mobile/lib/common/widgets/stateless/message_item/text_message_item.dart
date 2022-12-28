@@ -22,17 +22,20 @@ class TextMessageItem extends IMessageItem {
         vertical: 8,
       ),
       decoration: BoxDecoration(
-        color: isMe
-            ? Theme.of(context).primaryColor
-            : Colors.grey[800]?.withOpacity(0.1),
+        color: isMe ? Colors.blue[500] : Colors.white,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Theme.of(context).primaryColor,
+          width: 2,
+        ),
       ),
       child: Text(
         content ?? '',
         style: TextStyle(
           color: isMe ? Colors.white : Colors.black,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
+          fontSize: 15.sp,
+          height: 1.5,
+          //fontWeight: FontWeight.w300,
         ),
       ),
     );

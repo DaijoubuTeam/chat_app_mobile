@@ -8,10 +8,12 @@ class ChatContentInput extends StatelessWidget {
     super.key,
     required this.inputController,
     required this.focus,
+    required this.globalKey,
   });
 
   final TextEditingController inputController;
   final FocusNode focus;
+  final GlobalKey globalKey;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class ChatContentInput extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextField(
+                    key: globalKey,
                     focusNode: focus,
                     controller: inputController,
                     maxLines: 11,

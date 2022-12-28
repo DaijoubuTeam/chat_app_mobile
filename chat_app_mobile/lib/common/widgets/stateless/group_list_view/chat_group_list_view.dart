@@ -69,6 +69,7 @@ class GroupListViewCustom extends StatelessWidget {
       readed: message.readed?.toList(),
       type: message.type,
       time: message.createdAt,
+      nameActor: message.from?.fullname,
     );
   }
 }

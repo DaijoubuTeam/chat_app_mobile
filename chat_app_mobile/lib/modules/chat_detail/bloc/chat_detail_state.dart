@@ -13,6 +13,9 @@ class ChatDetailState extends Equatable {
     this.endMessageIndex = 20,
     this.type = "text",
     this.status = FormzStatus.pure,
+    this.isShowEmoji = false,
+    this.isShowSend = false,
+    this.isShowSticker = false,
   });
 
   final String chatRoomId;
@@ -26,6 +29,10 @@ class ChatDetailState extends Equatable {
   final String? content;
   final String type;
   final FormzStatus status;
+  //show options in chat box
+  final bool isShowEmoji;
+  final bool isShowSticker;
+  final bool isShowSend;
 
   ChatDetailState copyWith({
     chat_room_repository.ChatRoom? chatRoomInfo,
@@ -38,6 +45,9 @@ class ChatDetailState extends Equatable {
     int? endMessageIndex,
     FormzStatus? status,
     String? type,
+    bool? isShowEmoji,
+    bool? isShowSticker,
+    bool? isShowSend,
   }) {
     return ChatDetailState(
       chatRoomId: chatRoomId,
@@ -51,6 +61,9 @@ class ChatDetailState extends Equatable {
       startMessageIndex: startMessageIndex ?? this.startMessageIndex,
       endMessageIndex: endMessageIndex ?? this.endMessageIndex,
       status: status ?? this.status,
+      isShowEmoji: isShowEmoji ?? this.isShowEmoji,
+      isShowSticker: isShowSticker ?? this.isShowSticker,
+      isShowSend: isShowSend ?? this.isShowSend,
     );
   }
 
@@ -66,6 +79,9 @@ class ChatDetailState extends Equatable {
         startMessageIndex,
         endMessageIndex,
         content,
-        type
+        type,
+        isShowEmoji,
+        isShowSticker,
+        isShowSend,
       ];
 }
