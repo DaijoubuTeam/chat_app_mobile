@@ -19,7 +19,7 @@ class CircleAvatarCustom extends StatelessWidget {
     if (urlImage == null || urlImage == "") {
       return const CircleAvatar(
         backgroundImage: AssetImage('assets/images/empty_avatar.png'),
-        maxRadius: 48,
+        maxRadius: 24,
       );
     }
     return CachedNetworkImage(

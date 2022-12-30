@@ -52,7 +52,7 @@ class SettingView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   const SizedBox(
-                    height: 32,
+                    height: 8,
                   ),
                   CircleAvatarCustom(
                     urlImage: state.user.avatar,
@@ -110,9 +110,17 @@ class SettingView extends StatelessWidget {
                             style: TextStyle(fontSize: 18),
                           ),
                           trailing: const Icon(Icons.chevron_right),
-                          onTap: (() {
-                            context.pushNamed(EditProfilePage.namePage);
-                          }),
+                          onTap: (() async => {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditProfilePage()),
+                                ),
+                                context
+                                    .read<SettingBloc>()
+                                    .add(SettingPageInited()),
+                              }),
                         ),
                         ListTile(
                           title: const Text(
