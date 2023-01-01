@@ -7,7 +7,7 @@ import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
 import 'package:chat_app_mobile/utils/select_notification_stream.dart';
 import 'package:equatable/equatable.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:socket_repository/socket_repository.dart' as socket_repo;
 import 'package:webrtc_repository/webrtc_repository.dart';
 

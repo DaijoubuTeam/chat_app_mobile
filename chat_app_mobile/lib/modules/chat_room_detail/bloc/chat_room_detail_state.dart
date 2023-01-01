@@ -53,3 +53,7 @@ class ChatRoomDetailGetDataFailure extends ChatRoomDetailState {
     required super.chatRoomId,
   });
 }
+
+class ChatRoomDetailRemoved extends ChatRoomDetailState {
+  const ChatRoomDetailRemoved({required super.chatRoomId});
+}

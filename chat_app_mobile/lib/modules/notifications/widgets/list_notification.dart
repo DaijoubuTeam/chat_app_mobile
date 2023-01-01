@@ -1,4 +1,3 @@
-import 'package:chat_app_mobile/common/widgets/stateless/list_title/person_list_item.dart';
 import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
 import 'package:chat_app_mobile/modules/notifications/widgets/notification_item_request_friend.dart';
 import 'package:flutter/material.dart';
