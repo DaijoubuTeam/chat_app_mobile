@@ -21,3 +21,15 @@ class NotificationRequestSubmitted extends NotificationEvent {
   @override
   List<Object> get props => [typeAction];
 }
+
+//Group chat
+class NotificationRequestGroupSubmitted extends NotificationEvent {
+  const NotificationRequestGroupSubmitted(
+      {required this.chatRoomId, required this.type});
+
+  final String chatRoomId;
+  final String type;
+
+  @override
+  List<Object> get props => [chatRoomId, type];
+}

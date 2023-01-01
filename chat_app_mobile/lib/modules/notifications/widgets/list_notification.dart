@@ -47,6 +47,7 @@ class ListNotification extends StatelessWidget {
                             'chat-room-invitation' &&
                         listNotification[index].chatRoomName != null) {
                       return NotificationItemGroupRequest(
+                        chatRoomId: listNotification[index].chatRoomId!,
                         fullname: listNotification[index]
                             .notificationSender
                             ?.fullname,
