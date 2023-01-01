@@ -27,6 +27,7 @@ class SocketAPI {
     _socket.on('email-verified', ((data) => socketNewEmailVerified(data)));
     _socket.on('friend-deleted', ((_) => socketNewEventChatRoom()));
     _socket.on('chatroom-deleted', ((_) => socketNewEventChatRoom()));
+    _socket.on('room-left', ((_) => socketNewEventChatRoom()));
   }
 
   StreamController<NewMessage> newMessageController =

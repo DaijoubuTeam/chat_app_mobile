@@ -157,15 +157,20 @@ class GroupDetail extends StatelessWidget {
               ),
             ),
             if (!groupChatRoomInfor.isAdmin)
-              ListTile(
-                iconColor: Colors.red[400],
-                textColor: Colors.red[400],
-                trailing: const Icon(Icons.logout),
-                title: const Text(
-                  'Leave',
-                  style: TextStyle(fontSize: 18),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                onTap: () => handleLeaveGroup(context),
+                child: ListTile(
+                  iconColor: Colors.red[400],
+                  textColor: Colors.red[400],
+                  trailing: const Icon(Icons.logout),
+                  title: const Text(
+                    'Leave',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () => handleLeaveGroup(context),
+                ),
               ),
             if (groupChatRoomInfor.isAdmin)
               Card(
