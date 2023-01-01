@@ -45,7 +45,6 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
   Future<void> _onGroupMemberDeleteSubmitted(
       GroupMemberDeleteSubmitted event, Emitter<GroupMemberState> emit) async {
     try {
-      emit(state.copyWith(deleteStatus: DeleteStatus.loading));
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final res = await _chatRoomRepository.removeMemberChatRoom(
@@ -58,20 +57,20 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
           final List<chat_room_repo.User> newListMemberDisplay = state.members!
               .where((member) => member.uid != event.idMember)
               .toList();
-          emit(state.copyWith(
-              deleteStatus: DeleteStatus.success,
-              members: newListMemberDisplay));
+          FlutterToastCustom.showToast("Delete member success", "success");
+          emit(
+            state.copyWith(
+              members: newListMemberDisplay,
+              displayMembers: newListMemberDisplay,
+            ),
+          );
         } else {
-          emit(state.copyWith(
-            deleteStatus: DeleteStatus.failure,
-          ));
+          FlutterToastCustom.showToast(
+              "Delete member fail! Try again", "error");
         }
       }
     } catch (e) {
       FlutterToastCustom.showToast(e.toString(), "error");
-      emit(state.copyWith(
-        deleteStatus: DeleteStatus.failure,
-      ));
     }
   }
 }
