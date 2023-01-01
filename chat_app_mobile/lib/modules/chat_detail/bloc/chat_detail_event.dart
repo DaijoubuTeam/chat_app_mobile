@@ -9,6 +9,8 @@ abstract class ChatDetailEvent extends Equatable {
 
 class ChatDetailPageInited extends ChatDetailEvent {}
 
+class ChatDetailPageRefreshed extends ChatDetailEvent {}
+
 class ChatDetailContentChanging extends ChatDetailEvent {
   const ChatDetailContentChanging({this.content, required this.type});
 

@@ -49,6 +49,11 @@ class _ChatContentsState extends State<ChatContents> {
       // buildWhen: (previous, current) =>
       //     previous.listMessage.length != current.listMessage.length,
       builder: (context, state) {
+        if (state.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         final listMessage = state.displayListMessage ?? [];
         return Container(
           //color: Colors.white,

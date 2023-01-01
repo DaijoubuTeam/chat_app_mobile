@@ -25,6 +25,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         _authRepository = authRepository,
         super(ChatDetailState(chatRoomId: chatRoomId)) {
     on<ChatDetailPageInited>(_onChatDetailPageInited);
+    on<ChatDetailPageRefreshed>(_onChatDetailPageRefreshed);
     on<ChatDetailContentChanging>(_onChatDetailContentChanging);
     on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
     on<ChatDetailSpecificSubmitted>(_onChatDetailSpecificSubmitted);
@@ -49,6 +50,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
   Future<void> _onChatDetailPageInited(
       ChatDetailPageInited event, Emitter<ChatDetailState> emit) async {
+    emit(state.copyWith(isLoading: true));
     try {
       final bearerToken = await _authRepository.bearToken;
 
@@ -65,16 +67,56 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
           state.startMessageIndex,
           state.endMessageIndex,
         );
-        final listFriendId = chatRoomInfo.members
-            .where(
-                ((personal) => personal.uid != _authRepository.currentUser.uid))
-            .toList();
+
+        // final listFriendId = chatRoomInfo.members
+        //     .where(
+        //         ((personal) => personal.uid != _authRepository.currentUser.uid))
+        //     .toList();
 
         emit(state.copyWith(
           chatRoomInfo: chatRoomInfo,
           listMessage: listMessage,
           displayListMessage: listMessage,
-          friends: listFriendId,
+          //friends: listFriendId,
+          latestMessage: chatRoomInfo.latestMessage,
+          status: FormzStatus.pure,
+        ));
+      }
+      emit(state.copyWith(isLoading: false));
+    } catch (e) {
+      log(e.toString(), name: 'chat detail page inited');
+    }
+  }
+
+  Future<void> _onChatDetailPageRefreshed(
+      ChatDetailPageRefreshed event, Emitter<ChatDetailState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final chatRoomInfo = await _chatRoomRepository.getChatRoomById(
+          bearerToken,
+          state.chatRoomId,
+          _authRepository.currentUser.uid,
+        );
+        final listMessage = await _chatMessageRepository.getMessages(
+          bearerToken,
+          _authRepository.currentUser.uid,
+          chatRoomInfo.latestMessage!.id,
+          state.startMessageIndex,
+          state.endMessageIndex,
+        );
+
+        // final listFriendId = chatRoomInfo.members
+        //     .where(
+        //         ((personal) => personal.uid != _authRepository.currentUser.uid))
+        //     .toList();
+
+        emit(state.copyWith(
+          chatRoomInfo: chatRoomInfo,
+          listMessage: listMessage,
+          displayListMessage: listMessage,
+          //friends: listFriendId,
           latestMessage: chatRoomInfo.latestMessage,
           status: FormzStatus.pure,
         ));
@@ -145,7 +187,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         if (res) {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
 
-          add(ChatDetailPageInited());
+          add(ChatDetailPageRefreshed());
         } else {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }
