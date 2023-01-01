@@ -25,6 +25,8 @@ class SocketAPI {
     _socket.on('new-notification', ((data) => socketNewNotification(data)));
     _socket.on('webrtc', ((data) => socketNewCallWebRTC(data)));
     _socket.on('email-verified', ((data) => socketNewEmailVerified(data)));
+    _socket.on('friend-deleted', ((_) => socketNewEventChatRoom()));
+    _socket.on('chatroom-deleted', ((_) => socketNewEventChatRoom()));
   }
 
   StreamController<NewMessage> newMessageController =
@@ -32,6 +34,8 @@ class SocketAPI {
 
   StreamController<Notification> newNotificationController =
       StreamController<Notification>.broadcast();
+
+  StreamController newEventChatRoomController = StreamController.broadcast();
 
   StreamController<dynamic> webRTCStream =
       StreamController<dynamic>.broadcast();
@@ -90,6 +94,11 @@ class SocketAPI {
   Stream<dynamic> socketNewEmailVerified(dynamic data) {
     verifiedEmailStream.sink.add(data);
     return verifiedEmailStream.stream;
+  }
+
+  Stream socketNewEventChatRoom() {
+    newEventChatRoomController.sink.add("");
+    return newEventChatRoomController.stream;
   }
 
   void dispose() {

@@ -29,6 +29,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       log("data");
       add(ChatPageRefreshed());
     });
+    _newEventChatRoomStreamSubscription = socket_repository
+        .SocketAPI.socketApi.newEventChatRoomController.stream
+        .listen((_) {
+      add(ChatPageRefreshed());
+    });
   }
 
   final auth_repository.AuthRepository _authRepository;
@@ -36,6 +41,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   late final StreamSubscription<socket_repository.NewMessage>
       _newMessageStreamSubscription;
+  late final StreamSubscription _newEventChatRoomStreamSubscription;
 
   Future<void> _onChatPageInited(
       ChatPageInited event, Emitter<ChatState> emit) async {
@@ -81,6 +87,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   Future<void> close() {
     _newMessageStreamSubscription.cancel();
+    _newEventChatRoomStreamSubscription.cancel();
     return super.close();
   }
 }
