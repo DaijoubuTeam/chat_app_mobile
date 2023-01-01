@@ -6,7 +6,6 @@ import 'package:chat_app_mobile/modules/chat_detail/widgets/button_send.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_content_input.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/list_option_button.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/stickers_option.dart';
-import 'package:chat_app_mobile/utils/hide_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

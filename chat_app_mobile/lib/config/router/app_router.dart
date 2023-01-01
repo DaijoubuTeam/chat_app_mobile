@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:chat_app_mobile/config/router/go_router_refresh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
@@ -21,7 +20,6 @@ import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:chat_app_mobile/modules/splash_screen/view/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:user_repository/user_repository.dart' as user_repository;
 import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
 

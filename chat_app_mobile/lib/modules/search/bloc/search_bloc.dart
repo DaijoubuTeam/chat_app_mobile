@@ -14,7 +14,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     auth_repo.AuthRepository authRepository,
   )   : _searchRepository = searchRepository,
         _authRepository = authRepository,
-        super(SearchState()) {
+        super(const SearchState()) {
     on<SearchInputChanging>(_onSearchInputChanging);
   }
 

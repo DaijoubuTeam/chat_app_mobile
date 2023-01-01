@@ -54,7 +54,6 @@ class VerifyEmailBloc extends Bloc<VerifyEmailEvent, VerifyEmailState> {
     _newVerifiedEmailStream = socket_repo
         .SocketAPI.socketApi.verifiedEmailStream.stream
         .listen((newVerifyEmail) {
-      print("here");
       add(VerifyEmailChecked());
     });
   }

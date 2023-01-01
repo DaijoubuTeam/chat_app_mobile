@@ -1,7 +1,6 @@
 import 'package:chat_app_mobile/modules/group_create/bloc/group_create_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:friend_repository/friend_repository.dart' as friend_repo;
 
 class SearchListFriend extends StatefulWidget {
   const SearchListFriend({Key? key}) : super(key: key);

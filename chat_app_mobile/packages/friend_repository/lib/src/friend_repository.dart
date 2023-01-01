@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app_api/chat_app_api.dart' as chat_app_api;
 import './models/models.dart' as friend_repository;
 
@@ -8,7 +10,7 @@ class FriendRepository {
 
   Future<List<friend_repository.User>> getListUserFriends(
       String bearerToken) async {
-    print(bearerToken);
+    log(bearerToken);
     final List<chat_app_api.User> friendsApi =
         await _chatAppApi.getListUserFriends(bearerToken);
     final friendRepo =

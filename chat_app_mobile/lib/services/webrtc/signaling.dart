@@ -151,7 +151,6 @@ class Signaling {
 
     peerConnection?.onTrack = (RTCTrackEvent event) {
       createLocalMediaStream('remote-renderer').then((newRemoteStream) {
-        print("newRemoteStream");
         event.streams[0].getTracks().forEach((track) {
           newRemoteStream.addTrack(track);
         });

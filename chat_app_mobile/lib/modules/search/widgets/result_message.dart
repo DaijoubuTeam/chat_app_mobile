@@ -2,7 +2,6 @@ import 'package:chat_app_mobile/modules/chat/widgets/chat_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/widgets/stateless/list_title/person_list_item.dart';
 import '../bloc/search_bloc.dart';
 
 class ResultMessage extends StatelessWidget {

@@ -12,7 +12,6 @@ class SearchState extends Equatable {
     List<search_repo.ChatRoom>? chatrooms,
     List<search_repo.Message>? messages,
   }) {
-    print(users);
     return SearchState(
       users: users ?? this.users,
       chatrooms: chatrooms ?? this.chatrooms,

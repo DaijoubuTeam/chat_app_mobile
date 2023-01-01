@@ -1,5 +1,3 @@
-import 'package:message_repository/message_repository.dart'
-    as message_repository;
 import '../models/models.dart' as chat_room_models;
 
 class ChatRoom {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'add_friend_button.dart';
 import 'friend_information.dart';
 
 class CardInformation extends StatelessWidget {
