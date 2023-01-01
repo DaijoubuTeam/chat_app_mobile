@@ -15,16 +15,6 @@ class ListNewMember extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // const Text(
-                //   "Member group",
-                //   style: TextStyle(
-                //     fontWeight: FontWeight.w600,
-                //     fontSize: 20,
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 16,
-                // ),
                 Flexible(
                   fit: FlexFit.loose,
                   child: ListView.builder(

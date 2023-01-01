@@ -8,8 +8,12 @@ class UserRepository {
   final chat_app_api.ChatAppApi _chatAppApi;
 
   Future<user_model.User> getSelfProfile(String bearerToken) async {
-    log(bearerToken);
     final apiUser = await _chatAppApi.getSelfProfile(bearerToken);
+    return apiUser.toRepositoryUser();
+  }
+
+  Future<user_model.User> getUserById(String bearerToken, String id) async {
+    final apiUser = await _chatAppApi.getUserById(bearerToken, id);
     return apiUser.toRepositoryUser();
   }
 
@@ -61,6 +65,8 @@ extension on chat_app_api.User {
       friends: friends,
       friendRequests: friendRequests,
       bans: bans,
+      isFriend: isFriend,
+      isSelf: isSelf,
     );
     return user;
   }

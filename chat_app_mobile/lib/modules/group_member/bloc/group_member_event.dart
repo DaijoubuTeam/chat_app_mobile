@@ -9,6 +9,15 @@ class GroupMemberInited extends GroupMemberEvent {
   List<Object?> get props => [];
 }
 
+class GroupMemberInputSearchChanged extends GroupMemberEvent {
+  const GroupMemberInputSearchChanged({this.value});
+
+  final String? value;
+
+  @override
+  List<Object?> get props => [value];
+}
+
 class GroupMemberDeleteSubmitted extends GroupMemberEvent {
   const GroupMemberDeleteSubmitted({required this.idMember});
 

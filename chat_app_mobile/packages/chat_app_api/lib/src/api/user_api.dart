@@ -14,7 +14,7 @@ class UserApi {
 
   String get basePath => '$_serverUrl/user';
 
-  Dio _dio;
+  final Dio _dio;
 
   Future<User> getSelfProfile(String bearerToken) async {
     try {
@@ -26,6 +26,20 @@ class UserApi {
       return user;
     } catch (e) {
       throw const HttpException("Can't not get profile");
+    }
+  }
+
+  Future<User> getUserById(String bearerToken, String userId) async {
+    try {
+      final url = '$basePath/$userId';
+      final response = await _dio.get(url,
+          options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+      final userJson = response.data as Map<String, dynamic>;
+      final user = User.fromJson(userJson);
+      return user;
+    } catch (e) {
+      throw const HttpException(
+          "Something wrong! Can't not get profile. Try again");
     }
   }
 
@@ -60,7 +74,7 @@ class UserApi {
       final userJson = response.data["user"] as Map<String, dynamic>;
       final resUser = User.fromJson(userJson);
       return resUser;
-    } on DioError catch (e) {
+    } on DioError catch (_) {
       throw const HttpException("Update failed");
     } catch (e) {
       throw const HttpException("Update failed");
@@ -73,7 +87,7 @@ class UserApi {
       await _dio.get(url,
           options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
     } catch (e) {
-      throw HttpException("Sent email failed");
+      throw const HttpException("Sent email failed");
     }
   }
 
@@ -81,10 +95,14 @@ class UserApi {
       String inputSearch, String bearerToken) async {
     try {
       final url = '$basePath/search?search=$inputSearch';
+
       final response = await _dio.get(url,
           options: Options(headers: {"authorization": 'Bearer $bearerToken'}));
+
       final userJson = response.data as Map<String, dynamic>;
+
       final user = User.fromJson(userJson);
+
       return user;
     } on DioError catch (e) {
       log(e.response.toString(), name: 'search user by email or phone error');

@@ -12,37 +12,66 @@ part 'friend_profile_state.dart';
 
 class FriendProfileBloc extends Bloc<FriendProfileEvent, FriendProfileState> {
   FriendProfileBloc({
-    required user_repository.User friendSearchInfor,
+    required String friendId,
     required auth_repository.AuthRepository authRepository,
     required friend_repository.FriendRepository friendRepository,
-  })  : _friendInfor = friendSearchInfor,
-        _authRepository = authRepository,
+    required user_repository.UserRepository userRepository,
+  })  : _authRepository = authRepository,
         _friendRepository = friendRepository,
-        super(FriendProfileInitial(friendInfor: friendSearchInfor)) {
+        _userRepository = userRepository,
+        super(FriendProfileInitial(friendId: friendId)) {
+    on<FriendProfilePageInited>(_onFriendProfilePageInited);
     on<FriendProfileButtonSubmitted>(_friendProfileButtonSubmitted);
+
+    add(FriendProfilePageInited());
   }
 
-  final user_repository.User _friendInfor;
   final auth_repository.AuthRepository _authRepository;
   final friend_repository.FriendRepository _friendRepository;
+  final user_repository.UserRepository _userRepository;
+
+  Future<void> _onFriendProfilePageInited(
+      FriendProfilePageInited event, Emitter<FriendProfileState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null && state is FriendProfileInitial) {
+        final friendId = (state as FriendProfileInitial).friendId;
+
+        final user_repository.User friendInfor =
+            await _userRepository.getUserById(bearerToken, friendId);
+
+        emit(FriendProfileGetInforSuccess(friendInfor: friendInfor));
+      }
+    } catch (err) {
+      emit(FriendProfileGetInforFailure());
+
+      FlutterToastCustom.showToast(err.toString(), "error");
+    }
+  }
 
   Future<void> _friendProfileButtonSubmitted(
     FriendProfileButtonSubmitted event,
     Emitter<FriendProfileState> emit,
   ) async {
-    final bearerToken = await _authRepository.bearToken;
-    if (bearerToken != null) {
-      final bool res = await _friendRepository.sendFriendRequest(
-          bearerToken, _friendInfor.uid);
+    try {
+      final bearerToken = await _authRepository.bearToken;
 
-      if (res) {
-        FlutterToastCustom.showToast("Send request success", "success");
-      } else {
-        FlutterToastCustom.showToast("Send request fail", "error");
+      if (bearerToken != null && state is FriendProfileGetInforSuccess) {
+        final friendId =
+            (state as FriendProfileGetInforSuccess).friendInfor.uid;
+
+        final bool res =
+            await _friendRepository.sendFriendRequest(bearerToken, friendId);
+
+        if (res) {
+          FlutterToastCustom.showToast("Send request success", "success");
+        } else {
+          FlutterToastCustom.showToast("Send request fail", "error");
+        }
       }
-    }
-    try {} catch (err) {
-      throw Exception('Exceptuon when handle lick add friends');
+    } catch (err) {
+      FlutterToastCustom.showToast("Send request fail", "error");
     }
   }
 }

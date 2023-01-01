@@ -20,6 +20,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       friendRequests:
           (json['friendRequests'] as List<dynamic>?)?.map((e) => e as String),
       bans: (json['bans'] as List<dynamic>?)?.map((e) => e as String),
+      personalChatRoomId: json['personalChatRoomId'] as String?,
+      isFriend: json['isFriend'] as bool?,
+      isSelf: json['isSelf'] as bool?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -35,4 +38,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'friends': instance.friends.toList(),
       'friendRequests': instance.friendRequests.toList(),
       'bans': instance.bans.toList(),
+      'personalChatRoomId': instance.personalChatRoomId,
+      'isFriend': instance.isFriend,
+      'isSelf': instance.isSelf,
     };

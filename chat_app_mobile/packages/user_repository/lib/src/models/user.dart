@@ -1,20 +1,23 @@
 import 'package:model_repository/model_repository.dart';
 
 class User extends IUser {
-  User(
-      {required super.uid,
-      super.username,
-      super.fullname,
-      super.avatar,
-      super.phone,
-      super.about,
-      super.gender,
-      super.email,
-      super.isEmailVerified,
-      super.isProfileFilled,
-      super.friends,
-      super.friendRequests,
-      super.bans});
+  User({
+    required super.uid,
+    super.username,
+    super.fullname,
+    super.avatar,
+    super.phone,
+    super.about,
+    super.gender,
+    super.email,
+    super.isEmailVerified,
+    super.isProfileFilled,
+    super.friends,
+    super.friendRequests,
+    super.bans,
+    super.isFriend,
+    super.isSelf,
+  });
 
   User copyWith({
     String? uid,
@@ -30,6 +33,8 @@ class User extends IUser {
     List<String>? friends,
     List<String>? friendRequests,
     List<String>? bans,
+    bool? isFriend,
+    bool? isSelf,
   }) =>
       User(
         uid: uid ?? this.uid,
@@ -45,6 +50,8 @@ class User extends IUser {
         friends: friends ?? this.friends,
         friendRequests: friendRequests ?? this.friendRequests,
         bans: bans ?? this.bans,
+        isFriend: isFriend ?? this.isFriend,
+        isSelf: isSelf ?? this.isSelf,
       );
 
   static final empty = User(uid: '');

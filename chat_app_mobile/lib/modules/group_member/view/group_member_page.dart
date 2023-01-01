@@ -8,6 +8,8 @@ import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widgets/input_search_member.dart';
+
 class GroupMemberPage extends StatelessWidget {
   const GroupMemberPage({
     Key? key,
@@ -42,26 +44,14 @@ class GroupMemberView extends StatelessWidget {
           title: "Group member",
         ),
         body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                //controller: _inputController,
-                decoration: InputDecoration(
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: "Search your friends",
-                  prefixIcon: const Icon(Icons.search),
-                ),
-              ),
-            ),
-            const SizedBox(
+          children: const <Widget>[
+            InputSearchMember(),
+            SizedBox(
               height: 8,
             ),
-            const Expanded(child: GroupMemberList()),
+            Expanded(
+              child: GroupMemberList(),
+            ),
           ],
         ),
         floatingActionButton:

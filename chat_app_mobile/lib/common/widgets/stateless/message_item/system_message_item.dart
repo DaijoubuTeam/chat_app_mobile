@@ -50,6 +50,10 @@ class SystemMessageItem extends IMessageItem {
         {
           return "and you became friends";
         }
+      case "removedFromRoom":
+        {
+          return "were removed";
+        }
       default:
         {
           return content;

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:user_repository/user_repository.dart' as user_repository;
 import 'package:friend_repository/friend_repository.dart' as friend_repository;
 import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
@@ -40,6 +40,7 @@ class GroupAddNewMemberBloc
       GroupAddNewMemberInputInitialized event,
       Emitter<GroupAddNewMemberState> emit) async {
     try {
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {
         final listFriend =
@@ -102,8 +103,6 @@ class GroupAddNewMemberBloc
       GroupAddNewMemberButtonSubmitted event,
       Emitter<GroupAddNewMemberState> emit) async {
     try {
-      emit(state.copyWith(actionStatus: ActionStatus.loading));
-
       final List<String>? listIdMembers;
       if (state.newMemberGroup != null) {
         listIdMembers =
@@ -117,15 +116,13 @@ class GroupAddNewMemberBloc
               await _chatRoomRepository.inviteMemberChatRoom(
                   bearerToken, state.chatRoomId, idMember);
             }
-            emit(state.copyWith(actionStatus: ActionStatus.success));
+            FlutterToastCustom.showToast("Invited success", "success");
             add(GroupAddNewMemberInputInitialized());
           }
         }
       }
-
-      emit(state.copyWith(actionStatus: ActionStatus.failure));
-    } catch (_) {
-      emit(state.copyWith(actionStatus: ActionStatus.failure));
+    } catch (e) {
+      FlutterToastCustom.showToast(e.toString(), "error");
     }
   }
 }

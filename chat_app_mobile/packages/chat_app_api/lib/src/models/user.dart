@@ -17,6 +17,8 @@ class User {
   final Iterable<String> friendRequests;
   final Iterable<String> bans;
   final String? personalChatRoomId;
+  final bool? isFriend;
+  final bool? isSelf;
 
   User({
     required this.uid,
@@ -32,6 +34,8 @@ class User {
     Iterable<String>? friendRequests,
     Iterable<String>? bans,
     this.personalChatRoomId,
+    this.isFriend,
+    this.isSelf,
   })  : friends = friends ?? List.unmodifiable([]),
         friendRequests = friendRequests ?? List.unmodifiable([]),
         bans = bans ?? List.unmodifiable([]);
@@ -50,6 +54,8 @@ class User {
     List<String>? friendRequests,
     List<String>? bans,
     String? personalChatRoomId,
+    bool? isFriend,
+    bool? isSelf,
   }) =>
       User(
         uid: uid ?? this.uid,
@@ -65,6 +71,8 @@ class User {
         friendRequests: friendRequests ?? this.friendRequests,
         bans: bans ?? this.bans,
         personalChatRoomId: personalChatRoomId ?? this.personalChatRoomId,
+        isFriend: isFriend ?? this.isFriend,
+        isSelf: isSelf ?? this.isSelf,
       );
 
   static final empty = User(uid: '');

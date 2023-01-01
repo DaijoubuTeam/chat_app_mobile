@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
@@ -19,15 +20,27 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
         _chatRoomRepository = chatRoomRepository,
         super(GroupMemberState(
           members: chatRoom?.members.toList(),
+          displayMembers: chatRoom?.members.toList(),
           groupName: chatRoom?.chatRoomName,
           chatRoomId: chatRoom!.chatRoomId,
           isAdmin: chatRoom.isAdmin,
         )) {
     on<GroupMemberDeleteSubmitted>(_onGroupMemberDeleteSubmitted);
+    on<GroupMemberInputSearchChanged>(_onGroupMemberInputSearchChanged);
   }
 
   final auth_repo.AuthRepository _authRepository;
   final chat_room_repo.ChatRoomRepository _chatRoomRepository;
+
+  void _onGroupMemberInputSearchChanged(
+      GroupMemberInputSearchChanged event, Emitter<GroupMemberState> emit) {
+    final listMemberDisplay = state.members
+        ?.where((friend) =>
+            (friend.fullname!.toLowerCase().contains(event.value.toString()) ||
+                friend.email!.toLowerCase().contains(event.value.toString())))
+        .toList();
+    emit(state.copyWith(displayMembers: listMemberDisplay));
+  }
 
   Future<void> _onGroupMemberDeleteSubmitted(
       GroupMemberDeleteSubmitted event, Emitter<GroupMemberState> emit) async {
@@ -54,7 +67,8 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
           ));
         }
       }
-    } catch (_) {
+    } catch (e) {
+      FlutterToastCustom.showToast(e.toString(), "error");
       emit(state.copyWith(
         deleteStatus: DeleteStatus.failure,
       ));

@@ -2,6 +2,9 @@ import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_n
 import 'package:chat_app_mobile/modules/friend_profile/bloc/friend_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'friend_infor.dart';
 
 class FriendInformation extends StatelessWidget {
   const FriendInformation({
@@ -11,33 +14,32 @@ class FriendInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FriendProfileBloc, FriendProfileState>(
-      buildWhen: (previous, current) =>
-          previous != current && current.runtimeType == FriendProfileInitial,
       builder: (context, state) {
-        return Column(
-          children: <Widget>[
-            CircleAvatarCustom(
-                urlImage: (state as FriendProfileInitial).friendInfor.avatar),
-            const SizedBox(
-              height: 32,
-            ),
-            Text(
-              state.friendInfor.fullname ?? '',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            Text(
-              state.friendInfor.about ?? '',
-              style: const TextStyle(
-                fontSize: 16,
+        if (state is FriendProfileGetInforSuccess) {
+          return Column(
+            children: <Widget>[
+              CircleAvatarCustom(
+                urlImage: state.friendInfor.avatar,
               ),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-          ],
+              const SizedBox(
+                height: 32,
+              ),
+              Text(
+                state.friendInfor.fullname ?? '',
+                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const FriendInfor(),
+              const SizedBox(
+                height: 32,
+              ),
+            ],
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
         );
       },
     );

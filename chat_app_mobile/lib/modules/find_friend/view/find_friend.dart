@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:chat_app_mobile/modules/find_friend/bloc/find_friend_bloc.dart';
 import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_button.dart';
 import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_input.dart';
@@ -33,9 +34,7 @@ class FindFriendView extends StatelessWidget {
       listenWhen: (previous, current) => previous != current,
       listener: (context, state) {
         if (state.runtimeType == FindFriendFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User not found')),
-          );
+          FlutterToastCustom.showToast("User not found!", "error");
           Navigator.pop(context);
         } else if (state.runtimeType == FindFriendSuccess) {
           context.read<FindFriendBloc>().add(FindFriendInputInitialized());
@@ -47,7 +46,7 @@ class FindFriendView extends StatelessWidget {
 
           context.pushNamed(
             FriendProfilePage.namePage,
-            extra: friendInfor,
+            extra: friendInfor.uid,
           );
         }
       },

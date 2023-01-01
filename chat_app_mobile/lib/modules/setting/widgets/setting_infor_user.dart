@@ -27,8 +27,8 @@ class SettingInforUser extends StatelessWidget {
               ),
               Text(
                 state.user.fullname ?? '',
-                style: const TextStyle(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -41,6 +41,7 @@ class SettingInforUser extends StatelessWidget {
                   children: const <Widget>[
                     Icon(
                       Icons.mail_outline,
+                      color: Colors.black,
                     ),
                   ],
                 ),
@@ -59,6 +60,7 @@ class SettingInforUser extends StatelessWidget {
                   children: const <Widget>[
                     Icon(
                       Icons.phone_outlined,
+                      color: Colors.black,
                     ),
                   ],
                 ),

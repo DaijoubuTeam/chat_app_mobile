@@ -177,7 +177,7 @@ class AppRouter {
         path: '/friend-profile',
         builder: (BuildContext context, GoRouterState state) {
           return FriendProfilePage(
-            friendInfor: state.extra as user_repository.User,
+            friendId: state.extra as String,
           );
         },
       ),
