@@ -49,7 +49,11 @@ class _EditAvatarState extends State<EditAvatar> {
       builder: (context, state) {
         return Stack(
           children: [
-            CircleAvatarCustom(urlImage: urlDownload),
+            urlDownload != null
+                ? CircleAvatarCustom(urlImage: urlDownload)
+                : CircleAvatarCustom(
+                    urlImage: state.avatar,
+                  ),
             Positioned(
               bottom: 1,
               right: 1,

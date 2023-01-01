@@ -137,13 +137,17 @@ extension on chat_app_api.ChatRoom {
       chatRoomName: chatRoomName,
       chatRoomAvatar: chatRoomAvatar,
       type: type,
-      members: members.map((member) => member.toRepositoryUser()),
+      members: members.map(
+        (member) => member.toRepositoryUser(uidAdmin: (admin.toList()).first),
+      ),
       admin: admin,
       isAdmin: uid != null ? admin.contains(uid) : false,
       latestMessage: latestMessage?.toRepositoryChatMessage(),
       readedLatestMessage:
           latestMessage?.readed?.map((user) => user.toRepositoryUser()),
-      //friendsInChatRoom: members.map((member) => member.ui)
+      friendsInChatRoom: members
+          .where((member) => member.uid != uid)
+          .map((friend) => friend.toRepositoryUser()),
     );
     return chatRoom;
   }
@@ -175,7 +179,7 @@ extension on chat_app_api.Message {
 }
 
 extension on chat_app_api.User {
-  chatroom_model.User toRepositoryUser() {
+  chatroom_model.User toRepositoryUser({String? uidAdmin}) {
     if (this == chat_app_api.User.empty) {
       return chatroom_model.User.empty;
     }
@@ -189,6 +193,7 @@ extension on chat_app_api.User {
       email: email,
       isEmailVerified: isEmailVerified,
       isProfileFilled: isProfileFilled,
+      isAdmin: uid == uidAdmin,
     );
     return user;
   }

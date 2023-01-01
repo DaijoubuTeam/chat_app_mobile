@@ -2,7 +2,7 @@ import 'package:chat_app_mobile/modules/notifications/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../modules/search_page.dart/view/search_button.dart';
+import '../../../../modules/search/view/search_button.dart';
 
 class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBarCustom({

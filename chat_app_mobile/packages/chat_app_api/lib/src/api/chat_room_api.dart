@@ -160,8 +160,15 @@ class ChatRoomApi {
       }
       return false;
     } catch (e) {
-      log(e.toString(), name: 'add member to chat room');
-      return false;
+      if (e is DioError) {
+        if (e.response!.statusCode == 404) {
+          throw Exception("Chat room or member not found");
+        }
+        if (e.response!.statusCode == 409) {
+          throw Exception("Your friend has been invited");
+        }
+      }
+      throw Exception(e);
     }
   }
 
@@ -183,8 +190,15 @@ class ChatRoomApi {
       }
       return false;
     } catch (e) {
-      log(e.toString(), name: 'add member to chat room');
-      return false;
+      if (e is DioError) {
+        if (e.response!.statusCode == 404) {
+          throw Exception("Chat room or member not found");
+        }
+        if (e.response!.statusCode == 409) {
+          throw Exception("Cannot remove admin");
+        }
+      }
+      throw Exception(e);
     }
   }
 

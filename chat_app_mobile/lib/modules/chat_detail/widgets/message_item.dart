@@ -8,14 +8,16 @@ import 'package:message_repository/message_repository.dart'
     as message_repository;
 
 class MessageItem extends StatefulWidget {
-  const MessageItem(
-      {super.key,
-      required this.isMe,
-      required this.content,
-      required this.friendAvatar,
-      this.time,
-      this.type = "text",
-      this.readed});
+  const MessageItem({
+    super.key,
+    required this.isMe,
+    required this.content,
+    required this.friendAvatar,
+    this.time,
+    this.type = "text",
+    this.readed,
+    this.nameActor,
+  });
 
   final bool isMe;
   final String content;
@@ -23,6 +25,7 @@ class MessageItem extends StatefulWidget {
   final String? type;
   final List<message_repository.User>? readed;
   final DateTime? time;
+  final String? nameActor;
 
   @override
   State<MessageItem> createState() => _MessageItemState();
@@ -38,10 +41,13 @@ class _MessageItemState extends State<MessageItem> {
         return Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Row(
-            mainAxisAlignment:
-                widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            mainAxisAlignment: widget.type == "system"
+                ? MainAxisAlignment.center
+                : widget.isMe
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
             children: [
-              if (!widget.isMe) ...[
+              if (!widget.isMe || widget.type == "system") ...[
                 CircleAvatar(
                   radius: 12,
                   backgroundImage: (widget.friendAvatar != null)
@@ -66,6 +72,7 @@ class _MessageItemState extends State<MessageItem> {
                       widget.type,
                       widget.isMe,
                       widget.content,
+                      widget.nameActor,
                     ),
                   ),
                   SizedBox(

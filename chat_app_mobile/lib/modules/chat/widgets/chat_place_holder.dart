@@ -19,30 +19,30 @@ class ChatPlaceHolder extends StatelessWidget {
           const SizedBox(
             height: 64,
           ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {},
-              // border radius
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                ),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Text(
-                  'Find more friend',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   width: double.infinity,
+          //   child: ElevatedButton(
+          //     onPressed: () {},
+          //     // border radius
+          //     style: ButtonStyle(
+          //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          //         RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(18.0),
+          //         ),
+          //       ),
+          //     ),
+          //     child: const Padding(
+          //       padding: EdgeInsets.all(12.0),
+          //       child: Text(
+          //         'Find more friend',
+          //         style: TextStyle(
+          //           fontSize: 20,
+          //           fontWeight: FontWeight.w400,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

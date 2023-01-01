@@ -8,6 +8,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart';
 
+import '../widgets/countdown_button_send.dart';
+
 class VerifyEmailPage extends StatefulWidget {
   static String namePage = 'VerifyEmailPage';
   const VerifyEmailPage({super.key});
@@ -71,75 +73,46 @@ class VerifyEmailView extends StatelessWidget {
         }
       }),
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircleAvatar(
-                      radius: 60,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(60),
-                        child: Image.asset(
-                          'assets/images/Logo.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    const Text(
-                      'Coffe Solution Chat',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    const Text(
-                      'We have sent a verified email to you',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 32, vertical: 150),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                    onPressed: () => {context.pop()},
-                    // border radius
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(60),
+                          child: Image.asset(
+                            'assets/images/Logo.png',
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        side: MaterialStateProperty.all(BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 1.0))),
-                    child: const Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: Text(
-                        'I don\'t get it',
-                        style: TextStyle(fontSize: 20),
                       ),
-                    )),
-              ),
-            )
-          ],
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      const Text(
+                        'Verify your email',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      const CountdownButtonSend(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

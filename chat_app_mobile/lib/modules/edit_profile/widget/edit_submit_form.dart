@@ -14,7 +14,7 @@ class EditSubmitButton extends StatelessWidget {
         onPressed: () => {
           context.read<EditProfileBloc>().add(EditProfileFormSubmited()),
         },
-        text: 'Let\'s start',
+        text: 'Done',
       ),
     );
   }

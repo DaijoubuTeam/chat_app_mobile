@@ -71,6 +71,15 @@ class ChatAppApi {
     }
   }
 
+  Future<User> getUserById(String bearerToken, String id) async {
+    try {
+      final user = await _userApi.getUserById(bearerToken, id);
+      return user;
+    } catch (e) {
+      return User.empty;
+    }
+  }
+
   Future<bool> requestVerifyEmail(String bearerToken) async {
     return await _userApi.requestVerifyEmail(bearerToken);
   }

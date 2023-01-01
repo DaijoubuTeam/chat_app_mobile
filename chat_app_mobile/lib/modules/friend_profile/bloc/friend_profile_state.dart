@@ -8,10 +8,23 @@ abstract class FriendProfileState extends Equatable {
 }
 
 class FriendProfileInitial extends FriendProfileState {
-  const FriendProfileInitial({required this.friendInfor});
+  const FriendProfileInitial({required this.friendId});
+
+  final String friendId;
+
+  @override
+  List<Object?> get props => [friendId];
+}
+
+class FriendProfileGetInforSuccess extends FriendProfileState {
+  const FriendProfileGetInforSuccess({required this.friendInfor});
 
   final user_repository.User friendInfor;
 
   @override
   List<Object?> get props => [friendInfor];
 }
+
+class FriendProfileGetInforInLoad extends FriendProfileState {}
+
+class FriendProfileGetInforFailure extends FriendProfileState {}

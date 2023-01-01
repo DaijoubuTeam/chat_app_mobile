@@ -1,5 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/divider_with_text_center.dart';
+import 'package:chat_app_mobile/modules/forgot_password/view/view.dart';
 import 'package:chat_app_mobile/modules/login/bloc/login_bloc.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_email_input.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_list_button.dart';
@@ -7,7 +8,9 @@ import 'package:chat_app_mobile/modules/login/widget/login_password_input.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_with_google_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -71,11 +74,11 @@ class LoginView extends StatelessWidget {
                 const SizedBox(
                   height: 32,
                 ),
-                const Text(
-                  'Sign-in to your account',
+                Text(
+                  'Sign in to your account',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                   ),
                 ),
                 const SizedBox(
@@ -91,9 +94,21 @@ class LoginView extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Widget>[
-                    TextButton(onPressed: null, child: Text('Forgot Password'))
+                  children: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          context.pushNamed(ForgotPasswordPage.namePage);
+                        },
+                        child: Text(
+                          'Forgot Password',
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              color: Theme.of(context).primaryColor),
+                        ))
                   ],
+                ),
+                const SizedBox(
+                  height: 8,
                 ),
                 const LoginListButton(),
                 const SizedBox(

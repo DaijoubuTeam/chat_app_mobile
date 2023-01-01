@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:chat_app_mobile/modules/fill_profile/bloc/fill_profile_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firestore_upload_file/firestore_upload_file.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,11 @@ class _FillAvatarState extends State<FillAvatar> {
       builder: (context, state) {
         return Stack(
           children: [
-            CircleAvatarCustom(urlImage: urlDownload),
+            urlDownload != null
+                ? CircleAvatarCustom(urlImage: urlDownload)
+                : CircleAvatarCustom(
+                    urlImage: state.avatar,
+                  ),
             Positioned(
               bottom: 1,
               right: 1,

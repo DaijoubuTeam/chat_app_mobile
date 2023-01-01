@@ -5,16 +5,18 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title,
     this.bottomWidget,
+    this.appBarColor,
   });
 
   final String? title;
   final PreferredSizeWidget? bottomWidget;
+  final Color? appBarColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title ?? ''),
-      backgroundColor: Colors.white,
+      backgroundColor: appBarColor ?? Colors.white,
       foregroundColor: Colors.black,
       elevation: 0,
       bottom: bottomWidget,

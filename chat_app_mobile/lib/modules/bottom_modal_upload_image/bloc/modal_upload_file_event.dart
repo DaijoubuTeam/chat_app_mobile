@@ -7,6 +7,13 @@ abstract class ModalUploadFileEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class ModalUploadFileListMediaChanging extends ModalUploadFileEvent {}
+class ModalUploadFileLoaded extends ModalUploadFileEvent {}
 
-class ModalUploadFileSubmitted extends ModalUploadFileEvent {}
+class ModalUploadFileSubmitted extends ModalUploadFileEvent {
+  const ModalUploadFileSubmitted({required this.url, required this.type});
+  final List<String> url;
+  final String type;
+
+  @override
+  List<Object?> get props => [url, type];
+}

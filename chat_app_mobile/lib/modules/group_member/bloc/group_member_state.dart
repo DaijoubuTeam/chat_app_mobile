@@ -10,9 +10,11 @@ class GroupMemberState extends Equatable {
     this.status = FormzStatus.pure,
     this.deleteStatus = DeleteStatus.initial,
     this.isAdmin = false,
+    this.displayMembers,
   });
 
   final List<chat_room_repo.User>? members;
+  final List<chat_room_repo.User>? displayMembers;
   final String? groupName;
   final String chatRoomId;
   final bool isAdmin;
@@ -21,6 +23,7 @@ class GroupMemberState extends Equatable {
 
   GroupMemberState copyWith({
     List<chat_room_repo.User>? members,
+    List<chat_room_repo.User>? displayMembers,
     String? groupName,
     String? chatRoomId,
     FormzStatus? status,
@@ -29,6 +32,7 @@ class GroupMemberState extends Equatable {
   }) {
     return GroupMemberState(
       members: members ?? this.members,
+      displayMembers: displayMembers ?? this.displayMembers,
       groupName: groupName ?? this.groupName,
       chatRoomId: chatRoomId ?? this.chatRoomId,
       status: status ?? this.status,
@@ -38,6 +42,13 @@ class GroupMemberState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [members, groupName, chatRoomId, status, deleteStatus, isAdmin];
+  List<Object?> get props => [
+        members,
+        groupName,
+        chatRoomId,
+        status,
+        deleteStatus,
+        isAdmin,
+        displayMembers,
+      ];
 }

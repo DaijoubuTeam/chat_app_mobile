@@ -1,17 +1,18 @@
-import 'package:chat_app_mobile/common/widgets/stateless/list_title/person_list_item.dart';
-import 'package:chat_app_mobile/modules/search_page.dart/bloc/search_bloc.dart';
+import 'package:chat_app_mobile/modules/chat/widgets/chat_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ResultChatRoom extends StatelessWidget {
-  const ResultChatRoom({Key? key}) : super(key: key);
+import '../bloc/search_bloc.dart';
+
+class ResultMessage extends StatelessWidget {
+  const ResultMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
-      buildWhen: (prev, current) => prev.chatrooms != current.chatrooms,
+      buildWhen: (prev, current) => prev.messages != current.messages,
       builder: (context, state) {
-        if (state.chatrooms != null && state.chatrooms!.isNotEmpty) {
+        if (state.messages != null && state.messages!.isNotEmpty) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -19,7 +20,7 @@ class ResultChatRoom extends StatelessWidget {
                 height: 32,
               ),
               const Text(
-                "Your groups",
+                "Messages",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -30,12 +31,14 @@ class ResultChatRoom extends StatelessWidget {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemBuilder: (context, index) => PersonListItem(
-                  avatar: state.chatrooms![index].chatRoomAvatar,
-                  title: state.chatrooms![index].chatRoomName,
-                  handleOnTab: () {},
+                itemBuilder: (context, index) => ChatItem(
+                  chatRoomId: "1",
+                  chatRoomName: state.messages![index].from?.fullname,
+                  chatRoomAvatar: state.messages![index].from?.avatar,
+                  latestMessage: state.messages![index].content,
+                  time: state.messages![index].createdAt,
                 ),
-                itemCount: state.chatrooms!.length,
+                itemCount: state.messages!.length,
               ),
             ],
           );

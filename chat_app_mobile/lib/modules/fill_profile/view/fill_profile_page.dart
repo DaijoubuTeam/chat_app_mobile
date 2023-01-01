@@ -48,7 +48,7 @@ class FillProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarCustom(
-        title: "Edit Profile",
+        title: "Update your information",
       ),
       body: SingleChildScrollView(
         child: Padding(

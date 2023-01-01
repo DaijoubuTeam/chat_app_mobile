@@ -1,7 +1,10 @@
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/bloc/chat_room_detail_bloc.dart';
+import 'package:chat_app_mobile/modules/chat_room_detail/widgets/friend_infor_detail.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatRoomInformation extends StatelessWidget {
   const ChatRoomInformation({
@@ -16,37 +19,32 @@ class ChatRoomInformation extends StatelessWidget {
         if (state.runtimeType == ChatRoomDetailGetDataSuccess) {
           final chatRoomInfor =
               (state as ChatRoomDetailGetDataSuccess).chatRoomInformation;
+
           return Column(
             children: <Widget>[
               const SizedBox(
-                height: 48,
+                height: 8,
               ),
-              (chatRoomInfor?.chatRoomAvatar != null)
-                  ? CircleAvatarCustom(urlImage: chatRoomInfor!.chatRoomAvatar!)
-                  : const CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/empty_avatar.png'),
-                      maxRadius: 48,
-                    ),
+              CircleAvatarCustom(
+                urlImage: chatRoomInfor!.chatRoomAvatar!,
+                widthImage: 120.w,
+                heightImage: 120.h,
+              ),
               const SizedBox(
-                height: 24,
+                height: 28,
               ),
               Text(
-                chatRoomInfor?.chatRoomName ?? '',
-                style: const TextStyle(
+                chatRoomInfor.chatRoomName ?? '',
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 24,
+                  fontSize: 24.sp,
                 ),
               ),
               const SizedBox(
-                height: 16,
+                height: 18,
               ),
-              // const Text(
-              //   "Nguyễn Văn A",
-              //   style: TextStyle(
-              //     fontSize: 16,
-              //   ),
-              // ),
+              if (state.chatRoomInformation!.type == "personal")
+                const FriendInforDetail(),
             ],
           );
         } else {

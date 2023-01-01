@@ -1,10 +1,11 @@
 import 'dart:developer';
 
+import 'package:chat_app_mobile/modules/chat_detail/widgets/button_chev_right.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/button_file_pop_up.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/button_send.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/chat_content_input.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/list_option_button.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/stickers_option.dart';
-import 'package:chat_app_mobile/utils/hide_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,79 +22,88 @@ class ChatBox extends StatefulWidget {
 class _ChatBoxState extends State<ChatBox> {
   final TextEditingController _inputController = TextEditingController();
   final FocusNode _focus = FocusNode();
-  bool isShowEmoji = false;
-  bool isShowSticker = false;
-  bool isShowSend = false;
+  final GlobalKey _formKey = GlobalKey<FormState>();
+
+  void _onInputChanged() {
+    if (_inputController.text.isNotEmpty) {
+      context.read<ChatDetailBloc>().add(
+            ChatDetailContentChanging(
+                content: _inputController.text, type: "text"),
+          );
+      FocusScope.of(context).requestFocus();
+    }
+  }
+
+  void _onFocusChange() {
+    log("Focus: ${_focus.hasFocus.toString()}");
+    if (_focus.hasFocus) {
+      context.read<ChatDetailBloc>().add(
+            const ChatDetailShowOptionChanged(
+              isShowSend: true,
+            ),
+          );
+    } else {
+      context.read<ChatDetailBloc>().add(
+            const ChatDetailShowOptionChanged(
+              isShowSend: false,
+            ),
+          );
+    }
+  }
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     _inputController.addListener(_onInputChanged);
     _focus.addListener(_onFocusChange);
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(
-          offset: const Offset(0, 4),
-          blurRadius: 32,
-          color: Theme.of(context).primaryColor.withOpacity(0.08),
-        ),
-      ]),
-      child: Column(
-        children: [
-          Row(
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.sentiment_satisfied_alt_outlined),
-                onPressed: () => {
-                  FocusScope.of(context).unfocus(),
-                  SettingsKeyboard.hideKeyBoard(context),
-                  setState(() {
-                    isShowEmoji = !isShowEmoji;
-                    isShowSticker = false;
-                    isShowSend = false;
-                  }),
-                },
+    return BlocBuilder<ChatDetailBloc, ChatDetailState>(
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          decoration: BoxDecoration(color: Colors.white, boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 4),
+              blurRadius: 32,
+              color: Theme.of(context).primaryColor.withOpacity(0.08),
+            ),
+          ]),
+          child: Column(
+            children: [
+              Row(
+                children: <Widget>[
+                  state.isShowSend
+                      ? const ButtonChevRight()
+                      : const ListOptionButton(),
+                  Expanded(
+                    child: ChatContentInput(
+                      globalKey: _formKey,
+                      focus: _focus,
+                      inputController: _inputController,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  state.isShowSend
+                      ? const ChatContentButtonSend()
+                      : const ButtonFilePopUp(),
+                ],
               ),
-              IconButton(
-                icon: const Icon(Icons.star_border_sharp),
-                onPressed: () => {
-                  FocusScope.of(context).unfocus(),
-                  SettingsKeyboard.hideKeyBoard(context),
-                  setState(() {
-                    isShowEmoji = false;
-                    isShowSticker = !isShowSticker;
-                    isShowSend = false;
-                  })
-                },
+              EmojiInputCustom(
+                emojiShowing: state.isShowEmoji,
+                editingController: _inputController,
               ),
-              Expanded(
-                child: ChatContentInput(
-                  focus: _focus,
-                  inputController: _inputController,
-                ),
+              StickerOptions(
+                isShowing: state.isShowSticker,
               ),
-              const SizedBox(
-                width: 16,
-              ),
-              isShowSend
-                  ? const ChatContentButtonSend()
-                  : const ButtonFilePopUp(),
             ],
           ),
-          EmojiInputCustom(
-            emojiShowing: isShowEmoji,
-            editingController: _inputController,
-          ),
-          StickerOptions(
-            isShowing: isShowSticker,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -102,33 +112,5 @@ class _ChatBoxState extends State<ChatBox> {
     _inputController.dispose();
     _focus.removeListener(_onFocusChange);
     super.dispose();
-  }
-
-  void _onInputChanged() {
-    context.read<ChatDetailBloc>().add(
-          ChatDetailContentChanging(
-              content: _inputController.text, type: "text"),
-        );
-    if (mounted) {
-      if (_inputController.text.isEmpty) {
-        setState(() {
-          isShowSend = false;
-        });
-      } else {
-        setState(() {
-          isShowSend = true;
-        });
-      }
-    }
-  }
-
-  void _onFocusChange() {
-    log("Focus: ${_focus.hasFocus.toString()}");
-    if (_focus.hasFocus) {
-      setState(() {
-        isShowEmoji = false;
-        isShowSticker = false;
-      });
-    }
   }
 }

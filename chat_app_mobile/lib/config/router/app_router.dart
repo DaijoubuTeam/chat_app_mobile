@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:chat_app_mobile/config/router/go_router_refresh_stream.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
@@ -8,6 +7,7 @@ import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/fill_profile/view/view.dart';
+import 'package:chat_app_mobile/modules/forgot_password/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
 import 'package:chat_app_mobile/modules/group_create/view/group_create_page.dart';
@@ -20,7 +20,6 @@ import 'package:chat_app_mobile/modules/signup/view/view.dart';
 import 'package:chat_app_mobile/modules/splash_screen/view/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:user_repository/user_repository.dart' as user_repository;
 import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
 
@@ -49,6 +48,13 @@ class AppRouter {
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
           return const LoginPage();
+        },
+      ),
+      GoRoute(
+        name: ForgotPasswordPage.namePage,
+        path: '/forgot-password',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ForgotPasswordPage();
         },
       ),
       GoRoute(
@@ -169,7 +175,7 @@ class AppRouter {
         path: '/friend-profile',
         builder: (BuildContext context, GoRouterState state) {
           return FriendProfilePage(
-            friendInfor: state.extra as user_repository.User,
+            friendId: state.extra as String,
           );
         },
       ),

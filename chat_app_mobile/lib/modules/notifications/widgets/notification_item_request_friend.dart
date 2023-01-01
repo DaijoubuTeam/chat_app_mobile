@@ -15,7 +15,6 @@ class NotificationItemRequestFriends extends StatelessWidget {
     if (idSender == null) {
       return;
     }
-    print("click");
     ctx.read<NotificationBloc>().add(NotificationRequestSubmitted(
         typeAction: "accept", idSender: idSender!));
   }

@@ -8,6 +8,8 @@ import 'package:chat_room_repository/chat_room_repository.dart'
     as chat_room_repo;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widgets/input_search_member.dart';
+
 class GroupMemberPage extends StatelessWidget {
   const GroupMemberPage({
     Key? key,
@@ -35,32 +37,26 @@ class GroupMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GroupMemberBloc, GroupMemberState>(
-      listener: (context, state) {
-        if (state.deleteStatus == DeleteStatus.success) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text("Delete member success"),
-              backgroundColor: Colors.green,
-            ));
-        }
-        if (state.deleteStatus == DeleteStatus.failure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text("Delete member fail"),
-              backgroundColor: Colors.red,
-            ));
-        }
-      },
-      child: const Scaffold(
-        appBar: AppBarCustom(
+    return BlocBuilder<GroupMemberBloc, GroupMemberState>(
+        builder: (context, state) {
+      return Scaffold(
+        appBar: const AppBarCustom(
           title: "Group member",
         ),
-        body: GroupMemberList(),
-        floatingActionButton: FloatingAddNewMemberButton(),
-      ),
-    );
+        body: Column(
+          children: const <Widget>[
+            InputSearchMember(),
+            SizedBox(
+              height: 8,
+            ),
+            Expanded(
+              child: GroupMemberList(),
+            ),
+          ],
+        ),
+        floatingActionButton:
+            state.isAdmin ? const FloatingAddNewMemberButton() : null,
+      );
+    });
   }
 }

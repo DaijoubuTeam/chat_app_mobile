@@ -59,6 +59,8 @@ dependencies:
   permission_handler: ^10.2.0
   fluttertoast: ^8.1.2
   flutter_native_splash: ^2.2.16
+  flutter_countdown_timer: ^4.1.0
+  video_player: ^2.4.10
   auth_repository: 
     path: packages/auth_repository
   user_repository:

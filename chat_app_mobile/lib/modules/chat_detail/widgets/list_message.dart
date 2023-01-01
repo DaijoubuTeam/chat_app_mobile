@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:chat_app_mobile/common/widgets/stateless/group_list_view/chat_group_list_view.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:flutter/material.dart';
@@ -48,29 +50,46 @@ class _ChatContentsState extends State<ChatContents> {
       //     previous.listMessage.length != current.listMessage.length,
       builder: (context, state) {
         final listMessage = state.displayListMessage ?? [];
-        return Stack(
-          children: [
-            Scrollbar(
-              controller: controller,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                ),
-                child: GroupListViewCustom(
-                  controller: controller,
-                  datas: listMessage,
-                ),
+        return Container(
+          //color: Colors.white,
+          decoration: BoxDecoration(
+            image: state.chatRoomInfo?.chatRoomAvatar != null
+                ? DecorationImage(
+                    image: NetworkImage(state.chatRoomInfo!.chatRoomAvatar!),
+                    fit: BoxFit.cover,
+                  )
+                : null,
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10000, sigmaY: 10000),
+            child: Container(
+              color: Colors.black.withOpacity(0.01),
+              child: Stack(
+                children: [
+                  Scrollbar(
+                    controller: controller,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                      ),
+                      child: GroupListViewCustom(
+                        controller: controller,
+                        datas: listMessage,
+                      ),
+                    ),
+                  ),
+                  if (controllerOffset != 0.0)
+                    Positioned(
+                      right: 0,
+                      bottom: 8.h,
+                      child: ButtonGoToLastestMessage(
+                        handleBackToBottom: _scrollDown,
+                      ),
+                    ),
+                ],
               ),
             ),
-            if (controllerOffset != 0.0)
-              Positioned(
-                right: 0,
-                bottom: 8.h,
-                child: ButtonGoToLastestMessage(
-                  handleBackToBottom: _scrollDown,
-                ),
-              ),
-          ],
+          ),
         );
       },
     );

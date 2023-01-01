@@ -1,5 +1,3 @@
-import 'package:message_repository/message_repository.dart'
-    as message_repository;
 import '../models/models.dart' as chat_room_models;
 
 class ChatRoom {
@@ -66,7 +64,7 @@ class ChatRoom {
         // fromLatestMessage: fromLatestMessage ?? this.fromLatestMessage,
         // contentLatestMessage: contentLatestMessage ?? this.contentLatestMessage,
         // latestTime: latestTime ?? this.latestTime,
-        // friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
+        friendsInChatRoom: friendsInChatRoom ?? this.friendsInChatRoom,
       );
 
   static final empty = ChatRoom(chatRoomId: '');

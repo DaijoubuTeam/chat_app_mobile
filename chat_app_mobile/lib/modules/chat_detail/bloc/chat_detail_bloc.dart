@@ -29,6 +29,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
     on<ChatDetailSpecificSubmitted>(_onChatDetailSpecificSubmitted);
     on<ChatDetailListMessageLoadMore>(_onChatDetailListMessageLoadMore);
+    on<ChatDetailShowOptionChanged>(_onChatDetailShowOptionChanged);
 
     add(ChatDetailPageInited());
 
@@ -188,6 +189,15 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       log(e.toString(), name: 'chatDetailContentSubmitted');
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
+  }
+
+  void _onChatDetailShowOptionChanged(
+      ChatDetailShowOptionChanged event, Emitter<ChatDetailState> emit) {
+    emit(state.copyWith(
+      isShowSticker: event.isShowSticker,
+      isShowSend: event.isShowSend,
+      isShowEmoji: event.isShowEmoji,
+    ));
   }
 
   @override

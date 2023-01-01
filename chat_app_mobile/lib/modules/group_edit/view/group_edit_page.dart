@@ -62,6 +62,9 @@ class GroupEditView extends StatelessWidget {
                               height: 32.h,
                             ),
                             const EditNameGroup(),
+                            SizedBox(
+                              height: 8.h,
+                            ),
                           ],
                         ),
                       ),

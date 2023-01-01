@@ -2,6 +2,7 @@ import 'package:chat_app_mobile/common/widgets/stateless/message_item/emoji_mess
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/image_message_item.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/message_item.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/sticker_message_item.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/message_item/system_message_item.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/text_message_item.dart';
 
 class FactoryMessageItem {
@@ -9,6 +10,7 @@ class FactoryMessageItem {
     String? type,
     bool? isMe,
     String? content,
+    String? nameActor,
   ) {
     switch (type) {
       case "text":
@@ -26,6 +28,10 @@ class FactoryMessageItem {
       case "sticker":
         {
           return StickerMessageItem(content: content!);
+        }
+      case "system":
+        {
+          return SystemMessageItem(nameActor: nameActor, content: content!);
         }
       default:
         {

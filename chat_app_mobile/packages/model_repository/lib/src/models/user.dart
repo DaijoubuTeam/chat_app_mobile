@@ -15,6 +15,8 @@ abstract class IUser {
   final Iterable<String> friendRequests;
   final Iterable<String> bans;
   final String? personalChatRoomId;
+  final bool? isFriend;
+  final bool? isSelf;
 
   IUser({
     required this.uid,
@@ -30,37 +32,10 @@ abstract class IUser {
     Iterable<String>? friends,
     Iterable<String>? friendRequests,
     Iterable<String>? bans,
+    this.isFriend,
+    this.isSelf,
     this.personalChatRoomId,
   })  : friends = friends ?? List.unmodifiable([]),
         friendRequests = friendRequests ?? List.unmodifiable([]),
         bans = bans ?? List.unmodifiable([]);
-
-  // User copyWith({
-  //   String? uid,
-  //   String? username,
-  //   String? fullname,
-  //   String? avatar,
-  //   String? phone,
-  //   String? about,
-  //   String? email,
-  //   bool? isEmailVerified,
-  //   bool? isProfileFilled,
-  //   List<String>? friends,
-  //   List<String>? friendRequests,
-  //   List<String>? bans,
-  // }) =>
-  //     User(
-  //       uid: uid ?? this.uid,
-  //       username: username ?? this.username,
-  //       fullname: fullname ?? this.fullname,
-  //       avatar: avatar ?? this.avatar,
-  //       phone: phone ?? this.phone,
-  //       about: about ?? this.about,
-  //       email: email ?? this.email,
-  //       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
-  //       isProfileFilled: isProfileFilled ?? this.isProfileFilled,
-  //       friends: friends ?? this.friends,
-  //       friendRequests: friendRequests ?? this.friendRequests,
-  //       bans: bans ?? this.bans,
-  //     );
 }

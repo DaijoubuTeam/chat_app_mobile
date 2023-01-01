@@ -13,21 +13,37 @@ class GroupMemberList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GroupMemberBloc, GroupMemberState>(
       builder: (context, state) {
+        final membersInGroup = state.displayMembers;
+        if (membersInGroup!.isEmpty) {
+          return const Center(
+            child: Text(
+              "No search found",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          );
+        }
         return ListView.builder(
           itemBuilder: (context, index) {
-            final membersInGroup = state.members;
+            final bool isAdminGroup = membersInGroup[index].isAdmin ?? false;
+
             return PersonListItem(
-              title: membersInGroup?[index].fullname,
-              subTitle: membersInGroup?[index].email,
-              avatar: membersInGroup?[index].avatar,
+              title: membersInGroup[index].fullname,
+              subTitle: membersInGroup[index].email,
+              avatar: membersInGroup[index].avatar,
+              isAdmin: isAdminGroup,
               handleOnTab: () {},
-              endActionPane: _buildEndActionPane(
-                context,
-                membersInGroup?[index].uid,
-              ),
+              endActionPane: state.isAdmin && !isAdminGroup
+                  ? _buildEndActionPane(
+                      context,
+                      membersInGroup[index].uid,
+                    )
+                  : null,
             );
           },
-          itemCount: state.members?.length ?? 0,
+          itemCount: state.displayMembers?.length ?? 0,
         );
       },
     );
