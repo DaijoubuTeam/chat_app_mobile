@@ -2,7 +2,6 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/call_page/bloc/call_bloc.dart';
 import 'package:chat_app_mobile/modules/call_page/widgets/video_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
 
@@ -51,13 +50,16 @@ class CallView extends StatelessWidget {
           onWillPop: () async {
             return false;
           },
-          child: AnnotatedRegion<SystemUiOverlayStyle>(
-              //Set status bar icon color
-              value: SystemUiOverlayStyle.dark.copyWith(
-                statusBarColor: Colors.black,
-                statusBarIconBrightness: Brightness.light,
-              ),
-              child: const VideosContainer()),
+          // child: AnnotatedRegion<SystemUiOverlayStyle>(
+          //     //Set status bar icon color
+          //     value: SystemUiOverlayStyle.dark.copyWith(
+          //       statusBarColor: Colors.transparent,
+          //       statusBarIconBrightness: Brightness.dark,
+          //     ),
+          //     child: const VideosContainer()),
+          child: const Scaffold(
+            body: VideosContainer(),
+          ),
         );
       },
     );

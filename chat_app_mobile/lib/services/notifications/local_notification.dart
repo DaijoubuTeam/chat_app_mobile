@@ -71,7 +71,7 @@ class NotificationService {
         NotificationData(actionId: details.actionId, type: details.payload!));
   }
 
-  Future<NotificationDetails> _notificationDetails() async {
+  Future<NotificationDetails> _notificationPhoneDetails() async {
     const AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
       'channel_id',
@@ -96,6 +96,40 @@ class NotificationService {
         ),
       ],
     );
+    const DarwinNotificationDetails iosNotificationDetails =
+        DarwinNotificationDetails();
+
+    return const NotificationDetails(
+      android: androidNotificationDetails,
+      iOS: iosNotificationDetails,
+    );
+  }
+
+  Future<NotificationDetails> _notificationDetails() async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      channelDescription: 'description',
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: true,
+      autoCancel: false,
+      // actions: <AndroidNotificationAction>[
+      //   AndroidNotificationAction(
+      //     SelectNotificationStream.acceptCallId,
+      //     "Accept",
+      //     showsUserInterface: true,
+      //     cancelNotification: true,
+      //   ),
+      //   AndroidNotificationAction(
+      //     SelectNotificationStream.deniedCallId,
+      //     "Deny",
+      //     cancelNotification: true,
+      //     showsUserInterface: true,
+      //   ),
+      // ],
+    );
 
     const DarwinNotificationDetails iosNotificationDetails =
         DarwinNotificationDetails();
@@ -113,22 +147,27 @@ class NotificationService {
     required String payload,
     String type = "default-notifi",
   }) async {
-    final details = await _notificationDetails();
+    NotificationDetails details;
+    if (type == "call-notification") {
+      details = await _notificationPhoneDetails();
+    } else {
+      details = await _notificationDetails();
+    }
     await _localNotificationPlugin.show(id, title, body, details,
         payload: payload);
   }
 
-  Future<void> showCallNotification({
-    required int id,
-    required String title,
-    required String body,
-    required String payload,
-    String type = "default-notifi",
-  }) async {
-    final details = await _notificationDetails();
-    await _localNotificationPlugin.show(id, title, body, details,
-        payload: payload);
-  }
+  // Future<void> showCallNotification({
+  //   required int id,
+  //   required String title,
+  //   required String body,
+  //   required String payload,
+  //   String type = "default-notifi",
+  // }) async {
+  //   final details = await _notificationDetails();
+  //   await _localNotificationPlugin.show(id, title, body, details,
+  //       payload: payload);
+  // }
 
   Future<void> cancelNotification(int id) async {
     await _localNotificationPlugin.cancel(id);

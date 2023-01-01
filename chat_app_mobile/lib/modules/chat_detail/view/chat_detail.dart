@@ -54,7 +54,8 @@ class ChatDetailView extends StatelessWidget {
                     context.pushNamed(
                       CallPage.namePage,
                       extra: {
-                        "friendId": state.friends![0].uid,
+                        "friendId":
+                            state.chatRoomInfo?.friendsInChatRoom.first.uid,
                         "isReceiver": false,
                       },
                     ),

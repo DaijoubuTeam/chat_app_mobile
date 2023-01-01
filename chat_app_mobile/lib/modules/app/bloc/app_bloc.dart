@@ -85,6 +85,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             title: data["from"]["fullname"],
             body: "call you",
             payload: data["from"]["uid"],
+            type: "call-notification",
           );
         }
       }
