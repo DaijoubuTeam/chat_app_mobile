@@ -15,6 +15,7 @@ class User extends IUser {
     super.friends,
     super.friendRequests,
     super.bans,
+    super.personalChatRoomId,
   });
 
   User copyWith({
@@ -31,6 +32,7 @@ class User extends IUser {
     List<String>? friends,
     List<String>? friendRequests,
     List<String>? bans,
+    String? personalChatRoomId,
   }) =>
       User(
         uid: uid ?? this.uid,
@@ -46,6 +48,7 @@ class User extends IUser {
         friends: friends ?? this.friends,
         friendRequests: friendRequests ?? this.friendRequests,
         bans: bans ?? this.bans,
+        personalChatRoomId: personalChatRoomId ?? this.personalChatRoomId,
       );
 
   static final empty = User(uid: '');

@@ -37,7 +37,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     _newMessageStreamSubscription = socket_repository
         .SocketAPI.socketApi.newMessageController.stream
         .listen((data) {
-      add(ChatDetailPageInited());
+      add(ChatDetailPageRefreshed());
     });
   }
 
@@ -222,7 +222,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         if (res) {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
 
-          add(ChatDetailPageInited());
+          add(ChatDetailPageRefreshed());
         } else {
           emit(state.copyWith(status: FormzStatus.submissionFailure));
         }

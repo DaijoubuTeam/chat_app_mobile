@@ -7,12 +7,12 @@ part 'search.g.dart';
 class Search {
   final Iterable<User> users;
   final Iterable<ChatRoom> chatRooms;
-  final Iterable<Message> messages;
+  final Iterable<MessageSearch> messages;
 
   Search({
     Iterable<User>? users,
     Iterable<ChatRoom>? chatRooms,
-    Iterable<Message>? messages,
+    Iterable<MessageSearch>? messages,
   })  : users = users ?? List.unmodifiable([]),
         chatRooms = chatRooms ?? List.unmodifiable([]),
         messages = messages ?? List.unmodifiable([]);
@@ -20,7 +20,7 @@ class Search {
   Search copyWith({
     List<User>? users,
     List<ChatRoom>? chatRooms,
-    List<Message>? messages,
+    List<MessageSearch>? messages,
   }) =>
       Search(
         users: users ?? this.users,
