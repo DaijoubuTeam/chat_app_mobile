@@ -2,6 +2,7 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
 import 'package:chat_app_mobile/modules/notifications/widgets/list_notification.dart';
+import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
@@ -19,6 +20,7 @@ class NotificationsPage extends StatelessWidget {
         authRepository: context.read<AuthRepository>(),
         notificationRepository: context.read<NotificationRepository>(),
         friendRepository: context.read<FriendRepository>(),
+        chatRoomRepository: context.read<ChatRoomRepository>(),
       ),
       child: const NotificationsView(),
     );

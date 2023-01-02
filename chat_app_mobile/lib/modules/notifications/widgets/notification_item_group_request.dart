@@ -5,9 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotificationItemGroupRequest extends StatelessWidget {
   const NotificationItemGroupRequest(
-      {Key? key, this.fullname, this.avatar, this.subtitle, this.idSender})
+      {Key? key,
+      required this.chatRoomId,
+      this.fullname,
+      this.avatar,
+      this.subtitle,
+      this.idSender})
       : super(key: key);
 
+  final String chatRoomId;
   final String? fullname;
   final String? avatar;
   final String? subtitle;
@@ -17,16 +23,24 @@ class NotificationItemGroupRequest extends StatelessWidget {
     if (idSender == null) {
       return;
     }
-    ctx.read<NotificationBloc>().add(NotificationRequestSubmitted(
-        typeAction: "accept", idSender: idSender!));
+    ctx.read<NotificationBloc>().add(
+          NotificationRequestGroupSubmitted(
+            chatRoomId: chatRoomId,
+            type: "accept",
+          ),
+        );
   }
 
   void _handleDeniedRequest(BuildContext ctx) {
     if (idSender == null) {
       return;
     }
-    ctx.read<NotificationBloc>().add(NotificationRequestSubmitted(
-        typeAction: "denied", idSender: idSender!));
+    ctx.read<NotificationBloc>().add(
+          NotificationRequestGroupSubmitted(
+            chatRoomId: chatRoomId,
+            type: "reject",
+          ),
+        );
   }
 
   @override

@@ -5,9 +5,7 @@ class ChatDetailState extends Equatable {
     required this.chatRoomId,
     this.chatRoomInfo,
     this.listMessage,
-    this.displayListMessage,
     this.latestMessage,
-    this.friends,
     this.content,
     this.startMessageIndex = 20,
     this.endMessageIndex = 20,
@@ -16,14 +14,13 @@ class ChatDetailState extends Equatable {
     this.isShowEmoji = false,
     this.isShowSend = false,
     this.isShowSticker = false,
+    this.isLoading = false,
   });
 
   final String chatRoomId;
   final chat_room_repository.ChatRoom? chatRoomInfo;
   final List<message_repository.Message>? listMessage;
-  final List<message_repository.Message>? displayListMessage;
   final chat_room_repository.Message? latestMessage;
-  final List<chat_room_repository.User>? friends;
   final int startMessageIndex;
   final int endMessageIndex;
   final String? content;
@@ -33,6 +30,7 @@ class ChatDetailState extends Equatable {
   final bool isShowEmoji;
   final bool isShowSticker;
   final bool isShowSend;
+  final bool isLoading;
 
   ChatDetailState copyWith({
     chat_room_repository.ChatRoom? chatRoomInfo,
@@ -48,6 +46,7 @@ class ChatDetailState extends Equatable {
     bool? isShowEmoji,
     bool? isShowSticker,
     bool? isShowSend,
+    bool? isLoading,
   }) {
     return ChatDetailState(
       chatRoomId: chatRoomId,
@@ -55,8 +54,6 @@ class ChatDetailState extends Equatable {
       content: content ?? this.content,
       type: type ?? this.type,
       listMessage: listMessage ?? this.listMessage,
-      displayListMessage: displayListMessage ?? this.displayListMessage,
-      friends: friends ?? this.friends,
       latestMessage: latestMessage ?? this.latestMessage,
       startMessageIndex: startMessageIndex ?? this.startMessageIndex,
       endMessageIndex: endMessageIndex ?? this.endMessageIndex,
@@ -64,6 +61,7 @@ class ChatDetailState extends Equatable {
       isShowEmoji: isShowEmoji ?? this.isShowEmoji,
       isShowSticker: isShowSticker ?? this.isShowSticker,
       isShowSend: isShowSend ?? this.isShowSend,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 
@@ -73,8 +71,6 @@ class ChatDetailState extends Equatable {
         chatRoomInfo,
         status,
         listMessage,
-        displayListMessage,
-        friends,
         latestMessage,
         startMessageIndex,
         endMessageIndex,
@@ -83,5 +79,6 @@ class ChatDetailState extends Equatable {
         isShowEmoji,
         isShowSticker,
         isShowSend,
+        isLoading,
       ];
 }

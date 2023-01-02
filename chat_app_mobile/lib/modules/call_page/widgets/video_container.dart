@@ -210,7 +210,7 @@ class _VideosContainerState extends State<VideosContainer> {
         }
         if (state.isCancel) {
           return Container(
-            color: Colors.transparent,
+            color: Colors.black,
           );
         }
         return Center(

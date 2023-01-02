@@ -2,9 +2,19 @@ import 'package:chat_app_mobile/common/widgets/stateless/list_title/person_list_
 import 'package:chat_app_mobile/modules/search/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../chat_detail/view/chat_detail.dart';
 
 class ResultUser extends StatelessWidget {
   const ResultUser({Key? key}) : super(key: key);
+
+  void _handleTapChatRoomItem(BuildContext ctx, String chatRoomId) {
+    ctx.pushNamed(
+      ChatDetailPage.namePage,
+      params: {'chatRoomId': chatRoomId},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +43,8 @@ class ResultUser extends StatelessWidget {
                 itemBuilder: (context, index) => PersonListItem(
                   avatar: state.users![index].avatar,
                   title: state.users![index].fullname,
-                  handleOnTab: () {},
+                  handleOnTab: () => _handleTapChatRoomItem(
+                      context, state.users![index].personalChatRoomId!),
                 ),
                 itemCount: state.users!.length,
               ),

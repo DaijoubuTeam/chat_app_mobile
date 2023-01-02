@@ -54,7 +54,13 @@ class ChatRoomView extends StatelessWidget {
         appBar: const AppBarCustom(
           title: 'Chat Details',
         ),
-        body: BlocBuilder<ChatRoomDetailBloc, ChatRoomDetailState>(
+        body: BlocConsumer<ChatRoomDetailBloc, ChatRoomDetailState>(
+          listenWhen: (previous, current) => previous != current,
+          listener: (context, state) {
+            if (state is ChatRoomDetailRemoved) {
+              context.goNamed(HomePage.namePage);
+            }
+          },
           builder: (context, state) {
             if (state is ChatRoomDetailGetDataSuccess) {
               return Container(

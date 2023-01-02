@@ -12,7 +12,7 @@ Search _$SearchFromJson(Map<String, dynamic> json) => Search(
       chatRooms: (json['chatRooms'] as List<dynamic>?)
           ?.map((e) => ChatRoom.fromJson(e as Map<String, dynamic>)),
       messages: (json['messages'] as List<dynamic>?)
-          ?.map((e) => Message.fromJson(e as Map<String, dynamic>)),
+          ?.map((e) => MessageSearch.fromJson(e as Map<String, dynamic>)),
     );
 
 Map<String, dynamic> _$SearchToJson(Search instance) => <String, dynamic>{

@@ -29,17 +29,16 @@ extension on chat_app_api.Search {
   }
 }
 
-extension on chat_app_api.Message {
+extension on chat_app_api.MessageSearch {
   search_repository.Message toRepositoryChatMessage() {
-    final user = search_repository.Message(
+    final message = search_repository.Message(
       id: id,
-      chatRoomId: chatRoomId,
+      chatRoom: chatRoom?.toRepositoryChatRoom(),
       from: from?.toRepositoryUser(),
       content: content,
       createdAt: createdAt,
-      updatedAt: updatedAt,
     );
-    return user;
+    return message;
   }
 }
 
@@ -81,6 +80,7 @@ extension on chat_app_api.User {
       email: email,
       isEmailVerified: isEmailVerified,
       isProfileFilled: isProfileFilled,
+      personalChatRoomId: personalChatRoomId,
     );
     return user;
   }

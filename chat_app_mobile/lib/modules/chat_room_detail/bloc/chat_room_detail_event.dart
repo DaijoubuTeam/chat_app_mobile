@@ -18,3 +18,7 @@ class ChatRoomDetailFriendDeleted extends ChatRoomDetailEvent {
   @override
   List<Object?> get props => [friendId];
 }
+
+class ChatRoomDetailGroupLeft extends ChatRoomDetailEvent {}
+
+class ChatRoomDetailGroupRemoved extends ChatRoomDetailEvent {}

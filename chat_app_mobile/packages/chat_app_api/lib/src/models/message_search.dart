@@ -1,48 +1,52 @@
-import 'package:search_repository/search_repository.dart';
+import 'package:json_annotation/json_annotation.dart';
+import './models.dart';
 
-class Message {
+part 'message_search.g.dart';
+
+@JsonSerializable()
+class MessageSearch {
   final String id;
-  //final String? chatRoomId;
   final ChatRoom? chatRoom;
   final User? from;
-  final bool? isMe;
   final String? content;
+  final String? type;
   final Iterable<User>? readed;
   final DateTime? createdAt;
-  final DateTime? updatedAt;
 
-  Message({
+  MessageSearch({
     required this.id,
     this.chatRoom,
     this.from,
-    this.isMe,
     this.content,
+    this.type,
     this.createdAt,
-    this.updatedAt,
     Iterable<User>? readed,
   }) : readed = readed ?? List.unmodifiable([]);
 
-  Message copyWith({
+  MessageSearch copyWith({
     String? id,
-    String? chatRoomId,
+    ChatRoom? chatRoom,
     User? from,
-    bool? isMe,
     String? content,
+    String? type,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<User>? readed,
-    ChatRoom? chatRoom,
   }) =>
-      Message(
+      MessageSearch(
         id: id ?? this.id,
         chatRoom: chatRoom ?? this.chatRoom,
         from: from ?? this.from,
-        isMe: isMe ?? this.isMe,
         content: content ?? this.content,
+        type: type ?? this.type,
         createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
         readed: readed ?? this.readed,
       );
 
-  static final empty = Message(id: '');
+  static final empty = MessageSearch(id: '');
+
+  factory MessageSearch.fromJson(Map<String, dynamic> json) =>
+      _$MessageSearchFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MessageSearchToJson(this);
 }

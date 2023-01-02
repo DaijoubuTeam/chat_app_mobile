@@ -1,14 +1,11 @@
 part of 'group_member_bloc.dart';
 
-enum DeleteStatus { initial, loading, success, failure }
-
 class GroupMemberState extends Equatable {
   const GroupMemberState({
     this.members,
     this.groupName,
     required this.chatRoomId,
     this.status = FormzStatus.pure,
-    this.deleteStatus = DeleteStatus.initial,
     this.isAdmin = false,
     this.displayMembers,
   });
@@ -19,7 +16,6 @@ class GroupMemberState extends Equatable {
   final String chatRoomId;
   final bool isAdmin;
   final FormzStatus status;
-  final DeleteStatus deleteStatus;
 
   GroupMemberState copyWith({
     List<chat_room_repo.User>? members,
@@ -27,7 +23,6 @@ class GroupMemberState extends Equatable {
     String? groupName,
     String? chatRoomId,
     FormzStatus? status,
-    DeleteStatus? deleteStatus,
     bool? isAdmin,
   }) {
     return GroupMemberState(
@@ -36,7 +31,6 @@ class GroupMemberState extends Equatable {
       groupName: groupName ?? this.groupName,
       chatRoomId: chatRoomId ?? this.chatRoomId,
       status: status ?? this.status,
-      deleteStatus: deleteStatus ?? this.deleteStatus,
       isAdmin: isAdmin ?? this.isAdmin,
     );
   }
@@ -47,7 +41,6 @@ class GroupMemberState extends Equatable {
         groupName,
         chatRoomId,
         status,
-        deleteStatus,
         isAdmin,
         displayMembers,
       ];

@@ -28,6 +28,8 @@ class ChatRoomDetailBloc
         super(ChatRoomDetailInitial(chatRoomId: chatRoomId)) {
     on<ChatRoomDetailInited>(_onChatRoomDetailInited);
     on<ChatRoomDetailFriendDeleted>(_onChatRoomDetailFriendDeleted);
+    on<ChatRoomDetailGroupRemoved>(_onChatRoomDetailGroupRemoved);
+    on<ChatRoomDetailGroupLeft>(_onChatRoomDetailGroupLeft);
 
     add(ChatRoomDetailInited());
   }
@@ -85,6 +87,50 @@ class ChatRoomDetailBloc
       }
     } catch (e) {
       FlutterToastCustom.showToast("Delete friend fail", "error");
+    }
+  }
+
+  Future<void> _onChatRoomDetailGroupRemoved(ChatRoomDetailGroupRemoved event,
+      Emitter<ChatRoomDetailState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+      final chatRoomId = state.chatRoomId;
+      if (bearerToken != null) {
+        final res = await _chatRoomRepository.deleteGroupChatRoom(
+          bearerToken,
+          state.chatRoomId,
+        );
+        if (res) {
+          FlutterToastCustom.showToast("Delete group success", "success");
+          emit(ChatRoomDetailRemoved(chatRoomId: chatRoomId));
+        } else {
+          FlutterToastCustom.showToast("Delete group fail", "error");
+        }
+      }
+    } catch (e) {
+      FlutterToastCustom.showToast("Delete group fail", "error");
+    }
+  }
+
+  Future<void> _onChatRoomDetailGroupLeft(
+      ChatRoomDetailGroupLeft event, Emitter<ChatRoomDetailState> emit) async {
+    try {
+      final bearerToken = await _authRepository.bearToken;
+      final chatRoomId = state.chatRoomId;
+      if (bearerToken != null) {
+        final res = await _chatRoomRepository.leaveGroupChatRoom(
+          bearerToken,
+          state.chatRoomId,
+        );
+        if (res) {
+          FlutterToastCustom.showToast("Leave group success", "success");
+          emit(ChatRoomDetailRemoved(chatRoomId: chatRoomId));
+        } else {
+          FlutterToastCustom.showToast("Leave group fail", "error");
+        }
+      }
+    } catch (e) {
+      FlutterToastCustom.showToast("Leave group fail", "error");
     }
   }
 }

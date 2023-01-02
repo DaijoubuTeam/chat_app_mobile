@@ -32,11 +32,13 @@ class ResultMessage extends StatelessWidget {
               ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (context, index) => ChatItem(
-                  chatRoomId: "1",
-                  chatRoomName: state.messages![index].from?.fullname,
-                  chatRoomAvatar: state.messages![index].from?.avatar,
+                  chatRoomId: state.messages![index].chatRoom!.chatRoomId,
+                  chatRoomName: state.messages![index].chatRoom!.chatRoomName,
+                  chatRoomAvatar:
+                      state.messages![index].chatRoom!.chatRoomAvatar,
                   latestMessage: state.messages![index].content,
                   time: state.messages![index].createdAt,
+                  messageId: state.messages![index].id,
                 ),
                 itemCount: state.messages!.length,
               ),

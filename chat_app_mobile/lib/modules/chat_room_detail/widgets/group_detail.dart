@@ -3,6 +3,7 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../common/widgets/dialogs/confirm_dialog.dart';
 import '../../group_edit/view/view.dart';
 import '../../group_member/view/group_member_page.dart';
 
@@ -27,6 +28,76 @@ class GroupDetail extends StatelessWidget {
           .then((_) {
         ctx.read<ChatRoomDetailBloc>().add(ChatRoomDetailInited());
       });
+    }
+
+    void handleDeleteGroup(BuildContext ctx) {
+      ConfirmDiaglog.showConfirmDialog(
+        ctx,
+        "Confirm delete group",
+        "Do you want to delete your group?",
+        [
+          // The "Yes" button
+
+          TextButton(
+            onPressed: () {
+              // Close the dialog
+              Navigator.of(ctx).pop();
+            },
+            child: Text(
+              'No',
+              style: TextStyle(
+                color: Theme.of(ctx).errorColor,
+                fontSize: 16.sp,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              ctx.read<ChatRoomDetailBloc>().add(ChatRoomDetailGroupRemoved());
+            },
+            child: Text(
+              'Yes',
+              style:
+                  TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
+            ),
+          ),
+        ],
+      );
+    }
+
+    void handleLeaveGroup(BuildContext ctx) {
+      ConfirmDiaglog.showConfirmDialog(
+        ctx,
+        "Confirm leave group",
+        "Do you want to leave your group?",
+        [
+          // The "Yes" button
+
+          TextButton(
+            onPressed: () {
+              // Close the dialog
+              Navigator.of(ctx).pop();
+            },
+            child: Text(
+              'No',
+              style: TextStyle(
+                color: Theme.of(ctx).errorColor,
+                fontSize: 16.sp,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              ctx.read<ChatRoomDetailBloc>().add(ChatRoomDetailGroupLeft());
+            },
+            child: Text(
+              'Yes',
+              style:
+                  TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
+            ),
+          ),
+        ],
+      );
     }
 
     return BlocBuilder<ChatRoomDetailBloc, ChatRoomDetailState>(
@@ -86,26 +157,44 @@ class GroupDetail extends StatelessWidget {
               ),
             ),
             if (!groupChatRoomInfor.isAdmin)
-              ListTile(
-                iconColor: Colors.red[400],
-                textColor: Colors.red[400],
-                trailing: const Icon(Icons.logout),
-                title: const Text(
-                  'Leave',
-                  style: TextStyle(fontSize: 18),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                onTap: () {},
+                child: ListTile(
+                  iconColor: Colors.red[400],
+                  textColor: Colors.red[400],
+                  trailing: const Icon(Icons.logout),
+                  title: const Text(
+                    'Leave',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () => handleLeaveGroup(context),
+                ),
               ),
             if (groupChatRoomInfor.isAdmin)
-              ListTile(
-                iconColor: Colors.red[400],
-                textColor: Colors.red[400],
-                trailing: const Icon(Icons.logout),
-                title: const Text(
-                  'Remove group',
-                  style: TextStyle(fontSize: 18),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                onTap: () {},
+                child: ListTile(
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.delete_outline,
+                        color: Colors.red[400],
+                      )
+                    ],
+                  ),
+                  iconColor: Colors.red[400],
+                  textColor: Colors.red[400],
+                  title: const Text(
+                    'Remove group',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () => handleDeleteGroup(context),
+                ),
               ),
           ],
         );

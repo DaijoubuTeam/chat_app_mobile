@@ -67,7 +67,6 @@ class ListFriend extends StatelessWidget {
     BuildContext ctx,
     String? chatRoomId,
   ) {
-    print(chatRoomId);
     if (chatRoomId == null) return;
     ctx.pushNamed(
       ChatDetailPage.namePage,

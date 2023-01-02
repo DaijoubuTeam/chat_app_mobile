@@ -7,6 +7,7 @@ class ChatItem extends StatelessWidget {
   const ChatItem({
     super.key,
     required this.chatRoomId,
+    this.messageId,
     this.chatRoomName,
     this.chatRoomAvatar,
     this.latestMessage,
@@ -14,16 +15,25 @@ class ChatItem extends StatelessWidget {
   });
 
   final String chatRoomId;
+  final String? messageId;
   final String? chatRoomName;
   final String? chatRoomAvatar;
   final String? latestMessage;
   final DateTime? time;
 
   void _handleTapChatRoomItem(BuildContext ctx) {
-    ctx.pushNamed(
-      ChatDetailPage.namePage,
-      params: {'chatRoomId': chatRoomId},
-    );
+    if (messageId != null) {
+      ctx.pushNamed(
+        ChatDetailPage.namePage,
+        params: {'chatRoomId': chatRoomId},
+        extra: {'messageId': messageId},
+      );
+    } else {
+      ctx.pushNamed(
+        ChatDetailPage.namePage,
+        params: {'chatRoomId': chatRoomId},
+      );
+    }
   }
 
   @override
