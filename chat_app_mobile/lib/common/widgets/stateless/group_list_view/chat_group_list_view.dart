@@ -30,6 +30,7 @@ class GroupListViewCustom extends StatelessWidget {
       floatingHeader: true,
       reverse: true,
       sort: false,
+      cacheExtent: 9999,
     );
   }
 

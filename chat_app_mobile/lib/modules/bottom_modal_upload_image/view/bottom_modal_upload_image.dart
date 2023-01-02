@@ -54,16 +54,17 @@ class _BottomModalFileState extends State<BottomModalFile> {
             listUrl.add(urlDownloadImage);
           }
         }
-        if (item["type"] == "video") {
-          final urlDownloadImage = await FireStoreUploadFileService
-              .firseStoreService
-              .uploadVideoFile(item["file"] as File);
-          if (urlDownloadImage != null) {
-            listUrl.add(urlDownloadImage);
-          }
-        } else {
-          throw Exception("Upload image fail");
-        }
+        // if (item["type"] == "video") {
+        //   final urlDownloadImage = await FireStoreUploadFileService
+        //       .firseStoreService
+        //       .uploadVideoFile(item["file"] as File);
+        //   if (urlDownloadImage != null) {
+        //     listUrl.add(urlDownloadImage);
+        //   }
+        // }
+        // else {
+        //   throw Exception("Upload image fail");
+        // }
       }
       if (mounted) {
         context
@@ -158,8 +159,10 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     "Choose a photo",
                     Colors.green,
                     () async {
-                      final image = await ImagePicker()
-                          .pickImage(source: ImageSource.camera);
+                      final image = await ImagePicker().pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 1,
+                      );
                       if (image != null) {
                         XFile file = XFile(image.path);
                         setState(() {
