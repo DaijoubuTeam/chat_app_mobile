@@ -135,7 +135,7 @@ class _BottomModalFileState extends State<BottomModalFile> {
               Wrap(
                 children: [
                   iconTextButton(
-                    "Take a photo",
+                    "Choose a photo",
                     Colors.blue,
                     () async {
                       final images = await ImagePicker().pickMultiImage();
@@ -156,7 +156,7 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     context,
                   ),
                   iconTextButton(
-                    "Choose a photo",
+                    "Take a photo",
                     Colors.green,
                     () async {
                       final image = await ImagePicker().pickImage(
@@ -181,10 +181,10 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     "Choose a video",
                     Colors.pink,
                     () async {
-                      final image = await ImagePicker()
+                      final video = await ImagePicker()
                           .pickVideo(source: ImageSource.gallery);
-                      if (image != null) {
-                        File file = File(image.path);
+                      if (video != null) {
+                        XFile file = XFile(video.path);
                         setState(() {
                           media.add({"type": "video", "file": file});
                         });

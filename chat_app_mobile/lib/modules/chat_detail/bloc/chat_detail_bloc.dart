@@ -57,7 +57,9 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
   Future<void> _onChatDetailPageInited(
       ChatDetailPageInited event, Emitter<ChatDetailState> emit) async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(
+      isLoading: true,
+    ));
     try {
       final bearerToken = await _authRepository.bearToken;
 
@@ -205,23 +207,23 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     try {
       final bearerToken = await _authRepository.bearToken;
       List<message_repository.Message> listMessage;
-      int newBeforeMessageIndex = state.startMessageIndex;
-      int newAfterMessageIndex = state.endMessageIndex + 10;
+      // int newBeforeMessageIndex = state.startMessageIndex - 10;
+      // int newAfterMessageIndex = state.endMessageIndex + 10;
 
       if (bearerToken != null) {
         if (_messageId != null) {
           listMessage = await _getListMessage(
             bearerToken,
-            newBeforeMessageIndex,
-            newAfterMessageIndex,
-            _messageId,
+            10,
+            10,
+            state.listMessage!.first.id,
             null,
           );
         } else {
           listMessage = await _getListMessage(
             bearerToken,
-            newBeforeMessageIndex,
-            newAfterMessageIndex,
+            10,
+            10,
             null,
             state.chatRoomInfo!.latestMessage!.id,
           );
@@ -229,8 +231,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
         emit(state.copyWith(
           listMessage: listMessage,
-          startMessageIndex: newBeforeMessageIndex,
-          endMessageIndex: newAfterMessageIndex,
+          startMessageIndex: 10,
+          endMessageIndex: 10,
           status: FormzStatus.pure,
         ));
       }

@@ -23,17 +23,24 @@ class ChatContents extends StatefulWidget {
 class _ChatContentsState extends State<ChatContents> {
   late ScrollController controller;
   late double controllerOffset = 1.0;
+  late String? messageId;
 
   @override
   void initState() {
     super.initState();
-    //init scroll controller and controller offset
-    if (widget.messageId != null) {
-      controller = ScrollController(
-        keepScrollOffset: true,
-        initialScrollOffset: 1,
+    if (mounted) {
+      setState(
+        () {
+          messageId = widget.messageId;
+        },
       );
-      controllerOffset = 1.0;
+    }
+    //init scroll controller and controller offset
+    if (messageId != null) {
+      controller = ScrollController(
+        initialScrollOffset: 25,
+      );
+      controllerOffset = 25.0;
     } else {
       controller = ScrollController(
         keepScrollOffset: true,
@@ -53,11 +60,11 @@ class _ChatContentsState extends State<ChatContents> {
             context.read<ChatDetailBloc>().add(ChatDetailListMessageTopLoad());
           }
         }
-        // if (controller.position.pixels == 0 || widget.messageId != null) {
-        //   if (mounted) {
-        //     context.read<ChatDetailBloc>().add(ChatDetailListMessageLoadMore());
-        //   }
-        // }
+        if (controller.position.pixels < 10 && messageId != null) {
+          if (mounted) {
+            context.read<ChatDetailBloc>().add(ChatDetailListMessageDownLoad());
+          }
+        }
       },
     );
   }
@@ -68,6 +75,14 @@ class _ChatContentsState extends State<ChatContents> {
       duration: const Duration(milliseconds: 1200),
       curve: Curves.fastLinearToSlowEaseIn,
     );
+  }
+
+  void _scrollDownSearch(BuildContext ctx) {
+    ctx.read<ChatDetailBloc>().add(const ChatDetailPageInited());
+    // widget.messageId = null;
+    setState(() {
+      messageId = null;
+    });
   }
 
   @override
@@ -115,7 +130,9 @@ class _ChatContentsState extends State<ChatContents> {
                         right: 0,
                         bottom: 8.h,
                         child: ButtonGoToLastestMessage(
-                          handleBackToBottom: _scrollDown,
+                          handleBackToBottom: widget.messageId == null
+                              ? _scrollDown
+                              : () => _scrollDownSearch(context),
                         ),
                       ),
                   ],
