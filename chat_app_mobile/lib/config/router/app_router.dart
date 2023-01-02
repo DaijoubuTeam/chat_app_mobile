@@ -113,13 +113,17 @@ class AppRouter {
       GoRoute(
         name: ChatDetailPage.namePage,
         path: '/chatRooms/:chatRoomId',
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            buildPageWithDefaultTransition(
-                context: context,
-                state: state,
-                child: ChatDetailPage(
-                  chatRoomId: state.params['chatRoomId']!,
-                )),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          final mapStateExtra = state.extra as Map<String, String?>?;
+          return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: ChatDetailPage(
+              chatRoomId: state.params['chatRoomId']!,
+              messageId: mapStateExtra?['messageId'],
+            ),
+          );
+        },
         routes: [
           GoRoute(
             name: ChatRoomDetailPage.namePage,

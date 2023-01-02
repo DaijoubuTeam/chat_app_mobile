@@ -13,30 +13,45 @@ import 'package:go_router/go_router.dart';
 import 'package:message_repository/message_repository.dart';
 
 class ChatDetailPage extends StatelessWidget {
-  const ChatDetailPage({super.key, required this.chatRoomId});
+  const ChatDetailPage({
+    super.key,
+    required this.chatRoomId,
+    this.messageId,
+  });
 
   static const String namePage = 'chat-details';
 
   final String chatRoomId;
+  final String? messageId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ChatDetailBloc(
         chatRoomId: chatRoomId,
+        messageId: messageId,
         chatRoomRepository: context.read<ChatRoomRepository>(),
         authRepository: context.read<AuthRepository>(),
         messageRepository: context.read<MessageRepository>(),
       ),
-      child: ChatDetailView(chatRoomId: chatRoomId),
+      child: ChatDetailView(
+        chatRoomId: chatRoomId,
+        messageId: messageId,
+      ),
     );
   }
 }
 
 class ChatDetailView extends StatelessWidget {
-  const ChatDetailView({Key? key, required this.chatRoomId}) : super(key: key);
+  const ChatDetailView({
+    Key? key,
+    required this.chatRoomId,
+    this.messageId,
+  }) : super(key: key);
 
   final String chatRoomId;
+  final String? messageId;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
@@ -88,7 +103,9 @@ class ChatDetailView extends StatelessWidget {
                         .read<ChatDetailBloc>()
                         .add(const ChatDetailShowOptionChanged()),
                   },
-                  child: const ChatContents(),
+                  child: ChatContents(
+                    messageId: messageId,
+                  ),
                 ),
               ),
               const ChatBox(),

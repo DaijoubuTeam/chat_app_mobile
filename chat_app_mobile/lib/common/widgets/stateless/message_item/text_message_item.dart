@@ -14,28 +14,48 @@ class TextMessageItem extends IMessageItem {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints:
-          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
-      decoration: BoxDecoration(
-        color: isMe ? Colors.blue[500] : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Theme.of(context).primaryColor,
-          width: 2,
+    return Material(
+      elevation: 2,
+      borderRadius: isMe
+          ? const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              bottomLeft: Radius.circular(16),
+              topRight: Radius.circular(16))
+          : const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+              topRight: Radius.circular(16)),
+      child: Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
         ),
-      ),
-      child: Text(
-        content ?? '',
-        style: TextStyle(
-          color: isMe ? Colors.white : Colors.black,
-          fontSize: 15.sp,
-          height: 1.5,
-          //fontWeight: FontWeight.w300,
+        decoration: BoxDecoration(
+          color: isMe ? Colors.blue[500] : Colors.white,
+          borderRadius: isMe
+              ? const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                  topRight: Radius.circular(16))
+              : const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                  topRight: Radius.circular(16)),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: 2,
+          ),
+        ),
+        child: Text(
+          content ?? '',
+          style: TextStyle(
+            color: isMe ? Colors.white : Colors.black,
+            fontSize: 15.sp,
+            height: 1.5,
+            //fontWeight: FontWeight.w300,
+          ),
         ),
       ),
     );

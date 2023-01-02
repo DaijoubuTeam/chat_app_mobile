@@ -38,6 +38,7 @@ class ResultMessage extends StatelessWidget {
                       state.messages![index].chatRoom!.chatRoomAvatar,
                   latestMessage: state.messages![index].content,
                   time: state.messages![index].createdAt,
+                  messageId: state.messages![index].id,
                 ),
                 itemCount: state.messages!.length,
               ),

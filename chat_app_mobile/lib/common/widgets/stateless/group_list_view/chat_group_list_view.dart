@@ -25,16 +25,11 @@ class GroupListViewCustom extends StatelessWidget {
       groupSeparatorBuilder: (String groupValue) =>
           _buildGroupSeperatorBuilder(groupValue),
       itemBuilder: (context, dynamic element) => _buildItemBuilder(element),
-      // itemComparator: (item1, item2) =>
-      //     item1['name'].compareTo(item2['name']), // optional
-      //floatingHeader: true,
       useStickyGroupSeparators: true,
       stickyHeaderBackgroundColor: Colors.white,
       floatingHeader: true,
       reverse: true,
       sort: false,
-      // floatingHeader: true, // optional
-      // order: GroupedListOrder.ASC, // optional
     );
   }
 
@@ -61,15 +56,18 @@ class GroupListViewCustom extends StatelessWidget {
 
   Widget _buildItemBuilder(Message element) {
     final Message message = element;
-    return MessageItem(
-      key: GlobalObjectKey(element.id),
-      isMe: message.isMe ?? false,
-      content: message.content!,
-      friendAvatar: message.from?.avatar,
-      readed: message.readed?.toList(),
-      type: message.type,
-      time: message.createdAt,
-      nameActor: message.from?.fullname,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1.0),
+      child: MessageItem(
+        key: GlobalObjectKey(element.id),
+        isMe: message.isMe ?? false,
+        content: message.content!,
+        friendAvatar: message.from?.avatar,
+        readed: message.readed?.toList(),
+        type: message.type,
+        time: message.createdAt,
+        nameActor: message.from?.fullname,
+      ),
     );
   }
 }

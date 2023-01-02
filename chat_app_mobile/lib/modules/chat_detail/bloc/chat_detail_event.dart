@@ -7,7 +7,14 @@ abstract class ChatDetailEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class ChatDetailPageInited extends ChatDetailEvent {}
+class ChatDetailPageInited extends ChatDetailEvent {
+  const ChatDetailPageInited({this.messageId});
+
+  final String? messageId;
+
+  @override
+  List<Object?> get props => [messageId];
+}
 
 class ChatDetailPageRefreshed extends ChatDetailEvent {}
 
@@ -33,6 +40,10 @@ class ChatDetailSpecificSubmitted extends ChatDetailEvent {
 }
 
 class ChatDetailListMessageLoadMore extends ChatDetailEvent {}
+
+class ChatDetailListMessageTopLoad extends ChatDetailEvent {}
+
+class ChatDetailListMessageDownLoad extends ChatDetailEvent {}
 
 class ChatDetailShowOptionChanged extends ChatDetailEvent {
   const ChatDetailShowOptionChanged({
