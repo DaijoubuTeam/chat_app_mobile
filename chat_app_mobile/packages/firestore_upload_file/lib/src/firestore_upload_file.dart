@@ -9,9 +9,10 @@ enum TypeFile {
 }
 
 class FireStoreUploadFileService {
-  final TypeFile _type;
+  //final TypeFile _type;
+  UploadTask? _uploadTask;
 
-  FireStoreUploadFileService._internal() : _type = TypeFile.images;
+  FireStoreUploadFileService._internal();
 
   static FireStoreUploadFileService? _firestoreService;
 
@@ -19,6 +20,8 @@ class FireStoreUploadFileService {
     _firestoreService ??= FireStoreUploadFileService._internal();
     return _firestoreService!;
   }
+
+  UploadTask? get uploadTask => _uploadTask;
 
   //upload image file
   Future<String?> uploadFile(XFile file) async {
@@ -30,9 +33,10 @@ class FireStoreUploadFileService {
       Reference refDirImage = ref.child(TypeFile.images.toString());
       Reference refToUpload = refDirImage.child(uniqueImageName);
 
-      UploadTask? uploadTask = refToUpload.putFile(File(file.path));
-      final snapshot = await uploadTask.whenComplete(() => {});
+      _uploadTask = refToUpload.putFile(File(file.path));
+      final snapshot = await _uploadTask!.whenComplete(() => {});
       final urlDownloadImage = await snapshot.ref.getDownloadURL();
+      disposeUploadTask();
       return urlDownloadImage;
     } catch (err) {
       log('Failed to pick image: $err');
@@ -50,13 +54,18 @@ class FireStoreUploadFileService {
       Reference refDirImage = ref.child("videos");
       Reference refToUpload = refDirImage.child(uniqueImageName);
 
-      UploadTask? uploadTask = refToUpload.putFile(File(file.path));
-      final snapshot = await uploadTask.whenComplete(() => {});
+      _uploadTask = refToUpload.putFile(File(file.path));
+      final snapshot = await _uploadTask!.whenComplete(() => {});
       final urlDownloadImage = await snapshot.ref.getDownloadURL();
+      disposeUploadTask();
       return urlDownloadImage;
     } catch (err) {
       log('Failed to pick image: $err');
       return null;
     }
+  }
+
+  void disposeUploadTask() {
+    _uploadTask = null;
   }
 }

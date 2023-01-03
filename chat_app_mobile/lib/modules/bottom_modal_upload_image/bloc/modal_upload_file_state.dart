@@ -6,11 +6,31 @@ abstract class ModalUploadFileState extends Equatable {
   final String chatRoomId;
 
   @override
-  List<Object> get props => [chatRoomId];
+  List<Object?> get props => [chatRoomId];
 }
 
 class ModalUploadFileInitial extends ModalUploadFileState {
-  const ModalUploadFileInitial({required super.chatRoomId});
+  const ModalUploadFileInitial({
+    required super.chatRoomId,
+    this.media,
+    this.listUrl,
+  });
+
+  final List<Map<String, dynamic>>? media;
+  final List<String>? listUrl;
+
+  ModalUploadFileInitial copyWith({
+    List<Map<String, dynamic>>? media,
+    List<String>? listUrl,
+  }) {
+    return ModalUploadFileInitial(
+        chatRoomId: chatRoomId,
+        media: media ?? this.media,
+        listUrl: listUrl ?? this.listUrl);
+  }
+
+  @override
+  List<Object?> get props => [media, listUrl];
 }
 
 class ModalUploadFileSendLoading extends ModalUploadFileState {
