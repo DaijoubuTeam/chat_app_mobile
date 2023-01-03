@@ -34,6 +34,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
     on<ChatDetailSpecificSubmitted>(_onChatDetailSpecificSubmitted);
     on<ChatDetailVideoSubmitted>(_onChatDetailVideoSubmitted);
+    on<ChatDetailVoiceSubmitted>(_onChatDetailVoiceSubmitted);
     //load more up
     on<ChatDetailListMessageLoadMore>(_onChatDetailListMessageLoadMore);
     on<ChatDetailListMessageTopLoad>(_onChatDetailListMessageTopLoad);
@@ -386,6 +387,38 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     } catch (e) {
       log(e.toString(), name: 'chatDetailContentSubmitted');
       FlutterToastCustom.showToast("Send video fail! Try again.", "error");
+    }
+  }
+
+  Future<void> _onChatDetailVoiceSubmitted(
+      ChatDetailVoiceSubmitted event, Emitter<ChatDetailState> emit) async {
+    try {
+      emit(state.copyWith(isUploadLargeFile: true));
+      final urlDownloadImage = await FireStoreUploadFileService
+          .firseStoreService
+          .uploadRecord(event.fileVideo);
+      if (urlDownloadImage == null) return;
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final res = await _chatMessageRepository.sendMessage(
+          bearerToken,
+          state.chatRoomId,
+          urlDownloadImage,
+          "record",
+        );
+
+        if (res) {
+          emit(state.copyWith(isUploadLargeFile: false));
+          add(ChatDetailPageRefreshed());
+        } else {
+          FlutterToastCustom.showToast("Send record fail! Try again.", "error");
+        }
+      }
+    } catch (e) {
+      log(e.toString(), name: 'chatDetailContentSubmitted');
+      FlutterToastCustom.showToast("Send record fail! Try again.", "error");
     }
   }
 

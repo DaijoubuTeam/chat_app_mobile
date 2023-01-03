@@ -39,6 +39,15 @@ class ChatDetailVideoSubmitted extends ChatDetailEvent {
   List<Object?> get props => [fileVideo];
 }
 
+class ChatDetailVoiceSubmitted extends ChatDetailEvent {
+  const ChatDetailVoiceSubmitted({required this.fileVideo});
+
+  final XFile fileVideo;
+
+  @override
+  List<Object?> get props => [fileVideo];
+}
+
 class ChatDetailSpecificSubmitted extends ChatDetailEvent {
   const ChatDetailSpecificSubmitted({this.content, this.type});
   final String? content;

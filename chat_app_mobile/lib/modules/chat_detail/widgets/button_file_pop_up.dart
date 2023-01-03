@@ -1,4 +1,5 @@
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/voice_sound.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,6 +30,19 @@ class ButtonFilePopUp extends StatelessWidget {
           _handlePickVideo(ctx);
           return;
         }
+      case "voice":
+        {
+          //_handlePickVideo(ctx);
+          showModalBottomSheet(
+            context: ctx,
+            builder: ((context) {
+              return VoicePage(
+                chatRoomId: chatRoomId,
+              );
+            }),
+          );
+          return;
+        }
     }
   }
 
@@ -47,8 +61,8 @@ class ButtonFilePopUp extends StatelessWidget {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
       builder: (context, state) {
         return PopupMenuButton(
-          offset: const Offset(0, -120),
-          elevation: 5,
+          offset: const Offset(0, -180),
+          elevation: 10,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
             Radius.circular(20.0),
@@ -68,6 +82,13 @@ class ButtonFilePopUp extends StatelessWidget {
               child: PopUpMenuItemButton(
                   label: "Video",
                   icon: Icons.video_camera_back_outlined,
+                  chatRoomId: state.chatRoomId),
+            ),
+            PopupMenuItem(
+              value: "voice",
+              child: PopUpMenuItemButton(
+                  label: "Voice",
+                  icon: Icons.mic_outlined,
                   chatRoomId: state.chatRoomId),
             )
           ],

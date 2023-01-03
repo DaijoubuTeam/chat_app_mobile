@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/common/widgets/stateless/message_item/audio_message_item.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/emoji_message_item.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/image_message_item.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/message_item.dart';
@@ -39,6 +40,12 @@ class FactoryMessageItem {
           return VideoMessageItem(
             isMe: isMe ?? false,
             content: content,
+          );
+        }
+      case "record":
+        {
+          return AudioMessage(
+            content: content!,
           );
         }
       default:
