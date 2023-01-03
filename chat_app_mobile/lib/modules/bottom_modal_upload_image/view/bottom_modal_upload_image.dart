@@ -54,17 +54,6 @@ class _BottomModalFileState extends State<BottomModalFile> {
             listUrl.add(urlDownloadImage);
           }
         }
-        // if (item["type"] == "video") {
-        //   final urlDownloadImage = await FireStoreUploadFileService
-        //       .firseStoreService
-        //       .uploadVideoFile(item["file"] as File);
-        //   if (urlDownloadImage != null) {
-        //     listUrl.add(urlDownloadImage);
-        //   }
-        // }
-        // else {
-        //   throw Exception("Upload image fail");
-        // }
       }
       if (mounted) {
         context
@@ -80,17 +69,21 @@ class _BottomModalFileState extends State<BottomModalFile> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ModalUploadFileBloc, ModalUploadFileState>(
+    return BlocConsumer<ModalUploadFileBloc, ModalUploadFileState>(
+      listenWhen: (previous, current) => previous != current,
+      listener: (context, state) {
+        if (state is ModalUploadFileSendFailure ||
+            state is ModalUploadFileSendSuccess) {
+          Navigator.of(context).pop();
+        }
+      },
       builder: (context, state) {
         if (state is ModalUploadFileSendLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        if (state is ModalUploadFileSendFailure ||
-            state is ModalUploadFileSendSuccess) {
-          Navigator.of(context).pop();
-        }
+
         return Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 12,
@@ -138,7 +131,9 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     "Choose a photo",
                     Colors.blue,
                     () async {
-                      final images = await ImagePicker().pickMultiImage();
+                      final images = await ImagePicker().pickMultiImage(
+                        imageQuality: 10,
+                      );
                       if (images != null) {
                         for (var image in images) {
                           XFile file = XFile(image.path);
@@ -161,7 +156,7 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     () async {
                       final image = await ImagePicker().pickImage(
                         source: ImageSource.camera,
-                        imageQuality: 1,
+                        imageQuality: 10,
                       );
                       if (image != null) {
                         XFile file = XFile(image.path);
@@ -177,36 +172,6 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     ),
                     context,
                   ),
-                  iconTextButton(
-                    "Choose a video",
-                    Colors.pink,
-                    () async {
-                      final video = await ImagePicker()
-                          .pickVideo(source: ImageSource.gallery);
-                      if (video != null) {
-                        XFile file = XFile(video.path);
-                        setState(() {
-                          media.add({"type": "video", "file": file});
-                        });
-                      }
-                    },
-                    const Icon(
-                      Icons.camera_outlined,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    context,
-                  ),
-                  // iconTextButton(
-                  //     "Take a file",
-                  //     Colors.orange,
-                  //     () {},
-                  //     const Icon(
-                  //       Icons.file_present_outlined,
-                  //       color: Colors.white,
-                  //       size: 30,
-                  //     ),
-                  //     context),
                 ],
               )
             ],

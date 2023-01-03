@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firestore_upload_file/firestore_upload_file.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:message_repository/message_repository.dart'
     as message_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
@@ -30,8 +33,9 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     on<ChatDetailContentChanging>(_onChatDetailContentChanging);
     on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
     on<ChatDetailSpecificSubmitted>(_onChatDetailSpecificSubmitted);
-    on<ChatDetailListMessageLoadMore>(_onChatDetailListMessageLoadMore);
+    on<ChatDetailVideoSubmitted>(_onChatDetailVideoSubmitted);
     //load more up
+    on<ChatDetailListMessageLoadMore>(_onChatDetailListMessageLoadMore);
     on<ChatDetailListMessageTopLoad>(_onChatDetailListMessageTopLoad);
     on<ChatDetailListMessageDownLoad>(_onChatDetailListMessageDownLoad);
     on<ChatDetailShowOptionChanged>(_onChatDetailShowOptionChanged);
@@ -349,6 +353,40 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       before,
       after,
     );
+  }
+
+  Future<void> _onChatDetailVideoSubmitted(
+    ChatDetailVideoSubmitted event,
+    Emitter<ChatDetailState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(isUploadLargeFile: true));
+      final urlDownloadImage = await FireStoreUploadFileService
+          .firseStoreService
+          .uploadFile(event.fileVideo);
+      if (urlDownloadImage == null) return;
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final res = await _chatMessageRepository.sendMessage(
+          bearerToken,
+          state.chatRoomId,
+          urlDownloadImage,
+          "video",
+        );
+
+        if (res) {
+          emit(state.copyWith(isUploadLargeFile: false));
+          add(ChatDetailPageRefreshed());
+        } else {
+          FlutterToastCustom.showToast("Send video fail! Try again.", "error");
+        }
+      }
+    } catch (e) {
+      log(e.toString(), name: 'chatDetailContentSubmitted');
+      FlutterToastCustom.showToast("Send video fail! Try again.", "error");
+    }
   }
 
   @override

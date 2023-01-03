@@ -15,6 +15,7 @@ class ChatDetailState extends Equatable {
     this.isShowSend = false,
     this.isShowSticker = false,
     this.isLoading = false,
+    this.isUploadLargeFile = false,
   });
 
   final String chatRoomId;
@@ -31,6 +32,7 @@ class ChatDetailState extends Equatable {
   final bool isShowSticker;
   final bool isShowSend;
   final bool isLoading;
+  final bool isUploadLargeFile;
 
   ChatDetailState copyWith({
     chat_room_repository.ChatRoom? chatRoomInfo,
@@ -47,6 +49,7 @@ class ChatDetailState extends Equatable {
     bool? isShowSticker,
     bool? isShowSend,
     bool? isLoading,
+    bool? isUploadLargeFile,
   }) {
     return ChatDetailState(
       chatRoomId: chatRoomId,
@@ -62,6 +65,7 @@ class ChatDetailState extends Equatable {
       isShowSticker: isShowSticker ?? this.isShowSticker,
       isShowSend: isShowSend ?? this.isShowSend,
       isLoading: isLoading ?? this.isLoading,
+      isUploadLargeFile: isUploadLargeFile ?? this.isUploadLargeFile,
     );
   }
 
@@ -80,5 +84,6 @@ class ChatDetailState extends Equatable {
         isShowSticker,
         isShowSend,
         isLoading,
+        isUploadLargeFile,
       ];
 }

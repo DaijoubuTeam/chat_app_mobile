@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:chat_app_mobile/common/widgets/stateless/group_list_view/chat_group_list_view.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/image_load.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -119,9 +120,16 @@ class _ChatContentsState extends State<ChatContents> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                         ),
-                        child: GroupListViewCustom(
-                          controller: controller,
-                          datas: listMessage,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: GroupListViewCustom(
+                                controller: controller,
+                                datas: listMessage,
+                              ),
+                            ),
+                            if (state.isUploadLargeFile) const ImageLoad(),
+                          ],
                         ),
                       ),
                     ),
