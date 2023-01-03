@@ -1,9 +1,8 @@
+import 'package:chat_app_mobile/common/widgets/stateless/group_list_view/chat_item.dart';
 import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:message_repository/message_repository.dart';
-
-import '../../../../modules/chat_detail/widgets/message_item.dart';
 
 class GroupListViewCustom extends StatelessWidget {
   const GroupListViewCustom({
@@ -24,7 +23,8 @@ class GroupListViewCustom extends StatelessWidget {
           (element as Message).createdAt!),
       groupSeparatorBuilder: (String groupValue) =>
           _buildGroupSeperatorBuilder(groupValue),
-      itemBuilder: (context, dynamic element) => _buildItemBuilder(element),
+      itemBuilder: (context, dynamic element) =>
+          ChatItemMessage(message: element),
       useStickyGroupSeparators: true,
       stickyHeaderBackgroundColor: Colors.white,
       floatingHeader: true,
@@ -51,23 +51,6 @@ class GroupListViewCustom extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildItemBuilder(Message element) {
-    final Message message = element;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 1.0),
-      child: MessageItem(
-        key: GlobalObjectKey(element.id),
-        isMe: message.isMe ?? false,
-        content: message.content!,
-        friendAvatar: message.from?.avatar,
-        readed: message.readed?.toList(),
-        type: message.type,
-        time: message.createdAt,
-        nameActor: message.from?.fullname,
-      ),
     );
   }
 }
