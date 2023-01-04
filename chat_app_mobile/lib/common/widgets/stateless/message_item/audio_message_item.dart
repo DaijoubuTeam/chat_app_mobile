@@ -5,22 +5,69 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AudioMessage extends IMessageItem {
-  const AudioMessage({super.key, required this.content});
+  const AudioMessage({
+    super.key,
+    required this.content,
+    this.isMe = false,
+  });
 
   final String content;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
-    return AudioMessageItem(
-      url: content,
+    return Material(
+      elevation: 2,
+      borderRadius: isMe
+          ? const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              bottomLeft: Radius.circular(16),
+              topRight: Radius.circular(16))
+          : const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+              topRight: Radius.circular(16)),
+      child: Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 2,
+          vertical: 2,
+        ),
+        decoration: BoxDecoration(
+          color: isMe ? Colors.blue[500] : Colors.white,
+          borderRadius: isMe
+              ? const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                  topRight: Radius.circular(16))
+              : const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                  topRight: Radius.circular(16)),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: 2,
+          ),
+        ),
+        child: AudioMessageItem(
+          url: content,
+          isMe: isMe,
+        ),
+      ),
     );
   }
 }
 
 class AudioMessageItem extends StatefulWidget {
-  const AudioMessageItem({super.key, required this.url});
+  const AudioMessageItem({
+    super.key,
+    required this.url,
+    this.isMe = false,
+  });
 
   final String url;
+  final bool isMe;
 
   @override
   State<AudioMessageItem> createState() => _AudioMessageItemState();
@@ -33,7 +80,7 @@ class _AudioMessageItemState extends State<AudioMessageItem> {
   Duration position = Duration.zero;
 
   Future _setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.release);
+    audioPlayer.setReleaseMode(ReleaseMode.stop);
 
     audioPlayer.setSourceUrl(widget.url);
   }
@@ -45,9 +92,11 @@ class _AudioMessageItemState extends State<AudioMessageItem> {
     _setAudio();
 
     audioPlayer.onPlayerStateChanged.listen((state) {
-      setState(() {
-        isPlay = state == PlayerState.playing;
-      });
+      if (mounted) {
+        setState(() {
+          isPlay = state == PlayerState.playing;
+        });
+      }
     });
 
     audioPlayer.onDurationChanged.listen((newDuration) {
@@ -66,9 +115,12 @@ class _AudioMessageItemState extends State<AudioMessageItem> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         CircleAvatar(
-          radius: 35,
+          radius: 20.w,
+          backgroundColor:
+              widget.isMe ? Colors.white : Theme.of(context).primaryColor,
           child: IconButton(
             onPressed: () async {
               if (!isPlay) {
@@ -78,34 +130,56 @@ class _AudioMessageItemState extends State<AudioMessageItem> {
                 await audioPlayer.pause();
               }
             },
-            icon: Icon(isPlay ? Icons.pause : Icons.play_arrow),
-            iconSize: 50,
+            icon: Icon(
+              isPlay ? Icons.pause : Icons.play_arrow,
+              color:
+                  widget.isMe ? Theme.of(context).primaryColor : Colors.white,
+            ),
+            iconSize: 28.sp,
           ),
         ),
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Slider(
               min: 0.0,
+              activeColor:
+                  widget.isMe ? Colors.white : Theme.of(context).primaryColor,
+              thumbColor:
+                  widget.isMe ? Colors.white : Theme.of(context).primaryColor,
+              inactiveColor:
+                  widget.isMe ? Colors.white : Theme.of(context).primaryColor,
               max: duration.inSeconds.toDouble(),
               value: position.inSeconds.toDouble(),
               onChanged: (value) async {
                 final position = Duration(seconds: value.toInt());
                 await audioPlayer.seek(position);
-                await audioPlayer.resume();
+                //await audioPlayer.resume();
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(DateTimeLocalString.formatTime(position)),
-                  SizedBox(
-                    width: 12.w,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  DateTimeLocalString.formatTime(position),
+                  style: TextStyle(
+                    color: widget.isMe
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
                   ),
-                  Text(DateTimeLocalString.formatTime(duration - position)),
-                ],
-              ),
+                ),
+                SizedBox(
+                  width: 48.w,
+                ),
+                Text(
+                  DateTimeLocalString.formatTime(duration),
+                  style: TextStyle(
+                    color: widget.isMe
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
             ),
           ],
         )

@@ -46,6 +46,7 @@ class FactoryMessageItem {
         {
           return AudioMessage(
             content: content!,
+            isMe: isMe ?? false,
           );
         }
       default:
