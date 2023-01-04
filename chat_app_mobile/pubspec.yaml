@@ -89,6 +89,7 @@ dependencies:
     path: packages/webrtc_repository
   firestore_upload_file:
     path: packages/firestore_upload_file
+  firebase_messaging: ^13.1.0
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
 import 'package:chat_app_mobile/utils/select_notification_stream.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:socket_repository/socket_repository.dart' as socket_repo;
 import 'package:webrtc_repository/webrtc_repository.dart';
@@ -28,8 +29,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _userSubscription = _authRepository.user.listen((user) {
       add(AppUserChanged(user));
     });
+
     _subcribeNotification();
     _subscribeWebRTC();
+    _subscribeFirebaseMessaging();
   }
 
   final AuthRepository _authRepository;
@@ -116,6 +119,33 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           payload: SelectNotificationStream.normalNotification,
         );
       }
+    });
+  }
+
+  Future<String?> _getDeviceToken() async {
+    //request user permission for push notification
+    FirebaseMessaging.instance.requestPermission();
+
+    FirebaseMessaging firebaseMessage = FirebaseMessaging.instance;
+
+    String? deviceToken = await firebaseMessage.getToken();
+
+    return (deviceToken == null) ? "" : deviceToken;
+  }
+
+  void _subscribeFirebaseMessaging() async {
+    String? deviceId = await _getDeviceToken();
+
+    if (deviceId == null) return;
+
+    // listen if fcmToken refresh
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+      // TODO: If necessary send token to application server.
+
+      // Note: This callback is fired at each app startup and whenever a new
+      // token is generated.
+    }).onError((err) {
+      // Error getting token.
     });
   }
 
