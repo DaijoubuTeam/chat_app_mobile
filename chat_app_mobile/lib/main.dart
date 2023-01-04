@@ -6,6 +6,7 @@ import 'package:chat_app_mobile/bootstrap.dart';
 import 'package:chat_app_mobile/firebase_options.dart';
 import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
+import 'package:device_repository/device_repository.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -22,7 +23,9 @@ import 'package:webrtc_repository/webrtc_repository.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //set up url
@@ -44,10 +47,7 @@ Future<void> main() async {
   final firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
   // initial repository
-  final authenticationRepository = AuthRepository(
-    firebaseAuth,
-    chatAppApi,
-  );
+  final authenticationRepository = AuthRepository(firebaseAuth, chatAppApi);
   final userRepository = UserRepository(chatAppApi);
   final friendRepository = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
@@ -55,6 +55,7 @@ Future<void> main() async {
   final notificationRepository = NotificationRepository(chatAppApi);
   final searchRepository = SearchRepository(chatAppApi);
   final webRTCRepository = WebRTCRepostiory(chatAppApi);
+  final deviceRepository = DeviceRepository(chatAppApi);
 
   await authenticationRepository.user.first;
 
@@ -69,5 +70,6 @@ Future<void> main() async {
     notificationRepository,
     searchRepository,
     webRTCRepository,
+    deviceRepository,
   );
 }

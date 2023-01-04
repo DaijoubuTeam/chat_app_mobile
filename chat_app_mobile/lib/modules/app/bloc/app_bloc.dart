@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
 import 'package:chat_app_mobile/utils/select_notification_stream.dart';
+import 'package:device_repository/device_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -19,8 +20,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc({
     required AuthRepository authRepository,
     required WebRTCRepostiory webRTCRepostiory,
+    required DeviceRepository deviceRepository,
   })  : _authRepository = authRepository,
         _webRTCRepostiory = webRTCRepostiory,
+        _deviceRepository = deviceRepository,
         super(AppStateLoading()) {
     on<AppLoaded>(_onAppLoaded);
     on<AppLogOutRequested>(_onAppLogOutRequested);
@@ -32,15 +35,17 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     _subcribeNotification();
     _subscribeWebRTC();
-    _subscribeFirebaseMessaging();
+    _getFcmToken();
   }
 
   final AuthRepository _authRepository;
+  final WebRTCRepostiory _webRTCRepostiory;
+  final DeviceRepository _deviceRepository;
+
   late final StreamSubscription<User> _userSubscription;
   late final StreamSubscription<socket_repo.Notification>
       _newNotificationStreamSubscription;
   late final StreamSubscription<dynamic> _webRTCStreamSubscription;
-  final WebRTCRepostiory _webRTCRepostiory;
 
   User get authCurrentUser => _authRepository.currentUser;
 
@@ -122,22 +127,24 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     });
   }
 
-  Future<String?> _getDeviceToken() async {
+  Future<String?> _getFcmToken() async {
     //request user permission for push notification
     FirebaseMessaging.instance.requestPermission();
 
     FirebaseMessaging firebaseMessage = FirebaseMessaging.instance;
 
-    String? deviceToken = await firebaseMessage.getToken();
+    String? fcmToken = await firebaseMessage.getToken();
 
-    return (deviceToken == null) ? "" : deviceToken;
+    return (fcmToken == null) ? "" : fcmToken;
   }
 
-  void _subscribeFirebaseMessaging() async {
-    String? deviceId = await _getDeviceToken();
+  void _addNewDeviceInformation() async {
+    String? fcmToken = await _getFcmToken();
 
-    if (deviceId == null) return;
+    if (fcmToken == null) return;
+  }
 
+  void _subscribeFirebaeMessaging() {
     // listen if fcmToken refresh
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
       // TODO: If necessary send token to application server.

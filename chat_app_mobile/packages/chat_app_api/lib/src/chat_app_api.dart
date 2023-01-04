@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:chat_app_api/src/api/device_api.dart';
 import 'package:chat_app_api/src/api/webrtc_api.dart';
 import 'package:chat_app_api/src/models/models.dart';
 import 'package:dio/dio.dart';
@@ -22,6 +23,7 @@ class ChatAppApi {
       NotificationApi? notificationApi,
       SearchApi? searchApi,
       WebRTCApi? webRTCApi,
+      DeviceApi? deviceApi,
       Dio? dio,
       required String serverUrl})
       : _authApi = authApi ?? AuthApi(serverUrl: serverUrl, dio: dio ?? Dio()),
@@ -35,7 +37,8 @@ class ChatAppApi {
         _notificationApi = notificationApi ??
             NotificationApi(serverUrl: serverUrl, dio: dio ?? Dio()),
         _searchApi = SearchApi(serverUrl: serverUrl, dio: dio ?? Dio()),
-        _webRTCApi = WebRTCApi(serverUrl: serverUrl, dio: dio ?? Dio());
+        _webRTCApi = WebRTCApi(serverUrl: serverUrl, dio: dio ?? Dio()),
+        _deviceApi = DeviceApi(serverUrl: serverUrl, dio: dio ?? Dio());
 
   final AuthApi _authApi;
   final UserApi _userApi;
@@ -45,6 +48,7 @@ class ChatAppApi {
   final NotificationApi _notificationApi;
   final SearchApi _searchApi;
   final WebRTCApi _webRTCApi;
+  final DeviceApi _deviceApi;
 
   //auth api
   Future<User> verifyUser(String bearerToken) async {
@@ -261,5 +265,26 @@ class ChatAppApi {
   Future<bool> postWebRTC(
       String bearerToken, String friendId, dynamic data) async {
     return await _webRTCApi.postWebRTC(bearerToken, friendId, data);
+  }
+
+  //Device API
+  Future<List<Device>> getDevices(String bearerToken) async {
+    return await _deviceApi.getDevices(bearerToken);
+  }
+
+  Future<bool> postDevice(
+    String bearerToken,
+    String deviceId,
+    String name,
+    String fcmToken,
+  ) async {
+    return await _deviceApi.postDevice(bearerToken, deviceId, name, fcmToken);
+  }
+
+  Future<bool> deleteUserDevice(
+    String bearerToken,
+    String deviceId,
+  ) async {
+    return await _deviceApi.deleteUserDevice(bearerToken, deviceId);
   }
 }

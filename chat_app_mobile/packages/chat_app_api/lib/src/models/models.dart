@@ -5,3 +5,4 @@ export 'message.dart';
 export 'message_search.dart';
 export 'notification.dart';
 export 'search.dart';
+export 'device.dart';

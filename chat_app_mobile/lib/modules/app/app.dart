@@ -3,6 +3,7 @@ import 'package:chat_app_mobile/config/router/app_router.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/search/bloc/search_bloc.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
+import 'package:device_repository/device_repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
     required NotificationRepository notificationRepository,
     required SearchRepository searchRepository,
     required WebRTCRepostiory webRTCRepostiory,
+    required DeviceRepository deviceRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
         _friendRepository = friendRepository,
@@ -34,7 +36,8 @@ class MyApp extends StatelessWidget {
         _messageRepository = messageRepository,
         _notificationRepository = notificationRepository,
         _searchRepository = searchRepository,
-        _webRTCRepostiory = webRTCRepostiory;
+        _webRTCRepostiory = webRTCRepostiory,
+        _deviceRepository = deviceRepository;
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
@@ -44,6 +47,7 @@ class MyApp extends StatelessWidget {
   final NotificationRepository _notificationRepository;
   final SearchRepository _searchRepository;
   final WebRTCRepostiory _webRTCRepostiory;
+  final DeviceRepository _deviceRepository;
 
   // This widget is the root of your application.
   @override
@@ -58,13 +62,16 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(value: _notificationRepository),
         RepositoryProvider.value(value: _searchRepository),
         RepositoryProvider.value(value: _webRTCRepostiory),
+        RepositoryProvider.value(value: _deviceRepository),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (_) => AppBloc(
-                authRepository: _authRepository,
-                webRTCRepostiory: _webRTCRepostiory),
+              authRepository: _authRepository,
+              webRTCRepostiory: _webRTCRepostiory,
+              deviceRepository: _deviceRepository,
+            ),
           ),
           BlocProvider(
             create: (_) => SearchBloc(_searchRepository, _authRepository),
@@ -106,7 +113,7 @@ class _MyAppViewState extends State<MyAppView> {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
-          title: 'Flutter Demo',
+          title: 'CS Chat App',
           theme: ThemeData(
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: Colors.white,
