@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/widgets/alert_button/accept_button.dart';
+import '../../../common/widgets/alert_button/denied_button.dart';
+
 class ItemUserRequest extends StatelessWidget {
   const ItemUserRequest(
       {super.key,
@@ -31,31 +34,22 @@ class ItemUserRequest extends StatelessWidget {
         "Deny request",
         "Do you want to deny request friends!",
         [
-          TextButton(
-            onPressed: () {
+          DeniedButton(
+            handleClick: () {
               // Close the dialog
               Navigator.of(ctx).pop();
             },
-            child: Text(
-              'No',
-              style: TextStyle(
-                color: Theme.of(ctx).errorColor,
-                fontSize: 16.sp,
-              ),
-            ),
           ),
-          TextButton(
-            onPressed: () {
+          SizedBox(
+            width: 16.sp,
+          ),
+          AcceptButton(
+            handleClick: () {
               ctx
                   .read<FriendsRequestBloc>()
                   .add(FriendRequestCardAction(id: id, action: action));
               Navigator.of(ctx).pop();
             },
-            child: Text(
-              'Yes',
-              style:
-                  TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-            ),
           ),
         ],
       );

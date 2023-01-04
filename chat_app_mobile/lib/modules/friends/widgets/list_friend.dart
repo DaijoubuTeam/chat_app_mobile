@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common/widgets/alert_button/accept_button.dart';
+import '../../../common/widgets/alert_button/denied_button.dart';
 import '../../chat_detail/view/view.dart';
 
 class ListFriend extends StatelessWidget {
@@ -33,31 +35,20 @@ class ListFriend extends StatelessWidget {
       "Confirm delete friend",
       "Do you want to delete your friend?",
       [
-        // The "Yes" button
-
-        TextButton(
-          onPressed: () {
+        DeniedButton(
+          handleClick: () {
             // Close the dialog
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'No',
-            style: TextStyle(
-              color: Theme.of(ctx).errorColor,
-              fontSize: 16.sp,
-            ),
-          ),
         ),
-        TextButton(
-          onPressed: () {
+        SizedBox(
+          width: 16.sp,
+        ),
+        AcceptButton(
+          handleClick: () {
             ctx.read<FriendsBloc>().add(FriendsDeleted(friendId: friendId));
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'Yes',
-            style:
-                TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-          ),
         ),
       ],
     );

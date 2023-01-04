@@ -5,16 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/widgets/alert_button/accept_button.dart';
 import '../../../common/widgets/alert_button/denied_button.dart';
 import '../../../common/widgets/dialogs/confirm_dialog.dart';
-import '../../app/bloc/app_bloc.dart';
+import '../bloc/setting_bloc.dart';
 
-class SettingLogOutButton extends StatelessWidget {
-  const SettingLogOutButton({super.key});
+class CardChangePassword extends StatelessWidget {
+  const CardChangePassword({
+    Key? key,
+  }) : super(key: key);
 
-  void handleLogOutButton(BuildContext ctx) {
+  void _handleClickButtonChangePassword(BuildContext ctx) {
     ConfirmDiaglog.showConfirmDialog(
       ctx,
-      "Confirm log out",
-      "Do you want to log out?",
+      "Reset password",
+      " Do you want to reset your password?",
       [
         DeniedButton(
           handleClick: () {
@@ -27,9 +29,10 @@ class SettingLogOutButton extends StatelessWidget {
         ),
         AcceptButton(
           handleClick: () {
-            ctx.read<AppBloc>().add(AppLogOutRequested());
+            ctx.read<SettingBloc>().add(SettingPageChangePassword());
+            Navigator.of(ctx).pop();
           },
-        )
+        ),
       ],
     );
   }
@@ -41,18 +44,21 @@ class SettingLogOutButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: ListTile(
-        iconColor: Colors.red[400],
-        textColor: Colors.red[400],
         leading: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Icon(Icons.login_outlined)],
+          children: const <Widget>[
+            Icon(
+              Icons.password,
+              color: Colors.black,
+            )
+          ],
         ),
         minLeadingWidth: 16,
         title: const Text(
-          'Log out',
+          'Change password',
           style: TextStyle(fontSize: 18),
         ),
-        onTap: () => handleLogOutButton(context),
+        onTap: () => _handleClickButtonChangePassword(context),
       ),
     );
   }

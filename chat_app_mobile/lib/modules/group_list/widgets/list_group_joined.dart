@@ -8,6 +8,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common/widgets/alert_button/accept_button.dart';
+import '../../../common/widgets/alert_button/denied_button.dart';
 import '../../../common/widgets/stateless/list_title/person_list_item.dart';
 import '../../chat_detail/view/view.dart';
 
@@ -33,33 +35,22 @@ class ListGroupJoined extends StatelessWidget {
       "Confirm delete group",
       "Do you want to delete group?",
       [
-        // The "Yes" button
-
-        TextButton(
-          onPressed: () {
+        DeniedButton(
+          handleClick: () {
             // Close the dialog
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'No',
-            style: TextStyle(
-              color: Theme.of(ctx).errorColor,
-              fontSize: 16.sp,
-            ),
-          ),
         ),
-        TextButton(
-          onPressed: () {
+        SizedBox(
+          width: 16.sp,
+        ),
+        AcceptButton(
+          handleClick: () {
             ctx
                 .read<GroupListBloc>()
                 .add(GroupListGroupDeleted(idChatRoom: groupId));
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'Yes',
-            style:
-                TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-          ),
         ),
       ],
     );
@@ -71,33 +62,22 @@ class ListGroupJoined extends StatelessWidget {
       "Confirm leave group",
       "Do you want to leave group?",
       [
-        // The "Yes" button
-
-        TextButton(
-          onPressed: () {
+        DeniedButton(
+          handleClick: () {
             // Close the dialog
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'No',
-            style: TextStyle(
-              color: Theme.of(ctx).errorColor,
-              fontSize: 16.sp,
-            ),
-          ),
         ),
-        TextButton(
-          onPressed: () {
+        SizedBox(
+          width: 16.sp,
+        ),
+        AcceptButton(
+          handleClick: () {
             ctx
                 .read<GroupListBloc>()
                 .add(GroupListGroupLeft(idChatRoom: groupId));
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'Yes',
-            style:
-                TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-          ),
         ),
       ],
     );

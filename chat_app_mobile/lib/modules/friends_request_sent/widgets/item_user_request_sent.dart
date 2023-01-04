@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/widgets/alert_button/accept_button.dart';
+import '../../../common/widgets/alert_button/denied_button.dart';
+
 class ItemUserRequestSent extends StatelessWidget {
   const ItemUserRequestSent(
       {super.key,
@@ -30,31 +33,22 @@ class ItemUserRequestSent extends StatelessWidget {
       "Revoke request",
       "Do you want to revoke request friends!",
       [
-        TextButton(
-          onPressed: () {
+        DeniedButton(
+          handleClick: () {
             // Close the dialog
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'No',
-            style: TextStyle(
-              color: Theme.of(ctx).errorColor,
-              fontSize: 16.sp,
-            ),
-          ),
         ),
-        TextButton(
-          onPressed: () {
+        SizedBox(
+          width: 16.sp,
+        ),
+        AcceptButton(
+          handleClick: () {
             ctx
                 .read<FriendRequestSentBloc>()
                 .add(FriendRequestCardSubmitted(id: uid));
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'Yes',
-            style:
-                TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-          ),
         ),
       ],
     );
