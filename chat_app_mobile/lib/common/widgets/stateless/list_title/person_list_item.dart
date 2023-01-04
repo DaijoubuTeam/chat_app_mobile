@@ -105,24 +105,24 @@ class PersonListItem extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                if (isShowPoint == true)
-                  Container(
-                    height: 14,
-                    width: 14,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    // child: const Center(
-                    //   child: Text(
-                    //     "3",
-                    //     style: TextStyle(
-                    //       fontSize: 8,
-                    //       color: Colors.white,
-                    //     ),
-                    //   ),
-                    // ),
-                  ),
+                // if (isShowPoint == true)
+                //   Container(
+                //     height: 14,
+                //     width: 14,
+                //     decoration: BoxDecoration(
+                //       color: Theme.of(context).primaryColor,
+                //       shape: BoxShape.circle,
+                //     ),
+                //     // child: const Center(
+                //     //   child: Text(
+                //     //     "3",
+                //     //     style: TextStyle(
+                //     //       fontSize: 8,
+                //     //       color: Colors.white,
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //   ),
               ],
             ),
           ),

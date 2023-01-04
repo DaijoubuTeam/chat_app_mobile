@@ -54,10 +54,10 @@ class GroupRequestView extends StatelessWidget {
                       text: categories[index],
                     );
                   }),
-                  labelColor: Colors.black,
+                  labelColor: Theme.of(context).primaryColor,
+                  unselectedLabelColor: Colors.grey,
                   labelStyle: const TextStyle(
-                    fontSize: 16,
-                  ),
+                      fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ),
               body: TabBarView(

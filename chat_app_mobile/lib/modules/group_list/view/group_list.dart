@@ -29,26 +29,26 @@ class GroupListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: <Widget>[
-          const ButtonRequestGroup(),
-          const ButtonCreateGroup(),
-          Divider(
-            height: 25,
-            color: Theme.of(context).backgroundColor,
-            thickness: 16,
-          ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                context.read<GroupListBloc>().add(GroupListInited());
-              },
-              child: const Scrollbar(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<GroupListBloc>().add(GroupListInited());
+        },
+        child: Column(
+          children: <Widget>[
+            const ButtonRequestGroup(),
+            const ButtonCreateGroup(),
+            Divider(
+              height: 25,
+              color: Theme.of(context).backgroundColor,
+              thickness: 16,
+            ),
+            const Expanded(
+              child: Scrollbar(
                 child: ListGroupJoined(),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

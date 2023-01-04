@@ -137,7 +137,13 @@ class ListGroupJoined extends StatelessWidget {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state.status == FormzStatus.submissionCanceled) {
+        } else if (state.status == FormzStatus.submissionSuccess) {
+          final listGroup = state.listChatRoom!;
+          if (listGroup.isEmpty) {
+            return const Center(
+              child: Text("No groups"),
+            );
+          }
           return ListView.builder(
             itemBuilder: ((context, index) {
               return PersonListItem(
@@ -164,10 +170,12 @@ class ListGroupJoined extends StatelessWidget {
             }),
             itemCount: state.listChatRoom!.length,
           );
-        } else {
+        } else if (state.status == FormzStatus.submissionCanceled) {
           return const Center(
             child: Text("Somethings wrongs"),
           );
+        } else {
+          return Container();
         }
       },
     );
