@@ -33,9 +33,6 @@ class PersonListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      // The start action pane is the one at the left or the top side.
-
-      // The end action pane is the one at the right or the bottom side.
       startActionPane: startActionPane,
       endActionPane: endActionPane,
       child: Container(
@@ -58,23 +55,23 @@ class PersonListItem extends StatelessWidget {
                 widthImage: 48,
                 heightImage: 48,
               ),
-              if (isOnline)
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 16,
-                    width: 16,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3,
-                      ),
-                    ),
-                  ),
-                )
+              // if (isOnline)
+              //   Positioned(
+              //     right: 0,
+              //     bottom: 0,
+              //     child: Container(
+              //       height: 16,
+              //       width: 16,
+              //       decoration: BoxDecoration(
+              //         color: Colors.green,
+              //         shape: BoxShape.circle,
+              //         border: Border.all(
+              //           color: Colors.white,
+              //           width: 3,
+              //         ),
+              //       ),
+              //     ),
+              //   )
             ],
           ),
           title: Text(

@@ -53,7 +53,7 @@ class DeviceApi {
           data: {
             "deviceId": deviceId,
             "name": name,
-            "fcmToken": fcmToken,
+            "token": fcmToken,
           });
 
       if (response.statusCode == 201) {

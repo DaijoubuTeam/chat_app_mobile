@@ -5,6 +5,7 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
+import 'package:chat_app_mobile/utils/device_infor.dart';
 import 'package:chat_app_mobile/utils/select_notification_stream.dart';
 import 'package:device_repository/device_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -33,9 +34,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       add(AppUserChanged(user));
     });
 
+    _addNewDeviceInformation();
+
     _subcribeNotification();
     _subscribeWebRTC();
-    _getFcmToken();
+    _subscribeFirebaeMessaging();
   }
 
   final AuthRepository _authRepository;
@@ -141,18 +144,35 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _addNewDeviceInformation() async {
     String? fcmToken = await _getFcmToken();
 
-    if (fcmToken == null) return;
+    String? deviceId = await DeviceInfor.getAndroidId();
+
+    String? deviceModel = await DeviceInfor.getDeviceModel();
+
+    final bearerToken = await _authRepository.bearToken;
+
+    if (fcmToken != null &&
+        deviceId != null &&
+        deviceModel != null &&
+        bearerToken != null) {
+      _deviceRepository.postDevice(
+          bearerToken, deviceId, deviceModel, fcmToken);
+    }
   }
 
   void _subscribeFirebaeMessaging() {
-    // listen if fcmToken refresh
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      // TODO: If necessary send token to application server.
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+      String? deviceId = await DeviceInfor.getAndroidId();
 
-      // Note: This callback is fired at each app startup and whenever a new
-      // token is generated.
+      String? deviceModel = await DeviceInfor.getDeviceModel();
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (deviceId != null && deviceModel != null && bearerToken != null) {
+        _deviceRepository.postDevice(
+            bearerToken, deviceId, deviceModel, fcmToken);
+      }
     }).onError((err) {
-      // Error getting token.
+      log(err.toString());
     });
   }
 

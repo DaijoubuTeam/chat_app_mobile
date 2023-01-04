@@ -6,6 +6,7 @@ import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
+import 'package:chat_app_mobile/modules/devices/view/device_page.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/fill_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/forgot_password/view/view.dart';
@@ -178,8 +179,12 @@ class AppRouter {
       GoRoute(
         name: EditProfilePage.namePage,
         path: '/edit-profile',
-        builder: (BuildContext context, GoRouterState state) {
-          return const EditProfilePage();
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: const EditProfilePage(),
+          );
         },
       ),
       GoRoute(
@@ -217,6 +222,17 @@ class AppRouter {
         path: '/create-group',
         builder: (BuildContext context, GoRouterState state) {
           return const GroupCreatePage();
+        },
+      ),
+      GoRoute(
+        name: DevicePage.namePage,
+        path: '/devices',
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: const DevicePage(),
+          );
         },
       ),
     ],

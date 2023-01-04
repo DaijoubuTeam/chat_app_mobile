@@ -63,6 +63,7 @@ dependencies:
   flutter_sound: ^9.2.13
   audioplayers: ^1.2.0
   video_player: ^2.4.10
+  device_info_plus: ^3.2.4
   auth_repository: 
     path: packages/auth_repository
   user_repository:

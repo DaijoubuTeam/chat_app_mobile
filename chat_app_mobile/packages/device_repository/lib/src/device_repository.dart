@@ -7,7 +7,7 @@ class DeviceRepository {
 
   final chat_app_api.ChatAppApi _chatAppApi;
 
-  Future<List<Device>> getChatRoom(String bearerToken, String adminId) async {
+  Future<List<Device>> getDevices(String bearerToken) async {
     final List<chat_app_api.Device> devicesApi =
         await _chatAppApi.getDevices(bearerToken);
 
@@ -17,7 +17,7 @@ class DeviceRepository {
     return devicesRepo;
   }
 
-  Future<bool> createNewChatRoom(
+  Future<bool> postDevice(
     String bearerToken,
     String deviceId,
     String name,
@@ -31,7 +31,7 @@ class DeviceRepository {
     );
   }
 
-  Future<bool> deleteDe(
+  Future<bool> deleteUserDevice(
     String bearerToken,
     String deviceId,
   ) async {
