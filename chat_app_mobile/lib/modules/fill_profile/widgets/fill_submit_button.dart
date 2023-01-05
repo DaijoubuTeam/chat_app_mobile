@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common/widgets/stateless/buttons/elevated_button.dart';
+import '../../../utils/hide_keyboard.dart';
 
 class FillSubmitForm extends StatelessWidget {
   const FillSubmitForm({super.key});
@@ -22,6 +23,7 @@ class FillSubmitForm extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButtonCustom(
           onPressed: () => {
+            SettingsKeyboard.hideKeyBoard(context),
             context.read<FillProfileBloc>().add(FillProfileFormSubmited()),
           },
           text: 'Let\'s start',

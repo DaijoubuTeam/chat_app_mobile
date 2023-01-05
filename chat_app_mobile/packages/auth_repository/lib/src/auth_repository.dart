@@ -64,7 +64,7 @@ class AuthRepository {
       );
       await _auth.signInWithCredential(credential);
     } on firebase_auth.FirebaseAuthException catch (e) {
-      throw Exception(e);
+      throw Exception(e.message);
     } catch (e) {
       throw Exception(e);
     }
@@ -80,7 +80,7 @@ class AuthRepository {
         password: password,
       );
     } on firebase_auth.FirebaseAuthException catch (e) {
-      throw Exception(e);
+      throw Exception(e.message);
     } catch (e) {
       throw Exception(e);
     }
@@ -96,7 +96,7 @@ class AuthRepository {
         password: password,
       );
     } on firebase_auth.FirebaseAuthException catch (e) {
-      throw Exception(e);
+      throw Exception(e.message);
     } catch (e) {
       throw Exception(e);
     }

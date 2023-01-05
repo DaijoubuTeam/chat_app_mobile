@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
 
+import '../../../utils/hide_keyboard.dart';
 import '../../friend_profile/view/view.dart';
 
 class FindFriendPage extends StatelessWidget {
@@ -50,31 +51,28 @@ class FindFriendView extends StatelessWidget {
               (state as FindFriendSuccess).friendInfor;
           Navigator.pop(
               context, {"isFindFriend": true, "uid": friendInfor.uid});
-          // Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //     builder: (ctx) => FriendProfilePage(
-          //           friendId: friendInfor.uid,
-          //         )));
-
         }
       },
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: 32,
-            left: 32,
-            right: 32,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            SizedBox(
-              height: 8.h,
-            ),
-            const FindFriendInput(),
-            SizedBox(
-              height: 8.h,
-            ),
-            const FindFriendButton()
-          ],
+      child: GestureDetector(
+        onTap: () {
+          SettingsKeyboard.hideKeyBoard(context);
+        },
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 32, left: 32, right: 32, bottom: 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 8.h,
+              ),
+              const FindFriendInput(),
+              SizedBox(
+                height: 8.h,
+              ),
+              const FindFriendButton()
+            ],
+          ),
         ),
       ),
     );

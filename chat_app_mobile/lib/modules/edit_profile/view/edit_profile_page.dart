@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
+import '../../../utils/hide_keyboard.dart';
+
 class EditProfilePage extends StatelessWidget {
   static String namePage = 'EditProfilePage';
 
@@ -37,37 +39,42 @@ class EditProfileView extends StatelessWidget {
       appBar: const AppBarCustom(
         title: "Edit Profile",
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              SizedBox(
-                height: 8,
-              ),
-              EditAvatar(),
-              SizedBox(
-                height: 36,
-              ),
-              EditEmailInput(),
-              SizedBox(
-                height: 8,
-              ),
-              EditFullNameInput(),
-              SizedBox(
-                height: 8,
-              ),
-              EditPhoneInput(),
-              SizedBox(
-                height: 8,
-              ),
-              EditAboutInput(),
-              SizedBox(
-                height: 8,
-              ),
-              EditSubmitButton()
-            ],
+      body: GestureDetector(
+        onTap: () {
+          SettingsKeyboard.hideKeyBoard(context);
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                SizedBox(
+                  height: 8,
+                ),
+                EditAvatar(),
+                SizedBox(
+                  height: 36,
+                ),
+                EditEmailInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditFullNameInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditPhoneInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditAboutInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                EditSubmitButton()
+              ],
+            ),
           ),
         ),
       ),
