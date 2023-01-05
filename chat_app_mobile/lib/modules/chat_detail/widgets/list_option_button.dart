@@ -16,16 +16,16 @@ class ListOptionButton extends StatelessWidget {
             IconButton(
               icon: state.isShowSticker
                   ? Icon(
-                      Icons.sentiment_satisfied_alt,
+                      Icons.star_border_outlined,
                       color: Theme.of(context).primaryColor,
                     )
-                  : const Icon(Icons.sentiment_satisfied_alt_outlined),
+                  : const Icon(Icons.star_border_outlined),
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 SettingsKeyboard.hideKeyBoard(context);
                 context.read<ChatDetailBloc>().add(
-                      const ChatDetailShowOptionChanged(
-                        isShowSticker: true,
+                      ChatDetailShowOptionChanged(
+                        isShowSticker: !state.isShowSticker,
                         isShowEmoji: false,
                         isShowSend: false,
                       ),
@@ -35,17 +35,17 @@ class ListOptionButton extends StatelessWidget {
             IconButton(
               icon: state.isShowEmoji
                   ? Icon(
-                      Icons.star_border_sharp,
+                      Icons.sentiment_satisfied_alt,
                       color: Theme.of(context).primaryColor,
                     )
-                  : const Icon(Icons.star_border_sharp),
+                  : const Icon(Icons.sentiment_satisfied_alt_rounded),
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 SettingsKeyboard.hideKeyBoard(context);
                 context.read<ChatDetailBloc>().add(
-                      const ChatDetailShowOptionChanged(
+                      ChatDetailShowOptionChanged(
                         isShowSticker: false,
-                        isShowEmoji: true,
+                        isShowEmoji: !state.isShowEmoji,
                         isShowSend: false,
                       ),
                     );

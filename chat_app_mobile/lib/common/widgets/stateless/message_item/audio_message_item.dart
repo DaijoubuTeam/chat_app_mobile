@@ -118,44 +118,63 @@ class _AudioMessageItemState extends State<AudioMessageItem> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         CircleAvatar(
-          radius: 20.w,
+          radius: 20,
           backgroundColor:
               widget.isMe ? Colors.white : Theme.of(context).primaryColor,
-          child: IconButton(
-            onPressed: () async {
-              if (!isPlay) {
-                // await audioPlayer.play(UrlSource(widget.url));
-                await audioPlayer.resume();
-              } else {
-                await audioPlayer.pause();
-              }
-            },
-            icon: Icon(
-              isPlay ? Icons.pause : Icons.play_arrow,
-              color:
-                  widget.isMe ? Theme.of(context).primaryColor : Colors.white,
-            ),
-            iconSize: 28.sp,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: IconButton(
+                  onPressed: () async {
+                    if (!isPlay) {
+                      // await audioPlayer.play(UrlSource(widget.url));
+                      await audioPlayer.resume();
+                    } else {
+                      await audioPlayer.pause();
+                    }
+                  },
+                  icon: Icon(
+                    isPlay ? Icons.pause : Icons.play_arrow,
+                    color: widget.isMe
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                  ),
+                  iconSize: 24,
+                ),
+              ),
+            ],
           ),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Slider(
-              min: 0.0,
-              activeColor:
-                  widget.isMe ? Colors.white : Theme.of(context).primaryColor,
-              thumbColor:
-                  widget.isMe ? Colors.white : Theme.of(context).primaryColor,
-              inactiveColor:
-                  widget.isMe ? Colors.white : Theme.of(context).primaryColor,
-              max: duration.inSeconds.toDouble(),
-              value: position.inSeconds.toDouble(),
-              onChanged: (value) async {
-                final position = Duration(seconds: value.toInt());
-                await audioPlayer.seek(position);
-                //await audioPlayer.resume();
-              },
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 160.w,
+                  child: Slider(
+                    min: 0.0,
+                    activeColor: widget.isMe
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
+                    thumbColor: widget.isMe
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
+                    inactiveColor: widget.isMe
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
+                    max: duration.inSeconds.toDouble(),
+                    value: position.inSeconds.toDouble(),
+                    onChanged: (value) async {
+                      final position = Duration(seconds: value.toInt());
+                      await audioPlayer.seek(position);
+                      //await audioPlayer.resume();
+                    },
+                  ),
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

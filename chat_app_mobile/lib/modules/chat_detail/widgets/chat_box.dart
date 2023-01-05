@@ -95,7 +95,6 @@ class _ChatBoxState extends State<ChatBox> {
               ),
               EmojiInputCustom(
                 emojiShowing: state.isShowEmoji,
-                editingController: _inputController,
               ),
               StickerOptions(
                 isShowing: state.isShowSticker,

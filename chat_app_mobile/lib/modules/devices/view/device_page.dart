@@ -37,6 +37,7 @@ class DeviceView extends StatelessWidget {
           if (state is DeviceGetListSuccess) {
             return Center(
               child: Container(
+                height: double.infinity,
                 color: Theme.of(context).backgroundColor,
                 child: RefreshIndicator(
                   onRefresh: () async {

@@ -2,7 +2,13 @@ import 'package:intl/intl.dart';
 
 class DateTimeLocalString {
   static String convertToHourMinute(DateTime time) {
-    return DateFormat.jm().format(time.toLocal());
+    final checkToday = calculateDifference(time);
+    if (checkToday == 0) {
+      return DateFormat.jm().format(time.toLocal());
+    } else if (checkToday == -1) {
+      return "Yesterday";
+    }
+    return DateFormat("dd/MM/yyyy").format(time.toLocal());
   }
 
   static String convertToDayMonthYear(DateTime time) {
@@ -21,5 +27,12 @@ class DateTimeLocalString {
       minutes,
       seconds,
     ].join(':');
+  }
+
+  static int calculateDifference(DateTime date) {
+    DateTime now = DateTime.now();
+    return DateTime(date.year, date.month, date.day)
+        .difference(DateTime(now.year, now.month, now.day))
+        .inDays;
   }
 }

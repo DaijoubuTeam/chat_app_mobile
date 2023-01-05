@@ -64,6 +64,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       ChatDetailPageInited event, Emitter<ChatDetailState> emit) async {
     emit(state.copyWith(
       isLoading: true,
+      isUploadLargeFile: false,
+      isVoceUploaded: false,
     ));
     try {
       final bearerToken = await _authRepository.bearToken;
@@ -120,6 +122,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
           listMessage: listMessage,
           latestMessage: state.chatRoomInfo!.latestMessage,
           status: FormzStatus.pure,
+          isUploadLargeFile: false,
+          isVoceUploaded: false,
         ));
       }
     } catch (e) {
@@ -361,7 +365,9 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     Emitter<ChatDetailState> emit,
   ) async {
     try {
-      emit(state.copyWith(isUploadLargeFile: true));
+      emit(state.copyWith(
+        isUploadLargeFile: true,
+      ));
       final urlDownloadImage = await FireStoreUploadFileService
           .firseStoreService
           .uploadFile(event.fileVideo);
@@ -378,7 +384,10 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         );
 
         if (res) {
-          emit(state.copyWith(isUploadLargeFile: false));
+          emit(state.copyWith(
+            isUploadLargeFile: false,
+            isVoceUploaded: true,
+          ));
           add(ChatDetailPageRefreshed());
         } else {
           FlutterToastCustom.showToast("Send video fail! Try again.", "error");
@@ -393,7 +402,10 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
   Future<void> _onChatDetailVoiceSubmitted(
       ChatDetailVoiceSubmitted event, Emitter<ChatDetailState> emit) async {
     try {
-      emit(state.copyWith(isUploadLargeFile: true));
+      emit(state.copyWith(
+        isUploadLargeFile: true,
+        isVoceUploaded: false,
+      ));
       final urlDownloadImage = await FireStoreUploadFileService
           .firseStoreService
           .uploadRecord(event.fileVideo);
@@ -410,7 +422,10 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         );
 
         if (res) {
-          emit(state.copyWith(isUploadLargeFile: false));
+          emit(state.copyWith(
+            isUploadLargeFile: false,
+            isVoceUploaded: true,
+          ));
           add(ChatDetailPageRefreshed());
         } else {
           FlutterToastCustom.showToast("Send record fail! Try again.", "error");

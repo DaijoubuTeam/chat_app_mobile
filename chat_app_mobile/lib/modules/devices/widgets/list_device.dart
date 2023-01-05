@@ -41,18 +41,17 @@ class ListDevice extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return DeviceItem(
-                        deviceId: "123",
-                        deviceName: "456",
+                        deviceId: state.listDevice[index].id,
+                        deviceName: state.listDevice[index].name,
                       );
                     },
-                    itemCount: 100,
+                    itemCount: state.listDevice.length,
                   ),
                 ),
               ),
             ],
           );
         }
-        return Container();
       },
     );
   }

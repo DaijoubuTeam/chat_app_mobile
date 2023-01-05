@@ -13,37 +13,17 @@ class ChatAppBarTitle extends StatelessWidget {
         return Row(
           children: <Widget>[
             //Avatar
-            Stack(
-              children: [
-                (state.chatRoomInfo?.chatRoomAvatar != null)
-                    ? CircleAvatarCustom(
-                        urlImage: state.chatRoomInfo!.chatRoomAvatar,
-                        widthImage: 40,
-                        heightImage: 40,
-                      )
-                    : const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/empty_avatar.png'),
-                        maxRadius: 20,
-                      ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 16,
-                    width: 16,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3,
-                      ),
-                    ),
+            (state.chatRoomInfo?.chatRoomAvatar != null)
+                ? CircleAvatarCustom(
+                    urlImage: state.chatRoomInfo!.chatRoomAvatar,
+                    widthImage: 40,
+                    heightImage: 40,
+                  )
+                : const CircleAvatar(
+                    backgroundImage:
+                        AssetImage('assets/images/empty_avatar.png'),
+                    maxRadius: 20,
                   ),
-                )
-              ],
-            ),
             const SizedBox(
               width: 16,
             ),
@@ -60,12 +40,6 @@ class ChatAppBarTitle extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  // const Text(
-                  //   'Active 3m ago',
-                  //   style: TextStyle(
-                  //     fontSize: 12,
-                  //   ),
-                  // )
                 ],
               ),
             )

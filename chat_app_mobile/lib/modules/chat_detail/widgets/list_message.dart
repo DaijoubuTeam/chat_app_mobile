@@ -55,8 +55,9 @@ class _ChatContentsState extends State<ChatContents> {
         setState(() {
           controllerOffset = controller.offset;
         });
+        double maxScroll = controller.position.maxScrollExtent;
 
-        if (controller.position.maxScrollExtent == controller.offset) {
+        if (controller.offset == (maxScroll * 2 / 3)) {
           if (mounted) {
             context.read<ChatDetailBloc>().add(ChatDetailListMessageTopLoad());
           }

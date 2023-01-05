@@ -7,19 +7,24 @@ class PopUpMenuItemButton extends StatelessWidget {
     required this.label,
     required this.icon,
     required this.chatRoomId,
+    this.backgroundColor,
   });
 
   final String chatRoomId;
   final String label;
   final IconData icon;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(
-        icon,
-        size: 20.sp,
-        color: Colors.black,
+      leading: CircleAvatar(
+        backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
+        child: Icon(
+          icon,
+          size: 20.sp,
+          color: Colors.white,
+        ),
       ),
       title: Text(
         label,

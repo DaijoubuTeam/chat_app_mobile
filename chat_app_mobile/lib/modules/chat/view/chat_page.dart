@@ -1,5 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/app_bar/home_app_bar.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/message_item/system_message_item.dart';
 import 'package:chat_app_mobile/modules/chat/bloc/chat_bloc.dart';
 import 'package:chat_app_mobile/modules/chat/widgets/chat_item.dart';
 import 'package:chat_app_mobile/modules/chat/widgets/chat_place_holder.dart';
@@ -57,8 +58,8 @@ class ChatView extends StatelessWidget {
                           chatRoomAvatar: listChatRoom[index].chatRoomAvatar,
                           nameActor:
                               listChatRoom[index].latestMessage?.from?.fullname,
-                          latestMessage:
-                              listChatRoom[index].latestMessage?.content,
+                          latestMessage: SystemMessageItem.convertSystemString(
+                              listChatRoom[index].latestMessage?.content ?? ""),
                           time: listChatRoom[index].latestMessage?.createdAt,
                         );
                       }),

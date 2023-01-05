@@ -29,7 +29,14 @@ class VoicePage extends StatelessWidget {
       ),
       child: BlocBuilder<ChatDetailBloc, ChatDetailState>(
         builder: (context, state) {
-          return const VoiceSound();
+          return Padding(
+            padding: EdgeInsets.only(
+                top: 32,
+                left: 32,
+                right: 32,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 32),
+            child: const VoiceSound(),
+          );
         },
       ),
     );
@@ -46,7 +53,7 @@ class VoiceSound extends StatefulWidget {
 class _VoiceSoundState extends State<VoiceSound> {
   final recorder = FlutterSoundRecorder();
   bool isRecordeReady = false;
-  bool isSentReaday = false;
+  bool isSentReady = false;
   XFile? pathFile;
 
   @override
@@ -72,6 +79,9 @@ class _VoiceSoundState extends State<VoiceSound> {
 
   Future record() async {
     if (!isRecordeReady) return;
+    setState(() {
+      isSentReady = false;
+    });
     await recorder.startRecorder(toFile: "audio");
   }
 
@@ -80,7 +90,7 @@ class _VoiceSoundState extends State<VoiceSound> {
     final path = await recorder.stopRecorder();
     final audioFile = XFile(path!);
     setState(() {
-      isSentReaday = true;
+      isSentReady = true;
       pathFile = audioFile;
     });
   }
@@ -90,62 +100,106 @@ class _VoiceSoundState extends State<VoiceSound> {
       ctx
           .read<ChatDetailBloc>()
           .add(ChatDetailVoiceSubmitted(fileVideo: pathFile!));
+      //Navigator.of(ctx).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        StreamBuilder<RecordingDisposition>(
-            stream: recorder.onProgress,
-            builder: (context, snapshot) {
-              final duration =
-                  snapshot.hasData ? snapshot.data!.duration : Duration.zero;
-
-              String twoDigits(int n) => n.toString().padLeft(0);
-
-              final twoDigitsMinutes =
-                  twoDigits(duration.inMinutes.remainder(60));
-
-              final twoDigitsSeconds =
-                  twoDigits(duration.inSeconds.remainder(60));
-
-              return Text(
-                '$twoDigitsMinutes : $twoDigitsSeconds s',
-                style: TextStyle(
-                  fontSize: 80.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            }),
-        Center(
-          child: ElevatedButton(
-            child: Icon(
-              recorder.isRecording ? Icons.stop : Icons.mic,
-              size: 80.sp,
-            ),
-            onPressed: () async {
-              if (recorder.isRecording) {
-                await stop();
-              } else {
-                await record();
-              }
-              setState(() {});
-            },
-          ),
-        ),
-        if (isSentReaday)
-          Center(
-            child: ElevatedButton(
-              child: Icon(
-                Icons.send_outlined,
-                size: 80.sp,
+    return BlocConsumer<ChatDetailBloc, ChatDetailState>(
+      listenWhen: (prev, current) =>
+          prev.isVoceUploaded != current.isVoceUploaded,
+      listener: (context, state) {
+        if (state.isVoceUploaded == true) {
+          Navigator.of(context).pop();
+        }
+      },
+      builder: (context, state) {
+        if (state.isUploadLargeFile) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Center(
+                child: CircularProgressIndicator(),
               ),
-              onPressed: () => _handleSendRecord(context),
+            ],
+          );
+        }
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            StreamBuilder<RecordingDisposition>(
+                stream: recorder.onProgress,
+                builder: (context, snapshot) {
+                  final duration = snapshot.hasData
+                      ? snapshot.data!.duration
+                      : Duration.zero;
+
+                  String twoDigits(int n) => n.toString().padLeft(2, "0");
+
+                  final twoDigitsMinutes =
+                      twoDigits(duration.inMinutes.remainder(60));
+
+                  final twoDigitsSeconds =
+                      twoDigits(duration.inSeconds.remainder(60));
+
+                  return Text(
+                    '$twoDigitsMinutes : $twoDigitsSeconds s',
+                    style: TextStyle(
+                      fontSize: 48.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                }),
+            SizedBox(
+              height: 16.h,
             ),
-          ),
-      ],
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      backgroundColor: Colors.red,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        recorder.isRecording ? Icons.stop : Icons.mic,
+                        size: 64.sp,
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (recorder.isRecording) {
+                        await stop();
+                      } else {
+                        await record();
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  if (isSentReady)
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.upload,
+                          size: 64.sp,
+                        ),
+                      ),
+                      onPressed: () => _handleSendRecord(context),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
