@@ -100,15 +100,19 @@ class _AudioMessageItemState extends State<AudioMessageItem> {
     });
 
     audioPlayer.onDurationChanged.listen((newDuration) {
-      setState(() {
-        duration = newDuration;
-      });
+      if (mounted) {
+        setState(() {
+          duration = newDuration;
+        });
+      }
     });
 
     audioPlayer.onPositionChanged.listen((newPosition) {
-      setState(() {
-        position = newPosition;
-      });
+      if (mounted) {
+        setState(() {
+          position = newPosition;
+        });
+      }
     });
   }
 
