@@ -6,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:user_repository/user_repository.dart';
 
 import '../../../common/widgets/stateless/app_bar/app_bar_title.dart';
+import '../../../utils/hide_keyboard.dart';
 import '../widgets/fill_about_input.dart';
 import '../widgets/fill_avatar.dart';
 import '../widgets/fill_email_input.dart';
@@ -51,36 +52,41 @@ class FillProfileView extends StatelessWidget {
         title: "Update your information",
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              SizedBox(
-                height: 8,
-              ),
-              FillAvatar(),
-              SizedBox(
-                height: 36,
-              ),
-              FillEmailInput(),
-              SizedBox(
-                height: 8,
-              ),
-              FillFullNameInput(),
-              SizedBox(
-                height: 8,
-              ),
-              FillPhoneInput(),
-              SizedBox(
-                height: 8,
-              ),
-              FillProfileAboutInput(),
-              SizedBox(
-                height: 8,
-              ),
-              FillSubmitForm()
-            ],
+        child: GestureDetector(
+          onTap: (() {
+            SettingsKeyboard.hideKeyBoard(context);
+          }),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                SizedBox(
+                  height: 8,
+                ),
+                FillAvatar(),
+                SizedBox(
+                  height: 36,
+                ),
+                FillEmailInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                FillFullNameInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                FillPhoneInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                FillProfileAboutInput(),
+                SizedBox(
+                  height: 8,
+                ),
+                FillSubmitForm()
+              ],
+            ),
           ),
         ),
       ),

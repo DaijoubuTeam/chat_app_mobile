@@ -32,12 +32,12 @@ class ImageMessageItem extends IMessageItem {
           ),
           //shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(16),
-          border: Border(
-            left: BorderSide(
-              color: Theme.of(context).primaryColor,
-              width: 3,
-            ),
-          ),
+          // border: Border(
+          //   left: BorderSide(
+          //     color: Theme.of(context).primaryColor,
+          //     width: 3,
+          //   ),
+          // ),
         ),
       ),
       placeholder: (context, url) => const CircularProgressIndicator(),

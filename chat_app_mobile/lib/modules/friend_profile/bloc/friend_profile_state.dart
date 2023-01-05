@@ -17,9 +17,13 @@ class FriendProfileInitial extends FriendProfileState {
 }
 
 class FriendProfileGetInforSuccess extends FriendProfileState {
-  const FriendProfileGetInforSuccess({required this.friendInfor});
+  const FriendProfileGetInforSuccess({
+    required this.friendInfor,
+    this.isSentRequest = false,
+  });
 
   final user_repository.User friendInfor;
+  final bool isSentRequest;
 
   @override
   List<Object?> get props => [friendInfor];
@@ -28,3 +32,5 @@ class FriendProfileGetInforSuccess extends FriendProfileState {
 class FriendProfileGetInforInLoad extends FriendProfileState {}
 
 class FriendProfileGetInforFailure extends FriendProfileState {}
+
+class FriendProfileSentFriendSuccess extends FriendProfileState {}

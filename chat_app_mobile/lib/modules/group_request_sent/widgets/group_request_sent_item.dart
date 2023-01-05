@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/widgets/alert_button/accept_button.dart';
+import '../../../common/widgets/alert_button/denied_button.dart';
+
 class GroupRequestSentItem extends StatelessWidget {
   const GroupRequestSentItem({
     super.key,
@@ -24,31 +27,21 @@ class GroupRequestSentItem extends StatelessWidget {
   void _handleActionCard(BuildContext ctx, String chatRoomId, String friendId) {
     ConfirmDiaglog.showConfirmDialog(
         ctx, "Confirm revoke", " Do you want to revoke the invitation?", [
-      // The "Yes" button
-
-      TextButton(
-        onPressed: () {
+      DeniedButton(
+        handleClick: () {
           // Close the dialog
           Navigator.of(ctx).pop();
         },
-        child: Text(
-          'No',
-          style: TextStyle(
-            color: Theme.of(ctx).errorColor,
-            fontSize: 16.sp,
-          ),
-        ),
       ),
-      TextButton(
-        onPressed: () {
+      SizedBox(
+        width: 16.sp,
+      ),
+      AcceptButton(
+        handleClick: () {
           ctx.read<GroupRequestSentBloc>().add(GroupRequestSentSubmitted(
               chatRoomId: chatRoomId, friendId: friendId));
           Navigator.of(ctx).pop();
         },
-        child: Text(
-          'Yes',
-          style: TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-        ),
       ),
     ]);
   }

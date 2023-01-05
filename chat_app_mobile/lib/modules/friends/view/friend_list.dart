@@ -31,24 +31,26 @@ class FriendsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          const ButtonRequestFriend(),
-          const ButtonAddNewFriend(),
-          Divider(
-            height: 25,
-            color: Theme.of(context).backgroundColor,
-            thickness: 16,
-          ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {},
-              child: const Scrollbar(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<FriendsBloc>().add(const FriendsInited());
+        },
+        child: Column(
+          children: [
+            const ButtonRequestFriend(),
+            const ButtonAddNewFriend(),
+            Divider(
+              height: 25,
+              color: Theme.of(context).backgroundColor,
+              thickness: 16,
+            ),
+            const Expanded(
+              child: Scrollbar(
                 child: ListFriend(),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

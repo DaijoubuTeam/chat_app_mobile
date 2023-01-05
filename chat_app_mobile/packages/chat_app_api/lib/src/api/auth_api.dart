@@ -23,6 +23,8 @@ class AuthApi {
       final userJson = response.data["user"] as Map<String, dynamic>;
       final user = User.fromJson(userJson);
       return user;
+    } on DioError catch (e) {
+      throw Exception(e.message);
     } catch (e) {
       throw const HttpException("Can't not verify user");
     }
@@ -36,18 +38,10 @@ class AuthApi {
         return true;
       }
       return false;
+    } on DioError catch (e) {
+      throw Exception(e.message);
     } catch (e) {
       throw Exception(e);
     }
   }
-
-  // Future<void> resetPassword(String token, String password) async {
-  //   try {
-  //     final url = '$basePath/reset-password';
-  //     await _dio.patch(url,
-  //         data: {'password': password}, queryParameters: {'token': token});
-  //   } catch (e) {
-  //     throw const HttpException("Send request failed");
-  //   }
-  // }
 }

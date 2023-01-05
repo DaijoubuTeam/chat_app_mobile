@@ -1,8 +1,7 @@
 import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../friends_request_tab/view/friends_request_tab_page.dart';
 
 class ButtonRequestFriend extends StatelessWidget {
@@ -31,22 +30,59 @@ class ButtonRequestFriend extends StatelessWidget {
                 if (state is FriendsGetListSuccess &&
                     state.numberRequestFriend > 0)
                   Container(
-                    height: 16,
-                    width: 16,
-                    decoration: BoxDecoration(
+                    height: 14.h,
+                    width: 14.w,
+                    decoration: const BoxDecoration(
                       color: Colors.red,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3,
+                    ),
+                    child: Center(
+                      child: Text(
+                        state.numberRequestFriend.toString(),
+                        style: TextStyle(
+                          fontSize: 8.sp,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
+                SizedBox(
+                  width: 8.w,
+                ),
+                if (state is FriendsGetListSuccess &&
+                    state.numberSentRequestFriend > 0)
+                  Container(
+                    height: 14.h,
+                    width: 14.w,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        state.numberSentRequestFriend.toString(),
+                        style: TextStyle(
+                          fontSize: 8.sp,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                SizedBox(
+                  width: 4.w,
+                ),
                 const Icon(Icons.chevron_right)
               ],
             ),
-            onTap: () {
-              context.pushNamed(FriendRequestTabPage.namePage);
+            onTap: () async {
+              await Navigator.of(context)
+                  .push(MaterialPageRoute(
+                      builder: (ctx) => const FriendRequestTabPage()))
+                  .then(
+                (_) {
+                  context.read<FriendsBloc>().add(const FriendsInited());
+                },
+              );
             },
           ),
         );

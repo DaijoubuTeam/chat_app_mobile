@@ -30,13 +30,22 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
       if (bearerToken != null) {
         final listFriend =
             await _friendRepository.getListUserFriends(bearerToken);
+
         int numberRequestFriend = 0;
+        int numberSentFriend = 0;
+
         await _friendRepository
             .getListRequestFriend(bearerToken)
             .then((listRequest) => {numberRequestFriend = listRequest.length});
+
+        await _friendRepository
+            .getListRequestsSentFriends(bearerToken)
+            .then((requestSent) => {numberSentFriend = requestSent.length});
+
         emit(FriendsGetListSuccess(
           listFriend: listFriend,
           numberRequestFriend: numberRequestFriend,
+          numberSentRequestFriend: numberSentFriend,
         ));
       }
     } catch (_) {

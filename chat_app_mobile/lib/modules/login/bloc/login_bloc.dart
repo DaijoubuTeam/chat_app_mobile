@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:form_inputs/form_inputs.dart';
@@ -62,14 +62,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       if (event.email.invalid || event.password.invalid) {
-        //emit(const LoginStateInitial());
+        emit(state.copyWith(status: FormzStatus.submissionFailure));
         return;
       }
       await _authRepository.logInWithEmailAndPassword(
           email: event.email.value, password: event.password.value);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } catch (err) {
-      log(err.toString(), name: 'on login submitted error');
+      FlutterToastCustom.showToast(err.toString(), "error");
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
@@ -81,7 +81,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await _authRepository.logInWithGoogle();
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } catch (err) {
-      log(err.toString(), name: 'on login with google submitted error');
+      FlutterToastCustom.showToast(err.toString(), "error");
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }

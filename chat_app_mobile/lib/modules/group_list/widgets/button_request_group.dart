@@ -1,15 +1,21 @@
 import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../group_request/view/view.dart';
 
 class ButtonRequestGroup extends StatelessWidget {
   const ButtonRequestGroup({super.key});
 
-  void _handleTapListTileGroupRequest(BuildContext ctx) {
-    ctx.pushNamed(GroupRequestPage.namePage);
+  void _handleTapListTileGroupRequest(BuildContext ctx) async {
+    await Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (ctx) => const GroupRequestPage()))
+        .then(
+      (_) {
+        ctx.read<GroupListBloc>().add(GroupListRefreshed());
+      },
+    );
   }
 
   @override
@@ -32,17 +38,46 @@ class ButtonRequestGroup extends StatelessWidget {
               children: <Widget>[
                 if (state.numberRequestRoom > 0)
                   Container(
-                    height: 16,
-                    width: 16,
-                    decoration: BoxDecoration(
+                    height: 14.h,
+                    width: 14.w,
+                    decoration: const BoxDecoration(
                       color: Colors.red,
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3,
+                    ),
+                    child: Center(
+                      child: Text(
+                        state.numberRequestRoom.toString(),
+                        style: TextStyle(
+                          fontSize: 8.sp,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
+                SizedBox(
+                  width: 8.w,
+                ),
+                if (state.numberSentRoom > 0)
+                  Container(
+                    height: 14.h,
+                    width: 14.w,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        state.numberSentRoom.toString(),
+                        style: TextStyle(
+                          fontSize: 8.sp,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                SizedBox(
+                  width: 4.w,
+                ),
                 const Icon(Icons.chevron_right)
               ],
             ),

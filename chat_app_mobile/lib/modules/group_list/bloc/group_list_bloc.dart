@@ -41,10 +41,18 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
         );
 
         int numberRequestRoom = 0;
+        int numberSentRoom = 0;
+
         await _chatRoomRepository
             .getAllChatRoomRequest(bearerToken)
             .then((listRequest) {
           numberRequestRoom = listRequest.length;
+        });
+
+        await _chatRoomRepository
+            .getAllChatRoomSent(bearerToken)
+            .then((listSent) {
+          numberSentRoom = listSent.length;
         });
 
         final List<chat_room_repository.ChatRoom> listGroupChatJoined =
@@ -53,8 +61,9 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
         emit(
           state.copyWith(
             listChatRoom: listGroupChatJoined,
-            status: FormzStatus.submissionCanceled,
+            status: FormzStatus.submissionSuccess,
             numberRequestRoom: numberRequestRoom,
+            numberSentRoom: numberSentRoom,
           ),
         );
       }
@@ -75,10 +84,17 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
         );
 
         int numberRequestRoom = 0;
+        int numberSentRoom = 0;
+
         await _chatRoomRepository
             .getAllChatRoomRequest(bearerToken)
             .then((listRequest) {
           numberRequestRoom = listRequest.length;
+        });
+        await _chatRoomRepository
+            .getAllChatRoomSent(bearerToken)
+            .then((listSent) {
+          numberSentRoom = listSent.length;
         });
 
         final List<chat_room_repository.ChatRoom> listGroupChatJoined =
@@ -87,8 +103,9 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
         emit(
           state.copyWith(
             listChatRoom: listGroupChatJoined,
-            status: FormzStatus.submissionCanceled,
+            status: FormzStatus.submissionSuccess,
             numberRequestRoom: numberRequestRoom,
+            numberSentRoom: numberSentRoom,
           ),
         );
       }

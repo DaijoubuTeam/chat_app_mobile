@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/modules/find_friend/bloc/find_friend_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FindFriendButton extends StatelessWidget {
   const FindFriendButton({super.key});
@@ -12,7 +13,7 @@ class FindFriendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: 160.w,
       child: ElevatedButton(
         onPressed: () => handleFindFriendButton(context),
         // border radius
@@ -23,11 +24,11 @@ class FindFriendButton extends StatelessWidget {
             ),
           ),
         ),
-        child: const Padding(
-          padding: EdgeInsets.all(12.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Text(
             'Find Friend',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16.sp),
           ),
         ),
       ),

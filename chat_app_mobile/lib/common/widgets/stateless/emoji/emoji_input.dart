@@ -9,10 +9,8 @@ class EmojiInputCustom extends StatelessWidget {
   const EmojiInputCustom({
     super.key,
     this.emojiShowing = false,
-    required this.editingController,
   });
   final bool emojiShowing;
-  final TextEditingController editingController;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,6 @@ class EmojiInputCustom extends StatelessWidget {
       child: SizedBox(
         height: 250,
         child: EmojiPicker(
-          textEditingController: editingController,
           onEmojiSelected: (_, Emoji emoji) {
             context.read<ChatDetailBloc>().add(
                   ChatDetailSpecificSubmitted(

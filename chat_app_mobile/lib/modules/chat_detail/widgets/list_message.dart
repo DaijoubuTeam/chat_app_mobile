@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:chat_app_mobile/common/widgets/stateless/group_list_view/chat_group_list_view.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
+import 'package:chat_app_mobile/modules/chat_detail/widgets/image_load.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,17 +24,24 @@ class ChatContents extends StatefulWidget {
 class _ChatContentsState extends State<ChatContents> {
   late ScrollController controller;
   late double controllerOffset = 1.0;
+  late String? messageId;
 
   @override
   void initState() {
     super.initState();
-    //init scroll controller and controller offset
-    if (widget.messageId != null) {
-      controller = ScrollController(
-        keepScrollOffset: true,
-        initialScrollOffset: 1,
+    if (mounted) {
+      setState(
+        () {
+          messageId = widget.messageId;
+        },
       );
-      controllerOffset = 1.0;
+    }
+    //init scroll controller and controller offset
+    if (messageId != null) {
+      controller = ScrollController(
+        initialScrollOffset: 25,
+      );
+      controllerOffset = 25.0;
     } else {
       controller = ScrollController(
         keepScrollOffset: true,
@@ -47,17 +55,24 @@ class _ChatContentsState extends State<ChatContents> {
         setState(() {
           controllerOffset = controller.offset;
         });
+        //double maxScroll = controller.position.maxScrollExtent;
 
-        if (controller.position.maxScrollExtent == controller.offset) {
+        if (controller.offset >= (controller.position.maxScrollExtent / 2) &&
+            messageId == null) {
           if (mounted) {
             context.read<ChatDetailBloc>().add(ChatDetailListMessageTopLoad());
           }
         }
-        // if (controller.position.pixels == 0 || widget.messageId != null) {
-        //   if (mounted) {
-        //     context.read<ChatDetailBloc>().add(ChatDetailListMessageLoadMore());
-        //   }
-        // }
+        if (controller.offset == controller.position.maxScrollExtent) {
+          if (mounted) {
+            context.read<ChatDetailBloc>().add(ChatDetailListMessageTopLoad());
+          }
+        }
+        if (controller.position.pixels < 10 && messageId != null) {
+          if (mounted) {
+            context.read<ChatDetailBloc>().add(ChatDetailListMessageDownLoad());
+          }
+        }
       },
     );
   }
@@ -68,6 +83,14 @@ class _ChatContentsState extends State<ChatContents> {
       duration: const Duration(milliseconds: 1200),
       curve: Curves.fastLinearToSlowEaseIn,
     );
+  }
+
+  void _scrollDownSearch(BuildContext ctx) {
+    ctx.read<ChatDetailBloc>().add(const ChatDetailPageInited());
+    // widget.messageId = null;
+    setState(() {
+      messageId = null;
+    });
   }
 
   @override
@@ -104,9 +127,16 @@ class _ChatContentsState extends State<ChatContents> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                         ),
-                        child: GroupListViewCustom(
-                          controller: controller,
-                          datas: listMessage,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: GroupListViewCustom(
+                                controller: controller,
+                                datas: listMessage,
+                              ),
+                            ),
+                            if (state.isUploadLargeFile) const ImageLoad(),
+                          ],
                         ),
                       ),
                     ),
@@ -115,7 +145,9 @@ class _ChatContentsState extends State<ChatContents> {
                         right: 0,
                         bottom: 8.h,
                         child: ButtonGoToLastestMessage(
-                          handleBackToBottom: _scrollDown,
+                          handleBackToBottom: widget.messageId == null
+                              ? _scrollDown
+                              : () => _scrollDownSearch(context),
                         ),
                       ),
                   ],

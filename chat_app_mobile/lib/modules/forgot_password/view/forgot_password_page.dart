@@ -1,6 +1,7 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/modules/forgot_password/bloc/forgot_password_bloc.dart';
+import 'package:chat_app_mobile/utils/hide_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,54 +36,59 @@ class ForgotPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: SingleChildScrollView(
-        child: FormField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          builder: (_) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              CircleAvatar(
-                radius: 60,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(60),
-                  child: Image.asset(
-                    'assets/images/Logo.png',
-                    fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        SettingsKeyboard.hideKeyBoard(context);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: SingleChildScrollView(
+          child: FormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            builder: (_) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 60,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: Image.asset(
+                      'assets/images/Logo.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Text(
-                'Forgot Password?',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.sp,
+                const SizedBox(
+                  height: 32,
                 ),
-              ),
-              const SizedBox(
-                height: 28,
-              ),
-              Text(
-                "Don't worry! Just type in your email and we will send you a email to reset your password!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  height: 1.5,
+                Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 36,
-              ),
-              const ForgotPasswordEmailInput(),
-              const SizedBox(
-                height: 20,
-              ),
-              const ForgotPasswordButton()
-            ],
+                const SizedBox(
+                  height: 28,
+                ),
+                Text(
+                  "Don't worry! Just type in your email and we will send you a email to reset your password!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(
+                  height: 36,
+                ),
+                const ForgotPasswordEmailInput(),
+                const SizedBox(
+                  height: 20,
+                ),
+                const ForgotPasswordButton()
+              ],
+            ),
           ),
         ),
       ),

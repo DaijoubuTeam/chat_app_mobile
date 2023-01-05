@@ -11,6 +11,7 @@ class ChatItem extends StatelessWidget {
     this.chatRoomName,
     this.chatRoomAvatar,
     this.latestMessage,
+    this.nameActor,
     this.time,
   });
 
@@ -18,6 +19,7 @@ class ChatItem extends StatelessWidget {
   final String? messageId;
   final String? chatRoomName;
   final String? chatRoomAvatar;
+  final String? nameActor;
   final String? latestMessage;
   final DateTime? time;
 
@@ -46,6 +48,7 @@ class ChatItem extends StatelessWidget {
       title: chatRoomName,
       subTitle: latestMessage,
       time: time,
+      nameActor: nameActor,
     );
   }
 }

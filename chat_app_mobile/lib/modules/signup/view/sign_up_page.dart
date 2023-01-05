@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/hide_keyboard.dart';
+
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 
@@ -35,59 +37,64 @@ class SignUpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: SingleChildScrollView(
-        child: FormField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          builder: (_) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              CircleAvatar(
-                radius: 60,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(60),
-                  child: Image.asset(
-                    'assets/images/Logo.png',
-                    fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        SettingsKeyboard.hideKeyBoard(context);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: SingleChildScrollView(
+          child: FormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            builder: (_) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 60,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: Image.asset(
+                      'assets/images/Logo.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Text(
-                'Create new account',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.sp,
+                const SizedBox(
+                  height: 32,
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              const SignUpEmailInput(),
-              const SizedBox(
-                height: 4,
-              ),
-              const SignUpPasswordInput(),
-              const SizedBox(
-                height: 8,
-              ),
-              const SignUpConfirmPasswordInput(),
-              const SizedBox(
-                height: 8,
-              ),
-              const SignUpButton(),
-              const SizedBox(
-                height: 16,
-              ),
-              const DividerWithTextCenter(title: 'Or'),
-              const SizedBox(
-                height: 16,
-              ),
-              const SignUpLoginButton()
-            ],
+                Text(
+                  'Create new account',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
+                  ),
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+                const SignUpEmailInput(),
+                const SizedBox(
+                  height: 4,
+                ),
+                const SignUpPasswordInput(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const SignUpConfirmPasswordInput(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const SignUpButton(),
+                const SizedBox(
+                  height: 16,
+                ),
+                const DividerWithTextCenter(title: 'Or'),
+                const SizedBox(
+                  height: 16,
+                ),
+                const SignUpLoginButton()
+              ],
+            ),
           ),
         ),
       ),

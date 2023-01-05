@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/hide_keyboard.dart';
 import '../bloc/sign_up_bloc.dart';
 
 class SignUpButton extends StatelessWidget {
@@ -12,6 +13,7 @@ class SignUpButton extends StatelessWidget {
     String password,
     String confirmPassword,
   ) {
+    SettingsKeyboard.hideKeyBoard(context);
     context.read<SignUpBloc>().add(SignUpSubmitted(
           email: email,
           password: password,

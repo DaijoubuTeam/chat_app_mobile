@@ -2,6 +2,7 @@ import 'package:chat_app_mobile/common/widgets/stateless/app_bar/home_app_bar.da
 import 'package:chat_app_mobile/modules/friends/view/friend_list.dart';
 import 'package:chat_app_mobile/modules/group_list/view/view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ContactPage extends StatelessWidget {
   const ContactPage({super.key});
@@ -16,11 +17,6 @@ class ContactPage extends StatelessWidget {
       const Tab(
         child: GroupListPage(),
       ),
-      // Tab(
-      //   child: Container(
-      //     child: Center(),
-      //   ),
-      // ),
     ];
     return Scaffold(
       body: Center(
@@ -46,10 +42,12 @@ class ContactPage extends StatelessWidget {
                         text: categories[index],
                       );
                     }),
-                    labelColor: Colors.black,
-                    labelStyle: const TextStyle(
-                      fontSize: 16,
+                    labelColor: Theme.of(context).primaryColor,
+                    labelStyle: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                     ),
+                    unselectedLabelColor: Colors.grey,
                   ),
                 ),
                 body: TabBarView(

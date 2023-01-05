@@ -40,17 +40,21 @@ class FireStoreUploadFileService {
     }
   }
 
-  //upload video file
-  Future<String?> uploadVideoFile(File file) async {
+  Future<String?> uploadRecord(XFile file) async {
     try {
       //get name for file by random time.
       String uniqueImageName = DateTime.now().microsecondsSinceEpoch.toString();
       // path for file in firestore
       Reference ref = FirebaseStorage.instance.ref();
-      Reference refDirImage = ref.child("videos");
+      Reference refDirImage = ref.child(TypeFile.images.toString());
       Reference refToUpload = refDirImage.child(uniqueImageName);
-
-      UploadTask? uploadTask = refToUpload.putFile(File(file.path));
+      final newMetadata = SettableMetadata(
+        contentType: "audio/mp3",
+      );
+      UploadTask? uploadTask = refToUpload.putFile(
+        File(file.path),
+        newMetadata,
+      );
       final snapshot = await uploadTask.whenComplete(() => {});
       final urlDownloadImage = await snapshot.ref.getDownloadURL();
       return urlDownloadImage;

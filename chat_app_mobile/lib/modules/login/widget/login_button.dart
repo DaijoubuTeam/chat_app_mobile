@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 
+import '../../../utils/hide_keyboard.dart';
+
 class LoginButton extends StatelessWidget {
   const LoginButton({super.key});
 
   void loginWithEmailAndPassword(
       BuildContext context, Email email, Password password) {
     context.read<LoginBloc>().add(LoginSubmitted(email, password));
+    SettingsKeyboard.hideKeyBoard(context);
   }
 
   @override

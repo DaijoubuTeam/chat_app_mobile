@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firestore_upload_file/firestore_upload_file.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:message_repository/message_repository.dart'
     as message_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
@@ -30,8 +33,10 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     on<ChatDetailContentChanging>(_onChatDetailContentChanging);
     on<ChatDetailContentSubmitted>(_onChatDetailContentSubmitted);
     on<ChatDetailSpecificSubmitted>(_onChatDetailSpecificSubmitted);
-    on<ChatDetailListMessageLoadMore>(_onChatDetailListMessageLoadMore);
+    on<ChatDetailVideoSubmitted>(_onChatDetailVideoSubmitted);
+    on<ChatDetailVoiceSubmitted>(_onChatDetailVoiceSubmitted);
     //load more up
+    on<ChatDetailListMessageLoadMore>(_onChatDetailListMessageLoadMore);
     on<ChatDetailListMessageTopLoad>(_onChatDetailListMessageTopLoad);
     on<ChatDetailListMessageDownLoad>(_onChatDetailListMessageDownLoad);
     on<ChatDetailShowOptionChanged>(_onChatDetailShowOptionChanged);
@@ -57,7 +62,11 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
   Future<void> _onChatDetailPageInited(
       ChatDetailPageInited event, Emitter<ChatDetailState> emit) async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(
+      isLoading: true,
+      isUploadLargeFile: false,
+      isVoceUploaded: false,
+    ));
     try {
       final bearerToken = await _authRepository.bearToken;
 
@@ -113,6 +122,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
           listMessage: listMessage,
           latestMessage: state.chatRoomInfo!.latestMessage,
           status: FormzStatus.pure,
+          isUploadLargeFile: false,
+          isVoceUploaded: false,
         ));
       }
     } catch (e) {
@@ -205,23 +216,23 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     try {
       final bearerToken = await _authRepository.bearToken;
       List<message_repository.Message> listMessage;
-      int newBeforeMessageIndex = state.startMessageIndex;
-      int newAfterMessageIndex = state.endMessageIndex + 10;
+      // int newBeforeMessageIndex = state.startMessageIndex - 10;
+      // int newAfterMessageIndex = state.endMessageIndex + 10;
 
       if (bearerToken != null) {
         if (_messageId != null) {
           listMessage = await _getListMessage(
             bearerToken,
-            newBeforeMessageIndex,
-            newAfterMessageIndex,
-            _messageId,
+            10,
+            10,
+            state.listMessage!.first.id,
             null,
           );
         } else {
           listMessage = await _getListMessage(
             bearerToken,
-            newBeforeMessageIndex,
-            newAfterMessageIndex,
+            10,
+            10,
             null,
             state.chatRoomInfo!.latestMessage!.id,
           );
@@ -229,8 +240,8 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
         emit(state.copyWith(
           listMessage: listMessage,
-          startMessageIndex: newBeforeMessageIndex,
-          endMessageIndex: newAfterMessageIndex,
+          startMessageIndex: 10,
+          endMessageIndex: 10,
           status: FormzStatus.pure,
         ));
       }
@@ -347,6 +358,83 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       before,
       after,
     );
+  }
+
+  Future<void> _onChatDetailVideoSubmitted(
+    ChatDetailVideoSubmitted event,
+    Emitter<ChatDetailState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(
+        isUploadLargeFile: true,
+      ));
+      final urlDownloadImage = await FireStoreUploadFileService
+          .firseStoreService
+          .uploadFile(event.fileVideo);
+      if (urlDownloadImage == null) return;
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final res = await _chatMessageRepository.sendMessage(
+          bearerToken,
+          state.chatRoomId,
+          urlDownloadImage,
+          "video",
+        );
+
+        if (res) {
+          emit(state.copyWith(
+            isUploadLargeFile: false,
+            isVoceUploaded: true,
+          ));
+          add(ChatDetailPageRefreshed());
+        } else {
+          FlutterToastCustom.showToast("Send video fail! Try again.", "error");
+        }
+      }
+    } catch (e) {
+      log(e.toString(), name: 'chatDetailContentSubmitted');
+      FlutterToastCustom.showToast("Send video fail! Try again.", "error");
+    }
+  }
+
+  Future<void> _onChatDetailVoiceSubmitted(
+      ChatDetailVoiceSubmitted event, Emitter<ChatDetailState> emit) async {
+    try {
+      emit(state.copyWith(
+        isUploadLargeFile: true,
+        isVoceUploaded: false,
+      ));
+      final urlDownloadImage = await FireStoreUploadFileService
+          .firseStoreService
+          .uploadRecord(event.fileVideo);
+      if (urlDownloadImage == null) return;
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (bearerToken != null) {
+        final res = await _chatMessageRepository.sendMessage(
+          bearerToken,
+          state.chatRoomId,
+          urlDownloadImage,
+          "record",
+        );
+
+        if (res) {
+          emit(state.copyWith(
+            isUploadLargeFile: false,
+            isVoceUploaded: true,
+          ));
+          add(ChatDetailPageRefreshed());
+        } else {
+          FlutterToastCustom.showToast("Send record fail! Try again.", "error");
+        }
+      }
+    } catch (e) {
+      log(e.toString(), name: 'chatDetailContentSubmitted');
+      FlutterToastCustom.showToast("Send record fail! Try again.", "error");
+    }
   }
 
   @override

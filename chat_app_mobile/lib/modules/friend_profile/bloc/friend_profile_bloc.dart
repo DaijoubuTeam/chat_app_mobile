@@ -41,7 +41,17 @@ class FriendProfileBloc extends Bloc<FriendProfileEvent, FriendProfileState> {
         final user_repository.User friendInfor =
             await _userRepository.getUserById(bearerToken, friendId);
 
-        emit(FriendProfileGetInforSuccess(friendInfor: friendInfor));
+        final List<friend_repository.User> listRequestFriendSent =
+            await _friendRepository.getListRequestsSentFriends(bearerToken);
+
+        bool isRequestSent = listRequestFriendSent
+                .indexWhere((requestSent) => requestSent.uid == friendId) !=
+            -1;
+
+        emit(FriendProfileGetInforSuccess(
+          friendInfor: friendInfor,
+          isSentRequest: isRequestSent,
+        ));
       }
     } catch (err) {
       emit(FriendProfileGetInforFailure());
@@ -66,6 +76,7 @@ class FriendProfileBloc extends Bloc<FriendProfileEvent, FriendProfileState> {
 
         if (res) {
           FlutterToastCustom.showToast("Send request success", "success");
+          emit(FriendProfileSentFriendSuccess());
         } else {
           FlutterToastCustom.showToast("Send request fail", "error");
         }

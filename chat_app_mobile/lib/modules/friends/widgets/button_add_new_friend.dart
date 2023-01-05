@@ -1,20 +1,48 @@
+import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../find_friend/view/view.dart';
+import '../../friend_profile/view/friend_profile_page.dart';
 
 class ButtonAddNewFriend extends StatelessWidget {
   const ButtonAddNewFriend({super.key});
 
-  void _buildModalBottomSheet(BuildContext ctx) {
-    showModalBottomSheet(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20.0),
-        ),
-      ),
-      context: ctx,
-      isScrollControlled: true,
-      builder: ((ctx) => const FindFriendPage()),
+  void _buildModalBottomSheet(BuildContext ctx) async {
+    // showModalBottomSheet(
+    //   shape: const RoundedRectangleBorder(
+    //     borderRadius: BorderRadius.vertical(
+    //       top: Radius.circular(20.0),
+    //     ),
+    //   ),
+    //   context: ctx,
+    //   isScrollControlled: true,
+    //   builder: ((ctx) => const FindFriendPage()),
+    // );
+    await Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (ctx) => const FindFriendPage()))
+        .then(
+      (value) async {
+        final isFindFriend = value["isFindFriend"] as bool;
+
+        if (!isFindFriend) {
+          return;
+        } else {
+          final uid = value["uid"] as String;
+          // ctx.pushNamed(
+          //   FriendProfilePage.namePage,
+          //   extra: uid,
+          // );
+          await Navigator.of(ctx)
+              .push(MaterialPageRoute(
+                  builder: (ctx) => FriendProfilePage(friendId: uid)))
+              .then((_) => {
+                    ctx.read<FriendsBloc>().add(const FriendsInited()),
+                  });
+        }
+        //ctx.read<FriendsBloc>().add(const FriendsInited());
+      },
     );
   }
 

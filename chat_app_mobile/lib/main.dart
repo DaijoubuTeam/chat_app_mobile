@@ -6,11 +6,11 @@ import 'package:chat_app_mobile/bootstrap.dart';
 import 'package:chat_app_mobile/firebase_options.dart';
 import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
+import 'package:device_repository/device_repository.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:friend_repository/friend_repository.dart';
@@ -21,23 +21,11 @@ import 'package:message_repository/message_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
 
-class CustomImageCache extends WidgetsFlutterBinding {
-  @override
-  ImageCache createImageCache() {
-    ImageCache imageCache = super.createImageCache();
-    // Set your image cache size
-    imageCache.maximumSizeBytes = 1024 * 1024 * 1000; // 100 MB
-    return imageCache;
-  }
-}
-
 Future<void> main() async {
-  //custom cache image
-  if (kReleaseMode) {
-    CustomImageCache();
-  }
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //set up url
@@ -59,10 +47,7 @@ Future<void> main() async {
   final firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
   // initial repository
-  final authenticationRepository = AuthRepository(
-    firebaseAuth,
-    chatAppApi,
-  );
+  final authenticationRepository = AuthRepository(firebaseAuth, chatAppApi);
   final userRepository = UserRepository(chatAppApi);
   final friendRepository = FriendRepository(chatAppApi);
   final chatRoomRepository = ChatRoomRepository(chatAppApi);
@@ -70,6 +55,7 @@ Future<void> main() async {
   final notificationRepository = NotificationRepository(chatAppApi);
   final searchRepository = SearchRepository(chatAppApi);
   final webRTCRepository = WebRTCRepostiory(chatAppApi);
+  final deviceRepository = DeviceRepository(chatAppApi);
 
   await authenticationRepository.user.first;
 
@@ -84,5 +70,6 @@ Future<void> main() async {
     notificationRepository,
     searchRepository,
     webRTCRepository,
+    deviceRepository,
   );
 }

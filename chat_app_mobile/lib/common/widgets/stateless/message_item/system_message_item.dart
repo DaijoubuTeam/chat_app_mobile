@@ -36,7 +36,7 @@ class SystemMessageItem extends IMessageItem {
     );
   }
 
-  String convertSystemString(String content) {
+  static String convertSystemString(String content) {
     switch (content) {
       case "createRoom":
         {

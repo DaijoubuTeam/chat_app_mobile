@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../utils/hide_keyboard.dart';
+
 class LoginSignUpButton extends StatelessWidget {
   const LoginSignUpButton({super.key});
 
@@ -13,7 +15,10 @@ class LoginSignUpButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
-          onPressed: () => handleSignUpButton(context),
+          onPressed: () => {
+                handleSignUpButton(context),
+                SettingsKeyboard.hideKeyBoard(context)
+              },
           // border radius
           style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(

@@ -8,6 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart';
 
+import '../../../utils/hide_keyboard.dart';
 import '../widgets/countdown_button_send.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -74,43 +75,48 @@ class VerifyEmailView extends StatelessWidget {
       }),
       child: Center(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        radius: 60,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(60),
-                          child: Image.asset(
-                            'assets/images/Logo.png',
-                            fit: BoxFit.cover,
+          child: GestureDetector(
+            onTap: () {
+              SettingsKeyboard.hideKeyBoard(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          radius: 60,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(60),
+                            child: Image.asset(
+                              'assets/images/Logo.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      const Text(
-                        'Verify your email',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                        const SizedBox(
+                          height: 32,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      const CountdownButtonSend(),
-                    ],
+                        const Text(
+                          'Verify your email',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        const CountdownButtonSend(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

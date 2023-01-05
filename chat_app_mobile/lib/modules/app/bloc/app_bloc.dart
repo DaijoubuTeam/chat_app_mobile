@@ -5,8 +5,11 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/services/notifications/local_notification.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
+import 'package:chat_app_mobile/utils/device_infor.dart';
 import 'package:chat_app_mobile/utils/select_notification_stream.dart';
+import 'package:device_repository/device_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:socket_repository/socket_repository.dart' as socket_repo;
 import 'package:webrtc_repository/webrtc_repository.dart';
@@ -18,8 +21,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc({
     required AuthRepository authRepository,
     required WebRTCRepostiory webRTCRepostiory,
+    required DeviceRepository deviceRepository,
   })  : _authRepository = authRepository,
         _webRTCRepostiory = webRTCRepostiory,
+        _deviceRepository = deviceRepository,
         super(AppStateLoading()) {
     on<AppLoaded>(_onAppLoaded);
     on<AppLogOutRequested>(_onAppLogOutRequested);
@@ -28,16 +33,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _userSubscription = _authRepository.user.listen((user) {
       add(AppUserChanged(user));
     });
+
+    _addNewDeviceInformation();
+
     _subcribeNotification();
     _subscribeWebRTC();
+    _subscribeFirebaeMessaging();
   }
 
   final AuthRepository _authRepository;
+  final WebRTCRepostiory _webRTCRepostiory;
+  final DeviceRepository _deviceRepository;
+
   late final StreamSubscription<User> _userSubscription;
   late final StreamSubscription<socket_repo.Notification>
       _newNotificationStreamSubscription;
   late final StreamSubscription<dynamic> _webRTCStreamSubscription;
-  final WebRTCRepostiory _webRTCRepostiory;
 
   User get authCurrentUser => _authRepository.currentUser;
 
@@ -116,6 +127,52 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           payload: SelectNotificationStream.normalNotification,
         );
       }
+    });
+  }
+
+  Future<String?> _getFcmToken() async {
+    //request user permission for push notification
+    FirebaseMessaging.instance.requestPermission();
+
+    FirebaseMessaging firebaseMessage = FirebaseMessaging.instance;
+
+    String? fcmToken = await firebaseMessage.getToken();
+
+    return (fcmToken == null) ? "" : fcmToken;
+  }
+
+  void _addNewDeviceInformation() async {
+    String? fcmToken = await _getFcmToken();
+
+    String? deviceId = await DeviceInfor.getAndroidId();
+
+    String? deviceModel = await DeviceInfor.getDeviceModel();
+
+    final bearerToken = await _authRepository.bearToken;
+
+    if (fcmToken != null &&
+        deviceId != null &&
+        deviceModel != null &&
+        bearerToken != null) {
+      _deviceRepository.postDevice(
+          bearerToken, deviceId, deviceModel, fcmToken);
+    }
+  }
+
+  void _subscribeFirebaeMessaging() {
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+      String? deviceId = await DeviceInfor.getAndroidId();
+
+      String? deviceModel = await DeviceInfor.getDeviceModel();
+
+      final bearerToken = await _authRepository.bearToken;
+
+      if (deviceId != null && deviceModel != null && bearerToken != null) {
+        _deviceRepository.postDevice(
+            bearerToken, deviceId, deviceModel, fcmToken);
+      }
+    }).onError((err) {
+      log(err.toString());
     });
   }
 

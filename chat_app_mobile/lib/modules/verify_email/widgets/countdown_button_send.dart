@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/hide_keyboard.dart';
+
 class CountdownButtonSend extends StatefulWidget {
   const CountdownButtonSend({super.key});
 
@@ -105,7 +107,10 @@ class _CountdownButtonSendState extends State<CountdownButtonSend> {
         ),
         ButtonResend(
           isAble: isAbleButton,
-          handleClickButton: () => handleClickButton(context),
+          handleClickButton: () => {
+            SettingsKeyboard.hideKeyBoard(context),
+            handleClickButton(context),
+          },
         ),
       ],
     );

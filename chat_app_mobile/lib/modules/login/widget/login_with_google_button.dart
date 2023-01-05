@@ -2,6 +2,8 @@ import 'package:chat_app_mobile/modules/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/hide_keyboard.dart';
+
 class LoginWithGoogleButton extends StatelessWidget {
   const LoginWithGoogleButton({
     Key? key,
@@ -14,7 +16,10 @@ class LoginWithGoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _handleLoginWithGoogleButton(context),
+      onTap: () => {
+        _handleLoginWithGoogleButton(context),
+        SettingsKeyboard.hideKeyBoard(context)
+      },
       child: Card(
         elevation: 2,
         shape: RoundedRectangleBorder(

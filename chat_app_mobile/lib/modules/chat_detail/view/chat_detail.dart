@@ -9,8 +9,10 @@ import 'package:chat_app_mobile/utils/hide_keyboard.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:message_repository/message_repository.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../chat_room_detail/bloc/chat_room_detail_bloc.dart';
 
 class ChatDetailPage extends StatelessWidget {
   const ChatDetailPage({
@@ -65,7 +67,7 @@ class ChatDetailView extends StatelessWidget {
             actions: [
               if (state.chatRoomInfo?.type == "personal")
                 IconButton(
-                  onPressed: () => {
+                  onPressed: () async {
                     context.pushNamed(
                       CallPage.namePage,
                       extra: {
@@ -73,18 +75,21 @@ class ChatDetailView extends StatelessWidget {
                             state.chatRoomInfo?.friendsInChatRoom.first.uid,
                         "isReceiver": false,
                       },
-                    ),
+                    );
                   },
                   icon: const Icon(Icons.call),
                 ),
               IconButton(
-                onPressed: () => {
-                  context.pushNamed(
-                    ChatRoomDetailPage.namePage,
-                    params: {
-                      'chatRoomId': chatRoomId,
-                    },
-                  ),
+                onPressed: () async {
+                  await Navigator.of(context)
+                      .push(MaterialPageRoute(
+                          builder: (ctx) =>
+                              ChatRoomDetailPage(chatRoomId: chatRoomId)))
+                      .then((_) {
+                    context
+                        .read<ChatDetailBloc>()
+                        .add(const ChatDetailPageInited());
+                  });
                 },
                 icon: const Icon(Icons.more_vert),
               ),

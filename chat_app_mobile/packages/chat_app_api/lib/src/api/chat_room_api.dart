@@ -226,6 +226,7 @@ class ChatRoomApi {
 
     for (var chatRoom in chatRoomsJson) {
       chatRoom["latestMessage"] = null;
+      chatRoom["members"] = null;
     }
 
     final chatRooms = chatRoomsJson
@@ -246,7 +247,7 @@ class ChatRoomApi {
     final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
 
     for (var chatRoom in chatRoomsJson) {
-      chatRoom["latestMessage"] = null;
+      chatRoom["chatRoom"]["members"] = null;
     }
 
     final chatRooms = chatRoomsJson

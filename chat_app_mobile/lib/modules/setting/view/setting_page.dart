@@ -31,12 +31,13 @@ class SettingView extends StatelessWidget {
         return Center(
           child: Container(
             color: Theme.of(context).backgroundColor,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 32,
-              ),
-              child: SingleChildScrollView(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 32,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: const <Widget>[
@@ -52,9 +53,6 @@ class SettingView extends StatelessWidget {
                       thickness: 1.5,
                     ),
                     SettingAction(),
-                    SizedBox(
-                      height: 26,
-                    ),
                     Divider(
                       height: 8.0,
                       thickness: 1.5,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
+import '../../../utils/hide_keyboard.dart';
+
 class ForgotPasswordButton extends StatelessWidget {
   const ForgotPasswordButton({super.key});
 
@@ -17,6 +19,7 @@ class ForgotPasswordButton extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
               onPressed: () {
+                SettingsKeyboard.hideKeyBoard(context);
                 if (state.email.value == "") {
                   return;
                 }

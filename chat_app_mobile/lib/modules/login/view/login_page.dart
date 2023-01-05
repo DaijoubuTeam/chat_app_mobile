@@ -1,16 +1,15 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/common/widgets/stateless/divider_with_text_center.dart';
 import 'package:chat_app_mobile/modules/forgot_password/view/view.dart';
 import 'package:chat_app_mobile/modules/login/bloc/login_bloc.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_email_input.dart';
-import 'package:chat_app_mobile/modules/login/widget/login_list_button.dart';
 import 'package:chat_app_mobile/modules/login/widget/login_password_input.dart';
-import 'package:chat_app_mobile/modules/login/widget/login_with_google_button.dart';
+import 'package:chat_app_mobile/utils/hide_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
+
+import '../widget/login_action_buttons.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -35,23 +34,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
-      listenWhen: (prev, current) =>
-          prev != current && current.status == FormzStatus.submissionFailure,
-      listener: (context, state) => {
-        if (state.status == FormzStatus.submissionFailure)
-          {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: const Text("Login fail! Try again."),
-                  backgroundColor: Theme.of(context).errorColor,
-                ),
-              ),
-            context.read<LoginBloc>().add(LoginSubmitFailure())
-          }
-      },
+    return GestureDetector(
+      onTap: (() => SettingsKeyboard.hideKeyBoard(context)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: SingleChildScrollView(
@@ -110,15 +94,7 @@ class LoginView extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                const LoginListButton(),
-                const SizedBox(
-                  height: 8,
-                ),
-                const DividerWithTextCenter(title: 'Or'),
-                const SizedBox(
-                  height: 8,
-                ),
-                const LoginWithGoogleButton(),
+                const LoginActionButtons(),
               ],
             ),
           ),

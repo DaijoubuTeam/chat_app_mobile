@@ -1,12 +1,15 @@
 import 'package:chat_app_mobile/common/widgets/dialogs/confirm_dialog.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/list_title/person_list_item.dart';
 import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
+import 'package:chat_app_mobile/modules/friends/widgets/number_friend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../common/widgets/alert_button/accept_button.dart';
+import '../../../common/widgets/alert_button/denied_button.dart';
 import '../../chat_detail/view/view.dart';
 
 class ListFriend extends StatelessWidget {
@@ -33,31 +36,20 @@ class ListFriend extends StatelessWidget {
       "Confirm delete friend",
       "Do you want to delete your friend?",
       [
-        // The "Yes" button
-
-        TextButton(
-          onPressed: () {
+        DeniedButton(
+          handleClick: () {
             // Close the dialog
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'No',
-            style: TextStyle(
-              color: Theme.of(ctx).errorColor,
-              fontSize: 16.sp,
-            ),
-          ),
         ),
-        TextButton(
-          onPressed: () {
+        SizedBox(
+          width: 16.sp,
+        ),
+        AcceptButton(
+          handleClick: () {
             ctx.read<FriendsBloc>().add(FriendsDeleted(friendId: friendId));
             Navigator.of(ctx).pop();
           },
-          child: Text(
-            'Yes',
-            style:
-                TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-          ),
         ),
       ],
     );
@@ -86,23 +78,33 @@ class ListFriend extends StatelessWidget {
               child: Text('No friends!'),
             );
           }
-          return ListView.builder(
-            itemBuilder: ((context, index) {
-              return PersonListItem(
-                avatar: listFriend[index].avatar,
-                title: listFriend[index].fullname,
-                subTitle: listFriend[index].phone,
-                endActionPane: _buildEndActionPane(
-                  context,
-                  listFriend[index].uid,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              NumberFriend(
+                numberFriend: listFriend.length,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: ((context, index) {
+                    return PersonListItem(
+                      avatar: listFriend[index].avatar,
+                      title: listFriend[index].fullname,
+                      subTitle: listFriend[index].phone,
+                      endActionPane: _buildEndActionPane(
+                        context,
+                        listFriend[index].uid,
+                      ),
+                      handleOnTab: () => _handleTapFriendItem(
+                        context,
+                        state.listFriend[index].personalChatRoomId,
+                      ),
+                    );
+                  }),
+                  itemCount: listFriend.length,
                 ),
-                handleOnTab: () => _handleTapFriendItem(
-                  context,
-                  state.listFriend[index].personalChatRoomId,
-                ),
-              );
-            }),
-            itemCount: listFriend.length,
+              ),
+            ],
           );
         }
         if (state.runtimeType == FriendsGetListInProgress) {

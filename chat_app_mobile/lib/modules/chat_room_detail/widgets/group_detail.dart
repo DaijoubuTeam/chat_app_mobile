@@ -3,6 +3,8 @@ import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../common/widgets/alert_button/accept_button.dart';
+import '../../../common/widgets/alert_button/denied_button.dart';
 import '../../../common/widgets/dialogs/confirm_dialog.dart';
 import '../../group_edit/view/view.dart';
 import '../../group_member/view/group_member_page.dart';
@@ -36,30 +38,19 @@ class GroupDetail extends StatelessWidget {
         "Confirm delete group",
         "Do you want to delete your group?",
         [
-          // The "Yes" button
-
-          TextButton(
-            onPressed: () {
+          DeniedButton(
+            handleClick: () {
               // Close the dialog
               Navigator.of(ctx).pop();
             },
-            child: Text(
-              'No',
-              style: TextStyle(
-                color: Theme.of(ctx).errorColor,
-                fontSize: 16.sp,
-              ),
-            ),
           ),
-          TextButton(
-            onPressed: () {
+          SizedBox(
+            width: 16.sp,
+          ),
+          AcceptButton(
+            handleClick: () {
               ctx.read<ChatRoomDetailBloc>().add(ChatRoomDetailGroupRemoved());
             },
-            child: Text(
-              'Yes',
-              style:
-                  TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-            ),
           ),
         ],
       );
@@ -72,29 +63,19 @@ class GroupDetail extends StatelessWidget {
         "Do you want to leave your group?",
         [
           // The "Yes" button
-
-          TextButton(
-            onPressed: () {
+          DeniedButton(
+            handleClick: () {
               // Close the dialog
               Navigator.of(ctx).pop();
             },
-            child: Text(
-              'No',
-              style: TextStyle(
-                color: Theme.of(ctx).errorColor,
-                fontSize: 16.sp,
-              ),
-            ),
           ),
-          TextButton(
-            onPressed: () {
+          SizedBox(
+            width: 16.sp,
+          ),
+          AcceptButton(
+            handleClick: () {
               ctx.read<ChatRoomDetailBloc>().add(ChatRoomDetailGroupLeft());
             },
-            child: Text(
-              'Yes',
-              style:
-                  TextStyle(color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-            ),
           ),
         ],
       );

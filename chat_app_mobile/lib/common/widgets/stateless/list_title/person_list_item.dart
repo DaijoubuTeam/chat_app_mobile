@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -11,6 +12,7 @@ class PersonListItem extends StatelessWidget {
     this.isOnline = false,
     this.title,
     this.subTitle,
+    this.nameActor,
     this.isShowPoint = false,
     this.time,
     this.isAdmin = false,
@@ -23,6 +25,7 @@ class PersonListItem extends StatelessWidget {
   final bool isOnline;
   final String? title;
   final String? subTitle;
+  final String? nameActor;
   final DateTime? time;
   final bool isAdmin;
   final bool? isShowPoint;
@@ -33,9 +36,6 @@ class PersonListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      // The start action pane is the one at the left or the top side.
-
-      // The end action pane is the one at the right or the bottom side.
       startActionPane: startActionPane,
       endActionPane: endActionPane,
       child: Container(
@@ -58,23 +58,6 @@ class PersonListItem extends StatelessWidget {
                 widthImage: 48,
                 heightImage: 48,
               ),
-              if (isOnline)
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 16,
-                    width: 16,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3,
-                      ),
-                    ),
-                  ),
-                )
             ],
           ),
           title: Text(
@@ -84,11 +67,37 @@ class PersonListItem extends StatelessWidget {
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              subTitle ?? '',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: nameActor == null
+                ? Text(
+                    subTitle ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                : RichText(
+                    maxLines: 1,
+                    text: TextSpan(
+                        text: "$nameActor: ",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black38,
+                        ),
+                        children: [
+                          WidgetSpan(
+                            child: Text(
+                              ' ${subTitle!.length > 10 ? subTitle!.substring(0, 10) : subTitle}',
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                //letterSpacing: 1,
+                                textBaseline: TextBaseline.ideographic,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ]),
+                  ),
           ),
           trailing: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -108,24 +117,6 @@ class PersonListItem extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                if (isShowPoint == true)
-                  Container(
-                    height: 14,
-                    width: 14,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    // child: const Center(
-                    //   child: Text(
-                    //     "3",
-                    //     style: TextStyle(
-                    //       fontSize: 8,
-                    //       color: Colors.white,
-                    //     ),
-                    //   ),
-                    // ),
-                  ),
               ],
             ),
           ),

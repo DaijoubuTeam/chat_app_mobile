@@ -14,7 +14,7 @@ class ListGroupRequestSent extends StatelessWidget {
             (state as GroupRequestGetListSentSuccess).listGroupRequestSent;
         if (listRequest.isEmpty) {
           return const Center(
-            child: Text("No request sent"),
+            child: Text("No request sent now!"),
           );
         }
         return Center(

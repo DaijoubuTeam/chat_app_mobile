@@ -1,3 +1,5 @@
+import 'package:chat_app_mobile/common/widgets/alert_button/accept_button.dart';
+import 'package:chat_app_mobile/common/widgets/alert_button/denied_button.dart';
 import 'package:chat_app_mobile/modules/chat_room_detail/bloc/chat_room_detail_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,33 +16,22 @@ class FriendDetail extends StatelessWidget {
           "Confirm delete friend",
           "Do you want to delete your friend?",
           [
-            // The "Yes" button
-
-            TextButton(
-              onPressed: () {
+            DeniedButton(
+              handleClick: () {
                 // Close the dialog
                 Navigator.of(ctx).pop();
               },
-              child: Text(
-                'No',
-                style: TextStyle(
-                  color: Theme.of(ctx).errorColor,
-                  fontSize: 16.sp,
-                ),
-              ),
             ),
-            TextButton(
-              onPressed: () {
+            SizedBox(
+              width: 16.sp,
+            ),
+            AcceptButton(
+              handleClick: () {
                 ctx
                     .read<ChatRoomDetailBloc>()
                     .add(ChatRoomDetailFriendDeleted(friendId: friendId));
               },
-              child: Text(
-                'Yes',
-                style: TextStyle(
-                    color: Theme.of(ctx).primaryColor, fontSize: 16.sp),
-              ),
-            ),
+            )
           ],
         )
       };
