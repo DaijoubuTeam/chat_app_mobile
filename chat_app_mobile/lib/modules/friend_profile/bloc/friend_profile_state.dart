@@ -32,3 +32,5 @@ class FriendProfileGetInforSuccess extends FriendProfileState {
 class FriendProfileGetInforInLoad extends FriendProfileState {}
 
 class FriendProfileGetInforFailure extends FriendProfileState {}
+
+class FriendProfileSentFriendSuccess extends FriendProfileState {}

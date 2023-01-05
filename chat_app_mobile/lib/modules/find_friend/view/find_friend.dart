@@ -5,6 +5,7 @@ import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_button.d
 import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
 
@@ -58,12 +59,15 @@ class FindFriendView extends StatelessWidget {
             bottom: MediaQuery.of(context).viewInsets.bottom + 32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const <Widget>[
-            FindFriendInput(),
+          children: <Widget>[
             SizedBox(
-              height: 8,
+              height: 8.h,
             ),
-            FindFriendButton()
+            const FindFriendInput(),
+            SizedBox(
+              height: 8.h,
+            ),
+            const FindFriendButton()
           ],
         ),
       ),

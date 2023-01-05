@@ -6,8 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:friend_repository/friend_repository.dart' as friend_repository;
-import 'package:chat_room_repository/chat_room_repository.dart'
-    as chat_room_repository;
 
 part 'friend_profile_event.dart';
 part 'friend_profile_state.dart';
@@ -78,6 +76,7 @@ class FriendProfileBloc extends Bloc<FriendProfileEvent, FriendProfileState> {
 
         if (res) {
           FlutterToastCustom.showToast("Send request success", "success");
+          emit(FriendProfileSentFriendSuccess());
         } else {
           FlutterToastCustom.showToast("Send request fail", "error");
         }
