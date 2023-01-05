@@ -55,8 +55,10 @@ class ChatView extends StatelessWidget {
                           chatRoomId: listChatRoom[index].chatRoomId,
                           chatRoomName: listChatRoom[index].chatRoomName,
                           chatRoomAvatar: listChatRoom[index].chatRoomAvatar,
+                          nameActor:
+                              listChatRoom[index].latestMessage?.from?.fullname,
                           latestMessage:
-                              listChatRoom[index].latestMessage?.content ?? '',
+                              listChatRoom[index].latestMessage?.content,
                           time: listChatRoom[index].latestMessage?.createdAt,
                         );
                       }),

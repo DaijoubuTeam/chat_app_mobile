@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/common/widgets/stateless/avatars/circle_avatar_network.dart';
 import 'package:chat_app_mobile/utils/date_time_local_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -11,6 +12,7 @@ class PersonListItem extends StatelessWidget {
     this.isOnline = false,
     this.title,
     this.subTitle,
+    this.nameActor,
     this.isShowPoint = false,
     this.time,
     this.isAdmin = false,
@@ -23,6 +25,7 @@ class PersonListItem extends StatelessWidget {
   final bool isOnline;
   final String? title;
   final String? subTitle;
+  final String? nameActor;
   final DateTime? time;
   final bool isAdmin;
   final bool? isShowPoint;
@@ -55,23 +58,6 @@ class PersonListItem extends StatelessWidget {
                 widthImage: 48,
                 heightImage: 48,
               ),
-              // if (isOnline)
-              //   Positioned(
-              //     right: 0,
-              //     bottom: 0,
-              //     child: Container(
-              //       height: 16,
-              //       width: 16,
-              //       decoration: BoxDecoration(
-              //         color: Colors.green,
-              //         shape: BoxShape.circle,
-              //         border: Border.all(
-              //           color: Colors.white,
-              //           width: 3,
-              //         ),
-              //       ),
-              //     ),
-              //   )
             ],
           ),
           title: Text(
@@ -105,24 +91,6 @@ class PersonListItem extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                // if (isShowPoint == true)
-                //   Container(
-                //     height: 14,
-                //     width: 14,
-                //     decoration: BoxDecoration(
-                //       color: Theme.of(context).primaryColor,
-                //       shape: BoxShape.circle,
-                //     ),
-                //     // child: const Center(
-                //     //   child: Text(
-                //     //     "3",
-                //     //     style: TextStyle(
-                //     //       fontSize: 8,
-                //     //       color: Colors.white,
-                //     //     ),
-                //     //   ),
-                //     // ),
-                //   ),
               ],
             ),
           ),
