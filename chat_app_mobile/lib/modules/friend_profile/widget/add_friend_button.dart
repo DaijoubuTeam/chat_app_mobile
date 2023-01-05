@@ -8,16 +8,25 @@ import '../bloc/friend_profile_bloc.dart';
 class AddFriendButton extends StatelessWidget {
   const AddFriendButton({
     Key? key,
+    this.isSentRequest = false,
   }) : super(key: key);
+
+  final bool isSentRequest;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 160.w,
       child: ElevatedButtonCustom(
-        onPressed: () {
-          context.read<FriendProfileBloc>().add(FriendProfileButtonSubmitted());
-        },
+        backgroundColor: isSentRequest ? Colors.grey : null,
+        onPressed: isSentRequest
+            ? null
+            : () {
+                context
+                    .read<FriendProfileBloc>()
+                    .add(FriendProfileButtonSubmitted());
+                Navigator.of(context).pop();
+              },
         text: 'Add Friend',
       ),
     );

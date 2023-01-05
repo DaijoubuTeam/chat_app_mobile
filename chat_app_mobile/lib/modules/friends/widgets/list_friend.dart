@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/common/widgets/dialogs/confirm_dialog.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/list_title/person_list_item.dart';
 import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
+import 'package:chat_app_mobile/modules/friends/widgets/number_friend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -77,23 +78,33 @@ class ListFriend extends StatelessWidget {
               child: Text('No friends!'),
             );
           }
-          return ListView.builder(
-            itemBuilder: ((context, index) {
-              return PersonListItem(
-                avatar: listFriend[index].avatar,
-                title: listFriend[index].fullname,
-                subTitle: listFriend[index].phone,
-                endActionPane: _buildEndActionPane(
-                  context,
-                  listFriend[index].uid,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              NumberFriend(
+                numberFriend: listFriend.length,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: ((context, index) {
+                    return PersonListItem(
+                      avatar: listFriend[index].avatar,
+                      title: listFriend[index].fullname,
+                      subTitle: listFriend[index].phone,
+                      endActionPane: _buildEndActionPane(
+                        context,
+                        listFriend[index].uid,
+                      ),
+                      handleOnTab: () => _handleTapFriendItem(
+                        context,
+                        state.listFriend[index].personalChatRoomId,
+                      ),
+                    );
+                  }),
+                  itemCount: listFriend.length,
                 ),
-                handleOnTab: () => _handleTapFriendItem(
-                  context,
-                  state.listFriend[index].personalChatRoomId,
-                ),
-              );
-            }),
-            itemCount: listFriend.length,
+              ),
+            ],
           );
         }
         if (state.runtimeType == FriendsGetListInProgress) {

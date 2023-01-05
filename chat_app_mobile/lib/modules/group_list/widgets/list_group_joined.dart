@@ -1,6 +1,7 @@
 import 'package:chat_app_mobile/common/widgets/dialogs/confirm_dialog.dart';
 import 'package:chat_app_mobile/modules/group_edit/view/group_edit_page.dart';
 import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
+import 'package:chat_app_mobile/modules/group_list/widgets/number_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -119,7 +120,7 @@ class ListGroupJoined extends StatelessWidget {
       children: [
         SlidableAction(
           // An action can be bigger than the others.
-          onPressed: (ctx) => _handleLeaveGroupChat(ctx, groupId),
+          onPressed: (_) => _handleLeaveGroupChat(ctx, groupId),
           backgroundColor: Colors.red[400]!,
           foregroundColor: Colors.white,
           icon: Icons.login_outlined,
@@ -144,31 +145,41 @@ class ListGroupJoined extends StatelessWidget {
               child: Text("No groups"),
             );
           }
-          return ListView.builder(
-            itemBuilder: ((context, index) {
-              return PersonListItem(
-                key: ValueKey(state.listChatRoom![index].chatRoomId),
-                title: state.listChatRoom![index].chatRoomName,
-                avatar: state.listChatRoom![index].chatRoomAvatar,
-                isAdmin: state.listChatRoom![index].isAdmin,
-                endActionPane: state.listChatRoom![index].isAdmin
-                    ? _buildEndActionPane(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              NumberGroup(
+                numberGroup: listGroup.length,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: ((context, index) {
+                    return PersonListItem(
+                      key: ValueKey(state.listChatRoom![index].chatRoomId),
+                      title: state.listChatRoom![index].chatRoomName,
+                      avatar: state.listChatRoom![index].chatRoomAvatar,
+                      isAdmin: state.listChatRoom![index].isAdmin,
+                      endActionPane: state.listChatRoom![index].isAdmin
+                          ? _buildEndActionPane(
+                              context,
+                              state.listChatRoom![index].chatRoomId,
+                            )
+                          : _buildEndActionLeaveGroup(
+                              context,
+                              state.listChatRoom![index].chatRoomId,
+                            ),
+                      handleOnTab: () => _handleTapGroupChatItem(
                         context,
                         state.listChatRoom![index].chatRoomId,
-                      )
-                    : _buildEndActionLeaveGroup(
-                        context,
-                        state.listChatRoom![index].chatRoomId,
+                        state.listChatRoom![index].chatRoomName,
+                        state.listChatRoom![index].chatRoomAvatar,
                       ),
-                handleOnTab: () => _handleTapGroupChatItem(
-                  context,
-                  state.listChatRoom![index].chatRoomId,
-                  state.listChatRoom![index].chatRoomName,
-                  state.listChatRoom![index].chatRoomAvatar,
+                    );
+                  }),
+                  itemCount: state.listChatRoom!.length,
                 ),
-              );
-            }),
-            itemCount: state.listChatRoom!.length,
+              ),
+            ],
           );
         } else if (state.status == FormzStatus.submissionCanceled) {
           return const Center(

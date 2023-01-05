@@ -244,7 +244,11 @@ class ChatRoomApi {
       options: Options(headers: {"authorization": 'Bearer $bearerToken'}),
     );
 
-    final chatRoomsJson = response.data as List<dynamic>;
+    final chatRoomsJson = response.data["chatRooms"] as List<dynamic>;
+
+    for (var chatRoom in chatRoomsJson) {
+      chatRoom["chatRoom"]["members"] = null;
+    }
 
     final chatRooms = chatRoomsJson
         .map((chatRoomJson) => ChatRoomSent.fromJson(chatRoomJson))

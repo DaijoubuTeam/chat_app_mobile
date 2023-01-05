@@ -6,6 +6,8 @@ import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
 import 'package:friend_repository/friend_repository.dart' as friend_repository;
+import 'package:chat_room_repository/chat_room_repository.dart'
+    as chat_room_repository;
 
 part 'friend_profile_event.dart';
 part 'friend_profile_state.dart';
@@ -41,7 +43,17 @@ class FriendProfileBloc extends Bloc<FriendProfileEvent, FriendProfileState> {
         final user_repository.User friendInfor =
             await _userRepository.getUserById(bearerToken, friendId);
 
-        emit(FriendProfileGetInforSuccess(friendInfor: friendInfor));
+        final List<friend_repository.User> listRequestFriendSent =
+            await _friendRepository.getListRequestsSentFriends(bearerToken);
+
+        bool isRequestSent = listRequestFriendSent
+                .indexWhere((requestSent) => requestSent.uid == friendId) !=
+            -1;
+
+        emit(FriendProfileGetInforSuccess(
+          friendInfor: friendInfor,
+          isSentRequest: isRequestSent,
+        ));
       }
     } catch (err) {
       emit(FriendProfileGetInforFailure());

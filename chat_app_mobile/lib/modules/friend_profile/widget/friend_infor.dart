@@ -121,7 +121,9 @@ class FriendInfor extends StatelessWidget {
               ),
               if (state.friendInfor.isSelf == false ||
                   state.friendInfor.isFriend == true)
-                const AddFriendButton(),
+                AddFriendButton(
+                  isSentRequest: state.isSentRequest,
+                ),
             ],
           );
         } else {
