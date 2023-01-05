@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart' as auth_repository;
+import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:chat_app_mobile/modules/find_friend/bloc/find_friend_bloc.dart';
 import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_button.dart';
@@ -14,6 +15,8 @@ import '../../friend_profile/view/view.dart';
 class FindFriendPage extends StatelessWidget {
   const FindFriendPage({super.key});
 
+  static const namePage = "find-friend";
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -21,7 +24,10 @@ class FindFriendPage extends StatelessWidget {
         context.read<user_repository.UserRepository>(),
         context.read<auth_repository.AuthRepository>(),
       ),
-      child: const FindFriendView(),
+      child: const Scaffold(
+        appBar: AppBarCustom(title: "Find Friend"),
+        body: FindFriendView(),
+      ),
     );
   }
 }
@@ -36,19 +42,19 @@ class FindFriendView extends StatelessWidget {
       listener: (context, state) {
         if (state.runtimeType == FindFriendFailure) {
           FlutterToastCustom.showToast("User not found!", "error");
-          Navigator.pop(context);
+          Navigator.pop(context, {"isFindFriend": false, "uid": null});
         } else if (state.runtimeType == FindFriendSuccess) {
           context.read<FindFriendBloc>().add(FindFriendInputInitialized());
 
           final user_repository.User friendInfor =
               (state as FindFriendSuccess).friendInfor;
+          Navigator.pop(
+              context, {"isFindFriend": true, "uid": friendInfor.uid});
+          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //     builder: (ctx) => FriendProfilePage(
+          //           friendId: friendInfor.uid,
+          //         )));
 
-          Navigator.pop(context);
-
-          context.pushNamed(
-            FriendProfilePage.namePage,
-            extra: friendInfor.uid,
-          );
         }
       },
       child: Padding(

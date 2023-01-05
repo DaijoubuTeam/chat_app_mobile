@@ -9,6 +9,7 @@ import 'package:chat_app_mobile/modules/chat_room_detail/view/view.dart';
 import 'package:chat_app_mobile/modules/devices/view/device_page.dart';
 import 'package:chat_app_mobile/modules/edit_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/fill_profile/view/view.dart';
+import 'package:chat_app_mobile/modules/find_friend/view/view.dart';
 import 'package:chat_app_mobile/modules/forgot_password/view/view.dart';
 import 'package:chat_app_mobile/modules/friend_profile/view/view.dart';
 import 'package:chat_app_mobile/modules/group_add_new_member/view/group_add_new_member.dart';
@@ -192,6 +193,17 @@ class AppRouter {
         path: '/fill-profile',
         builder: (BuildContext context, GoRouterState state) {
           return const FillProfilePage();
+        },
+      ),
+      GoRoute(
+        name: FindFriendPage.namePage,
+        path: '/find-friend',
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: const FindFriendPage(),
+          );
         },
       ),
       GoRoute(
