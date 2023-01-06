@@ -7,11 +7,9 @@ import 'package:chat_app_mobile/modules/find_friend/widgets/find_friend_input.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:user_repository/user_repository.dart' as user_repository;
 
 import '../../../utils/hide_keyboard.dart';
-import '../../friend_profile/view/view.dart';
 
 class FindFriendPage extends StatelessWidget {
   const FindFriendPage({super.key});

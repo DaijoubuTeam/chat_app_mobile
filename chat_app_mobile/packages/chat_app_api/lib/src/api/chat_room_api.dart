@@ -12,7 +12,7 @@ class ChatRoomApi {
 
   String get basePath => '$_serverUrl/chat-room';
 
-  Dio _dio;
+  final Dio _dio;
 
   Future<List<ChatRoom>> getChatRoom(String bearerToken) async {
     final url = basePath;

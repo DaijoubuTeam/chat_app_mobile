@@ -12,8 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:message_repository/message_repository.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../chat_room_detail/bloc/chat_room_detail_bloc.dart';
-
 class ChatDetailPage extends StatelessWidget {
   const ChatDetailPage({
     super.key,
