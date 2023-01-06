@@ -34,8 +34,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       add(AppUserChanged(user));
     });
 
-    _addNewDeviceInformation();
-
     _subcribeNotification();
     _subscribeWebRTC();
     _subscribeFirebaeMessaging();
@@ -63,6 +61,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onAppUserChanged(AppUserChanged event, Emitter<AppState> emit) {
     socket_repo.SocketAPI.socketApi.socketDisconnected();
+
     socket_repo.SocketAPI.socketApi.socketConnect().onConnect((data) {
       if (event.user != User.empty) {
         log(_authRepository.currentUser.uid);
@@ -75,6 +74,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         isEmailVerified: event.user.isEmailVerified ?? false,
         isProfileFilled: event.user.isProfileFilled ?? false,
       ));
+      _addNewDeviceInformation();
     } else {
       emit(AppStateUnAuthorized());
     }
