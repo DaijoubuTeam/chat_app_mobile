@@ -21,97 +21,50 @@ class StickerOptions extends StatelessWidget {
           ? SizedBox(
               height: 250.h,
               width: double.infinity,
-              child: SingleChildScrollView(
-                child: Wrap(
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi1'),
-                      child: Image.asset(
-                        'assets/stickers/mimi1.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi2'),
-                      child: Image.asset(
-                        'assets/stickers/mimi2.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi3'),
-                      child: Image.asset(
-                        'assets/stickers/mimi3.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi4'),
-                      child: Image.asset(
-                        'assets/stickers/mimi4.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi5'),
-                      child: Image.asset(
-                        'assets/stickers/mimi5.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi6'),
-                      child: Image.asset(
-                        'assets/stickers/mimi6.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi7'),
-                      child: Image.asset(
-                        'assets/stickers/mimi7.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi8'),
-                      child: Image.asset(
-                        'assets/stickers/mimi8.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => handleSendSticker(context, 'mimi9'),
-                      child: Image.asset(
-                        'assets/stickers/mimi9.gif',
-                        width: 96.w,
-                        height: 96.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
+              child: GridView.builder(
+                itemCount: 18,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1,
                 ),
+                itemBuilder: (BuildContext context, int index) {
+                  return Center(
+                    child: StickerButton(
+                      stickerName: "mimi$index",
+                    ),
+                  );
+                },
               ),
             )
           : const SizedBox.shrink(),
     );
+  }
+}
 
-    // : const SizedBox.shrink();
+class StickerButton extends StatelessWidget {
+  const StickerButton({
+    Key? key,
+    this.stickerName = 'mini1',
+  }) : super(key: key);
+
+  final String? stickerName;
+
+  void _handleSendSticker(BuildContext ctx, String content) {
+    ctx
+        .read<ChatDetailBloc>()
+        .add(ChatDetailSpecificSubmitted(content: content, type: "sticker"));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => _handleSendSticker(context, "$stickerName"),
+      child: Image.asset(
+        'assets/stickers/$stickerName.gif',
+        width: 64.w,
+        height: 64.h,
+        fit: BoxFit.cover,
+      ),
+    );
   }
 }
