@@ -1,5 +1,7 @@
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/message_item.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/skeleton/skeleton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoMessageItem extends IMessageItem {
@@ -29,8 +31,8 @@ class VideoMessageItem extends IMessageItem {
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
         padding: const EdgeInsets.symmetric(
-          horizontal: 2,
-          vertical: 2,
+          horizontal: 1,
+          vertical: 1,
         ),
         decoration: BoxDecoration(
           color: isMe ? Colors.blue[500] : Colors.white,
@@ -45,7 +47,6 @@ class VideoMessageItem extends IMessageItem {
                   topRight: Radius.circular(16)),
           border: Border.all(
             color: Theme.of(context).primaryColor,
-            width: 2,
           ),
         ),
         child: content != null ? VideoPlayerView(url: content!) : Container(),
@@ -90,11 +91,9 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       borderRadius: BorderRadius.circular(15),
                       child: VideoPlayer(_controller)),
                 )
-              : const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
+              : Skeleton.rectangular(
+                  width: 200.w,
+                  height: 280.h,
                 ),
         ),
         if (_controller.value.isInitialized)

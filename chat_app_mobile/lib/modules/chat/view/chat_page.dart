@@ -1,6 +1,7 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/app_bar/home_app_bar.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/system_message_item.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/skeleton/chat_rooms_skeleton.dart';
 import 'package:chat_app_mobile/modules/chat/bloc/chat_bloc.dart';
 import 'package:chat_app_mobile/modules/chat/widgets/chat_item.dart';
 import 'package:chat_app_mobile/modules/chat/widgets/chat_place_holder.dart';
@@ -69,7 +70,8 @@ class ChatView extends StatelessWidget {
                 ),
               );
             }
-            return const Center(child: CircularProgressIndicator());
+            // return const Center(child: CircularProgressIndicator());
+            return const ChatRoomsSkeleton();
           },
         ),
       ),

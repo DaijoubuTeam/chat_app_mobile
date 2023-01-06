@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:chat_app_mobile/common/widgets/stateless/group_list_view/chat_group_list_view.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/skeleton/list_skeleton.dart';
 import 'package:chat_app_mobile/modules/chat_detail/bloc/chat_detail_bloc.dart';
 import 'package:chat_app_mobile/modules/chat_detail/widgets/image_load.dart';
 import 'package:flutter/material.dart';
@@ -99,9 +100,7 @@ class _ChatContentsState extends State<ChatContents> {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const ListSkeleton();
         }
         final listMessage = state.listMessage ?? [];
         return Container(
