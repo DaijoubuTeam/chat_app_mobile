@@ -23,8 +23,8 @@ class ChatContents extends StatefulWidget {
 
 class _ChatContentsState extends State<ChatContents> {
   late ScrollController controller;
-  late double controllerOffset = 1.0;
-  late String? messageId;
+  double controllerOffset = 0.0;
+  String? messageId;
 
   @override
   void initState() {
@@ -90,6 +90,7 @@ class _ChatContentsState extends State<ChatContents> {
     // widget.messageId = null;
     setState(() {
       messageId = null;
+      controllerOffset = 0.0;
     });
   }
 
@@ -145,7 +146,7 @@ class _ChatContentsState extends State<ChatContents> {
                         right: 0,
                         bottom: 8.h,
                         child: ButtonGoToLastestMessage(
-                          handleBackToBottom: widget.messageId == null
+                          handleBackToBottom: messageId == null
                               ? _scrollDown
                               : () => _scrollDownSearch(context),
                         ),
