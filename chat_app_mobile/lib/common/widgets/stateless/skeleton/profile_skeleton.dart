@@ -19,7 +19,7 @@ class ProfileSkeleton extends StatelessWidget {
               height: 120.h,
             ),
             SizedBox(
-              height: 32.h,
+              height: 64.h,
             ),
             Skeleton.rectangular(
               height: 48.h,
@@ -62,10 +62,6 @@ class ProfileSkeleton extends StatelessWidget {
             ),
             SizedBox(
               height: 16.h,
-            ),
-            Skeleton.rectangular(
-              height: 48.h,
-              width: 360.w,
             ),
           ],
         ),
