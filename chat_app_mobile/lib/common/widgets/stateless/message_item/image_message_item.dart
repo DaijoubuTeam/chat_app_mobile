@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app_mobile/common/widgets/stateless/app_bar/app_bar_title.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/message_item/message_item.dart';
 import 'package:chat_app_mobile/common/widgets/stateless/skeleton/skeleton.dart';
-import 'package:chat_app_mobile/common/widgets/stateless/skeleton/skeleton_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,13 +25,21 @@ class ImageMessageItem extends IMessageItem {
       fit: BoxFit.cover,
       imageUrl: content!,
       imageBuilder: (context, imageProvider) {
-        return Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FullScreenImage(imageUrl: content!)));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(16),
             ),
-            borderRadius: BorderRadius.circular(16),
           ),
         );
       },
@@ -47,25 +53,24 @@ class ImageMessageItem extends IMessageItem {
 
 class FullScreenImage extends StatelessWidget {
   final String imageUrl;
-  final String tag;
 
   const FullScreenImage({
     Key? key,
     required this.imageUrl,
-    required this.tag,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarCustom(
-        title: "Done",
+      appBar: AppBar(
+        title: const Text("Image"),
+        backgroundColor: Colors.black,
       ),
       backgroundColor: Colors.black87,
       body: GestureDetector(
         child: Center(
           child: Hero(
-            tag: tag,
+            tag: "hero",
             child: CachedNetworkImage(
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.contain,

@@ -121,7 +121,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       }
       if (notification.notifyType == "chat-room-invitation") {
         NotificationService().showNotification(
-          id: 123,
+          id: 456,
           title: notification.notificationSender!.fullname.toString(),
           body: "invited you to join their group",
           payload: SelectNotificationStream.normalNotification,

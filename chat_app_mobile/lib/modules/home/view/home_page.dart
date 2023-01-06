@@ -61,8 +61,10 @@ class HomeView extends StatelessWidget {
     SelectNotificationStream.selectNotificationStream.stream.listen(
       (data) {
         if (data?.actionId == null) {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const NotificationsPage()));
+          // Navigator.of(context).pushAndRemoveUntil(
+          //   MaterialPageRoute(builder: (context) => const NotificationsPage()),
+          //   ModalRoute.withName("/notifications"),
+          // );
         }
         if (data?.actionId == SelectNotificationStream.acceptCallId) {
           //context.pushNamed(CallPage.namePage);
