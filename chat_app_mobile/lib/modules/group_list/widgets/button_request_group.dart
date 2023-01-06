@@ -1,4 +1,5 @@
 import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
+import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ class ButtonRequestGroup extends StatelessWidget {
         .then(
       (_) {
         ctx.read<GroupListBloc>().add(GroupListRefreshed());
+        ctx.read<NotificationBloc>().add(NotificationInited());
       },
     );
   }
