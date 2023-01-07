@@ -11,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
 
 import '../../../utils/select_notification_stream.dart';
-import '../../notifications/view/notifications_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

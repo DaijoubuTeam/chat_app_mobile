@@ -54,6 +54,10 @@ class SystemMessageItem extends IMessageItem {
         {
           return "were removed";
         }
+      case "leftRoom":
+        {
+          return "left room";
+        }
       default:
         {
           return content;

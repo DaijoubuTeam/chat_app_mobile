@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
               authRepository: _authRepository,
               webRTCRepostiory: _webRTCRepostiory,
               deviceRepository: _deviceRepository,
+              notificationRepository: _notificationRepository,
             ),
           ),
           BlocProvider(

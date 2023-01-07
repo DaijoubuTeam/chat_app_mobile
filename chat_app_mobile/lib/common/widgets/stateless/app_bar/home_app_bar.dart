@@ -1,14 +1,13 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
-import 'package:chat_app_mobile/modules/notifications/view/view.dart';
-import 'package:chat_room_repository/chat_room_repository.dart';
+import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
+import 'package:device_repository/device_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:friend_repository/friend_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
+import 'package:webrtc_repository/webrtc_repository.dart';
 
 import '../../../../modules/search/view/search_button.dart';
+import 'notification_button.dart';
 
 class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBarCustom({
@@ -23,11 +22,11 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NotificationBloc(
+      create: (_) => AppBloc(
         authRepository: context.read<AuthRepository>(),
         notificationRepository: context.read<NotificationRepository>(),
-        friendRepository: context.read<FriendRepository>(),
-        chatRoomRepository: context.read<ChatRoomRepository>(),
+        webRTCRepostiory: context.read<WebRTCRepostiory>(),
+        deviceRepository: context.read<DeviceRepository>(),
       ),
       child: AppBar(
         backgroundColor: Colors.white,
@@ -68,59 +67,7 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
             },
           ),
           //const SearchButton(),
-          BlocBuilder<NotificationBloc, NotificationState>(
-            builder: (context, state) {
-              return IconButton(
-                icon: Stack(
-                  children: [
-                    Icon(
-                      Icons.notifications,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    if (state.runtimeType == NotificationGetListSuccess &&
-                        (state as NotificationGetListSuccess)
-                            .listNotification
-                            .isNotEmpty)
-                      Positioned(
-                        right: -1,
-                        bottom: -1,
-                        child: Container(
-                          height: 12.h,
-                          width: 12.w,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              state.listNotification.length.toString(),
-                              style: TextStyle(
-                                  fontSize: 4.sp, color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      )
-                  ],
-                ),
-                onPressed: () async {
-                  await Navigator.of(context)
-                      .push(MaterialPageRoute(
-                          builder: (ctx) => const NotificationsPage()))
-                      .then(
-                    (_) {
-                      context
-                          .read<NotificationBloc>()
-                          .add(NotificationInited());
-                    },
-                  );
-                },
-              );
-            },
-          )
+          const NotificationButton()
         ],
         bottom: bottomWidget,
       ),

@@ -30,7 +30,7 @@ void bootstrap(
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
-  // Bloc.observer = AppBlocObserver();
+  Bloc.observer = AppBlocObserver();
 
   runZonedGuarded(
     () => runApp(

@@ -18,23 +18,9 @@ class FriendsListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authRepository = context.read<AuthRepository>();
     final friendRepository = context.read<FriendRepository>();
-    final notificationRepository = context.read<NotificationRepository>();
-    final chatRoomRepository = context.read<ChatRoomRepository>();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => FriendsBloc(authRepository, friendRepository),
-        ),
-        BlocProvider(
-          create: (_) => NotificationBloc(
-            authRepository: authRepository,
-            notificationRepository: notificationRepository,
-            friendRepository: friendRepository,
-            chatRoomRepository: chatRoomRepository,
-          ),
-        ),
-      ],
+    return BlocProvider(
+      create: (_) => FriendsBloc(authRepository, friendRepository),
       child: const FriendsView(),
     );
   }
