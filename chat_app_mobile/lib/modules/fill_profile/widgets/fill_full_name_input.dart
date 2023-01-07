@@ -35,7 +35,7 @@ class _FillFullNameInputState extends State<FillFullNameInput> {
       child: OutlineInputBorderCustom(
         inputController: fullnameInputController,
         inputType: TextInputType.name,
-        labelText: 'Full name',
+        labelText: 'Full name (*)',
         icon: const Icon(Icons.person),
       ),
     );

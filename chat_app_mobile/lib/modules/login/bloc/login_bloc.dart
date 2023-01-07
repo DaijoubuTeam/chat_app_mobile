@@ -61,7 +61,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginSubmitted event, Emitter<LoginState> emit) async {
     try {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      if (event.email.value == "" || event.password.value == "") {
+        FlutterToastCustom.showToast("Email or password not empty", "warning");
+        emit(state.copyWith(status: FormzStatus.submissionFailure));
+        return;
+      }
       if (event.email.invalid || event.password.invalid) {
+        FlutterToastCustom.showToast("Email or password invalid", "warning");
         emit(state.copyWith(status: FormzStatus.submissionFailure));
         return;
       }

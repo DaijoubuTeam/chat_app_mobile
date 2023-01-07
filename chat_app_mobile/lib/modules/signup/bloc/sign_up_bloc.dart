@@ -89,11 +89,22 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       SignUpSubmitted event, Emitter<SignUpState> emit) async {
     try {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      if (state.email.value == "" ||
+          state.password.value == "" ||
+          state.confirmPassword.value == "" ||
+          state.password.value != state.confirmPassword.value) {
+        FlutterToastCustom.showToast(
+            'Please check email, password, confirm password again.', 'warning');
+        emit(state.copyWith(status: FormzStatus.submissionFailure));
+        return;
+      }
+
       if (state.email.invalid ||
           state.password.invalid ||
           state.confirmPassword.invalid) {
         return;
       }
+
       await _authRepository.createUserWithEmailAndPassword(
           email: state.email.value, password: state.password.value);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));

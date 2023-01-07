@@ -34,7 +34,7 @@ class _FillEmailInputState extends State<FillEmailInput> {
         isEnable: false,
         inputController: emailController,
         inputType: TextInputType.emailAddress,
-        labelText: 'Email',
+        labelText: 'Email (*)',
         icon: const Icon(Icons.email),
       ),
     );
