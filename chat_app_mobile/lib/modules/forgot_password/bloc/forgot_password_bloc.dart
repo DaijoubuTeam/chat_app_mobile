@@ -41,6 +41,10 @@ class ForgotPasswordBloc
       ForgotPasswordButtonSubmitted event,
       Emitter<ForgotPasswordState> emit) async {
     try {
+      if (state.email.value.trim() == "") {
+        FlutterToastCustom.showToast("Email is not empty", "warning");
+        return;
+      }
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       if (state.email.invalid) {
         return;
