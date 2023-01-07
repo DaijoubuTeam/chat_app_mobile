@@ -144,6 +144,7 @@ class VideoPlayPage extends StatefulWidget {
 
 class _VideoPlayPageState extends State<VideoPlayPage> {
   late VideoPlayerController _controller;
+  bool isPlay = false;
 
   @override
   void initState() {
@@ -151,6 +152,18 @@ class _VideoPlayPageState extends State<VideoPlayPage> {
     _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
         setState(() {});
+        _controller.addListener(() {
+          if (_controller.value.isPlaying) {
+            setState(() {
+              isPlay = true;
+            });
+          }
+          if (!_controller.value.isPlaying) {
+            setState(() {
+              isPlay = false;
+            });
+          }
+        });
       });
   }
 
@@ -201,9 +214,7 @@ class _VideoPlayPageState extends State<VideoPlayPage> {
                     });
                   },
                   child: Icon(
-                    _controller.value.isPlaying
-                        ? Icons.pause
-                        : Icons.play_arrow,
+                    isPlay ? Icons.pause : Icons.play_arrow,
                   ),
                 ),
               )
