@@ -91,13 +91,19 @@ class ListGroupJoined extends StatelessWidget {
       children: [
         SlidableAction(
           // An action can be bigger than the others.
-          onPressed: (ctx) => {
-            ctx.pushNamed(
-              GroupEditPage.namePage,
-              params: {
-                "groupId": groupId,
-              },
-            ),
+          onPressed: (_) async {
+            // ctx.pushNamed(
+            //   GroupEditPage.namePage,
+            //   params: {
+            //     "groupId": groupId,
+            //   },
+            // ),
+            await Navigator.of(ctx)
+                .push(MaterialPageRoute(
+                    builder: (_) => GroupEditPage(groupId: groupId)))
+                .then((_) {
+              ctx.read<GroupListBloc>().add(GroupListRefreshed());
+            });
           },
           backgroundColor: Theme.of(ctx).primaryColor,
           foregroundColor: Colors.white,

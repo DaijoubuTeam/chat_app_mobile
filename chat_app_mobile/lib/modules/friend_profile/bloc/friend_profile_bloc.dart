@@ -44,13 +44,25 @@ class FriendProfileBloc extends Bloc<FriendProfileEvent, FriendProfileState> {
         final List<friend_repository.User> listRequestFriendSent =
             await _friendRepository.getListRequestsSentFriends(bearerToken);
 
+        final List<friend_repository.User> listFriend =
+            await _friendRepository.getListUserFriends(bearerToken);
+
         bool isRequestSent = listRequestFriendSent
                 .indexWhere((requestSent) => requestSent.uid == friendId) !=
             -1;
 
+        bool isFriend =
+            listFriend.indexWhere((friend) => friend.uid == friendId) != -1;
+
+        bool checkIsSent = false;
+
+        if (isRequestSent || isFriend) {
+          checkIsSent = true;
+        }
+
         emit(FriendProfileGetInforSuccess(
           friendInfor: friendInfor,
-          isSentRequest: isRequestSent,
+          isSentRequest: checkIsSent,
         ));
       }
     } catch (err) {

@@ -11,7 +11,7 @@ class ButtonRequestGroup extends StatelessWidget {
 
   void _handleTapListTileGroupRequest(BuildContext ctx) async {
     await Navigator.of(ctx)
-        .push(MaterialPageRoute(builder: (ctx) => const GroupRequestPage()))
+        .push(MaterialPageRoute(builder: (_) => const GroupRequestPage()))
         .then(
           (_) => {
             ctx.read<AppBloc>().add(AppNotificationNumberChanged()),

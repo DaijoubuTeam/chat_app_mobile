@@ -65,42 +65,47 @@ class PersonListItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: nameActor == null
-                ? Text(
-                    subTitle ?? '',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                : Align(
-                    alignment: Alignment.centerLeft,
-                    child: RichText(
+          subtitle: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: nameActor == null
+                  ? Text(
+                      subTitle ?? '',
                       maxLines: 1,
-                      text: TextSpan(
-                          text: "$nameActor: ",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black38,
-                          ),
-                          children: [
-                            WidgetSpan(
-                              child: Text(
-                                ' $subTitle',
-                                textDirection: TextDirection.ltr,
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  //letterSpacing: 1,
-                                  textBaseline: TextBaseline.ideographic,
-                                  overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  : Align(
+                      alignment: Alignment.centerLeft,
+                      child: RichText(
+                        maxLines: 1,
+                        text: TextSpan(
+                            text: "$nameActor: ",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black38,
+                            ),
+                            children: [
+                              WidgetSpan(
+                                child: Text(
+                                  subTitle!.length > 16
+                                      ? '${subTitle!.substring(0, 16)}...'
+                                      : subTitle ?? "",
+                                  textDirection: TextDirection.ltr,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    //letterSpacing: 1,
+                                    textBaseline: TextBaseline.ideographic,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ]),
+                            ]),
+                      ),
                     ),
-                  ),
+            ),
           ),
           trailing: Padding(
             padding: const EdgeInsets.all(8.0),

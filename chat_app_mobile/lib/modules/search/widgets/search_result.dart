@@ -10,14 +10,16 @@ class SearchResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
-          ResultUser(),
-          ResultChatRoom(),
-          ResultMessage(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: const <Widget>[
+            ResultUser(),
+            ResultChatRoom(),
+            ResultMessage(),
+          ],
+        ),
       ),
     );
   }
