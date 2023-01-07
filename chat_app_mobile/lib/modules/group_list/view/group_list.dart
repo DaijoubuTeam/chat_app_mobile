@@ -1,9 +1,12 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
 import 'package:chat_app_mobile/modules/group_list/widgets/button_request_group.dart';
+import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:friend_repository/friend_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 
 import '../widgets/button_create_group.dart';
 import '../widgets/list_group_joined.dart';

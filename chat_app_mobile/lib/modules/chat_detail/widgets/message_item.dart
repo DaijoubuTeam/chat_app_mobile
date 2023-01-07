@@ -39,7 +39,7 @@ class _MessageItemState extends State<MessageItem> {
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+          padding: const EdgeInsets.only(top: 16.0),
           child: Row(
             mainAxisAlignment: widget.type == "system"
                 ? MainAxisAlignment.center
@@ -60,31 +60,23 @@ class _MessageItemState extends State<MessageItem> {
                 )
               ],
               Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isTapping = !isTapping;
-                      });
-                    },
-                    onLongPress: () {},
-                    child: FactoryMessageItem.buildMessageItem(
-                      widget.type,
-                      widget.isMe,
-                      widget.content,
-                      widget.nameActor,
-                    ),
+                  FactoryMessageItem.buildMessageItem(
+                    widget.type,
+                    widget.isMe,
+                    widget.content,
+                    widget.nameActor,
                   ),
                   SizedBox(
-                    height: 2.h,
+                    height: 4.h,
                   ),
-                  if (isTapping)
-                    if (widget.time != null)
-                      Text(
-                        DateTimeLocalString.convertToHourMinute(widget.time!),
-                        style:
-                            TextStyle(fontSize: 8.sp, color: Colors.grey[600]),
-                      )
+                  if (widget.time != null)
+                    Text(
+                      DateTimeLocalString.convertToHourMinute(widget.time!),
+                      style: TextStyle(fontSize: 8.sp, color: Colors.grey[800]),
+                    )
                 ],
               ),
             ],

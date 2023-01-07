@@ -81,6 +81,10 @@ class FillProfileBloc extends Bloc<FillProfileEvent, FillProfileState> {
   Future<void> _onFillProfileFormSubmited(
       FillProfileFormSubmited event, Emitter<FillProfileState> emit) async {
     try {
+      if (state.fullname == null || state.fullname == "") {
+        FlutterToastCustom.showToast("Full name cannot be empty", "warning");
+        return;
+      }
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {

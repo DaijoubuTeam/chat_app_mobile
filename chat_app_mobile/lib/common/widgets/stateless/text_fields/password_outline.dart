@@ -25,7 +25,7 @@ class PasswordOutline extends StatelessWidget {
       controller: _inputController,
       decoration: InputDecoration(
         hintText: 'Your Password ...',
-        labelText: _labelText ?? 'Password',
+        labelText: _labelText ?? 'Password (*)',
         errorText: _errorText,
         // errorText: _errorText,
         prefixIcon: const Icon(Icons.lock),

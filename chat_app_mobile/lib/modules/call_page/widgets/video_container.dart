@@ -5,6 +5,7 @@ import 'package:chat_app_mobile/modules/call_page/bloc/call_bloc.dart';
 import 'package:chat_app_mobile/services/webrtc/signaling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:webrtc_repository/webrtc_repository.dart';
@@ -24,6 +25,7 @@ class _VideosContainerState extends State<VideosContainer> {
   bool isMicOpen = true;
   bool isCameraOpen = true;
   bool isVolumeUp = true;
+  bool isCameraSwitched = false;
 
   Future<void> openUserMedia() async {
     _localRenderer.srcObject = await navigator.mediaDevices
@@ -141,6 +143,9 @@ class _VideosContainerState extends State<VideosContainer> {
     final track = _localRenderer.srcObject?.getVideoTracks().first;
     if (track != null) {
       Helper.switchCamera(track);
+      setState(() {
+        isCameraSwitched != isCameraSwitched;
+      });
     }
   }
 
@@ -182,30 +187,60 @@ class _VideosContainerState extends State<VideosContainer> {
       },
       builder: (context, state) {
         if (state.isWaiting) {
-          return Stack(
-            children: <Widget>[
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: 64.0,
-                  height: 64.0,
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    backgroundColor: Colors.red[400],
-                    onPressed: () {
-                      context.read<CallBloc>().add(CallMissed());
-                    },
-                    child: const Icon(
-                      Icons.call_end,
-                      size: 36,
+          return Center(
+            child: Container(
+              height: double.infinity,
+              color: Colors.black,
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        const Text(
+                          "Calling...",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              )
-            ],
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: 64.w,
+                      height: 64.h,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          backgroundColor: Colors.red[400],
+                          onPressed: () {
+                            context.read<CallBloc>().add(CallMissed());
+                          },
+                          child: const Icon(
+                            Icons.call_end,
+                            size: 36,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           );
         }
         if (state.isCancel) {
@@ -279,8 +314,10 @@ class _VideosContainerState extends State<VideosContainer> {
                           onPressed: () {
                             _switchCamera();
                           },
-                          child: const Icon(
-                            Icons.flip_camera_ios,
+                          child: Icon(
+                            isCameraSwitched
+                                ? Icons.flip_camera_ios
+                                : Icons.flip_camera_ios_outlined,
                             color: Colors.black,
                           ),
                         ),

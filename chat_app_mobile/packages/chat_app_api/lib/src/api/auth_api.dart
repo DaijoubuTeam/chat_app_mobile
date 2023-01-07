@@ -13,7 +13,7 @@ class AuthApi {
 
   String get basePath => '$_serverUrl/auth';
 
-  Dio _dio;
+  final Dio _dio;
 
   Future<User> verify(String bearerToken) async {
     try {

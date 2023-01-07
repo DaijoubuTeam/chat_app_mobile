@@ -12,7 +12,7 @@ class MessageApi {
 
   String get basePath => '$_serverUrl/message/chat-room';
 
-  Dio _dio;
+  final Dio _dio;
 
   Future<List<Message>> getMessages(
       String bearerToken, String chatRoomId, int from, int to) async {

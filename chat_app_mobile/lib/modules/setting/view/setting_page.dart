@@ -1,4 +1,5 @@
 import 'package:auth_repository/auth_repository.dart';
+import 'package:chat_app_mobile/common/widgets/stateless/skeleton/profile_skeleton.dart';
 import 'package:chat_app_mobile/modules/setting/bloc/setting_bloc.dart';
 import 'package:chat_app_mobile/modules/setting/widgets/setting_action.dart';
 import 'package:chat_app_mobile/modules/setting/widgets/setting_logout_button.dart';
@@ -76,7 +77,7 @@ class SettingView extends StatelessWidget {
       }
 
       return const Center(
-        child: CircularProgressIndicator(),
+        child: ProfileSkeleton(),
       );
     });
   }

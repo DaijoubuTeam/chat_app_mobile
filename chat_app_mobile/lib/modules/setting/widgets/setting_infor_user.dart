@@ -47,7 +47,7 @@ class SettingInforUser extends StatelessWidget {
                 ),
                 minLeadingWidth: 24,
                 title: Text(
-                  state.user.email ?? '',
+                  state.user.email ?? 'No email',
                   style: TextStyle(fontSize: 16.sp),
                 ),
               ),
@@ -65,10 +65,16 @@ class SettingInforUser extends StatelessWidget {
                   ],
                 ),
                 minLeadingWidth: 24,
-                title: Text(
-                  state.user.phone ?? '',
-                  style: TextStyle(fontSize: 16.sp),
-                ),
+                title: (state.user.phone == "" || state.user.phone == null)
+                    ? Text(
+                        'No phone',
+                        style: TextStyle(
+                            fontSize: 16.sp, fontStyle: FontStyle.italic),
+                      )
+                    : Text(
+                        state.user.phone ?? "",
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
               ),
             ],
           );

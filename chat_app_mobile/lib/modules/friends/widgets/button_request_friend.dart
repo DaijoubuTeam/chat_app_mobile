@@ -1,4 +1,6 @@
+import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
+import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,6 +82,7 @@ class ButtonRequestFriend extends StatelessWidget {
                       builder: (ctx) => const FriendRequestTabPage()))
                   .then(
                 (_) {
+                  context.read<AppBloc>().add(AppNotificationNumberChanged());
                   context.read<FriendsBloc>().add(const FriendsInited());
                 },
               );

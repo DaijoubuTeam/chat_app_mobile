@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:message_repository/message_repository.dart';
-import 'package:video_player/video_player.dart';
 
 class ModalUploadFilePage extends StatelessWidget {
   const ModalUploadFilePage({super.key, required this.chatRoomId});
@@ -41,6 +40,12 @@ class BottomModalFile extends StatefulWidget {
 class _BottomModalFileState extends State<BottomModalFile> {
   List<Map<String, dynamic>> media = [];
   List<String> listUrl = [];
+
+  void _handleRemoveAttachment(Map<String, dynamic> attachment) {
+    setState(() {
+      media.remove(attachment);
+    });
+  }
 
   Future<void> _pickImages(BuildContext ctx) async {
     try {
@@ -117,7 +122,11 @@ class _BottomModalFileState extends State<BottomModalFile> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: ((context, index) {
-                      return attachmentWidget(media[index]);
+                      return attachmentWidget(
+                          media[index],
+                          () => {
+                                _handleRemoveAttachment(media[index]),
+                              });
                     }),
                     itemCount: media.length,
                   ),
@@ -209,7 +218,8 @@ Widget iconTextButton(
   );
 }
 
-Widget attachmentWidget(Map<String, dynamic> attachment) {
+Widget attachmentWidget(
+    Map<String, dynamic> attachment, void Function()? handleTap) {
   return Container(
     width: 140.w,
     height: 210.h,
@@ -217,9 +227,6 @@ Widget attachmentWidget(Map<String, dynamic> attachment) {
     margin: const EdgeInsets.only(right: 10),
     child: Stack(
       children: [
-        if (attachment["type"] == "video")
-          VideoPlayer(VideoPlayerController.file(attachment["file"])
-            ..initialize().then((_) => {})),
         if (attachment["type"] == "image")
           Image.file(
             width: 140.w,
@@ -232,14 +239,14 @@ Widget attachmentWidget(Map<String, dynamic> attachment) {
           right: 0,
           child: IconButton(
             style: IconButton.styleFrom(
-              backgroundColor: Colors.grey,
+              backgroundColor: Colors.black,
             ),
             icon: Icon(
               Icons.cancel,
               size: 20.sp,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: handleTap,
           ),
         ),
       ],

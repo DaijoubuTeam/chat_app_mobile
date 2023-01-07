@@ -2,9 +2,12 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:chat_app_mobile/modules/friends/bloc/friends_bloc.dart';
 import 'package:chat_app_mobile/modules/friends/widgets/button_add_new_friend.dart';
 import 'package:chat_app_mobile/modules/friends/widgets/list_friend.dart';
+import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
+import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 
 import '../widgets/button_request_friend.dart';
 

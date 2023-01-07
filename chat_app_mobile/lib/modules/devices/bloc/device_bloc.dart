@@ -4,7 +4,6 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:chat_app_mobile/common/widgets/toasts/flutter_toast.dart';
 import 'package:chat_app_mobile/utils/device_infor.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_repository/device_repository.dart';
 import 'package:equatable/equatable.dart';
 

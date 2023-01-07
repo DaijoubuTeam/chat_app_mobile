@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class DateTimeLocalString {
-  static String convertToHourMinute(DateTime time) {
+  static String convertToHourMinuteFollowDay(DateTime time) {
     final checkToday = calculateDifference(time);
     if (checkToday == 0) {
       return DateFormat.jm().format(time.toLocal());
@@ -9,6 +9,10 @@ class DateTimeLocalString {
       return "Yesterday";
     }
     return DateFormat("dd/MM/yyyy").format(time.toLocal());
+  }
+
+  static String convertToHourMinute(DateTime time) {
+    return DateFormat.jm().format(time.toLocal());
   }
 
   static String convertToDayMonthYear(DateTime time) {

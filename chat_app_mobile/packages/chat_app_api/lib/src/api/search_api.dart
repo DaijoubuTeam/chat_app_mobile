@@ -11,7 +11,7 @@ class SearchApi {
 
   String get basePath => '$_serverUrl/search';
 
-  Dio _dio;
+  final Dio _dio;
 
   Future<Search> getSearch(String bearerToken, String input) async {
     final url = '$basePath?q=$input';

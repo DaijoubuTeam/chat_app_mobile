@@ -33,7 +33,7 @@ class FlutterToastCustom {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         textColor: Colors.white,
-        backgroundColor: Colors.yellow[600],
+        backgroundColor: Colors.yellow[700],
         fontSize: 16.0,
       );
     }

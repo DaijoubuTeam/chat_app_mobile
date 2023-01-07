@@ -1,3 +1,4 @@
+import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/group_list/bloc/group_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,10 +13,11 @@ class ButtonRequestGroup extends StatelessWidget {
     await Navigator.of(ctx)
         .push(MaterialPageRoute(builder: (ctx) => const GroupRequestPage()))
         .then(
-      (_) {
-        ctx.read<GroupListBloc>().add(GroupListRefreshed());
-      },
-    );
+          (_) => {
+            ctx.read<AppBloc>().add(AppNotificationNumberChanged()),
+            ctx.read<GroupListBloc>().add(GroupListRefreshed()),
+          },
+        );
   }
 
   @override

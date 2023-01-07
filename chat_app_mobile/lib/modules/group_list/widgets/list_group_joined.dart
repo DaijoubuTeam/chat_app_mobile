@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import '../../../common/widgets/alert_button/accept_button.dart';
 import '../../../common/widgets/alert_button/denied_button.dart';
 import '../../../common/widgets/stateless/list_title/person_list_item.dart';
+import '../../../common/widgets/stateless/skeleton/chat_rooms_skeleton.dart';
 import '../../chat_detail/view/view.dart';
 
 class ListGroupJoined extends StatelessWidget {
@@ -136,7 +137,7 @@ class ListGroupJoined extends StatelessWidget {
       builder: (context, state) {
         if (state.status == FormzStatus.submissionInProgress) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: ChatRoomsSkeleton(),
           );
         } else if (state.status == FormzStatus.submissionSuccess) {
           final listGroup = state.listChatRoom!;

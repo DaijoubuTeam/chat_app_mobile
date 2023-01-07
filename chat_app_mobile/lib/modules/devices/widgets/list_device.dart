@@ -12,7 +12,7 @@ class ListDevice extends StatelessWidget {
     return BlocBuilder<DeviceBloc, DeviceState>(
       builder: (context, state) {
         final listDevice = (state as DeviceGetListSuccess).listDevice;
-        if (true) {
+        if (listDevice.isNotEmpty) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -51,6 +51,8 @@ class ListDevice extends StatelessWidget {
               ),
             ],
           );
+        } else {
+          return Container();
         }
       },
     );

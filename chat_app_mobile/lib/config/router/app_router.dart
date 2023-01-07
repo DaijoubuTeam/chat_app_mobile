@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:chat_app_mobile/config/router/go_router_refresh_stream.dart';
 import 'package:chat_app_mobile/config/router/transition_page.dart';
+import 'package:chat_app_mobile/modules/about_us/view/view.dart';
 import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/call_page/view/call_page.dart';
 import 'package:chat_app_mobile/modules/chat_detail/view/view.dart';
@@ -244,6 +245,17 @@ class AppRouter {
             context: context,
             state: state,
             child: const DevicePage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AboutUsPage.namePage,
+        path: '/about-use',
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: const AboutUsPage(),
           );
         },
       ),

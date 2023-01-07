@@ -27,7 +27,7 @@ class _ForgotPasswordEmailInputState extends State<ForgotPasswordEmailInput> {
         return OutlineInputBorderCustom(
           inputController: _emailController,
           inputType: TextInputType.emailAddress,
-          labelText: 'Email',
+          labelText: 'Email (*)',
           hintText: 'abc@gmail.com',
           icon: const Icon(Icons.email),
           errorText: state.email.invalid ? "Invalid email" : null,

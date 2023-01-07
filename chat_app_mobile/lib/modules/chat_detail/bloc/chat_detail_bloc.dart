@@ -273,7 +273,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
         final res = await _chatMessageRepository.sendMessage(
           bearerToken,
           state.chatRoomId,
-          state.content!,
+          state.content!.trim(),
           state.type,
         );
 

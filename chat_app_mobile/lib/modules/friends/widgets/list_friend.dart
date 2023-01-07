@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../common/widgets/alert_button/accept_button.dart';
 import '../../../common/widgets/alert_button/denied_button.dart';
+import '../../../common/widgets/stateless/skeleton/chat_rooms_skeleton.dart';
 import '../../chat_detail/view/view.dart';
 
 class ListFriend extends StatelessWidget {
@@ -109,7 +110,7 @@ class ListFriend extends StatelessWidget {
         }
         if (state.runtimeType == FriendsGetListInProgress) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: ChatRoomsSkeleton(),
           );
         }
         return const Center(

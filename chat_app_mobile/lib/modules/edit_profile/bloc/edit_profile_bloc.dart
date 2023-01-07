@@ -81,6 +81,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   Future<void> _onEditProfileFormSubmited(
       EditProfileFormSubmited event, Emitter<EditProfileState> emit) async {
     try {
+      if (state.fullname == null || state.fullname == "") {
+        FlutterToastCustom.showToast("Full name cannot be empty", "warning");
+        return;
+      }
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       final bearerToken = await _authRepository.bearToken;
       if (bearerToken != null) {

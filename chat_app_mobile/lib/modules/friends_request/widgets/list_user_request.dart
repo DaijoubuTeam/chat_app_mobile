@@ -40,10 +40,10 @@ class ListUserRequest extends StatelessWidget {
               ),
             ),
           );
-        } else if (state.runtimeType == FriendsRequestGetListInProgress) {
-          return const Center(child: CircularProgressIndicator());
+        } else if (state.runtimeType == FriendsRequestGetListFailure) {
+          return const Center(child: Text('Something wrongs!'));
         }
-        return const Center(child: Text('Something wrongs!'));
+        return const Center(child: CircularProgressIndicator());
       }),
     );
   }

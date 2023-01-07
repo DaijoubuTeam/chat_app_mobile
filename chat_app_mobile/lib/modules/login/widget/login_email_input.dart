@@ -31,7 +31,7 @@ class _LoginEmailInputState extends State<LoginEmailInput> {
         return OutlineInputBorderCustom(
           inputController: _emailController,
           inputType: TextInputType.emailAddress,
-          labelText: 'Email',
+          labelText: 'Email (*)',
           hintText: 'abc@gmail.com',
           icon: const Icon(
             Icons.email,
