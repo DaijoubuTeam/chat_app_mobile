@@ -203,11 +203,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             await _notificationRepository.getUserNotification(bearerToken);
         // emit((state as AppStateAuthorized)
         //     .copyWith(numberNotification: listNotification.length));
-        final currentState = (state as AppStateAuthorized);
-        emit(AppStateAuthorized(
-            isEmailVerified: currentState.isEmailVerified,
-            isProfileFilled: currentState.isProfileFilled,
-            numberNotification: listNotification.length));
+        //final currentState = (state as AppStateAuthorized);
+        // emit(AppStateAuthorized(
+        //     isEmailVerified: currentState.isEmailVerified,
+        //     isProfileFilled: currentState.isProfileFilled,
+        //     numberNotification: listNotification.length));
+        emit((state as AppStateAuthorized)
+            .copyWith(numberNotification: listNotification.length));
       }
     }
   }

@@ -29,7 +29,7 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //set up url
-  String serverUrl = "https://alpha.chatapp.daijoubuteam.xyz/api/v1";
+  String serverUrl = "https://beta.chatapp.daijoubuteam.xyz/api/v1";
 
   // Create dio
   final dio = Dio();
