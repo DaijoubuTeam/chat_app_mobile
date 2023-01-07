@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/widgets/full_screen_image/full_screen_image.dart';
 import '../../../common/widgets/stateless/avatars/circle_avatar_network.dart';
 
 class SettingInforUser extends StatelessWidget {
@@ -17,10 +18,19 @@ class SettingInforUser extends StatelessWidget {
         if (state is SettingPageGetInfoSuccess) {
           return Column(
             children: <Widget>[
-              CircleAvatarCustom(
-                urlImage: state.user.avatar,
-                widthImage: 120.w,
-                heightImage: 120.h,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              FullScreenImage(imageUrl: state.user.avatar!)));
+                },
+                child: CircleAvatarCustom(
+                  urlImage: state.user.avatar,
+                  widthImage: 120.w,
+                  heightImage: 120.h,
+                ),
               ),
               const SizedBox(
                 height: 28,

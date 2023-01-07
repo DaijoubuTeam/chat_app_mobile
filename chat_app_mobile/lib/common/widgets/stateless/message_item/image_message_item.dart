@@ -4,6 +4,8 @@ import 'package:chat_app_mobile/common/widgets/stateless/skeleton/skeleton.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../full_screen_image/full_screen_image.dart';
+
 class ImageMessageItem extends IMessageItem {
   const ImageMessageItem({
     super.key,
@@ -47,41 +49,6 @@ class ImageMessageItem extends IMessageItem {
       errorWidget: (context, url, error) {
         return Image.asset("assets/images/image_not_found.jpg");
       },
-    );
-  }
-}
-
-class FullScreenImage extends StatelessWidget {
-  final String imageUrl;
-
-  const FullScreenImage({
-    Key? key,
-    required this.imageUrl,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Image"),
-        backgroundColor: Colors.black,
-      ),
-      backgroundColor: Colors.black87,
-      body: GestureDetector(
-        child: Center(
-          child: Hero(
-            tag: "hero",
-            child: CachedNetworkImage(
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.contain,
-              imageUrl: imageUrl,
-            ),
-          ),
-        ),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
     );
   }
 }

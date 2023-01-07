@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../common/widgets/full_screen_image/full_screen_image.dart';
+
 class ChatRoomInformation extends StatelessWidget {
   const ChatRoomInformation({
     Key? key,
@@ -25,10 +27,19 @@ class ChatRoomInformation extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              CircleAvatarCustom(
-                urlImage: chatRoomInfor!.chatRoomAvatar!,
-                widthImage: 120.w,
-                heightImage: 120.h,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FullScreenImage(
+                              imageUrl: chatRoomInfor.chatRoomAvatar!)));
+                },
+                child: CircleAvatarCustom(
+                  urlImage: chatRoomInfor!.chatRoomAvatar!,
+                  widthImage: 120.w,
+                  heightImage: 120.h,
+                ),
               ),
               const SizedBox(
                 height: 28,
