@@ -31,6 +31,10 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
         final listFriend =
             await _friendRepository.getListUserFriends(bearerToken);
 
+        listFriend.sort((group1, group2) {
+          return group1.fullname!.compareTo(group2.fullname!);
+        });
+
         int numberRequestFriend = 0;
         int numberSentFriend = 0;
 

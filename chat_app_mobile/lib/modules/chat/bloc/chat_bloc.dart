@@ -32,7 +32,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _newEventChatRoomStreamSubscription = socket_repository
         .SocketAPI.socketApi.newEventChatRoomController.stream
         .listen((_) {
-      print("this");
       add(ChatPageRefreshed());
     });
   }

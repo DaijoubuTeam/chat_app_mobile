@@ -81,7 +81,7 @@ class FillProfileBloc extends Bloc<FillProfileEvent, FillProfileState> {
   Future<void> _onFillProfileFormSubmited(
       FillProfileFormSubmited event, Emitter<FillProfileState> emit) async {
     try {
-      if (state.fullname == null || state.fullname == "") {
+      if (state.fullname?.trim() == null || state.fullname?.trim() == "") {
         FlutterToastCustom.showToast("Full name cannot be empty", "warning");
         return;
       }
@@ -91,9 +91,9 @@ class FillProfileBloc extends Bloc<FillProfileEvent, FillProfileState> {
         final user = user_model.User(
           uid: state.uid!,
           email: state.email,
-          fullname: state.fullname,
-          phone: state.phone,
-          about: state.about,
+          fullname: state.fullname?.trim(),
+          phone: state.phone?.trim(),
+          about: state.about?.trim(),
           avatar: state.avatar,
         );
         final updatedUser =

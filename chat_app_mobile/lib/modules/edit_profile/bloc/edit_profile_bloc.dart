@@ -24,6 +24,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<EditProfileAboutChanged>(_onEditProfileAboutChanged);
     on<EditProfileAvatarChanged>(_onEditProfileAvatarChanged);
     on<EditProfileFormSubmited>(_onEditProfileFormSubmited);
+
     add(EditProfilePageInited());
   }
 
@@ -81,7 +82,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   Future<void> _onEditProfileFormSubmited(
       EditProfileFormSubmited event, Emitter<EditProfileState> emit) async {
     try {
-      if (state.fullname == null || state.fullname == "") {
+      if (state.fullname?.trim() == null || state.fullname?.trim() == "") {
         FlutterToastCustom.showToast("Full name cannot be empty", "warning");
         return;
       }
@@ -91,9 +92,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         final user = user_model.User(
           uid: state.uid,
           email: state.email,
-          fullname: state.fullname,
-          phone: state.phone,
-          about: state.about,
+          fullname: state.fullname?.trim(),
+          phone: state.phone?.trim(),
+          about: state.about?.trim(),
           avatar: state.avatar,
         );
         final updatedUser =

@@ -141,7 +141,7 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     Colors.blue,
                     () async {
                       final images = await ImagePicker().pickMultiImage(
-                        imageQuality: 10,
+                        imageQuality: 25,
                       );
                       if (images != null) {
                         for (var image in images) {
@@ -165,7 +165,7 @@ class _BottomModalFileState extends State<BottomModalFile> {
                     () async {
                       final image = await ImagePicker().pickImage(
                         source: ImageSource.camera,
-                        imageQuality: 10,
+                        imageQuality: 25,
                       );
                       if (image != null) {
                         XFile file = XFile(image.path);

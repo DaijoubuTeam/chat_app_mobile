@@ -58,6 +58,11 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
         final List<chat_room_repository.ChatRoom> listGroupChatJoined =
             listChatRoom.where((chatRoom) => chatRoom.type == 'group').toList();
 
+        listGroupChatJoined.sort((group1, group2) {
+          return group2.latestMessage!.createdAt!
+              .compareTo(group1.latestMessage!.createdAt!);
+        });
+
         emit(
           state.copyWith(
             listChatRoom: listGroupChatJoined,
@@ -99,6 +104,11 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
 
         final List<chat_room_repository.ChatRoom> listGroupChatJoined =
             listChatRoom.where((chatRoom) => chatRoom.type == 'group').toList();
+
+        listGroupChatJoined.sort((group1, group2) {
+          return group2.latestMessage!.createdAt!
+              .compareTo(group1.latestMessage!.createdAt!);
+        });
 
         emit(
           state.copyWith(
