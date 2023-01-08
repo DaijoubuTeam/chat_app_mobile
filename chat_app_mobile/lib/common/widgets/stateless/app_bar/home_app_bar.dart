@@ -34,6 +34,7 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
