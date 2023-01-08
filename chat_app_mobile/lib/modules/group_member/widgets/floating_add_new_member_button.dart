@@ -12,6 +12,7 @@ class FloatingAddNewMemberButton extends StatelessWidget {
     return BlocBuilder<GroupMemberBloc, GroupMemberState>(
       builder: (context, state) {
         return FloatingActionButton(
+          heroTag: UniqueKey(),
           onPressed: () {
             context.pushNamed(GroupAddNewMemberPage.namePage,
                 params: {"chatRoomId": state.chatRoomId},

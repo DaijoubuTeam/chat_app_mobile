@@ -225,7 +225,7 @@ class _VideosContainerState extends State<VideosContainer> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: FloatingActionButton(
-                          heroTag: null,
+                          heroTag: UniqueKey(),
                           backgroundColor: Colors.red[400],
                           onPressed: () {
                             context.read<CallBloc>().add(CallMissed());
@@ -288,7 +288,7 @@ class _VideosContainerState extends State<VideosContainer> {
                         width: 48.0,
                         height: 48.0,
                         child: FloatingActionButton(
-                          heroTag: null,
+                          heroTag: UniqueKey(),
                           backgroundColor: Colors.white,
                           onPressed: () {
                             _closeCamera(context);
@@ -309,7 +309,7 @@ class _VideosContainerState extends State<VideosContainer> {
                         width: 48.0,
                         height: 48.0,
                         child: FloatingActionButton(
-                          heroTag: null,
+                          heroTag: UniqueKey(),
                           backgroundColor: Colors.white,
                           onPressed: () {
                             _switchCamera();
@@ -329,7 +329,7 @@ class _VideosContainerState extends State<VideosContainer> {
                         width: 64.0,
                         height: 64.0,
                         child: FloatingActionButton(
-                          heroTag: null,
+                          heroTag: UniqueKey(),
                           backgroundColor: Colors.red[400],
                           onPressed: () {
                             Signaling().hangUp();
@@ -347,7 +347,7 @@ class _VideosContainerState extends State<VideosContainer> {
                         width: 48.0,
                         height: 48.0,
                         child: FloatingActionButton(
-                          heroTag: null,
+                          heroTag: UniqueKey(),
                           backgroundColor: Colors.white,
                           onPressed: () => _closeMic(context),
                           child: Icon(
@@ -363,7 +363,7 @@ class _VideosContainerState extends State<VideosContainer> {
                         width: 48.0,
                         height: 48.0,
                         child: FloatingActionButton(
-                          heroTag: null,
+                          heroTag: UniqueKey(),
                           backgroundColor: Colors.white,
                           onPressed: () => _muteRemoteSound(),
                           child: Icon(

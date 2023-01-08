@@ -20,7 +20,7 @@ class FullScreenImage extends StatelessWidget {
       body: GestureDetector(
         child: Center(
           child: Hero(
-            tag: "hero",
+            tag: UniqueKey(),
             child: CachedNetworkImage(
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.contain,

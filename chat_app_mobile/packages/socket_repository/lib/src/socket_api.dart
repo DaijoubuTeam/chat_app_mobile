@@ -13,7 +13,10 @@ class SocketAPI {
           'http://beta.chatapp.daijoubuteam.xyz',
           IO.OptionBuilder()
               .setTransports(['websocket'])
-              .disableAutoConnect() // for Flutter or Dart VM
+              .enableForceNew()
+              .enableReconnection()
+              .setTimeout(5000)
+              //.disableAutoConnect() // for Flutter or Dart VM
               // .enableForceNew()
               .build(),
         ) {
