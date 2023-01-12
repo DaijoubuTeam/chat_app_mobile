@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../modules/app/bloc/app_bloc.dart';
 import '../../../../modules/notifications/view/notifications_page.dart';
 
 class NotificationButton extends StatelessWidget {

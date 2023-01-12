@@ -1,13 +1,10 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
 import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
 import 'package:chat_room_repository/chat_room_repository.dart';
-import 'package:device_repository/device_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:friend_repository/friend_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
-import 'package:webrtc_repository/webrtc_repository.dart';
 
 import '../../../../modules/search/view/search_button.dart';
 import 'notification_button.dart';
