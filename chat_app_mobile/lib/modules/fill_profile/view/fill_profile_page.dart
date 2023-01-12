@@ -47,45 +47,50 @@ class FillProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppBarCustom(
-        title: "Update your information",
-      ),
-      body: SingleChildScrollView(
-        child: GestureDetector(
-          onTap: (() {
-            SettingsKeyboard.hideKeyBoard(context);
-          }),
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                SizedBox(
-                  height: 8,
-                ),
-                FillAvatar(),
-                SizedBox(
-                  height: 36,
-                ),
-                FillEmailInput(),
-                SizedBox(
-                  height: 8,
-                ),
-                FillFullNameInput(),
-                SizedBox(
-                  height: 8,
-                ),
-                FillPhoneInput(),
-                SizedBox(
-                  height: 8,
-                ),
-                FillProfileAboutInput(),
-                SizedBox(
-                  height: 8,
-                ),
-                FillSubmitForm()
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: const AppBarCustom(
+          title: "Update your information",
+        ),
+        body: SingleChildScrollView(
+          child: GestureDetector(
+            onTap: (() {
+              SettingsKeyboard.hideKeyBoard(context);
+            }),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  FillAvatar(),
+                  SizedBox(
+                    height: 36,
+                  ),
+                  FillEmailInput(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  FillFullNameInput(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  FillPhoneInput(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  FillProfileAboutInput(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  FillSubmitForm()
+                ],
+              ),
             ),
           ),
         ),

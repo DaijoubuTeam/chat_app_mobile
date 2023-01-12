@@ -1,10 +1,10 @@
 import 'package:auth_repository/auth_repository.dart';
-import 'package:chat_app_mobile/modules/app/bloc/app_bloc.dart';
-import 'package:device_repository/device_repository.dart';
+import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
+import 'package:chat_room_repository/chat_room_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:friend_repository/friend_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
-import 'package:webrtc_repository/webrtc_repository.dart';
 
 import '../../../../modules/search/view/search_button.dart';
 import 'notification_button.dart';
@@ -22,15 +22,16 @@ class HomeAppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AppBloc(
+      create: (_) => NotificationBloc(
         authRepository: context.read<AuthRepository>(),
         notificationRepository: context.read<NotificationRepository>(),
-        webRTCRepostiory: context.read<WebRTCRepostiory>(),
-        deviceRepository: context.read<DeviceRepository>(),
+        friendRepository: context.read<FriendRepository>(),
+        chatRoomRepository: context.read<ChatRoomRepository>(),
       ),
       child: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

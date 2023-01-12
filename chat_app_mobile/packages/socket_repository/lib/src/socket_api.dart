@@ -11,10 +11,9 @@ class SocketAPI {
   SocketAPI._()
       : _socket = IO.io(
           'http://beta.chatapp.daijoubuteam.xyz',
-          IO.OptionBuilder()
-              .setTransports(['websocket'])
-              .disableAutoConnect() // for Flutter or Dart VM
-              // .enableForceNew()
+          IO.OptionBuilder().setTransports(['websocket'])
+              //.enableForceNew()
+              //.disableAutoConnect() // for Flutter or Dart VM
               .build(),
         ) {
     _socket.onConnecting((data) => log("connecting"));

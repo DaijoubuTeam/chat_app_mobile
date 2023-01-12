@@ -1,8 +1,8 @@
+import 'package:chat_app_mobile/modules/notifications/bloc/notification_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../modules/app/bloc/app_bloc.dart';
 import '../../../../modules/notifications/view/notifications_page.dart';
 
 class NotificationButton extends StatelessWidget {
@@ -12,7 +12,7 @@ class NotificationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(
+    return BlocBuilder<NotificationBloc, NotificationState>(
       builder: (context, state) {
         return IconButton(
           icon: Stack(
@@ -21,7 +21,8 @@ class NotificationButton extends StatelessWidget {
                 Icons.notifications,
                 color: Theme.of(context).primaryColor,
               ),
-              if (state is AppStateAuthorized && state.numberNotification > 0)
+              if (state is NotificationGetListSuccess &&
+                  state.listNotification.isNotEmpty)
                 Positioned(
                   right: -1,
                   bottom: -1,
@@ -38,7 +39,7 @@ class NotificationButton extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        state.numberNotification.toString(),
+                        state.listNotification.length.toString(),
                         style: TextStyle(fontSize: 4.sp, color: Colors.white),
                       ),
                     ),
@@ -52,7 +53,7 @@ class NotificationButton extends StatelessWidget {
                     builder: (ctx) => const NotificationsPage()))
                 .then(
               (_) {
-                context.read<AppBloc>().add(AppNotificationNumberChanged());
+                context.read<NotificationBloc>().add(NotificationInited());
               },
             );
           },

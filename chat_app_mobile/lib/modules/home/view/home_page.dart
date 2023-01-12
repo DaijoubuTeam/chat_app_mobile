@@ -96,11 +96,16 @@ class HomeView extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) => previous.tabIndex != current.tabIndex,
       builder: (context, state) {
-        return Scaffold(
-          body: _widgetOptions.elementAt(state.tabIndex),
-          bottomNavigationBar: HomeBottomNavigationBar(
-            tabIndex: state.tabIndex,
-            items: _buildTabLabel(),
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: Scaffold(
+            body: _widgetOptions.elementAt(state.tabIndex),
+            bottomNavigationBar: HomeBottomNavigationBar(
+              tabIndex: state.tabIndex,
+              items: _buildTabLabel(),
+            ),
           ),
         );
       },

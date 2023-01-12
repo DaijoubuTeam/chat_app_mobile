@@ -18,5 +18,3 @@ class AppUserChanged extends AppEvent {
   @override
   List<Object> get props => [user];
 }
-
-class AppNotificationNumberChanged extends AppEvent {}

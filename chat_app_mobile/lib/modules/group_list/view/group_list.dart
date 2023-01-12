@@ -16,11 +16,23 @@ class GroupListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => GroupListBloc(
-        context.read<AuthRepository>(),
-        context.read<ChatRoomRepository>(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => GroupListBloc(
+            context.read<AuthRepository>(),
+            context.read<ChatRoomRepository>(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => NotificationBloc(
+            authRepository: context.read<AuthRepository>(),
+            notificationRepository: context.read<NotificationRepository>(),
+            friendRepository: context.read<FriendRepository>(),
+            chatRoomRepository: context.read<ChatRoomRepository>(),
+          ),
+        ),
+      ],
       child: const GroupListView(),
     );
   }

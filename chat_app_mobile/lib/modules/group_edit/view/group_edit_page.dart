@@ -74,6 +74,7 @@ class GroupEditView extends StatelessWidget {
               ),
             ),
             floatingActionButton: FloatingActionButton(
+              heroTag: UniqueKey(),
               onPressed: () {
                 context.read<GroupEditBloc>().add(const GroupEditSubmitted());
                 SettingsKeyboard.hideKeyBoard(context);

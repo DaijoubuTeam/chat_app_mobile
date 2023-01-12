@@ -18,12 +18,14 @@ class ButtonGoToLastestMessage extends StatelessWidget {
       builder: (context, state) {
         if (labelButton != null) {
           return FloatingActionButton.extended(
+            heroTag: UniqueKey(),
             icon: const Icon(Icons.arrow_downward),
             label: labelButton != null ? Text(labelButton!) : Container(),
             onPressed: handleBackToBottom,
           );
         }
         return FloatingActionButton(
+          heroTag: UniqueKey(),
           onPressed: handleBackToBottom,
           backgroundColor: Colors.white,
           elevation: 2.0,

@@ -33,7 +33,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppLoaded>(_onAppLoaded);
     on<AppLogOutRequested>(_onAppLogOutRequested);
     on<AppUserChanged>(_onAppUserChanged);
-    on<AppNotificationNumberChanged>(_onAppNotificationNumberChanged);
 
     _userSubscription = _authRepository.user.listen((user) {
       add(AppUserChanged(user));
@@ -76,7 +75,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       }
     });
     if (event.user != User.empty) {
-      add(AppNotificationNumberChanged());
       emit(AppStateAuthorized(
         isEmailVerified: event.user.isEmailVerified ?? false,
         isProfileFilled: event.user.isProfileFilled ?? false,
@@ -118,7 +116,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _newNotificationStreamSubscription = socket_repo
         .SocketAPI.socketApi.newNotificationController.stream
         .listen((notification) {
-      add(AppNotificationNumberChanged());
       if (notification.notifyType == "friend-request") {
         NotificationService().showNotification(
           id: 123,
@@ -192,25 +189,5 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _newNotificationStreamSubscription.cancel();
     _webRTCStreamSubscription.cancel();
     return super.close();
-  }
-
-  Future<void> _onAppNotificationNumberChanged(
-      AppNotificationNumberChanged event, Emitter<AppState> emit) async {
-    if (state is AppStateAuthorized) {
-      final bearerToken = await _authRepository.bearToken;
-      if (bearerToken != null) {
-        final listNotification =
-            await _notificationRepository.getUserNotification(bearerToken);
-        // emit((state as AppStateAuthorized)
-        //     .copyWith(numberNotification: listNotification.length));
-        //final currentState = (state as AppStateAuthorized);
-        // emit(AppStateAuthorized(
-        //     isEmailVerified: currentState.isEmailVerified,
-        //     isProfileFilled: currentState.isProfileFilled,
-        //     numberNotification: listNotification.length));
-        emit((state as AppStateAuthorized)
-            .copyWith(numberNotification: listNotification.length));
-      }
-    }
   }
 }

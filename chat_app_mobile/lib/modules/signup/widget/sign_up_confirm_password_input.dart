@@ -42,7 +42,7 @@ class _SignUpConfirmPasswordInputState
         return Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: PasswordOutline(
-            labelText: "Confirm password",
+            labelText: "Confirm password (*)",
             inputController: _confirmPasswordController,
             isPasswordVisible: _isPasswordVisible,
             handleOnPressVisibleButton: _handleOnPressVisibleButton,
